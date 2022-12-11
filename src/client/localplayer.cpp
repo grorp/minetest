@@ -178,9 +178,11 @@ bool LocalPlayer::updateSneakNode(Map *map, const v3f &position,
 void LocalPlayer::move(f32 dtime, Environment *env, f32 pos_max_d,
 		std::vector<CollisionInfo> *collision_info)
 {
+	v3f feet_pos = getFeetPos();
+
 	// Node at feet position, update each ClientEnvironment::step()
 	if (!collision_info || collision_info->empty())
-		m_standing_node = floatToInt(m_position, BS);
+		m_standing_node = floatToInt(feet_pos, BS);
 
 	// Temporary option for old move code
 	if (!physics_override.new_move) {
@@ -315,7 +317,7 @@ void LocalPlayer::move(f32 dtime, Environment *env, f32 pos_max_d,
 
 	// Add new collisions to the vector
 	if (collision_info && !free_move) {
-		v3f diff = intToFloat(m_standing_node, BS) - position;
+		v3f diff = intToFloat(m_standing_node, BS) - feet_pos;
 		f32 distance_sq = diff.getLengthSQ();
 		// Force update each ClientEnvironment::step()
 		bool is_first = collision_info->empty();
@@ -328,7 +330,7 @@ void LocalPlayer::move(f32 dtime, Environment *env, f32 pos_max_d,
 					(could_sneak && m_sneak_node_exists))
 				continue;
 
-			diff = intToFloat(colinfo.node_p, BS) - position;
+			diff = intToFloat(colinfo.node_p, BS) - feet_pos;
 
 			// Find nearest colliding node
 			f32 len_sq = diff.getLengthSQ();
@@ -417,7 +419,7 @@ void LocalPlayer::move(f32 dtime, Environment *env, f32 pos_max_d,
 	bool new_sneak_node_exists = false;
 
 	if (could_sneak)
-		new_sneak_node_exists = updateSneakNode(map, position, sneak_max);
+		new_sneak_node_exists = updateSneakNode(map, feet_pos, sneak_max);
 
 	/*
 		Set new position but keep sneak node set
@@ -699,21 +701,24 @@ v3s16 LocalPlayer::getStandingNodePos()
 
 v3s16 LocalPlayer::getFootstepNodePos()
 {
-	v3f feet_pos = getPosition() + v3f(0.0f, m_collisionbox.MinEdge.Y, 0.0f);
-
 	// Emit swimming sound if the player is in liquid
 	if (in_liquid_stable)
-		return floatToInt(feet_pos, BS);
+		return floatToInt(getFeetPos(), BS);
 
 	// BS * 0.05 below the player's feet ensures a 1/16th height
 	// nodebox is detected instead of the node below it.
 	if (touching_ground)
-		return floatToInt(feet_pos - v3f(0.0f, BS * 0.05f, 0.0f), BS);
+		return floatToInt(getFeetPos() - v3f(0.0f, BS * 0.05f, 0.0f), BS);
 
 	// A larger distance below is necessary for a footstep sound
 	// when landing after a jump or fall. BS * 0.5 ensures water
 	// sounds when swimming in 1 node deep water.
-	return floatToInt(feet_pos - v3f(0.0f, BS * 0.5f, 0.0f), BS);
+	return floatToInt(getFeetPos() - v3f(0.0f, BS * 0.5f, 0.0f), BS);
+}
+
+v3f LocalPlayer::getFeetPos() const
+{
+	return m_position + v3f(0.0f, m_collisionbox.MinEdge.Y, 0.0f);
 }
 
 v3s16 LocalPlayer::getLightPosition() const

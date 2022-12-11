@@ -130,6 +130,7 @@ public:
 	}
 
 	v3f getPosition() const { return m_position; }
+	v3f getFeetPos() const;
 
 	// Non-transformed eye offset getters
 	// For accurate positions, use the Camera functions

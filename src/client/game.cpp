@@ -148,38 +148,6 @@ struct LocalFormspecHandler : public TextDest
 
 	void gotText(const StringMap &fields)
 	{
-		if (m_formname == "MT_PAUSE_MENU") {
-			if (fields.find("btn_sound") != fields.end()) {
-				g_gamecallback->changeVolume();
-				return;
-			}
-
-			if (fields.find("btn_key_config") != fields.end()) {
-				g_gamecallback->keyConfig();
-				return;
-			}
-
-			if (fields.find("btn_exit_menu") != fields.end()) {
-				g_gamecallback->disconnect();
-				return;
-			}
-
-			if (fields.find("btn_exit_os") != fields.end()) {
-				g_gamecallback->exitToOS();
-#ifndef __ANDROID__
-				RenderingEngine::get_raw_device()->closeDevice();
-#endif
-				return;
-			}
-
-			if (fields.find("btn_change_password") != fields.end()) {
-				g_gamecallback->changePassword();
-				return;
-			}
-
-			return;
-		}
-
 		if (m_formname == "MT_DEATH_SCREEN") {
 			assert(m_client != nullptr);
 
@@ -2851,11 +2819,19 @@ void Game::handleClientEvent_ShowFormSpec(ClientEvent *event, CameraOrientation 
 
 void Game::handleClientEvent_ShowLocalFormSpec(ClientEvent *event, CameraOrientation *cam)
 {
-	FormspecFormSource *fs_src = new FormspecFormSource(*event->show_formspec.formspec);
-	LocalFormspecHandler *txt_dst =
-		new LocalFormspecHandler(*event->show_formspec.formname, client);
-	GUIFormSpecMenu::create(m_game_ui->getFormspecGUI(), client, m_rendering_engine->get_gui_env(),
-			&input->joystick, fs_src, txt_dst, client->getFormspecPrepend(), sound_manager.get());
+	if (event->show_formspec.formspec->empty()) {
+		auto formspec = m_game_ui->getFormspecGUI();
+		if (formspec && (event->show_formspec.formname->empty()
+				|| *(event->show_formspec.formname) == m_game_ui->getFormspecName())) {
+			formspec->quitMenu();
+		}
+	} else {
+		FormspecFormSource *fs_src = new FormspecFormSource(*event->show_formspec.formspec);
+		LocalFormspecHandler *txt_dst =
+			new LocalFormspecHandler(*event->show_formspec.formname, client);
+		GUIFormSpecMenu::create(m_game_ui->getFormspecGUI(), client, m_rendering_engine->get_gui_env(),
+				&input->joystick, fs_src, txt_dst, client->getFormspecPrepend(), sound_manager.get());
+	}
 
 	delete event->show_formspec.formspec;
 	delete event->show_formspec.formname;
@@ -4378,106 +4354,13 @@ void Game::showDeathFormspec()
 #define GET_KEY_NAME(KEY) gettext(getKeySetting(#KEY).name())
 void Game::showPauseMenu()
 {
-	std::string control_text;
+	// REGRESSION: Game is no longer "paused", this doesn't matter
+	// as much in multiplayer but the FPS will never wind down.
+	if (client->modsLoaded()) {
+		client->getScript()->on_esc();
 
-	if (g_touchscreengui) {
-		control_text = strgettext("Controls:\n"
-			"No menu open:\n"
-			"- slide finger: look around\n"
-			"- tap: place/punch/use (default)\n"
-			"- long tap: dig/use (default)\n"
-			"Menu/inventory open:\n"
-			"- double tap (outside):\n"
-			" --> close\n"
-			"- touch stack, touch slot:\n"
-			" --> move stack\n"
-			"- touch&drag, tap 2nd finger\n"
-			" --> place single item to slot\n"
-			);
+		return;
 	}
-
-	float ypos = simple_singleplayer_mode ? 0.7f : 0.1f;
-	std::ostringstream os;
-
-	os << "formspec_version[1]" << SIZE_TAG
-		<< "button_exit[4," << (ypos++) << ";3,0.5;btn_continue;"
-		<< strgettext("Continue") << "]";
-
-	if (!simple_singleplayer_mode) {
-		os << "button_exit[4," << (ypos++) << ";3,0.5;btn_change_password;"
-			<< strgettext("Change Password") << "]";
-	} else {
-		os << "field[4.95,0;5,1.5;;" << strgettext("Game paused") << ";]";
-	}
-
-#ifndef __ANDROID__
-#if USE_SOUND
-	if (g_settings->getBool("enable_sound")) {
-		os << "button_exit[4," << (ypos++) << ";3,0.5;btn_sound;"
-			<< strgettext("Sound Volume") << "]";
-	}
-#endif
-	os		<< "button_exit[4," << (ypos++) << ";3,0.5;btn_key_config;"
-		<< strgettext("Controls")  << "]";
-#endif
-	os		<< "button_exit[4," << (ypos++) << ";3,0.5;btn_exit_menu;"
-		<< strgettext("Exit to Menu") << "]";
-	os		<< "button_exit[4," << (ypos++) << ";3,0.5;btn_exit_os;"
-		<< strgettext("Exit to OS")   << "]";
-	if (!control_text.empty()) {
-	os		<< "textarea[7.5,0.25;3.9,6.25;;" << control_text << ";]";
-	}
-	os		<< "textarea[0.4,0.25;3.9,6.25;;" << PROJECT_NAME_C " " VERSION_STRING "\n"
-		<< "\n"
-		<<  strgettext("Game info:") << "\n";
-	const std::string &address = client->getAddressName();
-	os << strgettext("- Mode: ");
-	if (!simple_singleplayer_mode) {
-		if (address.empty())
-			os << strgettext("Hosting server");
-		else
-			os << strgettext("Remote server");
-	} else {
-		os << strgettext("Singleplayer");
-	}
-	os << "\n";
-	if (simple_singleplayer_mode || address.empty()) {
-		static const std::string on = strgettext("On");
-		static const std::string off = strgettext("Off");
-		// Note: Status of enable_damage and creative_mode settings is intentionally
-		// NOT shown here because the game might roll its own damage system and/or do
-		// a per-player Creative Mode, in which case writing it here would mislead.
-		bool damage = g_settings->getBool("enable_damage");
-		const std::string &announced = g_settings->getBool("server_announce") ? on : off;
-		if (!simple_singleplayer_mode) {
-			if (damage) {
-				const std::string &pvp = g_settings->getBool("enable_pvp") ? on : off;
-				//~ PvP = Player versus Player
-				os << strgettext("- PvP: ") << pvp << "\n";
-			}
-			os << strgettext("- Public: ") << announced << "\n";
-			std::string server_name = g_settings->get("server_name");
-			str_formspec_escape(server_name);
-			if (announced == on && !server_name.empty())
-				os << strgettext("- Server Name: ") << server_name;
-
-		}
-	}
-	os << ";]";
-
-	/* Create menu */
-	/* Note: FormspecFormSource and LocalFormspecHandler  *
-	 * are deleted by guiFormSpecMenu                     */
-	FormspecFormSource *fs_src = new FormspecFormSource(os.str());
-	LocalFormspecHandler *txt_dst = new LocalFormspecHandler("MT_PAUSE_MENU");
-
-	auto *&formspec = m_game_ui->getFormspecGUI();
-	GUIFormSpecMenu::create(formspec, client, m_rendering_engine->get_gui_env(),
-			&input->joystick, fs_src, txt_dst, client->getFormspecPrepend(),
-			sound_manager.get());
-	formspec->setFocus("btn_continue");
-	// game will be paused in next step, if in singleplayer (see m_is_paused)
-	formspec->doPause = true;
 }
 
 /****************************************************************************/

@@ -338,6 +338,18 @@ int ModApiClient::l_get_csm_restrictions(lua_State *L)
 	return 1;
 }
 
+int ModApiClient::l_show_keys_menu(lua_State *L)
+{
+	g_gamecallback->keyConfig();
+	return 1;
+}
+
+int ModApiClient::l_change_password(lua_State *L)
+{
+	g_gamecallback->changePassword();
+	return 1;
+}
+
 void ModApiClient::Initialize(lua_State *L, int top)
 {
 	API_FCT(get_current_modname);
@@ -360,4 +372,7 @@ void ModApiClient::Initialize(lua_State *L, int top)
 	API_FCT(get_builtin_path);
 	API_FCT(get_language);
 	API_FCT(get_csm_restrictions);
+
+	API_FCT(show_keys_menu);
+	API_FCT(change_password);
 }

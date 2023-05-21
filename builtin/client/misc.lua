@@ -16,3 +16,8 @@ end
 function core.sound_fade(handle, ...)
 	return handle:fade(...)
 end
+
+-- Close any and all formspecs that are currently open clientside
+function core.close_formspec()
+	return core.show_formspec("", "")
+end

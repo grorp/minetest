@@ -1,3 +1,4 @@
+return [[
 # This file contains all settings displayed in the settings menu.
 #
 # General format:
@@ -2526,3 +2527,4 @@ keymap_increase_viewing_range_min (View range increase key) key +
 
 #    Key for decreasing the viewing range.
 keymap_decrease_viewing_range_min (View range decrease key) key -
+]]

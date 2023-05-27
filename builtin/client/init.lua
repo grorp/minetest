@@ -14,3 +14,12 @@ dofile(clientpath .. "misc.lua")
 assert(loadfile(commonpath .. "item_s.lua"))({}) -- Just for push/read node functions
 
 dofile(clientpath .. "esc.lua")
+
+print(dump(_G))
+
+settingtypes_txt = dofile(core.get_builtin_path().."/settingtypes.txt")
+print(lol)
+
+local settingspath = scriptpath.."client"..DIR_DELIM.."settings"..DIR_DELIM
+dofile(settingspath .. "settingtypes.lua")
+dofile(settingspath .. "dlg_settings.lua")

@@ -33,6 +33,7 @@ minetest = core
 local scriptdir = core.get_builtin_path()
 local commonpath = scriptdir .. "common" .. DIR_DELIM
 local asyncpath = scriptdir .. "async" .. DIR_DELIM
+print(commonpath)
 
 dofile(commonpath .. "vector.lua")
 dofile(commonpath .. "strict.lua")

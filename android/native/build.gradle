@@ -29,7 +29,7 @@ android {
 		abi {
 			enable true
 			reset()
-			include 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+			include 'arm64-v8a'
 		}
 	}
 
@@ -57,9 +57,15 @@ task downloadDeps(type: Download) {
 		into depsDir
 		doFirst { logger.lifecycle('Extracting to {}', depsDir) }
 	}
+	task getDeps2(dependsOn: getDeps, type: Copy) {
+		from new File("/home/gregor/minetest-android-test/downgraded-deps/minetest_android_deps/deps/arm64-v8a/Irrlicht")
+		into new File("/home/gregor/minetest-android-test/android/native/deps/arm64-v8a/Irrlicht")
+		doFirst { logger.lifecycle("Hehehehaha") }
+	}
 }
 
 preBuild.dependsOn getDeps
+preBuild.dependsOn getDeps2
 
 clean {
 	delete new File(buildDir.parent, 'deps')

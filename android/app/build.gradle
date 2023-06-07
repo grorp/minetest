@@ -41,7 +41,7 @@ android {
 		abi {
 			enable true
 			reset()
-			include 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+			include 'arm64-v8a'
 		}
 	}
 
@@ -111,6 +111,7 @@ task prepareAssets() {
 
 preBuild.dependsOn zipAssets
 prepareAssets.dependsOn ':native:getDeps'
+prepareAssets.dependsOn ':native:getDeps2'
 
 // Map for the version code that gives each ABI a value.
 import com.android.build.OutputFile

@@ -197,10 +197,10 @@ return {
 			"button[0.1,3.1;5.3,0.5;label_button;" ..
 			core.formspec_escape(version.project .. " " .. version.string) .. "]" ..
 			"button[0.5,3.85;4.5,0.8;homepage;minetest.net]" ..
-			"scroll_container[5.5,0.1;9.5,6.9;scroll_credits;vertical;" ..
+			"scroll_container[5.5,0.1;" .. (9.9 - scrollbar_w) .. ",6.9;scroll_credits;vertical;" ..
 			tostring(scroll_height / 1000) .. "]" .. credit_fs ..
 			"scroll_container_end[]"..
-			"scrollbar[15,0.1;" .. scrollbar_w .. ",6.9;vertical;scroll_credits;0]"
+			"scrollbar[" .. (15.4 - scrollbar_w) .. ",0.1;" .. scrollbar_w .. ",6.9;vertical;scroll_credits;0]"
 
 		local debug_label = PLATFORM == "Android" and fgettext("Share debug info") or
 				fgettext("Copy debug info")

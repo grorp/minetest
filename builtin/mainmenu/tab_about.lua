@@ -140,10 +140,10 @@ local function get_debug_info()
 		"Platform: ", PLATFORM, "\n",
 		"Active renderer: ", core.get_active_renderer(), "\n\n",
 		"minetest.conf\n",
-		"_____________\n",
+		"-------------\n",
 		minetest_conf,
 		"\ndebug.txt\n",
-		"_________\n",
+		  "---------\n",
 		debug_txt,
 	})
 end
@@ -190,6 +190,8 @@ return {
 		-- account for the visible portion
 		scroll_height = math.max(0, scroll_height - 6.9)
 
+		local scrollbar_w = TOUCHSCREEN_GUI and 0.6 or 0.4
+
 		local fs = "image[1.5,0.4;2.5,2.5;" .. core.formspec_escape(logofile) .. "]" ..
 			"style[label_button;border=false]" ..
 			"button[0.1,3.1;5.3,0.5;label_button;" ..
@@ -198,13 +200,13 @@ return {
 			"scroll_container[5.5,0.1;9.5,6.9;scroll_credits;vertical;" ..
 			tostring(scroll_height / 1000) .. "]" .. credit_fs ..
 			"scroll_container_end[]"..
-			"scrollbar[15,0.1;0.4,6.9;vertical;scroll_credits;0]"
+			"scrollbar[15,0.1;" .. scrollbar_w .. ",6.9;vertical;scroll_credits;0]"
 
 		local debug_label = PLATFORM == "Android" and fgettext("Share debug info") or
 				fgettext("Copy debug info")
 		fs = fs .. "button[0.5,4.9;4.5,0.8;share_debug;" .. debug_label .. "]"
 
-		if PLATFORM ~= "Android" then		
+		if PLATFORM ~= "Android" then
 			fs = fs .. "tooltip[userdata;" ..
 					fgettext("Opens the directory that contains user-provided worlds, games, mods,\n" ..
 							"and texture packs in a file manager / explorer.") .. "]"

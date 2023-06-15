@@ -119,6 +119,35 @@ local function build_hacky_list(items, spacing)
 	return table.concat(ret, ""), y
 end
 
+local function read_text_file(path)
+	local f = io.open(path, "r")
+	if not f then
+		return nil
+	end
+    local text = f:read("*all")
+    f:close()
+	return text
+end
+
+local function get_debug_info()
+	local version = core.get_version()
+	local path_pre = core.get_user_path() .. DIR_DELIM
+	local minetest_conf = read_text_file(path_pre .. "minetest.conf") or "[not available]\n"
+	local debug_txt = read_text_file(path_pre .. "debug.txt") or "[not available]\n"
+
+	return table.concat({
+		version.project, " ", version.string, "\n",
+		"Platform: ", PLATFORM, "\n",
+		"Active renderer: ", core.get_active_renderer(), "\n\n",
+		"minetest.conf\n",
+		"_____________\n",
+		minetest_conf,
+		"\ndebug.txt\n",
+		"_________\n",
+		debug_txt,
+	})
+end
+
 return {
 	name = "about",
 	caption = fgettext("About"),
@@ -161,29 +190,25 @@ return {
 		-- account for the visible portion
 		scroll_height = math.max(0, scroll_height - 6.9)
 
-		local fs = "image[1.5,0.6;2.5,2.5;" .. core.formspec_escape(logofile) .. "]" ..
+		local fs = "image[1.5,0.4;2.5,2.5;" .. core.formspec_escape(logofile) .. "]" ..
 			"style[label_button;border=false]" ..
-			"button[0.1,3.4;5.3,0.5;label_button;" ..
+			"button[0.1,3.1;5.3,0.5;label_button;" ..
 			core.formspec_escape(version.project .. " " .. version.string) .. "]" ..
-			"button[1.5,4.1;2.5,0.8;homepage;minetest.net]" ..
+			"button[0.5,3.85;4.5,0.8;homepage;minetest.net]" ..
 			"scroll_container[5.5,0.1;9.5,6.9;scroll_credits;vertical;" ..
 			tostring(scroll_height / 1000) .. "]" .. credit_fs ..
 			"scroll_container_end[]"..
 			"scrollbar[15,0.1;0.4,6.9;vertical;scroll_credits;0]"
 
-		-- Render information
-		fs = fs .. "style[label_button2;border=false]" ..
-			"button[0.1,6;5.3,1;label_button2;" ..
-			fgettext("Active renderer:") .. "\n" ..
-			core.formspec_escape(core.get_active_renderer()) .. "]"
+		local debug_label = PLATFORM == "Android" and fgettext("Share debug info") or
+				fgettext("Copy debug info")
+		fs = fs .. "button[0.5,4.9;4.5,0.8;share_debug;" .. debug_label .. "]"
 
-		if PLATFORM == "Android" then
-			fs = fs .. "button[0.5,5.1;4.5,0.8;share_debug;" .. fgettext("Share debug log") .. "]"
-		else
+		if PLATFORM ~= "Android" then		
 			fs = fs .. "tooltip[userdata;" ..
 					fgettext("Opens the directory that contains user-provided worlds, games, mods,\n" ..
 							"and texture packs in a file manager / explorer.") .. "]"
-			fs = fs .. "button[0.5,5.1;4.5,0.8;userdata;" .. fgettext("Open User Data Directory") .. "]"
+			fs = fs .. "button[0.5,5.8;4.5,0.8;userdata;" .. fgettext("Open user data directory") .. "]"
 		end
 
 		return fs, "size[15.5,7.1,false]real_coordinates[true]"
@@ -194,8 +219,12 @@ return {
 		end
 
 		if fields.share_debug then
-			local path = core.get_user_path() .. DIR_DELIM .. "debug.txt"
-			core.share_file(path)
+			local info = get_debug_info()
+			if PLATFORM == "Android" then
+				core.share_text(info)
+			else
+				core.copy_text(info)
+			end
 		end
 
 		if fields.userdata then

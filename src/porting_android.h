@@ -56,11 +56,11 @@ void showTextInputDialog(const std::string &hint, const std::string &current, in
 void showComboBoxDialog(const std::string optionList[], s32 listSize, s32 selectedIdx);
 
 /**
- * Opens a share intent to the file at path
+ * Opens a share intent for the given text
  *
  * @param path
  */
-void shareFileAndroid(const std::string &path);
+void shareTextAndroid(const std::string &text);
 
 /*
  * Types of Android input dialog:

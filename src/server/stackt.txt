@@ -1,0 +1,23 @@
+Thread 1 (Thread 0x7fc32c18fac0 (LWP 23696) "minetest"):
+#0  0x00007fc32d0f9577 in __GI___wait4 (pid=23742, stat_loc=stat_loc@entry=0x7ffd048decc8, options=options@entry=0, usage=usage@entry=0x0) at ../sysdeps/unix/sysv/linux/wait4.c:30
+#1  0x00007fc32d0f94fb in __GI___waitpid (pid=<optimized out>, stat_loc=stat_loc@entry=0x7ffd048decc8, options=options@entry=0) at waitpid.c:38
+#2  0x00007fc32d07032b in do_system (line=<optimized out>) at ../sysdeps/posix/system.c:171
+#3  0x00000000009832e0 in print_stacktrace () at /usr/include/c++/12/bits/basic_string.h:233
+#4  0x00000000009836c2 in LuaEntitySAO::getStaticData (this=0x7fc2f4067390, result=0x7ffd048df520) at /home/gregor/minetest-android-test/src/server/luaentity_sao.cpp:305
+#5  0x0000000000bfc179 in StaticObject::StaticObject (this=this@entry=0x7ffd048df510, s_obj=s_obj@entry=0x7fc2f4067390, pos_=...) at /home/gregor/minetest-android-test/src/staticobject.cpp:30
+#6  0x0000000000bd946c in operator() (id=<optimized out>, obj=0x7fc2f4067390, __closure=0x7ffd048df630) at /home/gregor/minetest-android-test/src/serverenvironment.cpp:2102
+#7  std::__invoke_impl<bool, ServerEnvironment::deactivateFarObjects(bool)::<lambda(ServerActiveObject*, irr::u16)>&, ServerActiveObject*, short unsigned int> (__f=...) at /usr/include/c++/12/bits/invoke.h:61
+#8  std::__invoke_r<bool, ServerEnvironment::deactivateFarObjects(bool)::<lambda(ServerActiveObject*, irr::u16)>&, ServerActiveObject*, short unsigned int> (__fn=...) at /usr/include/c++/12/bits/invoke.h:114
+#9  std::_Function_handler<bool(ServerActiveObject*, short unsigned int), ServerEnvironment::deactivateFarObjects(bool)::<lambda(ServerActiveObject*, irr::u16)> >::_M_invoke(const std::_Any_data &, ServerActiveObject *&&, unsigned short &&) (__functor=..., __args#0=<optimized out>, __args#1=<optimized out>) at /usr/include/c++/12/bits/std_function.h:290
+#10 0x0000000000980189 in std::function<bool (ServerActiveObject*, unsigned short)>::operator()(ServerActiveObject*, unsigned short) const (__args#1=<optimized out>, __args#0=<optimized out>, this=0x7ffd048df630) at /usr/include/c++/12/bits/std_function.h:591
+#11 server::ActiveObjectMgr::clear(std::function<bool (ServerActiveObject*, unsigned short)> const&) (this=this@entry=0x20a1948, cb=...) at /home/gregor/minetest-android-test/src/server/activeobjectmgr.cpp:35
+#12 0x0000000000bd4cc7 in ServerEnvironment::deactivateFarObjects (this=this@entry=0x20a18c0, _force_delete=_force_delete@entry=true) at /home/gregor/minetest-android-test/src/serverenvironment.cpp:2181
+#13 0x0000000000bd524c in ServerEnvironment::~ServerEnvironment (this=0x20a18c0, __in_chrg=<optimized out>) at /home/gregor/minetest-android-test/src/serverenvironment.cpp:515
+#14 0x0000000000bd5ef9 in ServerEnvironment::~ServerEnvironment (this=0x20a18c0, __in_chrg=<optimized out>) at /home/gregor/minetest-android-test/src/serverenvironment.cpp:533
+#15 0x0000000000bc37cd in Server::~Server (this=0x1f3bfc0, __in_chrg=<optimized out>) at /home/gregor/minetest-android-test/src/server.cpp:382
+#16 0x0000000000bc47e9 in Server::~Server (this=0x1f3bfc0, __in_chrg=<optimized out>) at /home/gregor/minetest-android-test/src/server.cpp:400
+#17 0x000000000063b4c6 in Game::~Game (this=0x7ffd048df930, __in_chrg=<optimized out>) at /home/gregor/minetest-android-test/src/client/game.cpp:1053
+#18 0x00000000006507e8 in the_game (kill=kill@entry=0xe9c080 <porting::g_killed>, input=<optimized out>, rendering_engine=<optimized out>, start_data=..., error_message="AsyncErr: Lua: Runtime error from mod 'ctd' in callback on_joinplayer(): Runtime error from mod 'ctd' in callback luaentity_GetStaticdata(): /home/gregor/minetest-android-test/bin/../mods/ctd/init.lua"..., chat_backend=..., reconnect_requested=0x7ffd048dfc8f) at /home/gregor/minetest-android-test/src/client/game.cpp:4517
+#19 0x00000000005eb35c in ClientLauncher::run (this=this@entry=0x7ffd048e03b0, start_data=..., cmd_args=...) at /home/gregor/minetest-android-test/src/client/clientlauncher.cpp:262
+#20 0x00000000005b9820 in main (argc=<optimized out>, argv=<optimized out>) at /home/gregor/minetest-android-test/src/client/clientlauncher.h:31
+...print_stacktrace done

@@ -1,0 +1,19 @@
+ (×2)
+-------------
+  Separator
+-------------
+
+World at [/home/gregor/minetest-android-test/bin/../worlds/testents nextworld]
+Server for gameid="minetest" listening on 0.0.0.0:30000.
+Brotmesser [127.0.0.1] joins game. List of players: Brotmesser
+2024-02-01 14:56:38: WARNING[Server]: Call to deprecated function 'getpos', please use 'get_pos' at ...regor/minetest-android-test/bin/../builtin/game/init.lua:95
+2024-02-01 14:56:38: WARNING[Server]: Reading initial object properties directly from an entity definition is deprecated, move it to the 'initial_properties' table instead. (Property 'collisionbox' in entity 'test_add_entity:entity')
+[on_activate] got right staticdata for dtime_s == 0 (×1000)
+2024-02-01 14:56:38: ERROR[Server]: minetest.add_entity reported 1000 succeeded spawns.
+2024-02-01 14:56:38: ERROR[Server]: minetest.add_entity reported 0 failed spawns.
+[on_activate] got wrong staticdata for dtime_s == 0: "later staticdata" (×932)
+[on_activate] got right staticdata for dtime_s != 0 (×1032)
+Brotmesser sets time to 12:00
+Brotmesser leaves game. List of players: 
+Server: Shutting down
+2024-02-01 14:58:42: [Main]: INFO: signal_handler(): Ctrl-C pressed, shutting down.

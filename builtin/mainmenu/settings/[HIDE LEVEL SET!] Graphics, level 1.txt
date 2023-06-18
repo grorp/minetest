@@ -1,0 +1,186 @@
+[HIDE LEVEL SET!] Graphics, level 1
+[hiding category Hide: Screen of level 2 because of hide level 1]
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+[hiding category FPS of level 2 because of hide level 1]
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+[hiding category Graphics Effects of level 2 because of hide level 1]
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+[hiding category 3D of level 2 because of hide level 1]
+hiding setting because of hide level
+hiding setting because of hide level
+[hiding category Bobbing of level 2 because of hide level 1]
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+[hiding category Camera of level 2 because of hide level 1]
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+[hiding category Screenshots of level 2 because of hide level 1]
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+[hiding category Node and Entity Highlighting of level 2 because of hide level 1]
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+[hiding category Hide: Fog of level 2 because of hide level 1]
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+[hiding category Hide: Clouds of level 2 because of hide level 1]
+hiding setting because of hide level
+hiding setting because of hide level
+[hiding category Hide: Filtering and Antialiasing of level 2 because of hide level 1]
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+[hiding category Hide: Occlusion Culling of level 2 because of hide level 1]
+hiding setting because of hide level
+hiding setting because of hide level
+… resetting hide level (1) because a category with level 1 has begun
+[HIDE LEVEL SET!] Shaders, level 1
+hiding setting because of hide level
+[hiding category Waving Nodes of level 2 because of hide level 1]
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+[hiding category Dynamic shadows of level 2 because of hide level 1]
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+[hiding category Post Processing of level 2 because of hide level 1]
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+[hiding category Bloom of level 2 because of hide level 1]
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+… resetting hide level (1) because a category with level 1 has begun
+[HIDE LEVEL SET!] Temporary Settings, level 1
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+hiding setting because of hide level
+… resetting hide level (1) because a category with level 1 has begun

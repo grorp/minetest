@@ -1,0 +1,955 @@
+11-28 16:47:33.059 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 077a5626c8401167d9b326d161aebaa6ce050813 is default.it.tr
+11-28 16:47:33.060 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 4e978056ce399b355429c46ace61b8b45c7cac10 is default.ja.tr
+11-28 16:47:33.060 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: e1801d96f3fed168d8ab727988495c9fa955db80 is default.jbo.tr
+11-28 16:47:33.060 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 433b21a55e288ae6e781340eee60c215b06632b7 is default.ms.tr
+11-28 16:47:33.061 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 290b6ea900c8e0a21f87ba7ac8382103f76a5907 is default.pl.tr
+11-28 16:47:33.061 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 9125c16efa503a29f1540aedbabd8e76187d5860 is default.pt_BR.tr
+11-28 16:47:33.063 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 0edaf54de5c450bf5188f0c4da3c1057231157d1 is default.ru.tr
+11-28 16:47:33.063 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 766df719076a3a25d87ada9cc245ce5fb343b5fd is default.sk.tr
+11-28 16:47:33.064 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: c49f4e32dec20a37323689ffd9bf725cf9bcbb41 is default.sv.tr
+11-28 16:47:33.065 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: ce43da365078555bf5fcbf2b47edcac7f9c812d6 is default.uk.tr
+11-28 16:47:33.065 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: d2c1dbcd69aeadb61782d034d76ccd067f798b61 is default.zh_CN.tr
+11-28 16:47:33.065 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: c528b06382924df209613d4fd2e06f8fd34b1977 is default.zh_TW.tr
+11-28 16:47:33.065 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: Server: ignoring unsupported file extension: "template.txt"
+11-28 16:47:33.066 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 5814e919c27be4406bf5af76194cfbfd7679f03f is player.png
+11-28 16:47:33.066 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: b05fe6447193468e6395864fcdce194f836ec0eb is player_back.png
+11-28 16:47:33.071 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 83d91df74705943a9b6ece41e1e5f9c2c1e93b83 is character.b3d
+11-28 16:47:33.071 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: Server: ignoring unsupported file extension: "character.blend"
+11-28 16:47:33.072 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: b137fbea946e36e31d1190990deb8ae838972a06 is character.png
+11-28 16:47:33.072 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: aeb807e1df24dfe4af74c4dfbf86370ad875827a is screwdriver.png
+11-28 16:47:33.072 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 7ad005de15ffd06ba46324f34b7bd9b8a1776a0d is screwdriver.de.tr
+11-28 16:47:33.072 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 3db5f9f5030dd30dc8d46937057a8823126589fe is screwdriver.eo.tr
+11-28 16:47:33.072 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 868b0e0ed9420ef99db12b5c4dbd33db73855444 is screwdriver.es.tr
+11-28 16:47:33.072 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: fdca9318da0ffb0492aaf8d5faa37bf4af27212e is screwdriver.fr.tr
+11-28 16:47:33.072 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 952b6fd06d0b3b739fad891b45dfa7e9fac3d53e is screwdriver.id.tr
+11-28 16:47:33.072 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 9e75b30fd7f8c251ab9bc2c472af4c177e2d6f71 is screwdriver.it.tr
+11-28 16:47:33.072 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 0fe2bc355a49a271e346dfb8f31e549a7a60c311 is screwdriver.ja.tr
+11-28 16:47:33.073 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 08c46f2d5f8b8cc4e2d138bd83216cb87025aff4 is screwdriver.jbo.tr
+11-28 16:47:33.073 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 191c5b8b953050f2e8d11c138fe4d1beaf2ef9a9 is screwdriver.ms.tr
+11-28 16:47:33.073 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: fda5ca5452745b3ca50fc39119a8d126d8492b3d is screwdriver.pl.tr
+11-28 16:47:33.073 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 4d991175b9f83df9dac1d21db664d7d924c0dbe6 is screwdriver.pt_BR.tr
+11-28 16:47:33.073 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: c219e99679ad41376d2e0ad22e27336b8a9c81e9 is screwdriver.ru.tr
+11-28 16:47:33.073 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 58c391b583c4cd1140c220da9d36200a29d1da42 is screwdriver.sk.tr
+11-28 16:47:33.073 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: b2f1161672c3462daa1a7b461ccdfa846126ad8a is screwdriver.sv.tr
+11-28 16:47:33.074 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 86f0547ee662cc1702bbf2f973c2d8e09ffe9e5e is screwdriver.uk.tr
+11-28 16:47:33.074 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: c8499cf14b7e3852f4ccdf6618c8d6cbf3d79017 is screwdriver.zh_CN.tr
+11-28 16:47:33.074 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 1c0ce2fe0bd21e52f7abfe8d5f0a8524fd6156a9 is screwdriver.zh_TW.tr
+11-28 16:47:33.074 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: Server: ignoring unsupported file extension: "template.txt"
+11-28 16:47:33.074 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 6fef806e062428936acb610f41902fdd6d6de5b1 is sethome.de.tr
+11-28 16:47:33.074 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 07d93cf0a1dca2abfe4249a89f59b4e39ff4a40e is sethome.eo.tr
+11-28 16:47:33.074 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 7d915b6a999874881fefb095cfea898c83141b64 is sethome.es.tr
+11-28 16:47:33.074 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 0299250ca7e9cdd228d66f41a11ece1717b517f9 is sethome.fr.tr
+11-28 16:47:33.075 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 5581d6ceebff4b0cd20bce6e2a7d7107d1426527 is sethome.id.tr
+11-28 16:47:33.075 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 1b58a3dc1051bb15dbac903c0c1ba97ed62862ef is sethome.it.tr
+11-28 16:47:33.075 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 10a440bc5dcd08e8d45a8cf468463038cb1c68fa is sethome.ja.tr
+11-28 16:47:33.075 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 3fa36b46455f80c4c6c1322f1e5bafa7252f7d07 is sethome.jbo.tr
+11-28 16:47:33.075 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: e383128d02987aa0e8e99582ea5b4f7e891370a1 is sethome.ms.tr
+11-28 16:47:33.075 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: b0ac3c67ee0180020f6b18e92f0ad0bf78edc70e is sethome.pl.tr
+11-28 16:47:33.075 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: c7c31b1b2a4bebfa4cb1c58c48396170ac161759 is sethome.pt_BR.tr
+11-28 16:47:33.075 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: fd35428b4d894d83be013a61362d3820f51f36e1 is sethome.ru.tr
+11-28 16:47:33.075 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: d31063d85347c56993ea8625346c99881425704c is sethome.sk.tr
+11-28 16:47:33.076 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 71c6bdf2cccaa622c8af5d2707b338b1f7b0722c is sethome.sv.tr
+11-28 16:47:33.077 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 7c15ee5ae493d3292b65bae18e96bb302eb3a2d8 is sethome.uk.tr
+11-28 16:47:33.077 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: b38b682b1f6ad755162a3b6821d5e9ec7530cce4 is sethome.zh_CN.tr
+11-28 16:47:33.077 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: fb0b1b07b9e2f913760a16d7c1a3a506c6098b73 is sethome.zh_TW.tr
+11-28 16:47:33.077 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: Server: ignoring unsupported file extension: "template.txt"
+11-28 16:47:33.078 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 6e8767b80d701dcaa4b9b646106bb18cda5f4c31 is craftguide_clear_icon.png
+11-28 16:47:33.078 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: cd324bef4c93094e5b1d387f1506aa9e58a8d261 is craftguide_furnace.png
+11-28 16:47:33.078 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: ac0def035da6f6b3adf25f76d11033c0a865e64c is craftguide_next_icon.png
+11-28 16:47:33.078 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 30382f4f2a69ad424bdca65ee1c6f5f83a48318c is craftguide_prev_icon.png
+11-28 16:47:33.078 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 5e0611d6cb5b09b5cc3fa8e0f7f28564ece8103d is craftguide_search_icon.png
+11-28 16:47:33.079 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 1e290b29e6a2b6d54653cd39f92e5afcedfb1831 is craftguide_shapeless.png
+11-28 16:47:33.080 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 30eb4ae3eb166773acb0a41cc90f1e93e63d69f5 is mtg_craftguide.de.tr
+11-28 16:47:33.080 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 0cb29c718bdc21d883f98ac28b44dbc49a6f1893 is mtg_craftguide.eo.tr
+11-28 16:47:33.080 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 03346c2ae2f9c752e9f25c9d41aeaba1d17554d2 is mtg_craftguide.es.tr
+11-28 16:47:33.080 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 0959e8dbf4cddaa7d3f8b3ce2f59d97aefa576ac is mtg_craftguide.fr.tr
+11-28 16:47:33.080 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 204094f8bf162d0070c0a824381c69090f6acebe is mtg_craftguide.ja.tr
+11-28 16:47:33.080 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: c142337b01f551843e9f11712a682750241ae228 is mtg_craftguide.jbo.tr
+11-28 16:47:33.081 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 6b5c4b0d6709c7f5f8f4a0f03cc475b6fdbff4d9 is mtg_craftguide.pl.tr
+11-28 16:47:33.081 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 10a3ece515c515c6e8bdf1ecb92b5e3367f4e2da is mtg_craftguide.pt_BR.tr
+11-28 16:47:33.081 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 18f5182edf765425468751191e7b6763543286d0 is mtg_craftguide.ru.tr
+11-28 16:47:33.081 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 9c2e8fd8f6eb9820da1b8f86ac653a0c871b1fb5 is mtg_craftguide.sv.tr
+11-28 16:47:33.081 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: f8b9777d68a63d5a06554ffccb103a53f5c68e78 is mtg_craftguide.uk.tr
+11-28 16:47:33.081 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 95b271d28b97cf33c17707b1fdf6f0a37575939c is mtg_craftguide.zh_CN.tr
+11-28 16:47:33.081 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 746cff9b871a34e240b6440e4bd8faf4b820b6f1 is mtg_craftguide.zh_TW.tr
+11-28 16:47:33.081 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: Server: ignoring unsupported file extension: "template.txt"
+11-28 16:47:33.081 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 87384d4ba1fb32cf388591c938b7db56f468d3c8 is sfinv_crafting_arrow.png
+11-28 16:47:33.082 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 600155e7adc415ce2e7cc1489ea45ea529c35730 is sfinv.de.tr
+11-28 16:47:33.082 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: d7ccaf95ecc8b79b4621b0fa2e788a44f7393094 is sfinv.eo.tr
+11-28 16:47:33.082 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 837c9ecb620c897d210e94f3db9619e3bb14be54 is sfinv.es.tr
+11-28 16:47:33.082 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: d18a49976383c6473fef28a5ce2d3a30a6547217 is sfinv.fr.tr
+11-28 16:47:33.082 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 9e138ee51c3c3036af393f042d083d0a28b8fd61 is sfinv.id.tr
+11-28 16:47:33.082 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: b0ff0311eaca1d22e41ed81684df3849bb6b1e77 is sfinv.it.tr
+11-28 16:47:33.082 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 12e76c0429f1d5b0e2e832dae1e1b4bc5092917d is sfinv.ja.tr
+11-28 16:47:33.082 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 881ad0fc5f7afeb15ff881443651e7e18e10ead8 is sfinv.jbo.tr
+11-28 16:47:33.082 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 457c70dd28040aa9057b3f32f43a71137b218438 is sfinv.ms.tr
+11-28 16:47:33.082 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 6ae32c1e3b86368bf16f1b7d6bfc31119ad30f9a is sfinv.pl.tr
+11-28 16:47:33.082 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 017b3ee627835ec153df5e3f11e323f700add9cd is sfinv.pt_BR.tr
+11-28 16:47:33.082 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 1f17651212350441e556b128c090c207b7289bab is sfinv.ru.tr
+11-28 16:47:33.083 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 0a9e44c8ee24d05efa32a1a550949f650f2fd942 is sfinv.sk.tr
+11-28 16:47:33.083 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: a42af4ab0121b2fc4efbba7f043ca2eac0e18b42 is sfinv.sv.tr
+11-28 16:47:33.083 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: 1f17651212350441e556b128c090c207b7289bab is sfinv.uk.tr
+11-28 16:47:33.083 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: d8a6060f52877409816339a5f24f0cfb6dbd9f86 is sfinv.zh_CN.tr
+11-28 16:47:33.083 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Server: d8a6060f52877409816339a5f24f0cfb6dbd9f86 is sfinv.zh_TW.tr
+11-28 16:47:33.083 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: Server: ignoring unsupported file extension: "template.txt"
+11-28 16:47:33.083 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: Server: 1044 media files collected
+11-28 16:47:33.117 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: EmergeManager: Created params 0xb400007b401ff240 for thread 0
+11-28 16:47:33.117 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: ScriptApiEnv: Environment initialized
+11-28 16:47:33.117 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: SCRIPTAPI: Initializing async engine
+11-28 16:47:33.118 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: AsyncEngine: using at most 6 threads with automatic scaling
+11-28 16:47:33.125 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: Loading and running script from /storage/emulated/0/Android/data/net.minetest.minetest/files/Minetest/builtin/init.lua
+11-28 16:47:33.130 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: Initializing asynchronous environment (game)
+11-28 16:47:33.139 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: ServerEnvironment: Loading environment metadata
+11-28 16:47:33.140 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: NodeDefManager: registering content id "438": name="doors:door_glass_b_1"
+11-28 16:47:33.140 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: NodeDefManager: registering content id "439": name="doors:door_glass_b_2"
+11-28 16:47:33.140 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: NodeDefManager: registering content id "440": name="doors:door_obsidian_glass_b_1"
+11-28 16:47:33.140 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: NodeDefManager: registering content id "441": name="doors:door_obsidian_glass_b_2"
+11-28 16:47:33.140 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: NodeDefManager: registering content id "442": name="doors:door_steel_b_1"
+11-28 16:47:33.140 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: NodeDefManager: registering content id "443": name="doors:door_steel_b_2"
+11-28 16:47:33.141 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: NodeDefManager: registering content id "444": name="doors:door_wood_b_1"
+11-28 16:47:33.141 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: NodeDefManager: registering content id "445": name="doors:door_wood_b_2"
+11-28 16:47:33.141 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: NodeDefManager: registering content id "446": name="xpanes:door_steel_bar_b_1"
+11-28 16:47:33.141 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: NodeDefManager: registering content id "447": name="xpanes:door_steel_bar_b_2"
+11-28 16:47:33.141 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: NodeDefManager: registering content id "448": name="torches:floor"
+11-28 16:47:33.141 18229 18333 V Minetest: 2023-11-28 16:47:33: VERBOSE[Main]: NodeDefManager: registering content id "449": name="torches:wall"
+11-28 16:47:33.141 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: Starting server on 127.0.0.1...
+11-28 16:47:33.143 18229 18333 W Minetest: 2023-11-28 16:47:33: ACTION[Main]: World at [/storage/emulated/0/Android/data/net.minetest.minetest/files/Minetest/worlds/world1]
+11-28 16:47:33.143 18229 18333 W Minetest: 2023-11-28 16:47:33: ACTION[Main]: Server for gameid="minetest" listening on 127.0.0.1:59530.
+11-28 16:47:33.146 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: SourceImageCache::getOrLoad(): Loading path "/storage/emulated/0/Android/data/net.minetest.minetest/files/Minetest/textures/base/pack/joystick_off.png"
+11-28 16:47:33.156 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: SourceImageCache::getOrLoad(): Loading path "/storage/emulated/0/Android/data/net.minetest.minetest/files/Minetest/textures/base/pack/joystick_bg.png"
+11-28 16:47:33.163 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: SourceImageCache::getOrLoad(): Loading path "/storage/emulated/0/Android/data/net.minetest.minetest/files/Minetest/textures/base/pack/joystick_center.png"
+11-28 16:47:33.164 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: SourceImageCache::getOrLoad(): Loading path "/storage/emulated/0/Android/data/net.minetest.minetest/files/Minetest/textures/base/pack/jump_btn.png"
+11-28 16:47:33.166 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: SourceImageCache::getOrLoad(): Loading path "/storage/emulated/0/Android/data/net.minetest.minetest/files/Minetest/textures/base/pack/down.png"
+11-28 16:47:33.169 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: SourceImageCache::getOrLoad(): Loading path "/storage/emulated/0/Android/data/net.minetest.minetest/files/Minetest/textures/base/pack/zoom.png"
+11-28 16:47:33.171 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: SourceImageCache::getOrLoad(): Loading path "/storage/emulated/0/Android/data/net.minetest.minetest/files/Minetest/textures/base/pack/aux1_btn.png"
+11-28 16:47:33.172 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: SourceImageCache::getOrLoad(): Loading path "/storage/emulated/0/Android/data/net.minetest.minetest/files/Minetest/textures/base/pack/gear_icon.png"
+11-28 16:47:33.173 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: SourceImageCache::getOrLoad(): Loading path "/storage/emulated/0/Android/data/net.minetest.minetest/files/Minetest/textures/base/pack/fly_btn.png"
+11-28 16:47:33.174 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: SourceImageCache::getOrLoad(): Loading path "/storage/emulated/0/Android/data/net.minetest.minetest/files/Minetest/textures/base/pack/noclip_btn.png"
+11-28 16:47:33.175 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: SourceImageCache::getOrLoad(): Loading path "/storage/emulated/0/Android/data/net.minetest.minetest/files/Minetest/textures/base/pack/fast_btn.png"
+11-28 16:47:33.177 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: SourceImageCache::getOrLoad(): Loading path "/storage/emulated/0/Android/data/net.minetest.minetest/files/Minetest/textures/base/pack/debug_btn.png"
+11-28 16:47:33.178 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: SourceImageCache::getOrLoad(): Loading path "/storage/emulated/0/Android/data/net.minetest.minetest/files/Minetest/textures/base/pack/camera_btn.png"
+11-28 16:47:33.180 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: SourceImageCache::getOrLoad(): Loading path "/storage/emulated/0/Android/data/net.minetest.minetest/files/Minetest/textures/base/pack/rangeview_btn.png"
+11-28 16:47:33.182 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: SourceImageCache::getOrLoad(): Loading path "/storage/emulated/0/Android/data/net.minetest.minetest/files/Minetest/textures/base/pack/minimap_btn.png"
+11-28 16:47:33.183 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: SourceImageCache::getOrLoad(): Loading path "/storage/emulated/0/Android/data/net.minetest.minetest/files/Minetest/textures/base/pack/chat_hide_btn.png"
+11-28 16:47:33.184 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: SourceImageCache::getOrLoad(): Loading path "/storage/emulated/0/Android/data/net.minetest.minetest/files/Minetest/textures/base/pack/rare_controls.png"
+11-28 16:47:33.185 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: SourceImageCache::getOrLoad(): Loading path "/storage/emulated/0/Android/data/net.minetest.minetest/files/Minetest/textures/base/pack/chat_btn.png"
+11-28 16:47:33.187 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: SourceImageCache::getOrLoad(): Loading path "/storage/emulated/0/Android/data/net.minetest.minetest/files/Minetest/textures/base/pack/inventory_btn.png"
+11-28 16:47:33.188 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: SourceImageCache::getOrLoad(): Loading path "/storage/emulated/0/Android/data/net.minetest.minetest/files/Minetest/textures/base/pack/drop_btn.png"
+11-28 16:47:33.189 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: SourceImageCache::getOrLoad(): Loading path "/storage/emulated/0/Android/data/net.minetest.minetest/files/Minetest/textures/base/pack/exit_btn.png"
+11-28 16:47:33.193 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: MeshUpdateManager: using 2 threads
+11-28 16:47:33.198 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: SourceImageCache::getOrLoad(): Loading path "/storage/emulated/0/Android/data/net.minetest.minetest/files/Minetest/textures/base/pack/minimap_mask_round.png"
+11-28 16:47:33.206 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: SourceImageCache::getOrLoad(): Loading path "/storage/emulated/0/Android/data/net.minetest.minetest/files/Minetest/textures/base/pack/minimap_overlay_round.png"
+11-28 16:47:33.214 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: SourceImageCache::getOrLoad(): Loading path "/storage/emulated/0/Android/data/net.minetest.minetest/files/Minetest/textures/base/pack/minimap_mask_square.png"
+11-28 16:47:33.221 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: SourceImageCache::getOrLoad(): Loading path "/storage/emulated/0/Android/data/net.minetest.minetest/files/Minetest/textures/base/pack/minimap_overlay_square.png"
+11-28 16:47:33.229 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: SourceImageCache::getOrLoad(): Loading path "/storage/emulated/0/Android/data/net.minetest.minetest/files/Minetest/textures/base/pack/player_marker.png"
+11-28 16:47:33.237 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: SourceImageCache::getOrLoad(): Loading path "/storage/emulated/0/Android/data/net.minetest.minetest/files/Minetest/textures/base/pack/object_marker_red.png"
+11-28 16:47:33.239 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: Connecting to server at 127.0.0.1:59530
+11-28 16:47:33.239 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: TouchScreenGUI::translateEvent got event but is not visible!
+11-28 16:47:33.239 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: TouchScreenGUI::translateEvent got event but is not visible!
+11-28 16:47:33.239 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: TouchScreenGUI::translateEvent got event but is not visible!
+11-28 16:47:33.239 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: TouchScreenGUI::translateEvent got event but is not visible!
+11-28 16:47:33.239 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: TouchScreenGUI::translateEvent got event but is not visible!
+11-28 16:47:33.239 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: TouchScreenGUI::translateEvent got event but is not visible!
+11-28 16:47:33.239 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: TouchScreenGUI::translateEvent got event but is not visible!
+11-28 16:47:33.241 18229 18951 V Minetest: 2023-11-28 16:47:33: VERBOSE[Server]: Server::peerAdded(): peer->id=2
+11-28 16:47:33.289 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: Client::peerAdded(): peer->id=1
+11-28 16:47:33.289 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: Client packetcounter (30s): sum=0 avg=0/s
+11-28 16:47:33.305 18229 18951 V Minetest: 2023-11-28 16:47:33: VERBOSE[Server]: Server: Handling peer change: id=2, timeout=0
+11-28 16:47:33.343 18229 18951 V Minetest: 2023-11-28 16:47:33: VERBOSE[Server]: Server: Got TOSERVER_INIT from 127.0.0.1 (peer_id=2)
+11-28 16:47:33.343 18229 18951 V Minetest: 2023-11-28 16:47:33: VERBOSE[Server]: Server: 127.0.0.1: Protocol version: min: 37, max: 43, chosen: 43
+11-28 16:47:33.345 18229 18951 D Minetest: 2023-11-28 16:47:33: INFO[Server]: Server: New connection: "singleplayer" from 127.0.0.1 (peer_id=2)
+11-28 16:47:33.345 18229 18951 V Minetest: 2023-11-28 16:47:33: VERBOSE[Server]: Sending TOCLIENT_HELLO with auth method field: 2
+11-28 16:47:33.389 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: Client: TOCLIENT_HELLO received with serialization_ver=29, auth_mechs=2, proto_ver=43, compression_mode=0. Doing auth with mech 2
+11-28 16:47:33.407 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: Client::ReceiveAll(): Packet processing budget exceeded.
+11-28 16:47:33.410 18229 18951 D Minetest: 2023-11-28 16:47:33: INFO[Server]: Server: TOSERVER_SRP_BYTES_A received with based_on=1 and len_A=256.
+11-28 16:47:33.429  1920  3802 V WindowManager: Changing focus from Window{dde5867 u0 net.minetest.minetest/net.minetest.minetest.GameActivity} to Window{4a73aff u0 com.android.launcher/com.android.launcher.Launcher},diplayid=0
+11-28 16:47:33.438  1920  3802 I OplusHansManager : front pkg: com.android.launcher, uid: 10172, prev pkg: net.minetest.minetest, prev uid: 10386
+11-28 16:47:33.439  1920  3010 I Osense-DecisionMaker: notifySceneToAthenaPolicy: SCENE_LAUNCHER, bundle: Bundle[{prevPkgName=net.minetest.minetest, curUid=10172, curPkgName=com.android.launcher, prevUid=10386}]
+11-28 16:47:33.439  1920  3417 I OplusResourcePreloadManager: resume pkg: com.android.launcher, uid:10172, prev pkg: net.minetest.minetest, prev uid: 10386
+11-28 16:47:33.443  1920  3354 I OplusHansManager : uid=10386, pkg=net.minetest.minetest enter SM
+11-28 16:47:33.443  1920  3354 I OplusHansManager : uid=10386, pkg=net.minetest.minetest R enter(), D stay=35
+11-28 16:47:33.455  1920  3802 V OplusZoomWindowManagerService: onAnimationFinished:  r = ActivityRecord{dafde36 u0 net.minetest.minetest/.GameActivity} t415}
+11-28 16:47:33.464  1920  2712 D OplusAppListInterceptManager: shouldFilterTask::packageName = net.minetest.minetest
+11-28 16:47:33.465  1920  3677 D OplusAppSwitchListener: Detect net.minetest.minetest switch to background
+11-28 16:47:33.465  1920  3677 D OplusEapManager: mTargetExitName :net.minetest.minetest
+11-28 16:47:33.465  1920  3677 V DCSEX-AppSwitchManager: OnAppSwitchObserver: onAppExit, resuming = com.android.launcher, target = net.minetest.minetest, is ResumingFirstStart =  false, is ResumingMultiApp =  false, extensionInfo =  Bundle[{taskId=194, uid=10172}]
+11-28 16:47:33.466  1920  3677 D VRR [OPlusFrontAppManager]: OnAppSwitchObserver: onAppExit , info.targetName = net.minetest.minetest
+11-28 16:47:33.467  1920  3169 D OplusAppListInterceptManager: shouldFilterTask::packageName = net.minetest.minetest
+11-28 16:47:33.469  1920  9937 D DCSEX-AppLaunchEventRecorder: onAppSwitch from = net.minetest.minetest to = com.android.launcher
+11-28 16:47:33.469  1920  9937 D DCSEX-AppLaunchEventRecorder: recordExitApp = net.minetest.minetest
+11-28 16:47:33.469  1920  2462 D VRR [OPlusExternalRefreshRateManager]: setFrontPackageName pkgName: com.android.launcher CurPkgName: net.minetest.minetest
+11-28 16:47:33.475  3504  5707 I Athena  : AthenaDynamicReceiver: pre_app:net.minetest.minetest, next_app:com.android.launcher(10172|3603)
+11-28 16:47:33.490 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: Client: Received TOCLIENT_SRP_BYTES_S_B.
+11-28 16:47:33.567 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: Client::ReceiveAll(): Packet processing budget exceeded.
+11-28 16:47:33.568 18229 18951 V Minetest: 2023-11-28 16:47:33: VERBOSE[Server]: Server: Received TOSERVER_SRP_BYTES_M.
+11-28 16:47:33.618 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: Client: received map seed: 7565210942130945258
+11-28 16:47:33.618 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: Client: received recommended send interval 0.09
+11-28 16:47:33.620 18229 18951 V Minetest: 2023-11-28 16:47:33: VERBOSE[Server]: Server: Got TOSERVER_INIT2 from 2
+11-28 16:47:33.620 18229 18951 D Minetest: 2023-11-28 16:47:33: INFO[Server]: Server: Sending content to [id=2]
+11-28 16:47:33.621  1920  2100 V WindowManager: Relayout Window{dde5867 u0 net.minetest.minetest/net.minetest.minetest.GameActivity}: viewVisibility=8, oldvis=0, req=2412x1080
+11-28 16:47:33.662 18229 18951 V Minetest: 2023-11-28 16:47:33: VERBOSE[Server]: Server: Sending item definitions to id(2): size=16136
+11-28 16:47:33.719  6170  6170 I GoogleInputMethodService: GoogleInputMethodService.onStartInput():1883 onStartInput(EditorInfo{EditorInfo{packageName=net.minetest.minetest, inputType=0, inputTypeString=NULL, enableLearning=false, autoCorrection=false, autoComplete=false, imeOptions=0, privateImeOptions=null, actionName=UNSPECIFIED, actionLabel=null, initialSelStart=-1, initialSelEnd=-1, initialCapsMode=0, label=null, fieldId=-1, fieldName=null, extras=Bundle[{com.oplus.im.SCENES=0}], hintText=null, hintLocales=[]}}, true)
+11-28 16:47:33.719 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: Client: Received item definitions: packet size: 16136
+11-28 16:47:33.732  1920  5701 D OplusUIFirst_FB: net.minetest.minetest moveToBack 18229
+11-28 16:47:33.776 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: Client::ReceiveAll(): Packet processing budget exceeded.
+11-28 16:47:33.779 18229 18951 V Minetest: 2023-11-28 16:47:33: VERBOSE[Server]: Server: Sending node definitions to id(2): size=15163
+11-28 16:47:33.790 18229 18951 V Minetest: 2023-11-28 16:47:33: VERBOSE[Server]: Server: Announcing files to id(2): count=597 size=31966
+11-28 16:47:33.868  7305  7480 I GameOpt->OplusGameManager: setScreenMode, decisionScreenMode ->screen_refresh_rate, pkgName ->net.minetest.minetest, screenModeType ->2, mode ->0
+11-28 16:47:33.879  1210  1210 D Layer   : reparent to null sequence=20648, seq[7], name=net.minetest.minetest/net.minetest.minetest.GameActivity#20648
+11-28 16:47:33.879  1210  1210 D OplusLayer: ~Layer() sequence=20648, name=net.minetest.minetest/net.minetest.minetest.GameActivity#20648
+11-28 16:47:33.880  4247  4294 W oiface  : recved frame stats, layer(net.minetest.minetest/net.minetest.minetest.GameActivity)
+11-28 16:47:33.882 18229 18333 D Minetest: 2023-11-28 16:47:33: INFO[Main]: Client: Received node definitions: packet size: 15163
+11-28 16:47:33.894  1920  5677 D VRR [OPlusRefreshRateService]:  setFrameRateTargetControl [ -1.0 , net.minetest.minetest , false , com.oplus.cosa ]
+11-28 16:47:33.894  1920  5677 D VRR [OPlusExternalRefreshRateManager]:  [FRTC] FrameRate : -1 net.minetest.minetest false com.oplus.cosa 7305 10145
+11-28 16:47:33.894  1920  2462 D VRR [OPlusSurfaceFlingerController]:  add frtc FrameRate : -1 net.minetest.minetest false com.oplus.cosa
+11-28 16:47:33.894  1210  1364 I VRR [FRTC]: setFrameRateTarget with [-1, net.minetest.minetest, 0, com.oplus.cosa, 1, 7305, 10145]
+11-28 16:47:33.894  1210  1364 W VRR [FRTC]: invalid param { fps -1, proc_name net.minetest.minetest, strict_mode 0, description com.oplus.cosa, proc_id 0, rate_status 0, backend Surface, version 1, pid 7305, uid 10145, enable at 2023-11-28 16:47:33, disable waiting } for current status.
+11-28 16:47:33.911 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=47
+11-28 16:47:33.912 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=48
+11-28 16:47:33.912 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=49
+11-28 16:47:33.914 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=50
+11-28 16:47:33.915 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=51
+11-28 16:47:33.915 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=52
+11-28 16:47:33.915 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=53
+11-28 16:47:33.916 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=54
+11-28 16:47:33.916 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=55
+11-28 16:47:33.917 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=56
+11-28 16:47:33.917 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=57
+11-28 16:47:33.917 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=58
+11-28 16:47:33.918 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=59
+11-28 16:47:33.918 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=60
+11-28 16:47:33.918 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=61
+11-28 16:47:33.919 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=62
+11-28 16:47:33.919 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=63
+11-28 16:47:33.919 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=64
+11-28 16:47:33.919 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=65
+11-28 16:47:33.920 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=66
+11-28 16:47:33.920 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=67
+11-28 16:47:33.920 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=68
+11-28 16:47:33.922 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=69
+11-28 16:47:33.923 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=70
+11-28 16:47:33.923 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=71
+11-28 16:47:33.923 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=72
+11-28 16:47:33.924 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=73
+11-28 16:47:33.924 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=74
+11-28 16:47:33.924 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=75
+11-28 16:47:33.925 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=76
+11-28 16:47:33.925 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=77
+11-28 16:47:33.925 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=78
+11-28 16:47:33.926 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=79
+11-28 16:47:33.926 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=80
+11-28 16:47:33.927 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=81
+11-28 16:47:33.927 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=82
+11-28 16:47:33.928 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=83
+11-28 16:47:33.928 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=84
+11-28 16:47:33.933 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=85
+11-28 16:47:33.935 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=86
+11-28 16:47:33.935 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=87
+11-28 16:47:33.937 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=88
+11-28 16:47:33.937 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=89
+11-28 16:47:33.938 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=90
+11-28 16:47:33.938 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=91
+11-28 16:47:33.938 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=92
+11-28 16:47:33.939 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=93
+11-28 16:47:33.939 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=94
+11-28 16:47:33.939 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=95
+11-28 16:47:33.940 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=96
+11-28 16:47:33.940 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=97
+11-28 16:47:33.940 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=98
+11-28 16:47:33.945  1920  6475 D OplusAppListInterceptManager: shouldFilterTask::packageName = net.minetest.minetest
+11-28 16:47:33.947 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=99
+11-28 16:47:33.947 18229 18929 V Minetest: 2023-11-28 16:47:33: VERBOSE[ConnectionSend]: con(5/1)RE-SENDING timed-out RELIABLE to 127.0.0.1(t/o=0.1): count=1, channel=0, seqnum=100
+11-28 16:47:33.971 12595 12595 W FrameInsert: getDisplayFunctionCapability for net.minetest.minetest enter
+11-28 16:47:33.998  1920  3802 D OplusWifiService: Get notifyGameModeState: state = false pkgName = net.minetest.minetest
+11-28 16:47:33.999  1920  3802 D OplusWifiCoexManager: setGameModeState: gameStateIn=false pkgName=net.minetest.minetest uid=10386
+11-28 16:47:34.000 30516 30627 I Quality : 17001301:18229 net.minetest.minetest GAME_PAUSE
+11-28 16:47:34.001  1920  5227 D OplusWifiService: notifyGameInfoJsonStr: gameInfo = {"PKG_NAME":"net.minetest.minetest","APP_BACKGROUND":true}
+11-28 16:47:34.015 18229 18333 D Minetest: 2023-11-28 16:47:34: INFO[Main]: Client::ReceiveAll(): Packet processing budget exceeded.
+11-28 16:47:34.060 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=47
+11-28 16:47:34.063 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=48
+11-28 16:47:34.066 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=49
+11-28 16:47:34.068 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=50
+11-28 16:47:34.069 18229 18333 D Minetest: 2023-11-28 16:47:34: INFO[Main]: Client: Received media announcement: packet size: 31966
+11-28 16:47:34.071 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=51
+11-28 16:47:34.074 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=52
+11-28 16:47:34.078 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=53
+11-28 16:47:34.080 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=54
+11-28 16:47:34.084 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=55
+11-28 16:47:34.090 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=56
+11-28 16:47:34.093 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=57
+11-28 16:47:34.103 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=58
+11-28 16:47:34.106 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=59
+11-28 16:47:34.107 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=60
+11-28 16:47:34.107 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: f3c27b198cc323c7073d1d92466939b279aed43b "__builtin.de.tr"
+11-28 16:47:34.109 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 0126118a3464063cb47acb709a284fd046d65609 "beds.de.tr"
+11-28 16:47:34.110 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: aa13c1799253722b4e5c6050059bf0d0ac58a28c "beds_bed.png"
+11-28 16:47:34.111 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 5b829f73bf31d8d0ea90567235188fa81e0c4aee "beds_bed_fancy.png"
+11-28 16:47:34.112 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 6ab5edd6596554ac9e79dc2620249e2effa96a10 "beds_bed_foot.png"
+11-28 16:47:34.112 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=61
+11-28 16:47:34.114 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 654464f5a4f36cddad684a29ec7b97a28ddadcc8 "beds_bed_head.png"
+11-28 16:47:34.115 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 5172f2750d9c4b1f8f0d2eaa74c4e9013fed48de "beds_bed_side1.png"
+11-28 16:47:34.116 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=62
+11-28 16:47:34.116 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: d749ac6b61b720447f51040a6d5d2cbe9f2f21be "beds_bed_side2.png"
+11-28 16:47:34.118 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=63
+11-28 16:47:34.119 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 5b25a7b21f058858887498a7b2b2ba932e7f512f "beds_bed_side_bottom.png"
+11-28 16:47:34.120 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 84736b327613f1c1062671b33b6ed3c103c4f8b0 "beds_bed_side_bottom_r.png"
+11-28 16:47:34.121 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=64
+11-28 16:47:34.122 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 608c13bb5c71183925b8f1eb6292c11c31e8d65b "beds_bed_side_top.png"
+11-28 16:47:34.122 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=65
+11-28 16:47:34.123 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: e0fa11b272f6ab122eb2d2936018f401a3d3aa00 "beds_bed_side_top_r.png"
+11-28 16:47:34.124 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 95b56a3c1fead5e184a8973f050223cb50ef4ae3 "beds_bed_top1.png"
+11-28 16:47:34.125 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=66
+11-28 16:47:34.125 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 245e04c3bb269d75fd64d78d808d9cc4299f7b2b "beds_bed_top2.png"
+11-28 16:47:34.126 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 28b2c19977d97e4c942d6e531492c3d3242eb73c "beds_bed_top_bottom.png"
+11-28 16:47:34.127 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=67
+11-28 16:47:34.127 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 662bc7db9b490c43a9f20bc0e984b8b0ed411387 "beds_bed_top_top.png"
+11-28 16:47:34.129 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 2278a08154a9c0323665af515946dd1fcd89f512 "beds_bed_under.png"
+11-28 16:47:34.131 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 2b89dacdfcb444411f120740e7a8f8514c7bb810 "beds_transparent.png"
+11-28 16:47:34.131 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=68
+11-28 16:47:34.132 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 1f6cf25561c931958f7f0b25a67a7f9c0db8e741 "binoculars.de.tr"
+11-28 16:47:34.133 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 7a5dd8684e446c011356f09c9eb398669cf8d337 "binoculars_binoculars.png"
+11-28 16:47:34.134 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=69
+11-28 16:47:34.134 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 75746743bae24c4b9b57a8820fb8c0bb02a8d047 "boats.de.tr"
+11-28 16:47:34.135 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=70
+11-28 16:47:34.135 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Storing model into memory: "boats_boat.obj"
+11-28 16:47:34.135 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: ea065d540f8f9e8da899a88f049b51c1d8adbd40 "boats_boat.obj"
+11-28 16:47:34.137 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=71
+11-28 16:47:34.138 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 74c0ef9d96e2424cd447f10f4e9563f4456da3e0 "boats_inventory.png"
+11-28 16:47:34.139 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: abb3276c2716ce48901c37423148696744a4d92f "boats_wield.png"
+11-28 16:47:34.140 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=72
+11-28 16:47:34.140 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 10c7efdb799c5c5dc72bd78f381525223875eab9 "bones.de.tr"
+11-28 16:47:34.142 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 9231f78fad5f35df982448d113460f2b76333785 "bones_bottom.png"
+11-28 16:47:34.142 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=73
+11-28 16:47:34.143 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 5a18164d7d7504c42548ec0cafa92ee80dce46df "bones_front.png"
+11-28 16:47:34.144 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 3f05879bc83f247cb4123436eb75e21a9d144b85 "bones_rear.png"
+11-28 16:47:34.145 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: ecf5d71c641ea2dfb56eecd262c354c6ca5f4ee3 "bones_side.png"
+11-28 16:47:34.145 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=74
+11-28 16:47:34.146 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: c78c7989bda333f1ad24464e11331a6ae0ec0c36 "bones_top.png"
+11-28 16:47:34.147 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=75
+11-28 16:47:34.147 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 825971f731145c61d6ba98961213d7ad516fbada "bubble.png"
+11-28 16:47:34.148 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: a5e21eb8925c7e462244da9e77107f5ea9eb19cb "bucket.de.tr"
+11-28 16:47:34.149 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 7a080214406671e34ae3cb4b28cec1074e1cdf48 "bucket.png"
+11-28 16:47:34.149 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=76
+11-28 16:47:34.150 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 02c355cfb6aa479b36595866270912d5ad627a02 "bucket_lava.png"
+11-28 16:47:34.150 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=77
+11-28 16:47:34.151 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: b3af5ffe5e55a98230370a0099891a73409286f0 "bucket_river_water.png"
+11-28 16:47:34.151 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=78
+11-28 16:47:34.152 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 482b3ac09d30ee0de9cfcff0fda1a2ee02f7ab58 "bucket_water.png"
+11-28 16:47:34.152 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: e97915e4407094f339d6b1b5436b9ed7569a241c "butterflies.de.tr"
+11-28 16:47:34.153 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=79
+11-28 16:47:34.154 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 38e28e3f057240c5edff8f5bc5629911b86c69e5 "butterflies_butterfly_red.png"
+11-28 16:47:34.154 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=80
+11-28 16:47:34.155 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: d1699c58ecdc5c53e14c258bfa830831d80c2a93 "butterflies_butterfly_red_animated.png"
+11-28 16:47:34.156 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: a69c83ccf5e6260bcea590bdc9b7069d41e4e05d "butterflies_butterfly_violet.png"
+11-28 16:47:34.157 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=81
+11-28 16:47:34.158 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 494e3dc967f98bd07a7ac49229515b306fb5fdde "butterflies_butterfly_violet_animated.png"
+11-28 16:47:34.159 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 1bdd5f5223a8210ed99e4732644ea01d54e41738 "butterflies_butterfly_white.png"
+11-28 16:47:34.159 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=82
+11-28 16:47:34.160 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 01bf4d3e9268e0a26bf461170f9831d1048f1c7b "butterflies_butterfly_white_animated.png"
+11-28 16:47:34.161 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 1ae4e0e0c6ea415dbc6bd497ca5142314f55a71b "carts.de.tr"
+11-28 16:47:34.161 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=83
+11-28 16:47:34.162 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Storing model into memory: "carts_cart.b3d"
+11-28 16:47:34.162 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 815b17b9f5fc26c010c0ebecc1a71421025f122e "carts_cart.b3d"
+11-28 16:47:34.162 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=84
+11-28 16:47:34.163 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=85
+11-28 16:47:34.164 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 85835178e58fc52b88ca955eddabea3ffbfa9903 "carts_cart.png"
+11-28 16:47:34.164 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=86
+11-28 16:47:34.165 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 2046bc57baf750b1a9d3ea97ff023d2bc61b3dcc "carts_cart_front.png"
+11-28 16:47:34.165 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=87
+11-28 16:47:34.166 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=88
+11-28 16:47:34.167 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 8e256b480be078ed2cdf54aea18ac59722939e68 "carts_cart_moving.1.ogg"
+11-28 16:47:34.167 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=89
+11-28 16:47:34.168 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=90
+11-28 16:47:34.169 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=91
+11-28 16:47:34.169 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: dc07680ae61f4dd0760d2954ff67149e11a8d42f "carts_cart_moving.2.ogg"
+11-28 16:47:34.170 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=92
+11-28 16:47:34.171 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=93
+11-28 16:47:34.173 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=94
+11-28 16:47:34.173 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 69fb2d5c9f6069fb515f441e0062d9a6ebbf4dde "carts_cart_moving.3.ogg"
+11-28 16:47:34.174 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=95
+11-28 16:47:34.175 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: e75d24747972eb9af131dee6e40254d408caffc6 "carts_cart_side.png"
+11-28 16:47:34.175 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=96
+11-28 16:47:34.175 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: b5cd1241a5e7fbb921e7426c1b3409c9a4cc9107 "carts_cart_top.png"
+11-28 16:47:34.176 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=97
+11-28 16:47:34.177 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=98
+11-28 16:47:34.177 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 7ee0ecda5fdbcd91c661c9868a4218212d8996b5 "carts_rail_crossing.png"
+11-28 16:47:34.177 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=99
+11-28 16:47:34.178 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 94be22f2fd8337baf49183ee14a541fa56aacae5 "carts_rail_crossing_brk.png"
+11-28 16:47:34.179 18229 18930 V Minetest: 2023-11-28 16:47:34: VERBOSE[ConnectionReceive]: con(5/1)WARNING: ACKed packet not in outgoing queue seqnum=100
+11-28 16:47:34.179 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 6c0fe7d90e2aca90149c610e1ff7beae154c8cdf "carts_rail_crossing_pwr.png"
+11-28 16:47:34.180 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 03038e6245ee6b463a06a44cf26f5bd7da06b702 "carts_rail_curved.png"
+11-28 16:47:34.181 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 620592ac0a80d72b989c7bab336f1ed614ba3902 "carts_rail_curved_brk.png"
+11-28 16:47:34.182 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: da855c4da4f3ea81a0fb916ae86bf0aa04eff073 "carts_rail_curved_pwr.png"
+11-28 16:47:34.183 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: e046401093dba9072c080095f9384a97f8a5f36c "carts_rail_straight.png"
+11-28 16:47:34.184 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: ad0118ec84926136e4521b5dcfca71aec3a69dfb "carts_rail_straight_brk.png"
+11-28 16:47:34.185 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 8d13a4997cb704635489d05aa4ca1a0f10233044 "carts_rail_straight_pwr.png"
+11-28 16:47:34.186 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 216c1463957f131f86134183b430ca6cf32a3428 "carts_rail_t_junction.png"
+11-28 16:47:34.187 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: c0ca1dfb13140ce014ba326a4a4316ef72706ded "carts_rail_t_junction_brk.png"
+11-28 16:47:34.188 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 7befca4c25b82831cdf34a98ef180eb62b65e33a "carts_rail_t_junction_pwr.png"
+11-28 16:47:34.197 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Storing model into memory: "character.b3d"
+11-28 16:47:34.197 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 83d91df74705943a9b6ece41e1e5f9c2c1e93b83 "character.b3d"
+11-28 16:47:34.199 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: b137fbea946e36e31d1190990deb8ae838972a06 "character.png"
+11-28 16:47:34.200 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Storing model into memory: "chest_open.obj"
+11-28 16:47:34.200 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: e308564674835e4a02fd45d7a6c56b2b4d9985f6 "chest_open.obj"
+11-28 16:47:34.201 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: dd1d9a8d6d090aaa071f7168a567508108f3a451 "crack_anylength.png"
+11-28 16:47:34.203 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 6e8767b80d701dcaa4b9b646106bb18cda5f4c31 "craftguide_clear_icon.png"
+11-28 16:47:34.204 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: cd324bef4c93094e5b1d387f1506aa9e58a8d261 "craftguide_furnace.png"
+11-28 16:47:34.206 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: ac0def035da6f6b3adf25f76d11033c0a865e64c "craftguide_next_icon.png"
+11-28 16:47:34.207 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 30382f4f2a69ad424bdca65ee1c6f5f83a48318c "craftguide_prev_icon.png"
+11-28 16:47:34.209 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 5e0611d6cb5b09b5cc3fa8e0f7f28564ece8103d "craftguide_search_icon.png"
+11-28 16:47:34.211 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 1e290b29e6a2b6d54653cd39f92e5afcedfb1831 "craftguide_shapeless.png"
+11-28 16:47:34.211 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 247a7f04969dcffba20a4462afa37a8931bbc3fc "creative.de.tr"
+11-28 16:47:34.214 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 86f326ee58db20c28d3bab9555745b0e3490ceb8 "creative_clear_icon.png"
+11-28 16:47:34.215 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 270fc9e190b1780ab662aaddd430a3fdeb4c27c9 "creative_next_icon.png"
+11-28 16:47:34.217 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 7589789227205137f7be72a50801f2f24f811dbd "creative_prev_icon.png"
+11-28 16:47:34.219 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 6131e61e4bcdce4d6fea9b5c4657986685bd0319 "creative_search_icon.png"
+11-28 16:47:34.221 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: d4dddc02be8c137fa01ecf887ba1d807de3ec962 "creative_trash_icon.png"
+11-28 16:47:34.230 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 5c42f417c6afb93a57cc0498e6006cf096124dfa "default.de.tr"
+11-28 16:47:34.232 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: c36b9c9f2c3ce474795cc3c88290a02a3aab7d12 "default_acacia_bush_sapling.png"
+11-28 16:47:34.233 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 0c3115d58e51b8fc398b31e0c24352f1f2ba3327 "default_acacia_bush_stem.png"
+11-28 16:47:34.234 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 041355aaf06e201a06f9705d140c336a4a674809 "default_acacia_leaves.png"
+11-28 16:47:34.235 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: aa77bf563ca456d09daa94ce3bab6a8acd4b834e "default_acacia_leaves_simple.png"
+11-28 16:47:34.236 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 8223dfb05760411e98f0a13ad69addf57ace14f9 "default_acacia_sapling.png"
+11-28 16:47:34.237 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: e7e0f3105953bb34e7ac91e9d7cbb19535cc6546 "default_acacia_tree.png"
+11-28 16:47:34.239 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 875e2b3dff7cbf30d105c19815ae05fabc53308e "default_acacia_tree_top.png"
+11-28 16:47:34.239 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 441367f8cb1255b7b516fd4667d3e31001fca921 "default_acacia_wood.png"
+11-28 16:47:34.241 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: aa281f530fabeeb622911dd051e3cd30be1f63eb "default_apple.png"
+11-28 16:47:34.242 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: a604c5a5ca6b0a0da4e80ba19d001a2f479cf22f "default_aspen_leaves.png"
+11-28 16:47:34.243 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: d2584190418414c8fa42eef345fa790bee576837 "default_aspen_sapling.png"
+11-28 16:47:34.244 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 4e078df535b800570e757ea48674d087ad6d323e "default_aspen_tree.png"
+11-28 16:47:34.246 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: af470768186ae022600050103f35224bc0335fd7 "default_aspen_tree_top.png"
+11-28 16:47:34.247 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: be404de10473f2107fc8334c1e2b72902a7c6167 "default_aspen_wood.png"
+11-28 16:47:34.248 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 6eb3801a8c79cd9d5cfcd01bcff05cd7b3c5e835 "default_blueberries.png"
+11-28 16:47:34.249 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 2abb5a6b122d85bcfc92af0da25ab9cc5a9d5f68 "default_blueberry_bush_leaves.png"
+11-28 16:47:34.250 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 7e3cc5652d87f8e5b798aa07aae07ed005a7e308 "default_blueberry_bush_sapling.png"
+11-28 16:47:34.251 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 4aba1820692feb3eaa97eaea5672fbb479ae7705 "default_blueberry_overlay.png"
+11-28 16:47:34.252 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 721ab774cf7c50b15dbb4be0010a583f9a686d20 "default_book.png"
+11-28 16:47:34.253 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: aee3a604810a5b4b04262ea1394846bd7a08e050 "default_book_written.png"
+11-28 16:47:34.255 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: a3f8c31fc1456c6599f2025fd21f7c3cbfa80191 "default_bookshelf.png"
+11-28 16:47:34.256 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: f8111a3fbc7bf81280e51184d533152a7417e70b "default_bookshelf_slot.png"
+11-28 16:47:34.259 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: ad0921404887a72f07ac7bfacb8237d17fec7341 "default_break_glass.1.ogg"
+11-28 16:47:34.262 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: be0ffe781ce036051e6b2bfba65774b14a40c289 "default_break_glass.2.ogg"
+11-28 16:47:34.264 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: a4bebcb2f74a8a5f7b4e62bb0a83ac04a1ae7f08 "default_break_glass.3.ogg"
+11-28 16:47:34.265 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 5da06f0f27e9b583808ebcff1537e2cbc4c6cd26 "default_brick.png"
+11-28 16:47:34.266 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 1e0a403616794c1173da767f6a5bc2304eb85cd0 "default_bronze_block.png"
+11-28 16:47:34.267 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 9592e2cc7315982979fdb267c8bd28729feb57ed "default_bronze_ingot.png"
+11-28 16:47:34.268 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 6b4c48ab2c3cb6f572fb7e632948d9dd1085566b "default_bush_sapling.png"
+11-28 16:47:34.269 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 7a275078d9233c7c4d8f28b0e7a37791d8771c54 "default_bush_stem.png"
+11-28 16:47:34.270 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 31e1d937713127034a7536b11bde30f12798508c "default_cactus_side.png"
+11-28 16:47:34.271 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: c558a74facba8b97ee2a21b2bb343b21c10d1eb2 "default_cactus_top.png"
+11-28 16:47:34.273 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 67dd664b782b7dde1b284c1de45216cb9c588756 "default_chest_close.ogg"
+11-28 16:47:34.275 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 2b48ca02fe66fdc76b70df48e3c29ec5527dd837 "default_chest_front.png"
+11-28 16:47:34.276 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 5a5e4c0912e2b4191c983f32a11315ae20573940 "default_chest_inside.png"
+11-28 16:47:34.277 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 414c6f1df83be1a2c56158a0109120ed363bcc9f "default_chest_lock.png"
+11-28 16:47:34.279 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 683834275c539ab123ed86db1c528a7185649731 "default_chest_open.ogg"
+11-28 16:47:34.281 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 980268a33fc886b36f6615eb85e75d1d4db5dfe3 "default_chest_side.png"
+11-28 16:47:34.282 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: c41c768fa2beaa5e291fc4fe760f00026c1b1240 "default_chest_top.png"
+11-28 16:47:34.282 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 418a5ee3b7e584a301133f70f07d25617d919406 "default_clay.png"
+11-28 16:47:34.283 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 463db2db011e486a243bc8b18dc7772166748ff7 "default_clay_brick.png"
+11-28 16:47:34.284 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 62e26cfeae92517064f70d7cbd70bb765848a810 "default_clay_lump.png"
+11-28 16:47:34.285 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: dc78633636ee531f9cef98576af435aa005df443 "default_cloud.png"
+11-28 16:47:34.286 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 8ff56e78028394c5200aababd2e0bc9647883f0a "default_coal_block.png"
+11-28 16:47:34.287 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: bee49345337d8fed22512e267c2b4409095af3dd "default_coal_lump.png"
+11-28 16:47:34.288 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 50784a06884ec92473d785f7e957e63a2eff1109 "default_cobble.png"
+11-28 16:47:34.289 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: e11caf0a19372733a9a7685f2d9ccc7914f5ff8e "default_coniferous_litter.png"
+11-28 16:47:34.291 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: d543f0f299fe2a33109525c2d653024e7fc819dc "default_coniferous_litter_side.png"
+11-28 16:47:34.293 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 8e2920d6e14817c7d53ba730b6d98569f2bc2c0c "default_cool_lava.1.ogg"
+11-28 16:47:34.295 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 3f396ef07e677ec3a65173e2bce87d72a3780e61 "default_cool_lava.2.ogg"
+11-28 16:47:34.296 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 18b47d5e4e05a090628b8179d57cedc74cdbe4c0 "default_cool_lava.3.ogg"
+11-28 16:47:34.297 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 66ec56e300ace0627da4d0a4f2fc0f7ce786227c "default_copper_block.png"
+11-28 16:47:34.298 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 42dbe8354a7ad537e7feafcc3fc99cb16ed08339 "default_copper_ingot.png"
+11-28 16:47:34.299 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 6791a1a7d324b744a939d5652f3b1e3904ae3384 "default_copper_lump.png"
+11-28 16:47:34.300 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 5d9365a9d8c65ffb1d70125577eba2b9e51b7921 "default_coral_brown.png"
+11-28 16:47:34.301 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: bb3218b75c10e85f7abcd39c8e4fa3ed99d00f42 "default_coral_cyan.png"
+11-28 16:47:34.302 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: feb9eee6a76f04131f002ab81ddd51b137443253 "default_coral_green.png"
+11-28 16:47:34.303 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: f03efda1a08d1a0c8f60bf58dd1f404fea85e5ac "default_coral_orange.png"
+11-28 16:47:34.303 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 01c4e7e8f16f6c176bf1769fcc9b476d318f2dbd "default_coral_pink.png"
+11-28 16:47:34.305 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 0196a77104483841f82b3afdc315a5a09d2099e2 "default_coral_skeleton.png"
+11-28 16:47:34.305 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: e1df1af704bc275a011ce170aea9af2b848fa857 "default_desert_cobble.png"
+11-28 16:47:34.307 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: fcff75ae06ce6c6cea144bdbf5f433cf03b0e151 "default_desert_sand.png"
+11-28 16:47:34.308 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 0e1ab7268abb58c9b0440ed1fbe4c1ade6d21f63 "default_desert_sandstone.png"
+11-28 16:47:34.309 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 76efc9e066d7fc61f39ce7b87ca89af065884f87 "default_desert_sandstone_block.png"
+11-28 16:47:34.310 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 40ab96429a7294695d9dfe537dc03002cc74c2bd "default_desert_sandstone_brick.png"
+11-28 16:47:34.311 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: da57fb40a9d6b8f5e55213688b48a8b9199b171c "default_desert_stone.png"
+11-28 16:47:34.313 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 29ad853df378a825ca0cc30ea09b29a5b293862b "default_desert_stone_block.png"
+11-28 16:47:34.314 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: a95ad737a3c54f44e49f4b7a3b4c9420c7485a77 "default_desert_stone_brick.png"
+11-28 16:47:34.315 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 8d61747cefed26de873b80cbf76d1d07f9d608a5 "default_diamond.png"
+11-28 16:47:34.317 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 43aa41c783fd9646a3c7a206bda8acadb45cbf4c "default_diamond_block.png"
+11-28 16:47:34.319 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 9eaf0d4cec93f26d90a9fbb3fcebe6bed8fa04af "default_dig_choppy.1.ogg"
+11-28 16:47:34.322 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: d37921fad90c38341cba903aef6bcb60f83ea435 "default_dig_choppy.2.ogg"
+11-28 16:47:34.324 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: b144ab3576da012b8d6f7fbef1c261c176a2dab1 "default_dig_choppy.3.ogg"
+11-28 16:47:34.325 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 2b1d8938b4a03c8b03c1c3bef66aae1c5ac8e30a "default_dig_cracky.1.ogg"
+11-28 16:47:34.327 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: e786ab371054771825c55d2b9810ae8c570fbadb "default_dig_cracky.2.ogg"
+11-28 16:47:34.328 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 5416b2fb74284cbf272d5b01928ab3d47b666916 "default_dig_cracky.3.ogg"
+11-28 16:47:34.330 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: a3c7921a8af73ea6df8b98540fa355860bd253a9 "default_dig_crumbly.ogg"
+11-28 16:47:34.331 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 83fb36d6adf403f62aa4b676371b653d9c031527 "default_dig_dig_immediate.ogg"
+11-28 16:47:34.332 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: de982ead5e4b5b063bfc4f7c542f97b5229e8d22 "default_dig_metal.ogg"
+11-28 16:47:34.333 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: c20caa1a5ea45d192cb28209d9d7957b5674578f "default_dig_oddly_breakable_by_hand.ogg"
+11-28 16:47:34.334 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 3b9552264a3e47a3bf066c8fd75be0d598f258f9 "default_dig_snappy.ogg"
+11-28 16:47:34.335 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: a0ce5b7e530396afbf206158932fe78aea530399 "default_dirt.png"
+11-28 16:47:34.337 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 13255e9a71b188f86089cecc1f7c843938b3b190 "default_dirt_footstep.1.ogg"
+11-28 16:47:34.338 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 616f0ddd38d24a51a3dfc77c2e4c97b1d723f90c "default_dirt_footstep.2.ogg"
+11-28 16:47:34.339 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 0971d4f6c71942b3ff2fcb3366caccd701604adf "default_dry_dirt.png"
+11-28 16:47:34.340 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 6c832e774db817c997008addfbad1b939859fa2e "default_dry_grass.png"
+11-28 16:47:34.341 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 6dfb5449a193be4e6110f7b5136918a21b23108c "default_dry_grass_1.png"
+11-28 16:47:34.342 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: cd24c49283c035ab4d16ec51b3426b05d30d22da "default_dry_grass_2.png"
+11-28 16:47:34.343 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: fbff64bf72913b4c4b6f28eb3e1d8a7fd51f6cf6 "default_dry_grass_3.png"
+11-28 16:47:34.344 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 4c51a0c2f60e9c8c3c89e377369173e2e928798c "default_dry_grass_4.png"
+11-28 16:47:34.345 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 598706661fb42b55e2682bc6ca12dde6d4aa11f9 "default_dry_grass_5.png"
+11-28 16:47:34.346 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 03f73435ea062c3f585f9ef4b98a6de9003b866b "default_dry_grass_side.png"
+11-28 16:47:34.347 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 15eaefecc7aa877f387318bbc54be217c4dc811b "default_dry_shrub.png"
+11-28 16:47:34.349 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 405205fb001ab1a1f5f501849d95c4ea0d46e0cb "default_dug_metal.1.ogg"
+11-28 16:47:34.350 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 98652ab13ed9370a995c59330916999a1ac6268d "default_dug_metal.2.ogg"
+11-28 16:47:34.351 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 91ec19c7b6ef0de1304e76ae25869d37c40a23f9 "default_dug_node.1.ogg"
+11-28 16:47:34.352 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: e8d1124ada1b17c0fef9358900d8b5e29bf5a5aa "default_dug_node.2.ogg"
+11-28 16:47:34.353 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 9534da258b3dae039a16896aa634e378dcd1b2a8 "default_emergent_jungle_sapling.png"
+11-28 16:47:34.354 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 50fc2f66bb1f21cf653b8db015b2744711846543 "default_fence_acacia_wood.png"
+11-28 16:47:34.355 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 1aaa5c40b74b47fe09a14720f137599b4f848058 "default_fence_aspen_wood.png"
+11-28 16:47:34.356 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: f34a09f813f3c65f8ff2e6a8e604c97144a7a837 "default_fence_junglewood.png"
+11-28 16:47:34.357 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 720ace63d0d3823a6203f0c7a2588c3d5ba6e369 "default_fence_overlay.png"
+11-28 16:47:34.358 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 44a5170c37b9c4ea97819f4b63d99e012da38362 "default_fence_pine_wood.png"
+11-28 16:47:34.359 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 863bdb19ed878dceeeb210e722c936a8a16c956d "default_fence_rail_acacia_wood.png"
+11-28 16:47:34.360 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: f4e33a3117c0f72e01be2131d1a3ff8ff0b3eb59 "default_fence_rail_aspen_wood.png"
+11-28 16:47:34.361 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 8c61d8fc7b7ec9475c11fcb2d6d29bf95729f53a "default_fence_rail_junglewood.png"
+11-28 16:47:34.363 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 2b0459084c5652f77a4183af1bdf84e5121a6476 "default_fence_rail_overlay.png"
+11-28 16:47:34.363 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: c0653419de8b89789e375fff217cb38fb1b9cb52 "default_fence_rail_pine_wood.png"
+11-28 16:47:34.364 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: de0ffd10da916adaf107a019a3c670000dd625f1 "default_fence_rail_wood.png"
+11-28 16:47:34.365 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: bdcbcaede1e8ecdc546d1388387e3667f85cc36e "default_fence_wood.png"
+11-28 16:47:34.366 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: ff3bc7571fd4ce5d22100b797196d481129a415b "default_fern_1.png"
+11-28 16:47:34.367 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 9b8e907db9f3efc9e8b485047476a6a589e55c91 "default_fern_2.png"
+11-28 16:47:34.368 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 726601f569bb8e3bd6564181bc8106d27b8bd259 "default_fern_3.png"
+11-28 16:47:34.369 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 0edd197b168f5badf6d56ee19c4d0bcd8de04aee "default_flint.png"
+11-28 16:47:34.370 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 8d06e67712ea7e2eb22e0db251131e0c9cbbc126 "default_footprint.png"
+11-28 16:47:34.409 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 4ba07b7d5a9d0b42c698c008bddba0710844d9df "default_furnace_active.ogg"
+11-28 16:47:34.410 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 161ca5a9e8bf4a0abb677086334c610f59abbedf "default_furnace_bottom.png"
+11-28 16:47:34.411 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 6cbd12234af835ba2c01b1ce24eb99e40e6c88e8 "default_furnace_fire_bg.png"
+11-28 16:47:34.412 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 84c4982dce198625dac960ec77b5f1d240c11f29 "default_furnace_fire_fg.png"
+11-28 16:47:34.413 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 499be8637d9bbf04083a30f305e66b2a351eefd7 "default_furnace_front.png"
+11-28 16:47:34.415 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 24f8cfa2b937e16d7a014e08468ff045a055b3f2 "default_furnace_front_active.png"
+11-28 16:47:34.416 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 89869888f7edac68a35a92722dc77006470c4cf2 "default_furnace_side.png"
+11-28 16:47:34.416 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 161ca5a9e8bf4a0abb677086334c610f59abbedf "default_furnace_top.png"
+11-28 16:47:34.417 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 8414e86dc5b4a578764b6068483d1980a33e5da1 "default_glass.png"
+11-28 16:47:34.418 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: db26f8d30794e247eb280545739abe1491590172 "default_glass_detail.png"
+11-28 16:47:34.419 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 41dbec7fce20238e4fc5d8c3dfc355ef3bb1653e "default_glass_footstep.ogg"
+11-28 16:47:34.420 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 3afdf079a152d6841a813474c8b4d467cb4630a6 "default_gold_block.png"
+11-28 16:47:34.421 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: e007d712276e64d6c7ae95a5978ac57eee750a30 "default_gold_ingot.png"
+11-28 16:47:34.422 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: ecf7b74ee6b31c09d25be7fb5648acf753bd0878 "default_gold_lump.png"
+11-28 16:47:34.423 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 8cc28471cb3802d81bc0bdcb13421fd6ba335a75 "default_grass.png"
+11-28 16:47:34.424 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 75231aef47a1f763cd174f057e7bd6885eeb7e9f "default_grass_1.png"
+11-28 16:47:34.424 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 5649c50b81875fb22be5a0a042722945e2af92ae "default_grass_2.png"
+11-28 16:47:34.425 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 34614f8073ee32dcd3a5920cca5341b0ee0399b0 "default_grass_3.png"
+11-28 16:47:34.426 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 33bd697c846f5287f56c1891eb441c2f3de5d4a1 "default_grass_4.png"
+11-28 16:47:34.427 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: f754a99f95a8d2b861dac41ffbb489911776d5dc "default_grass_5.png"
+11-28 16:47:34.429 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 48ed3e072e3220d85884223bd1df5cac659df3f6 "default_grass_footstep.1.ogg"
+11-28 16:47:34.430 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 3b89ebd5ac9ca19d6b5e7a0b5ecf13f28c2d3bdb "default_grass_footstep.2.ogg"
+11-28 16:47:34.432 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 9bde5325c2ec5fadc505f9ab6f69192e73b337fe "default_grass_footstep.3.ogg"
+11-28 16:47:34.433 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 25f7cb8d9ebed4d01f60c6604c813cfa7e586985 "default_grass_side.png"
+11-28 16:47:34.434 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: ab8cd23e022b88f4873c053785b397e92f411f21 "default_gravel.png"
+11-28 16:47:34.436 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 36e33930cb3541177908b34d9cac2790bc753439 "default_gravel_dig.1.ogg"
+11-28 16:47:34.438 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 408296e53e154e39538687a142f435814372baae "default_gravel_dig.2.ogg"
+11-28 16:47:34.440 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: d7a3b3d8e7517a779618066c68cc5ee8fc022f3b "default_gravel_dug.1.ogg"
+11-28 16:47:34.443 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: eed89e0907b9f823efc59298723e476e0b448bb6 "default_gravel_dug.2.ogg"
+11-28 16:47:34.445 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: c513a2f5d1c303c06c79e18b560151f6e04ce0c6 "default_gravel_dug.3.ogg"
+11-28 16:47:34.446 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: ce3a021d834837966b594a23837b46b66aa26d00 "default_gravel_footstep.1.ogg"
+11-28 16:47:34.448 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: a336f940972a98857bbaff70f4da3053bf449f07 "default_gravel_footstep.2.ogg"
+11-28 16:47:34.450 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 159eba4a5fb3547dab5390e363e9328cd8cea3f7 "default_gravel_footstep.3.ogg"
+11-28 16:47:34.451 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: c902011b8a7bf73cb2510f35790660654b5c9cd5 "default_gravel_footstep.4.ogg"
+11-28 16:47:34.453 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: bfbe7a56c65a997b9bfcb398a89e4aea5c89328d "default_hard_footstep.1.ogg"
+11-28 16:47:34.456 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: db7e6e510421c73c261e6a269b625f1d1fe0923d "default_hard_footstep.2.ogg"
+11-28 16:47:34.458 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: b2ab0cda8c26335d8b2321ff59a786296b84e937 "default_hard_footstep.3.ogg"
+11-28 16:47:34.459 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: fd6c6c575d1903660ac9094dc4fb1507cbc83492 "default_ice.png"
+11-28 16:47:34.461 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: aba687033e01c8ba31c880afbd1bf97d2a53127f "default_ice_dig.1.ogg"
+11-28 16:47:34.464 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: c5f019513aa337e2a5fc90637f30f803bc4826ff "default_ice_dig.2.ogg"
+11-28 16:47:34.466 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 037f2cef7919aed22cfd2d246d0d4527b59f9d02 "default_ice_dig.3.ogg"
+11-28 16:47:34.469 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: c9d00c98c435270a808d6393438641b2544f19ed "default_ice_dug.ogg"
+11-28 16:47:34.472 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 2e6b651a5990701c5473b2bebe725f29fd4accc6 "default_ice_footstep.1.ogg"
+11-28 16:47:34.474 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: fa862a5c1058f1637d90fa75dd7ccbed5d7d25e7 "default_ice_footstep.2.ogg"
+11-28 16:47:34.476 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 1f207f7640dd3f9b7f769b252db6f613e63f6ecc "default_ice_footstep.3.ogg"
+11-28 16:47:34.477 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 6152604c9da831b389880c27b9f22c846852dca3 "default_invisible_node_overlay.png"
+11-28 16:47:34.478 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 94c9291a29a14a6a7817b10ba2e90bc9c42a57b2 "default_iron_lump.png"
+11-28 16:47:34.479 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 36494159e9395374c587865ace4abd02f6f9dd9e "default_item_smoke.ogg"
+11-28 16:47:34.480 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: ef76b84fa62e5d1d2de565b389c7ce8cbfed50d3 "default_item_smoke.png"
+11-28 16:47:34.481 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 68a85e244f2f467a6e15f92976ecb27ee364b8f1 "default_junglegrass.png"
+11-28 16:47:34.482 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 1eb9922bbb16cc721c6bdbf4e757efd9be2e7f0a "default_jungleleaves.png"
+11-28 16:47:34.482 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 8ef2ad00b238a73ef8838bd8abe24ef0bc577e41 "default_jungleleaves_simple.png"
+11-28 16:47:34.483 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 33161f1ea3be70fa963bd013361376cda6c9ef7e "default_junglesapling.png"
+11-28 16:47:34.484 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: bc0ed2f183dc9973acb3aeb1aeafa29d12c1ef3a "default_jungletree.png"
+11-28 16:47:34.485 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: e8fc50a8615066e6673a4bb419748c73650b970a "default_jungletree_top.png"
+11-28 16:47:34.486 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: cf62a6152b59b18114ceec0c499f7e18cf569fbb "default_junglewood.png"
+11-28 16:47:34.488 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 564baf31d4f5507960ffac683d73016e4243b9bd "default_kelp.png"
+11-28 16:47:34.489 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: e8a051caefaf1c079994784c3fba5945782283e3 "default_ladder_steel.png"
+11-28 16:47:34.489 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 9ef92ea8b0dc194fe245a0259bab12e08e01f75c "default_ladder_wood.png"
+11-28 16:47:34.491 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: d070c7b99a493c1b395fabbde82d8be9d3e633cb "default_large_cactus_seedling.png"
+11-28 16:47:34.491 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 52562702075addeab292b59b0966121c4c4b0dbc "default_lava.png"
+11-28 16:47:34.493 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 00c06a004d05c9324f3df1aaa95a8300998b0eaf "default_lava_flowing_animated.png"
+11-28 16:47:34.495 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 6b562df4a0b789b2db506a1e1aaff778b670e43a "default_lava_source_animated.png"
+11-28 16:47:34.495 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 3a2187ec60b3ee1f3627e49e20c1f9671c0e175f "default_leaves.png"
+11-28 16:47:34.496 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 782188164ace8cc9889b5550d82b00691775d0af "default_leaves_simple.png"
+11-28 16:47:34.497 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 02b65d09d2ae998dd28e9fcddbca8a0f98ec0888 "default_marram_grass_1.png"
+11-28 16:47:34.498 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: fff73b34eae363f752f0506ad019d41c11b3a872 "default_marram_grass_2.png"
+11-28 16:47:34.499 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: f0677c441498d788f1d003b12dc4c74440882065 "default_marram_grass_3.png"
+11-28 16:47:34.499 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: ecfa105188f81e5c540a70c20bd87cddd670670c "default_mese_block.png"
+11-28 16:47:34.500 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 9a9688378ab79223162964f598e77de26cb98e97 "default_mese_crystal.png"
+11-28 16:47:34.501 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: d9b1a9e49d4179e1e3260db34f0c392d96fc755e "default_mese_crystal_fragment.png"
+11-28 16:47:34.502 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 99f02d17adcf1acf7d88c4ed9d3a8cb4f0d49fd4 "default_mese_post_light_side.png"
+11-28 16:47:34.502 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 3fe58fb44d6ff1b4d338dcd5e75a87b58d26862b "default_mese_post_light_side_dark.png"
+11-28 16:47:34.503 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: bb8e4c2c1c01e75aaef338eb3c0ddcc725047981 "default_meselamp.png"
+11-28 16:47:34.506 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: f491c9956b247515de17e94d838adfb7289f74bc "default_metal_footstep.1.ogg"
+11-28 16:47:34.507 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 8c0133f5fb93b455c1885fb25b4f24718b47e16b "default_metal_footstep.2.ogg"
+11-28 16:47:34.509 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: d930f7a9f4320cf4ddc46679b0daa86207b472e3 "default_metal_footstep.3.ogg"
+11-28 16:47:34.510 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: ef6f53c33a5f0c11627c1b73f34671e3fef6d2d9 "default_mineral_coal.png"
+11-28 16:47:34.511 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 5c03277c7316e2764227ce3e922da3cc925da66b "default_mineral_copper.png"
+11-28 16:47:34.511 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 952cfe8a696c4b4b4635c2c97c2c69c09c41c059 "default_mineral_diamond.png"
+11-28 16:47:34.512 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: e15b8aac28848cbc022d59b6691cec774a717540 "default_mineral_gold.png"
+11-28 16:47:34.513 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: f0ab6e88fb9cb2d85902ec59991408b8e0f358f4 "default_mineral_iron.png"
+11-28 16:47:34.513 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 43691c2081507c4b0502849cc8618f160e0e47f3 "default_mineral_mese.png"
+11-28 16:47:34.514 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 3dfba15f3391f73096ec257e9c3544ea2af4dff9 "default_mineral_tin.png"
+11-28 16:47:34.515 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: de698b44de54641d1e1f4a6463bbec1cb9bdead7 "default_moss.png"
+11-28 16:47:34.516 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 4bf8bb0dbe8ba72eb3d2fb5ce0e3f3a8c19abba7 "default_moss_side.png"
+11-28 16:47:34.517 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 2e8f370bf90a5469bd7b41ff7bb515bcfa4ec744 "default_mossycobble.png"
+11-28 16:47:34.518 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: c14762edffab8e789c1bb7ed060d0eb054a96e71 "default_obsidian.png"
+11-28 16:47:34.519 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 95519f1bad918cb9c212631bf34acef079275cd3 "default_obsidian_block.png"
+11-28 16:47:34.520 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 63546a03fafc405c105b12214faec095e9be3a17 "default_obsidian_brick.png"
+11-28 16:47:34.521 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: b51355da21c6430199151c1316627a09983e5971 "default_obsidian_glass.png"
+11-28 16:47:34.522 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: ec980421a114233f43493d98ab1ed4366627e96f "default_obsidian_glass_detail.png"
+11-28 16:47:34.523 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: c2095cda39fb4a350f215b6a23ce741e8b69fa3b "default_obsidian_shard.png"
+11-28 16:47:34.524 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 6fa101aad8b0828ece520af63ea5b3d2f7e0a32a "default_paper.png"
+11-28 16:47:34.525 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 6c4a604d314ae98404faeb546485e06c33e377d3 "default_papyrus.png"
+11-28 16:47:34.526 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: b2bd087deb1a42418753206f3a07aeac609259f6 "default_permafrost.png"
+11-28 16:47:34.527 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 1f95bf826fba536ee982d3bfac75ba0275b9e906 "default_pine_bush_sapling.png"
+11-28 16:47:34.528 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 8a6a87fe7217415c9cafddc188a125620a7e401a "default_pine_bush_stem.png"
+11-28 16:47:34.528 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 65fc60c734c2d2d325cd704058937e00f51d797b "default_pine_needles.png"
+11-28 16:47:34.529 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 81aa5b149f45132db9231478aa84e048bc02deec "default_pine_sapling.png"
+11-28 16:47:34.530 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: d5795aaa1370b697447e97969a5aa8f794958c7b "default_pine_tree.png"
+11-28 16:47:34.531 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: f212a73387da4c4f94cd313f464db49bb364d2b0 "default_pine_tree_top.png"
+11-28 16:47:34.532 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 1a3150340b0e83b1584493fb6d301231b2e924d1 "default_pine_wood.png"
+11-28 16:47:34.533 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 286404fc11b26be5ab4c38db35229db45ee4b1d1 "default_place_node.1.ogg"
+11-28 16:47:34.535 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: bed7c7590dc20e6063de29a65b4b4b3b20931b32 "default_place_node.2.ogg"
+11-28 16:47:34.536 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 1c56d416122b01a06d8dc751032e222ed674ab85 "default_place_node.3.ogg"
+11-28 16:47:34.537 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 5a7a4fe7180479aa44eae1c315556f15684b3c68 "default_place_node_hard.1.ogg"
+11-28 16:47:34.538 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 7577decfa99643f44872945749d2d3cf9cad073c "default_place_node_hard.2.ogg"
+11-28 16:47:34.539 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 23802c2be140a34391beb3a86e9d2e4251882c0e "default_place_node_metal.1.ogg"
+11-28 16:47:34.541 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: d222f1624ae66a945f7ecac61e570a1ebf0dea82 "default_place_node_metal.2.ogg"
+11-28 16:47:34.541 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: abb65ed87cd7f653d4e1b1c8c009bc9f86d39fba "default_rainforest_litter.png"
+11-28 16:47:34.543 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 68391d0a301decf81f2c34d3fb0a7b921ae78a33 "default_rainforest_litter_side.png"
+11-28 16:47:34.544 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: b98c767eef30af6900f93ae6cbe58efc2b16ca96 "default_river_water.png"
+11-28 16:47:34.545 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 21276507efd6e3577e1817e18e075a9f36eea820 "default_river_water_flowing_animated.png"
+11-28 16:47:34.547 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 843a25c587c5683b640b042fb683c3362a650451 "default_river_water_source_animated.png"
+11-28 16:47:34.548 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 9d8de555685b2ab602727375790263f51cddcfbc "default_sand.png"
+11-28 16:47:34.550 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: f371d2415142d5fcdfd26706865bebbb6dd49746 "default_sand_footstep.1.ogg"
+11-28 16:47:34.551 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 1546a3f05cdc73cf1900ad7f0f12c82088e9a432 "default_sand_footstep.2.ogg"
+11-28 16:47:34.553 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: e79cd62ddc12866193f13b78de42fae1af04e92f "default_sand_footstep.3.ogg"
+11-28 16:47:34.553 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: d8a9da7167dc889f426748d8377178895e23cbb2 "default_sandstone.png"
+11-28 16:47:34.554 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 86ee78023445af52eb77f94e18438c87f810c59f "default_sandstone_block.png"
+11-28 16:47:34.555 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 3dc752c3e297f8d548276d71af3dd67b6c7423d9 "default_sandstone_brick.png"
+11-28 16:47:34.555 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 39f4859d229502eba203335781bdb59b5cfdc8cf "default_sapling.png"
+11-28 16:47:34.556 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 9652e2d85b48b7e9ef3d27b1f7606ef160559058 "default_sign_steel.png"
+11-28 16:47:34.557 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 1ddd022950de437c58c3a7bc3d99854f554fe0ed "default_sign_wall_steel.png"
+11-28 16:47:34.558 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: f28db4aba3f926721a8a9eef60cc053e1d4e5113 "default_sign_wall_wood.png"
+11-28 16:47:34.558 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 0f064ad31c354beca1294f993ef757925ae8930b "default_sign_wood.png"
+11-28 16:47:34.559 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: c72525967133fd5529db8881e2f422f8e205321b "default_silver_sand.png"
+11-28 16:47:34.560 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 049d0ad18864e09acc32a5fec470da6b01b42338 "default_silver_sandstone.png"
+11-28 16:47:34.560 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: a5ce57a0c867b0ead43b85d4d356553b948fd78a "default_silver_sandstone_block.png"
+11-28 16:47:34.561 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 272a3d026225495ba674af7484338b1c5d55d6c3 "default_silver_sandstone_brick.png"
+11-28 16:47:34.562 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: f351889119f77f499077b8f7cdb39170aae793dd "default_snow.png"
+11-28 16:47:34.563 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 188c2ea4a427d404b5317c850ccf524b0e9e4307 "default_snow_footstep.1.ogg"
+11-28 16:47:34.564 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: cb5504bcd3f0e97536a03ff2aee2ba9b7b36a061 "default_snow_footstep.2.ogg"
+11-28 16:47:34.565 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: d456732d151fb4381118fd10ed442083c5837c63 "default_snow_footstep.3.ogg"
+11-28 16:47:34.566 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 78c202552ccefd46852604c07c427a81de13a854 "default_snow_footstep.4.ogg"
+11-28 16:47:34.567 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 0ad56adde7eef4acfa7ecc33ab19eaa0b8fcf380 "default_snow_footstep.5.ogg"
+11-28 16:47:34.568 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 676ad94e111c2cd5656f532fa9fe19f1b7209ff5 "default_snow_side.png"
+11-28 16:47:34.569 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: c2a6f3dcf70c0504078617deaeff2baf19cef22c "default_snowball.png"
+11-28 16:47:34.570 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: e85bd2659e33c50922909e753181b86f7a4f0a76 "default_steel_block.png"
+11-28 16:47:34.571 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: f72f658c7896b34f7f70608300525b4c13242758 "default_steel_ingot.png"
+11-28 16:47:34.571 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 5246b2b8ad05861dad1c43c4da12b4afec682a3e "default_stick.png"
+11-28 16:47:34.572 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: c6e965f3df5675f8f95d5aa0b3b33121ecdc54c1 "default_stone.png"
+11-28 16:47:34.573 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 337810798aa608697d3f3141d2ed4ccb12de79b8 "default_stone_block.png"
+11-28 16:47:34.574 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: d4283f1c7ae4d3a1c12eb1979007d1f3722ef2a8 "default_stone_brick.png"
+11-28 16:47:34.575 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 3e8a34e5fd016d0655d2084d40cd8f1795104008 "default_stones.png"
+11-28 16:47:34.575 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 946335356130fe43e87935cd6061af1dc8d3a7f1 "default_stones_side.png"
+11-28 16:47:34.576 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 6ffa098a3d9fcc42601f0e9842b92ce010e0f4f1 "default_tin_block.png"
+11-28 16:47:34.577 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 6920a1fedf13af3ca68cba8293d9878fb9254d5f "default_tin_ingot.png"
+11-28 16:47:34.578 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 5149d4da446b70f1c4f54104565ae779a9d98ecc "default_tin_lump.png"
+11-28 16:47:34.579 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 8ebd692c9560d361a754e61d1adfc771abd5b66a "default_tool_breaks.1.ogg"
+11-28 16:47:34.580 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: c4e11afe7179f9746dacb8fd48a151d68bf5a135 "default_tool_breaks.2.ogg"
+11-28 16:47:34.581 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: fa3875990f01b40ab103414dbfca495a1e70f933 "default_tool_breaks.3.ogg"
+11-28 16:47:34.582 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: a0c31cbcf47ad36fa611d1681521bcd6f86029af "default_tool_bronzeaxe.png"
+11-28 16:47:34.583 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: cc9c7477153ba63ad38612c986c6ea247a870cb7 "default_tool_bronzepick.png"
+11-28 16:47:34.584 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: ec33b8f0eb43a04fe47cf47415be494b36a8faca "default_tool_bronzeshovel.png"
+11-28 16:47:34.584 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 476d7d4497c2d5f7f42a3aceefa6511f934e5f26 "default_tool_bronzesword.png"
+11-28 16:47:34.585 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 871278bc54cbf29e0cb7de5ac98646579674b19f "default_tool_diamondaxe.png"
+11-28 16:47:34.586 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 253d0270c97e153e153013982339f6c5b4cf2c6d "default_tool_diamondpick.png"
+11-28 16:47:34.587 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 39cfa73d3d17902f36316ba651e4ad74bd654fdb "default_tool_diamondshovel.png"
+11-28 16:47:34.587 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: d3b64b2436f3bdfda1fbd99192789ba054a98b49 "default_tool_diamondsword.png"
+11-28 16:47:34.588 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 481b052164b7c2a0b2b6caf1c1e23163f5855136 "default_tool_meseaxe.png"
+11-28 16:47:34.589 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 62e8834cf053e979ae9786da25db5160e9445992 "default_tool_mesepick.png"
+11-28 16:47:34.589 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 3288a586a19187667468787ab856e1d24895bd2d "default_tool_meseshovel.png"
+11-28 16:47:34.590 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: e72571529152e9e28844701d1b8330186d96470e "default_tool_mesesword.png"
+11-28 16:47:34.591 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 55085959931f72f6662290664e6fd00bae681a47 "default_tool_steelaxe.png"
+11-28 16:47:34.592 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: ff949dcf2fe3f25b7896979a703c02c0585e3a86 "default_tool_steelpick.png"
+11-28 16:47:34.593 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: a591b54061e41435e405964b02ec16cb0f96c988 "default_tool_steelshovel.png"
+11-28 16:47:34.593 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 60f338649c991f6b16ce8e49870c84bb39865f33 "default_tool_steelsword.png"
+11-28 16:47:34.594 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 8c0890f24a238d5ebdcf1eb4db2c1b8615b4f57e "default_tool_stoneaxe.png"
+11-28 16:47:34.595 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 32e6d3f31139a11dab1ded0724c4d9ad8f8f82ba "default_tool_stonepick.png"
+11-28 16:47:34.596 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 89cbe37ad13c05b0cb3573853e899dae0a47421b "default_tool_stoneshovel.png"
+11-28 16:47:34.596 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 84896f314241df6e099c4c4c9619ef6943ed4a01 "default_tool_stonesword.png"
+11-28 16:47:34.597 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 6442074f6b1368232773a51bdb6623c47e9fc7d6 "default_tool_woodaxe.png"
+11-28 16:47:34.598 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 6789e71e0037f63568f99500ee5e3ac720394b0b "default_tool_woodpick.png"
+11-28 16:47:34.599 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 398ac6b67d98c4224279605950d5b73356c58149 "default_tool_woodshovel.png"
+11-28 16:47:34.600 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 65a0ddb19a73e43b93bab6f5079c1546e44f07e1 "default_tool_woodsword.png"
+11-28 16:47:34.601 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 4cd37741775fd4fd36e68669972a75ed57586f69 "default_torch_animated.png"
+11-28 16:47:34.603 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: d4f05b1424c23f3d1660631236be7b32723a42c5 "default_torch_on_ceiling_animated.png"
+11-28 16:47:34.604 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 60499a73064e8504ebd2603600d9e01d7edfee2c "default_torch_on_floor.png"
+11-28 16:47:34.605 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 7b22e69fc3addce24f5a5e89b011453afb9494d7 "default_torch_on_floor_animated.png"
+11-28 16:47:34.606 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: e7fda48a30472414bb97fad1ce77fc764d278fe7 "default_tree.png"
+11-28 16:47:34.607 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 67696a98e51e6d26f8e616d6f11b9d5788d22689 "default_tree_top.png"
+11-28 16:47:34.608 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 1e7d2e055677d940a49f9ae24072f07e508432ca "default_water.png"
+11-28 16:47:34.610 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 87111bd87df6ef1925eda6cb5e159c18a0eb7d69 "default_water_flowing_animated.png"
+11-28 16:47:34.613 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 1834020bad14e3caeb4cc4fdc34e9490ce082259 "default_water_footstep.1.ogg"
+11-28 16:47:34.617 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: f7f5d34f191ebfbf0dda1c3792198541f851e01f "default_water_footstep.2.ogg"
+11-28 16:47:34.621 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: cbc3982ab36827df636641c83a2272c0bfe7ee38 "default_water_footstep.3.ogg"
+11-28 16:47:34.623 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 448c6a1fe52dc9f081808325ac04c3489f4563e6 "default_water_source_animated.png"
+11-28 16:47:34.624 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 521c972e29c67dc5cbde4dedcc4bb9b5252608f0 "default_wood.png"
+11-28 16:47:34.625 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 0d74dfefd0c1810faf4a89ce4227d1307bf3a7bb "default_wood_footstep.1.ogg"
+11-28 16:47:34.626 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: cc76e7c383a95081848a78409b321e6ddd685d26 "default_wood_footstep.2.ogg"
+11-28 16:47:34.626 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Storing model into memory: "door_a.b3d"
+11-28 16:47:34.626 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: e2bf282a00e7f81a0c1d1ca28191331b83c38695 "door_a.b3d"
+11-28 16:47:34.627 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Storing model into memory: "door_b.b3d"
+11-28 16:47:34.627 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: c276f3314a24b368ca5cb94abcbfe898d66f5386 "door_b.b3d"
+11-28 16:47:34.628 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 7ed18505b57c29a26648e61f017d57518c4f45e9 "doors.de.tr"
+11-28 16:47:34.629 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: ee1e10ea2ee806570209821f23882792409480db "doors_door_close.ogg"
+11-28 16:47:34.630 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 3da75d117f43524484812aff0797040981af8346 "doors_door_glass.png"
+11-28 16:47:34.631 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 3bcd35dfc4aaae845679abf92b5e61df60ff5f57 "doors_door_obsidian_glass.png"
+11-28 16:47:34.632 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 59258309caaeff27970b6d1fa8b4a20e0ccec073 "doors_door_open.ogg"
+11-28 16:47:34.633 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: eed0b59d01ccb2ceadcef20ac5fd2da3b6081cd2 "doors_door_steel.png"
+11-28 16:47:34.633 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: affc588b892aeceae9134e8866b61ff25d935022 "doors_door_wood.png"
+11-28 16:47:34.635 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: c8ba75d8770b4978fb81a3b130819e2b295b7aff "doors_fencegate_close.ogg"
+11-28 16:47:34.635 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Storing model into memory: "doors_fencegate_closed.obj"
+11-28 16:47:34.636 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 2b89bcbe02a31909328c5e37413e46f87f98a034 "doors_fencegate_closed.obj"
+11-28 16:47:34.636 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Storing model into memory: "doors_fencegate_open.obj"
+11-28 16:47:34.636 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 87c1cfe648b152af2eb9031c7e6aa691da6a820e "doors_fencegate_open.obj"
+11-28 16:47:34.637 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: bc2c334f78cc0f6cf9842492a2f58d60b1816eb9 "doors_fencegate_open.ogg"
+11-28 16:47:34.638 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 94f67f344772715db50478949208bad6996bbec3 "doors_glass_door_close.ogg"
+11-28 16:47:34.640 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 9732109135841c34bedacbe977f892a3243c7d50 "doors_glass_door_open.ogg"
+11-28 16:47:34.640 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 9e354d868ede4412eb7b91194cfb3c4b2aa5129a "doors_hidden_segment.png"
+11-28 16:47:34.641 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: b0882cfc3068d8d69fef69eb4c52eed3913e7052 "doors_item_glass.png"
+11-28 16:47:34.642 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 8cff5deb9a47eacb755d851e70d0f6e2dd756559 "doors_item_obsidian_glass.png"
+11-28 16:47:34.642 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: d75923fa72ab5ba89a01dee613883b81305b486d "doors_item_steel.png"
+11-28 16:47:34.643 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 720116b66b9784f40e2fcc7ec88c4761ce71e195 "doors_item_wood.png"
+11-28 16:47:34.644 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 262459df8f09e5bd50421e4e891d004cf710e4da "doors_steel_door_close.ogg"
+11-28 16:47:34.645 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 0e5b8cfe8b15053798dffd7220a139014b6e871b "doors_steel_door_open.ogg"
+11-28 16:47:34.646 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: cf7ebc7f28ff29356577f5c0a1470bb70ca8d6ee "doors_trapdoor.png"
+11-28 16:47:34.647 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 861130b29c3b902630fce080658665d77092e163 "doors_trapdoor_side.png"
+11-28 16:47:34.648 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: c4cd7dab4c21fd121c3f48f3a8208ecbd0399520 "doors_trapdoor_steel.png"
+11-28 16:47:34.648 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 3360e5757ab7b602ec305eab8814a8549d76020a "doors_trapdoor_steel_side.png"
+11-28 16:47:34.649 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: b651ca5f464ff1394d58bdede299495eba16bacb "dye.de.tr"
+11-28 16:47:34.650 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 3c45bff26a9f9f0acbad2742587af2719ee8d748 "dye_black.png"
+11-28 16:47:34.651 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: a714f32787f435ec361b4bad96830b3914efb49a "dye_blue.png"
+11-28 16:47:34.652 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 2255b48948eaa0f0a50dab5c5162a6d52f4f5e24 "dye_brown.png"
+11-28 16:47:34.652 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 2e7623b4f89bc1179416c6d501ff0a081bc9cef8 "dye_cyan.png"
+11-28 16:47:34.653 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: c169a011b5b568256c4a8e5048f9190049eda8f5 "dye_dark_green.png"
+11-28 16:47:34.654 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 594e4e9b775ddc39d1c3fc1ab4ef9c7279ab3499 "dye_dark_grey.png"
+11-28 16:47:34.655 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 636256c9c04eddc6d0e23971231af46a00d7ab20 "dye_green.png"
+11-28 16:47:34.655 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: f7e6facca246851f83af3c39fb55a39432ce2218 "dye_grey.png"
+11-28 16:47:34.656 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 7cafc28f07e86405c6ae7c110189a4a84698e231 "dye_magenta.png"
+11-28 16:47:34.657 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 3a7c13b652e0a9be3f9b6a9846b6a93d321e6a5a "dye_orange.png"
+11-28 16:47:34.657 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 4575c5c173603ecc298f205811377fe44257ad6f "dye_pink.png"
+11-28 16:47:34.658 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 120ee34142fe63330aa481661cd7f26af5f2d9e4 "dye_red.png"
+11-28 16:47:34.659 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 5af9f2f359903d59e12d6315cb617ff30346cfd6 "dye_violet.png"
+11-28 16:47:34.659 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 18d98a5cd24c52a771cc4adfe7433f3a4738bd78 "dye_white.png"
+11-28 16:47:34.660 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 795a1b0dd9177944a1f07dcafe74426c87f4b8f8 "dye_yellow.png"
+11-28 16:47:34.664 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 5e45653150d5b63e5a6e38faa347472f2a13e9e4 "env_sounds_lava.1.ogg"
+11-28 16:47:34.668 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 4ba8486c6d0ab9ea8a2a58f2d198b0182133cdb9 "env_sounds_lava.2.ogg"
+11-28 16:47:34.677 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 7a091f63d4d04fd4fb326ee77e99f29e99548ad9 "env_sounds_water.1.ogg"
+11-28 16:47:34.687 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: cc814a1400a27966238d72056999e00e0dab3bef "env_sounds_water.2.ogg"
+11-28 16:47:34.697 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: f71bd0a45f416475f0887a033725fd618e716e14 "env_sounds_water.3.ogg"
+11-28 16:47:34.707 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 2dc286f7075d4c18452949ab9dccb3f823fa7d03 "env_sounds_water.4.ogg"
+11-28 16:47:34.708 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 97609b1c8d33b0ac59fd2b1710706ec27e1d5305 "farming.de.tr"
+11-28 16:47:34.709 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 7d5861f876f409b7f0354d109e6d044bc3c0428f "farming_bread.png"
+11-28 16:47:34.710 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: b709a44cf0bd0665e6346f6d25abf6cdd417592f "farming_cotton.png"
+11-28 16:47:34.710 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 255f8ce0c21cf36a96d2e0cc03c05862a5b54de5 "farming_cotton_1.png"
+11-28 16:47:34.711 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: c9cad3edd420ece09894d0432b28bab236b4484b "farming_cotton_2.png"
+11-28 16:47:34.712 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: b50357bbbbbc12959c15c7590cd526df1ff2404b "farming_cotton_3.png"
+11-28 16:47:34.713 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: ea0d79ab7bd928595735c6a1a33da96f5b10186d "farming_cotton_4.png"
+11-28 16:47:34.713 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 75cb393fd224cce62a000f997e283876e4744045 "farming_cotton_5.png"
+11-28 16:47:34.714 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 48723b1510bdbea0bc2aef2a262e7af6b1a4ecad "farming_cotton_6.png"
+11-28 16:47:34.715 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 8c32485650e1815cc249ebb8ec169732bebbe2a0 "farming_cotton_7.png"
+11-28 16:47:34.716 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 1239cec61e948a329d834129b7d21d3f7522c9fd "farming_cotton_8.png"
+11-28 16:47:34.717 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: ff21e59def255637000aed8fc1c709a18d28875e "farming_cotton_seed.png"
+11-28 16:47:34.717 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: d2f12d15272c612c98686108676ba6bc8c8698db "farming_cotton_wild.png"
+11-28 16:47:34.718 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 803bb89028a07749fb0f49cefaf0f518484ca43f "farming_desert_sand_soil.png"
+11-28 16:47:34.719 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 831c919055043036137949eba59c29a1e2181b39 "farming_desert_sand_soil_wet.png"
+11-28 16:47:34.720 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: efa3425ea5abef9139eaf421098122edd5aae7f2 "farming_desert_sand_soil_wet_side.png"
+11-28 16:47:34.720 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 5c7239be74c6e8e725a19fd1c7f144ec9ccf720e "farming_flour.png"
+11-28 16:47:34.721 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: b6f361989cbd3ac2f5a093ecf99bb15a854b9fa5 "farming_soil.png"
+11-28 16:47:34.722 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 189d815306796acf5caef3fefc4d640cc78dc7e9 "farming_soil_wet.png"
+11-28 16:47:34.723 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: b2848ddfd491fe4bfa49a522f01933253f3c9bb3 "farming_soil_wet_side.png"
+11-28 16:47:34.723 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: c37d60250d40b4d1d904255390afd585a1e40013 "farming_straw.png"
+11-28 16:47:34.724 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: ca69d28396607030abaf73348be229b5272ff4d8 "farming_string.png"
+11-28 16:47:34.725 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: e86d38421d33bb408c7a5da949fd3e062990a89e "farming_tool_bronzehoe.png"
+11-28 16:47:34.726 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: fcb3f84724fffca9d6f7d20715059254f6694cc2 "farming_tool_diamondhoe.png"
+11-28 16:47:34.726 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 7a094182c13380e618fc843fcc74c3f8f3d558ea "farming_tool_mesehoe.png"
+11-28 16:47:34.727 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: d1aa8f96cd50ebef171cb37841e62d3cc9767d9c "farming_tool_steelhoe.png"
+11-28 16:47:34.728 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 062a734b612569e11718c6343bc7df7fd7f7215d "farming_tool_stonehoe.png"
+11-28 16:47:34.728 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 8a64a5a0ff5887a00e2ff04361aac83743f639fd "farming_tool_woodhoe.png"
+11-28 16:47:34.729 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: fcd9f214637a6dc8666d2f6781769f2a6f6cd7f7 "farming_wheat.png"
+11-28 16:47:34.730 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 1691fa8dfe0eac12a261645372d7f2b645cf3bd3 "farming_wheat_1.png"
+11-28 16:47:34.730 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: ae5e0d401baea5859e411fd0d9511446cb3feaf5 "farming_wheat_2.png"
+11-28 16:47:34.731 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 19f1d5e917d8d6992cc853f57ff324139748c9e8 "farming_wheat_3.png"
+11-28 16:47:34.732 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 14b2e15274f5ee7efdaeb2f04b1bef95e30c24c2 "farming_wheat_4.png"
+11-28 16:47:34.732 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 57533905cb8be81a5be1d9ce197cfdfbd6c35138 "farming_wheat_5.png"
+11-28 16:47:34.733 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 29c572a8944e537d680344b3b708b1f2639faeb4 "farming_wheat_6.png"
+11-28 16:47:34.734 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 8b5ac3aa37ad787f289dbb25c66afa19a3ff12b5 "farming_wheat_7.png"
+11-28 16:47:34.734 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 35b869a4707d75c5e4938c0946c3f65deb79e291 "farming_wheat_8.png"
+11-28 16:47:34.735 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 608f3221c1eae17da032787afd957d4303cfa713 "farming_wheat_seed.png"
+11-28 16:47:34.736 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 9aa7510ac0000ab0eb07c636b956ea80318f0ece "fire.de.tr"
+11-28 16:47:34.736 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: b0cf5379aa158dd69cb0e44bc870d7b0fa60498f "fire_basic_flame.png"
+11-28 16:47:34.737 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 00414730d5981efd54d56a730e5a914c2b515aee "fire_basic_flame_animated.png"
+11-28 16:47:34.739 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 8e2920d6e14817c7d53ba730b6d98569f2bc2c0c "fire_extinguish_flame.1.ogg"
+11-28 16:47:34.740 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 3f396ef07e677ec3a65173e2bce87d72a3780e61 "fire_extinguish_flame.2.ogg"
+11-28 16:47:34.741 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 18b47d5e4e05a090628b8179d57cedc74cdbe4c0 "fire_extinguish_flame.3.ogg"
+11-28 16:47:34.747 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: b01ba5c8158e7ad2e0c9f4b1c3137776287946d0 "fire_fire.1.ogg"
+11-28 16:47:34.755 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 0a190207ecef231464449e2f9f8e1d012934dd7e "fire_fire.2.ogg"
+11-28 16:47:34.762 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: d3fd76ffddadb2b45bd0abab2daa290001090059 "fire_fire.3.ogg"
+11-28 16:47:34.764 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 9856668bfd24b38386c01a7e548362777ab69dd2 "fire_flint_and_steel.ogg"
+11-28 16:47:34.765 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: c012c1fae9aa5032e42aff3c91842f59f2974990 "fire_flint_steel.png"
+11-28 16:47:34.773 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: c0332770d9009fdb24a861ca079098a490464d27 "fire_large.ogg"
+11-28 16:47:34.779 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: f50fc4f7499cc6eaa8a58b74d28eb7363d8de1c9 "fire_small.ogg"
+11-28 16:47:34.780 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 237e55b4c38317b5b7ce34b06c688e918817d1bb "fireflies.de.tr"
+11-28 16:47:34.781 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 331bc6757aedb2e1aea97b75003d5ce18b76b1b7 "fireflies_bottle.png"
+11-28 16:47:34.782 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: fa1cb25ef46ff99ab8cef255bd9a0ec484cb9c9b "fireflies_bottle_animated.png"
+11-28 16:47:34.783 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: d7efd6d8dee06b2e4255251141306bdc70ea4056 "fireflies_bugnet.png"
+11-28 16:47:34.784 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 2e16c8cf052f27474b828c6281450d25eff72bf2 "fireflies_firefly.png"
+11-28 16:47:34.785 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: f03475e0957f0e332c017005ac6ebe9c4b8a8724 "fireflies_firefly_animated.png"
+11-28 16:47:34.786 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 5fb7aae5dae7da7b51f7a05720051713fe79f53f "flowers.de.tr"
+11-28 16:47:34.787 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: c9d8aa1f9eec1a484a0721cf553f2c11fa838ea3 "flowers_chrysanthemum_green.png"
+11-28 16:47:34.788 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 827a151f1c42ce2b4c7023a48b1e87f0ffb776fb "flowers_dandelion_white.png"
+11-28 16:47:34.789 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 5722569b66a66a997c2b4ab378682bd0bd91a95a "flowers_dandelion_yellow.png"
+11-28 16:47:34.790 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 9e0d02354a2f0bebe0d1391ba23296da12009c91 "flowers_geranium.png"
+11-28 16:47:34.791 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 7c8ceeb69c6d2405dcfd8b5e1ff2077d3402d89a "flowers_mushroom_brown.png"
+11-28 16:47:34.792 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 6204c143e02190aa514e7c5d0a4ccccaac7bb681 "flowers_mushroom_red.png"
+11-28 16:47:34.792 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 6a4c4f3562276652106151c6d5aa43e36fe4b77c "flowers_rose.png"
+11-28 16:47:34.793 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 722120fdc3b052732b069bc65667afd2f6fe0e09 "flowers_tulip.png"
+11-28 16:47:34.794 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 4eab06edde0973e59b2f5552a1fff85811d57f1e "flowers_tulip_black.png"
+11-28 16:47:34.794 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: cff39d6a6a6fb61ce1708315f7ebb30d303e2cb5 "flowers_viola.png"
+11-28 16:47:34.795 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 2c82117ff3b18c23ce23191e0f70fdd8b8cdb296 "flowers_waterlily.png"
+11-28 16:47:34.796 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 8da2d9456f52f05c6ed16e292775053d9e5159e6 "flowers_waterlily_bottom.png"
+11-28 16:47:34.797 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 721099e8d55f6bf29a74c06f3252cd122d8a36d9 "game_commands.de.tr"
+11-28 16:47:34.817 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: a916c6d2dddd7a88a2a52573dcddb13e730bb347 "gui_formbg.png"
+11-28 16:47:34.818 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 79e3496b579c093148838cc24e98d9eb4bf26844 "gui_furnace_arrow_bg.png"
+11-28 16:47:34.819 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 96a4f3dce6a8e52edd66dfc1efe5ade64c471d4a "gui_furnace_arrow_fg.png"
+11-28 16:47:34.820 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: aa875ecf372ecdc47f3ed08f31c0b8f2fe4ea604 "gui_hb_bg.png"
+11-28 16:47:34.824 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: ef381c7aa977e7a970bdcdd287ebd618597a7b7c "gui_hotbar.png"
+11-28 16:47:34.825 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 805a33e9862da49608ca2d908934481042705c4e "gui_hotbar_selected.png"
+11-28 16:47:34.825 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 70a8bc6550db2feb7af99c580322ad64c5e36fde "heart.png"
+11-28 16:47:34.826 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 07a7cfabca139dfe1ec48f248fcb9b5c4d740d4b "keys.de.tr"
+11-28 16:47:34.827 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: ad68e85b1594cf29b266e3c1ba0b89a51c8f859b "keys_key.png"
+11-28 16:47:34.827 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 7069a9855f57ba2757e1bb07de9ad268432238f7 "keys_key_skeleton.png"
+11-28 16:47:34.828 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 51e239fcef75b6f1767d1a7c8897092088552cd0 "map.de.tr"
+11-28 16:47:34.829 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 20fd4c6d638f466b9c06f3013985d76692716301 "map_mapping_kit.png"
+11-28 16:47:34.832 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 30eb4ae3eb166773acb0a41cc90f1e93e63d69f5 "mtg_craftguide.de.tr"
+11-28 16:47:34.832 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 5814e919c27be4406bf5af76194cfbfd7679f03f "player.png"
+11-28 16:47:34.833 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: b05fe6447193468e6395864fcdce194f836ec0eb "player_back.png"
+11-28 16:47:34.834 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: eeb36d46e50747503f41dad10ffebd12b3392d1f "player_damage.ogg"
+11-28 16:47:34.835 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 7ad005de15ffd06ba46324f34b7bd9b8a1776a0d "screwdriver.de.tr"
+11-28 16:47:34.836 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: aeb807e1df24dfe4af74c4dfbf86370ad875827a "screwdriver.png"
+11-28 16:47:34.837 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 6fef806e062428936acb610f41902fdd6d6de5b1 "sethome.de.tr"
+11-28 16:47:34.837 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 600155e7adc415ce2e7cc1489ea45ea529c35730 "sfinv.de.tr"
+11-28 16:47:34.838 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 87384d4ba1fb32cf388591c938b7db56f468d3c8 "sfinv_crafting_arrow.png"
+11-28 16:47:34.847 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 36f9936f25e3d52f79f419f00d1300ca56f2313a "stairs.de.tr"
+11-28 16:47:34.848 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 6548c101b621a02a3daba4c251437525d0da3380 "stairs_glass_outer_stairside.png"
+11-28 16:47:34.849 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 34a9fd0dd2548116e1c4b5206e63b0fa860e26a9 "stairs_glass_split.png"
+11-28 16:47:34.850 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: d49b7301ab71a11df43e311656b8b2157ed56f15 "stairs_glass_stairside.png"
+11-28 16:47:34.851 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: a04cecde1412f9208aec658b123707015bfff562 "stairs_obsidian_glass_outer_stairside.png"
+11-28 16:47:34.852 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: a0cdb25a47646697b2302b6d41c3e4a4458f0b62 "stairs_obsidian_glass_split.png"
+11-28 16:47:34.853 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 6e7cb07fe18e6d5ecae27519b75eff2bc10c3da9 "stairs_obsidian_glass_stairside.png"
+11-28 16:47:34.853 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 4f7e55e4d6f9acc0f87fce391ccc6df61b77bb6a "tnt.de.tr"
+11-28 16:47:34.854 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: ca0f87c4472c309a98f6304194d04cb50d15c7b9 "tnt_blast.png"
+11-28 16:47:34.855 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 6d23053d1a24450a1bbde8561a4d231520ea843d "tnt_boom.png"
+11-28 16:47:34.856 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: c7452355096f9e43cb6c6b7cd83b93e044b55164 "tnt_bottom.png"
+11-28 16:47:34.858 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 0647eae908696d9fdd3578b0677b802c6003b9c8 "tnt_explode.ogg"
+11-28 16:47:34.859 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 26ca8ccec104f2a85e9747c37466c956ff92b0db "tnt_gunpowder_burning.ogg"
+11-28 16:47:34.860 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 433daaf8123c421c9c06921cca66cc486fbcd84d "tnt_gunpowder_burning_crossing_animated.png"
+11-28 16:47:34.861 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 5d0099639edc0f906c676d6919ba2559229b4e96 "tnt_gunpowder_burning_curved_animated.png"
+11-28 16:47:34.862 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 305f3dbf8aea5b880723dee7c0e03e1a140a5571 "tnt_gunpowder_burning_straight_animated.png"
+11-28 16:47:34.863 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: dd8c5e0fad1d1593a3109c4b750e0bca67720ccb "tnt_gunpowder_burning_t_junction_animated.png"
+11-28 16:47:34.865 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 6fed8324d9cdff83d147fe66bef7677582e90210 "tnt_gunpowder_crossing.png"
+11-28 16:47:34.866 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: ae60c6a2a4806226dc00027cc523fd13ded69d70 "tnt_gunpowder_curved.png"
+11-28 16:47:34.866 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: fd1f58227e26f7c789b2bf9145db1af2bfe76e95 "tnt_gunpowder_inventory.png"
+11-28 16:47:34.867 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 2035e0487d1b856fac06eb5bd136865e67a9a5be "tnt_gunpowder_straight.png"
+11-28 16:47:34.869 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: cee77c996c08d5f3ba3d7b073f034e7dc885f114 "tnt_gunpowder_t_junction.png"
+11-28 16:47:34.873 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 0430b0a5c30e39cef61a68bcb619276a8c87ede1 "tnt_ignite.ogg"
+11-28 16:47:34.874 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: aefa4b0d034b32b1bdfe30b23c18d22687552e07 "tnt_side.png"
+11-28 16:47:34.875 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 7e45000e9f3b5dd338e25485f0804b4a1c39c1fb "tnt_smoke.png"
+11-28 16:47:34.876 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: c4a35d57185cf494aec13abcc2c9c79c251e22e9 "tnt_tnt_stick.png"
+11-28 16:47:34.877 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 5c59734ef18bc4fff37b71e2fd675c579becaeac "tnt_top.png"
+11-28 16:47:34.878 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 90f5fa2fac7a4397978b319ada08674996cdfe48 "tnt_top_burning.png"
+11-28 16:47:34.879 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 2d4f6b37b47084bd8455ba70ec72fa667ba4f094 "tnt_top_burning_animated.png"
+11-28 16:47:34.879 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Storing model into memory: "torch_ceiling.obj"
+11-28 16:47:34.879 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 7b7c2ae02cd290884f8e2807c14fda4f5d46cb88 "torch_ceiling.obj"
+11-28 16:47:34.880 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Storing model into memory: "torch_floor.obj"
+11-28 16:47:34.880 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: e71b2e492b3754d8d8d8e28ca89676277a9e16d7 "torch_floor.obj"
+11-28 16:47:34.880 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Storing model into memory: "torch_wall.obj"
+11-28 16:47:34.881 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 3abad86cf69f98395d001ac9656226872a241d22 "torch_wall.obj"
+11-28 16:47:34.881 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: b8b79dcd3cc3a8c71c01ae21b4b1e320e456d89d "vessels.de.tr"
+11-28 16:47:34.882 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 0644fda462ff841c24c416ecf7c4574422643c99 "vessels_drinking_glass.png"
+11-28 16:47:34.883 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 6b46b45e8b45f51a3ed654246b3cd8ea68431719 "vessels_drinking_glass_inv.png"
+11-28 16:47:34.884 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 120b4a3b7e081ad2970b596f7de5f6365965304c "vessels_glass_bottle.png"
+11-28 16:47:34.885 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: cc8854c137f673a8330fbf582ca14fe7e5af9eff "vessels_glass_fragments.png"
+11-28 16:47:34.886 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: c704e5b771fab18015878a8ee93fb1d4a86fe4cc "vessels_shelf.png"
+11-28 16:47:34.887 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 1114f47aca37d6fe60000e911cdcb35eba433821 "vessels_shelf_slot.png"
+11-28 16:47:34.888 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: e94804dcbd06573c6060f0aefe478d84ad0b10dd "vessels_steel_bottle.png"
+11-28 16:47:34.889 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 75b43738966e13ee53e518475dd64cd5b4f3a1b7 "walls.de.tr"
+11-28 16:47:34.890 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: e27051775cb3251f19b49aa7fc3ca3c0f35b564b "wieldhand.png"
+11-28 16:47:34.892 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 1556483e98c1577cacb82867f1169cbf9b110126 "wool.de.tr"
+11-28 16:47:34.893 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 92ca5b1c5c2d8cb524f5831475ce18688672a1d6 "wool_black.png"
+11-28 16:47:34.894 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 62fdd24862eb38986289a7c88f24181ef494d10f "wool_blue.png"
+11-28 16:47:34.895 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: c28581922fc6220bb8a527a69b2dde48f93b37e0 "wool_brown.png"
+11-28 16:47:34.895 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 1a273b78702fb83d27c3dead8eba3c70b99621a2 "wool_cyan.png"
+11-28 16:47:34.897 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: fd3886b11748b0068284ea74559f2644a98e4b05 "wool_dark_green.png"
+11-28 16:47:34.897 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 279df6203c627de6fd3952f064e2d4b668955d8c "wool_dark_grey.png"
+11-28 16:47:34.898 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 685109fc7f711dbc0bfd1514e96a039c576d95b0 "wool_green.png"
+11-28 16:47:34.899 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: b8544563fbcbc24834681822c5440376b685abb5 "wool_grey.png"
+11-28 16:47:34.900 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 66cc37e462715e1db6f792b034bd7138ec4ec385 "wool_magenta.png"
+11-28 16:47:34.901 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 6d8e6e04e0fb367b1c7c871b22047b8073d47400 "wool_orange.png"
+11-28 16:47:34.902 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 96d5fa1509960522cf20bbef370e31775d5deed4 "wool_pink.png"
+11-28 16:47:34.902 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: f0aedafbf94c63c4f8bf0f70f79ebae32bf02d5e "wool_red.png"
+11-28 16:47:34.903 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 522ba33b3f044fcb4c94fbca16817f092550b6d9 "wool_violet.png"
+11-28 16:47:34.904 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 96f38f5147f01834ab4721d2c8c5d227e02048df "wool_white.png"
+11-28 16:47:34.905 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: a9c62e883882402826a4055a0e4b9c8d3b1a9a21 "wool_yellow.png"
+11-28 16:47:34.905 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: f1d8cf1545e61e626bd8b66897a1f51a41b345b8 "xpanes.de.tr"
+11-28 16:47:34.906 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 1c0833d052b0c4cac7e7213bc4a69327f8edd004 "xpanes_bar.png"
+11-28 16:47:34.907 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 3772e8e08f69ddfc4112464d8903243522997258 "xpanes_bar_top.png"
+11-28 16:47:34.907 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: bed98e343fa5dbe6d3081b351ae8100b36c5a799 "xpanes_door_steel_bar.png"
+11-28 16:47:34.908 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 1a44a315bb3c5c0e7629de7a707a7039a76d8382 "xpanes_edge.png"
+11-28 16:47:34.909 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 0000d50cfbb0f91790b80abccdd0a670e6146d8b "xpanes_edge_obsidian.png"
+11-28 16:47:34.909 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: f3dcdd42d9df3b1c0c28d54675e49bad8b8347f1 "xpanes_item_steel_bar.png"
+11-28 16:47:34.912 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 31adffa502d2ab1f56c57d6464dcf14f335f08e5 "xpanes_steel_bar_door_close.ogg"
+11-28 16:47:34.915 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 95a865af6ccc18b4b37bf982cf6e864279646eb8 "xpanes_steel_bar_door_open.ogg"
+11-28 16:47:34.915 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: b969128c0c63655115d14fc33d6bf8f4f89aaed1 "xpanes_trapdoor_steel_bar.png"
+11-28 16:47:34.916 18229 18333 V Minetest: 2023-11-28 16:47:34: VERBOSE[Main]: Client: Loaded cached media: 702d9d428a4dbd507b7903125cd0b8fa35821b9a "xpanes_trapdoor_steel_bar_side.png"
+11-28 16:47:34.916 18229 18333 D Minetest: 2023-11-28 16:47:34: INFO[Main]: Client::ReceiveAll(): Packet processing budget exceeded.
+11-28 16:47:34.920 18229 18333 D Minetest: 2023-11-28 16:47:34: INFO[Main]: Client::afterContentReceived() started
+11-28 16:47:34.920 18229 18333 D Minetest: 2023-11-28 16:47:34: INFO[Main]: - Rebuilding images and textures
+11-28 16:47:34.920 18229 18333 D Minetest: 2023-11-28 16:47:34: INFO[Main]: TextureSource: recreating 30 textures
+11-28 16:47:34.936 18229 18333 D Minetest: 2023-11-28 16:47:34: INFO[Main]: - Rebuilding shaders
+11-28 16:47:34.936 18229 18333 D Minetest: 2023-11-28 16:47:34: INFO[Main]: - Updating node aliases
+11-28 16:47:34.948 18229 18333 D Minetest: 2023-11-28 16:47:34: INFO[Main]: - Updating node textures
+11-28 16:47:34.948 18229 18333 D Minetest: 2023-11-28 16:47:34: INFO[Main]: NodeDefManager::updateTextures(): Updating textures in node definitions
+11-28 16:47:34.949 18229 18333 F libc    : Fatal signal 11 (SIGSEGV), code 1 (SEGV_MAPERR), fault addr 0x0 in tid 18333 (MinetestNativeT), pid 18229 (netest.minetest)
+11-28 16:47:35.903 19097 19097 F DEBUG   : Process name is net.minetest.minetest, not key_process
+11-28 16:47:35.903 19097 19097 F DEBUG   : Cmdline: net.minetest.minetest
+11-28 16:47:35.903 19097 19097 F DEBUG   : pid: 18229, tid: 18333, name: MinetestNativeT  >>> net.minetest.minetest <<<
+11-28 16:47:35.904 19097 19097 F DEBUG   :       #02 pc 0000000000b320d4  /data/app/~~2ej2zR8y5sYv1inJ-YnmTw==/net.minetest.minetest-C2tslvyKddqndEIJuJOmuQ==/lib/arm64/libminetest.so (ShaderSource::generateShader(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&, MaterialType, NodeDrawType)+1112) (BuildId: ab184003c7091391160f403a07ae8546ce729d55)
+11-28 16:47:35.904 19097 19097 F DEBUG   :       #03 pc 0000000000b319bc  /data/app/~~2ej2zR8y5sYv1inJ-YnmTw==/net.minetest.minetest-C2tslvyKddqndEIJuJOmuQ==/lib/arm64/libminetest.so (ShaderSource::getShaderIdDirect(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&, MaterialType, NodeDrawType)+380) (BuildId: ab184003c7091391160f403a07ae8546ce729d55)
+11-28 16:47:35.904 19097 19097 F DEBUG   :       #04 pc 0000000000b311c0  /data/app/~~2ej2zR8y5sYv1inJ-YnmTw==/net.minetest.minetest-C2tslvyKddqndEIJuJOmuQ==/lib/arm64/libminetest.so (ShaderSource::getShader(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> > const&, MaterialType, NodeDrawType)+116) (BuildId: ab184003c7091391160f403a07ae8546ce729d55)
+11-28 16:47:35.904 19097 19097 F DEBUG   :       #05 pc 0000000000f49d44  /data/app/~~2ej2zR8y5sYv1inJ-YnmTw==/net.minetest.minetest-C2tslvyKddqndEIJuJOmuQ==/lib/arm64/libminetest.so (ContentFeatures::updateTextures(ITextureSource*, IShaderSource*, irr::scene::IMeshManipulator*, Client*, TextureSettings const&)+2468) (BuildId: ab184003c7091391160f403a07ae8546ce729d55)
+11-28 16:47:35.904 19097 19097 F DEBUG   :       #06 pc 0000000000f4e148  /data/app/~~2ej2zR8y5sYv1inJ-YnmTw==/net.minetest.minetest-C2tslvyKddqndEIJuJOmuQ==/lib/arm64/libminetest.so (NodeDefManager::updateTextures(IGameDef*, void*)+292) (BuildId: ab184003c7091391160f403a07ae8546ce729d55)
+11-28 16:47:35.904 19097 19097 F DEBUG   :       #07 pc 00000000009b8174  /data/app/~~2ej2zR8y5sYv1inJ-YnmTw==/net.minetest.minetest-C2tslvyKddqndEIJuJOmuQ==/lib/arm64/libminetest.so (Client::afterContentReceived()+1356) (BuildId: ab184003c7091391160f403a07ae8546ce729d55)
+11-28 16:47:35.904 19097 19097 F DEBUG   :       #08 pc 0000000000a72190  /data/app/~~2ej2zR8y5sYv1inJ-YnmTw==/net.minetest.minetest-C2tslvyKddqndEIJuJOmuQ==/lib/arm64/libminetest.so (Game::createClient(GameStartData const&)+576) (BuildId: ab184003c7091391160f403a07ae8546ce729d55)
+11-28 16:47:35.904 19097 19097 F DEBUG   :       #09 pc 0000000000a71cd8  /data/app/~~2ej2zR8y5sYv1inJ-YnmTw==/net.minetest.minetest-C2tslvyKddqndEIJuJOmuQ==/lib/arm64/libminetest.so (Game::startup(bool*, InputHandler*, RenderingEngine*, GameStartData const&, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >&, bool*, ChatBackend*)+620) (BuildId: ab184003c7091391160f403a07ae8546ce729d55)
+11-28 16:47:35.904 19097 19097 F DEBUG   :       #10 pc 0000000000a88c40  /data/app/~~2ej2zR8y5sYv1inJ-YnmTw==/net.minetest.minetest-C2tslvyKddqndEIJuJOmuQ==/lib/arm64/libminetest.so (the_game(bool*, InputHandler*, RenderingEngine*, GameStartData const&, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char> >&, ChatBackend&, bool*)+100) (BuildId: ab184003c7091391160f403a07ae8546ce729d55)
+11-28 16:47:35.904 19097 19097 F DEBUG   :       #11 pc 00000000009fc940  /data/app/~~2ej2zR8y5sYv1inJ-YnmTw==/net.minetest.minetest-C2tslvyKddqndEIJuJOmuQ==/lib/arm64/libminetest.so (ClientLauncher::run(GameStartData&, Settings const&)+4400) (BuildId: ab184003c7091391160f403a07ae8546ce729d55)
+11-28 16:47:35.904 19097 19097 F DEBUG   :       #12 pc 0000000000f0adec  /data/app/~~2ej2zR8y5sYv1inJ-YnmTw==/net.minetest.minetest-C2tslvyKddqndEIJuJOmuQ==/lib/arm64/libminetest.so (main+2648) (BuildId: ab184003c7091391160f403a07ae8546ce729d55)
+11-28 16:47:35.905 19097 19097 F DEBUG   :       #13 pc 0000000000f76d58  /data/app/~~2ej2zR8y5sYv1inJ-YnmTw==/net.minetest.minetest-C2tslvyKddqndEIJuJOmuQ==/lib/arm64/libminetest.so (android_main+128) (BuildId: ab184003c7091391160f403a07ae8546ce729d55)
+11-28 16:47:35.905 19097 19097 F DEBUG   :       #14 pc 00000000009833f4  /data/app/~~2ej2zR8y5sYv1inJ-YnmTw==/net.minetest.minetest-C2tslvyKddqndEIJuJOmuQ==/lib/arm64/libminetest.so (BuildId: ab184003c7091391160f403a07ae8546ce729d55)

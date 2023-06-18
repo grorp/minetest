@@ -1,0 +1,16 @@
+maintab_LAST = local
+free_move = false
+selected_world_path = /home/gregor/minetest-android-test/bin/../worlds/test
+screen_h = 1011
+screen_w = 1920
+fast_move = false
+mainmenu_last_selected_world = 4
+server_announce = false
+enable_damage = false
+creative_mode = true
+update_last_checked = 1687531549
+fps_max = 4294967295
+menu_last_game = subway_miner
+viewing_range = 300
+enable_server = false
+noclip = true

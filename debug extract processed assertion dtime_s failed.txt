@@ -1,0 +1,613 @@
+Server for gameid="minetest" listening on 0.0.0.0:30000.
+[globalstep] (×13)
+grorp [127.0.0.1] joins game. List of players: grorp
+[globalstep] (×811)
+2024-02-01 14:48:07: WARNING[Server]: Call to deprecated function 'getpos', please use 'get_pos' at ...regor/minetest-android-test/bin/../builtin/game/init.lua:93
+2024-02-01 14:48:07: WARNING[Server]: Reading initial object properties directly from an entity definition is deprecated, move it to the 'initial_properties' table instead. (Property 'collisionbox' in entity 'test_add_entity:entity')
+[entity] on_activate (initial) (×1000)
+2024-02-01 14:48:07: ERROR[Server]: minetest.add_entity reported 1000 succeeded spawns.
+2024-02-01 14:48:07: ERROR[Server]: minetest.add_entity reported 0 failed spawns.
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[globalstep]
+[entity] on_step (×1000)
+[entity] on_deactivate (×839)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[globalstep]
+[entity] on_step (×161)
+[entity] on_activate (initial)
+got wrong staticdata for dtime_s == 0: "later staticdata"
+[globalstep]
+[entity] on_step (×155)
+2024-02-01 14:48:11: ERROR[Main]: ServerError: AsyncErr: Lua: Runtime error from mod '*builtin*' in callback luaentity_Activate(): /mt/bin/../builtin/game/init.lua:65: assertion failed!
+2024-02-01 14:48:11: ERROR[Main]: stack traceback:
+2024-02-01 14:48:11: ERROR[Main]: 	[C]: in function 'assert'
+2024-02-01 14:48:11: ERROR[Main]: 	/mt/bin/../builtin/game/init.lua:65: in function </mt/bin/../builtin/game/init.lua:60>
+[entity] on_step (×7)
+grorp leaves game. List of players: 
+[globalstep]
+[entity] on_step (×162)
+[globalstep]
+[entity] on_step (×162)
+[globalstep]
+[entity] on_step (×162)
+[globalstep]
+[entity] on_step (×162)
+[globalstep]
+[entity] on_step (×162)
+[globalstep]
+[entity] on_step (×162)
+[globalstep]
+[entity] on_step (×162)
+[globalstep]
+[entity] on_step (×162)
+[globalstep]
+[entity] on_step (×162)
+[globalstep]
+[entity] on_step (×162)
+[globalstep]
+[entity] on_step (×162)
+[globalstep]
+[entity] on_step (×162)
+[globalstep]
+[entity] on_step (×162)
+[globalstep]
+[entity] on_step (×162)
+[globalstep]
+[entity] on_step (×162)
+[globalstep]
+[entity] on_step (×162)
+[globalstep]
+[entity] on_step (×162)
+[globalstep]
+[entity] on_step (×162)
+[globalstep]
+[entity] on_step (×162)
+[globalstep]
+[entity] on_step (×162)
+[globalstep]
+[entity] on_step (×162)
+[globalstep]
+[entity] on_step (×162)
+[globalstep]
+[entity] on_step (×162)
+[globalstep]
+[entity] on_step (×162)
+[globalstep]
+[entity] on_step (×162)
+[globalstep]
+[entity] on_step (×162)
+[globalstep]
+[entity] on_step (×162)
+[globalstep]
+[entity] on_step (×162)
+Server: Shutting down
+[entity] on_deactivate (×162)
+2024-02-01 14:48:16: [Main]: INFO: signal_handler(): Ctrl-C pressed, shutting down.

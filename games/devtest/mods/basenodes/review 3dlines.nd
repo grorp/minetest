@@ -1,0 +1,79 @@
+I'm not reviewing the code yet.
+
+### Requests
+
+- `axis_angle` should simply be called `rotation` IMO.
+
+- For `dihedral`, it should be possible to specify two different textures.
+
+- For `cylindric`, it should be possible to specify three different textures (one end + the side + the other end).
+
+### Bug reports
+
+- When a new client joins, it doesn't receive the lines that already exist in the world.
+
+- The default values for `start_pos` and `end_pos` you specified in lua_api.md don't work. Leaving these fields empty results in an error:
+    
+    ```
+    /mt/bin/../builtin/common/vector.lua:380: attempt to index local 'v' (a nil value)
+    stack traceback:
+        /mt/bin/../builtin/common/vector.lua:380: in function </mt/bin/../builtin/common/vector.lua:379>
+        [C]: in function 'add_3dline'
+    ```
+
+- If I create a line like this:
+
+    ```lua
+    minetest.add_3dline({
+        start_pos = vector.zero(),
+        end_pos = vector.new(0, 80, 0),
+        start_color = "#ffffff",
+        end_color = "#ffffff",
+    })
+    ```
+
+    It has a different, random color each time I restart Minetest. Maybe it tries to load a texture?
+
+- Backface culling for "cylindric" lines culls the wrong faces.
+
+    ```lua
+    minetest.add_3dline({
+        type = "cylindric",
+        start_pos = vector.zero(),
+        end_pos = vector.new(0, 80, 0),
+        start_color = "#ff0000",
+        end_color = "#ff0000",
+        width = 3,
+        texture = "default_snow.png",
+        backface_culling = true,
+    })
+    ```
+
+    <img src="https://github.com/minetest/minetest/assets/82708541/44adf009-67fe-42a4-8c84-7789970dee7f" alt="screenshot of incorrect backface culling" height="256" />
+
+    It looks like this, no matter which side I look from.
+
+- There are two different default values for `width` in the code, and there is another different one in lua_api.md. You should refactor the code so that default values are only stored in one place.
+
+
+- `clamp_mode = "clamp"` results in lines becoming partially semi-transparent.
+
+    ```lua
+    minetest.add_3dline({
+        type = "flat",
+        start_pos = vector.new(0, 2, 0),
+        end_pos = vector.new(0, 80, 0),
+        start_color = "#ff0000",
+        end_color = "#ff0000",
+        width = 3,
+        texture = "default_snow.png",
+        clamp_mode = "clamp"
+    })
+    ```
+    <img src="https://github.com/minetest/minetest/assets/82708541/e280c9bc-55ae-4845-ade1-c454e365abba" alt="screenshot of partially semi-transparent line" height="256" />
+
+    I'm not sure why `GL_CLAMP` and `GL_CLAMP_TO_BORDER` are even exposed. Doesn't `GL_CLAMP_TO_EDGE` suffer for all clamping needs?
+
+    For `GL_CLAMP_TO_BORDER` to make sense, you need to specify a border color, which you can't do with the current API. So it's useless.
+
+    And `GL_CLAMP` has apparently even been [removed in the OpenGL 3.2 core profile](https://stackoverflow.com/a/56841375).

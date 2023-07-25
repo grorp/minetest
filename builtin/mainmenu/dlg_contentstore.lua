@@ -687,8 +687,8 @@ function store.sort_packages()
 
 	-- Sort installed content by "is an update available?", then by title
 	table.sort(ret, function(a, b)
-		local a_updatable = a.path and a.installed_release < a.release 
-		local b_updatable = b.path and b.installed_release < b.release 
+		local a_updatable = a.path and a.installed_release < a.release
+		local b_updatable = b.path and b.installed_release < b.release
 		if a_updatable and not b_updatable then
 			return true
 		elseif b_updatable and not a_updatable then

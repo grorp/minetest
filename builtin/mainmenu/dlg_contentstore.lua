@@ -748,7 +748,7 @@ local function get_error_formspec()
 	return table.concat({
 		"formspec_version[6]",
 		"size[15.75,9.5]",
-		"position[0.5,0.55]",
+		TOUCHSCREEN_GUI and "" or "position[0.5,0.55]",
 		"label[4,4.35;", fgettext("No packages could be retrieved"), "]",
 		"container[0,", H - 0.8 - 0.375, "]",
 		"button[0.375,0;5,0.8;back;", fgettext("Back to Main Menu"), "]",
@@ -773,7 +773,7 @@ function store.get_formspec(dlgdata)
 	local formspec = {
 		"formspec_version[6]",
 		"size[15.75,9.5]",
-		"position[0.5,0.55]",
+		TOUCHSCREEN_GUI and "" or "position[0.5,0.55]",
 
 		"style[status,downloading,queued;border=false]",
 

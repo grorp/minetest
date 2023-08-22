@@ -38,6 +38,7 @@ set (UNITTEST_SRCS
 	${CMAKE_CURRENT_SOURCE_DIR}/test_voxelalgorithms.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/test_voxelmanipulator.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/test_gettext.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/test_wide_string_conversion.cpp
 	PARENT_SCOPE)
 
 set (UNITTEST_CLIENT_SRCS

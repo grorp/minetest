@@ -147,12 +147,22 @@ int LuaItemStack::l_set_wear(lua_State *L)
 	return 1;
 }
 
-// get_meta(self) -> string
+// get_meta(self) -> ItemStackMetaRef
 int LuaItemStack::l_get_meta(lua_State *L)
 {
 	NO_MAP_LOCK_REQUIRED;
 	LuaItemStack *o = checkObject<LuaItemStack>(L, 1);
 	ItemStackMetaRef::create(L, o);
+	return 1;
+}
+
+// get_item_meta(self, index) -> ItemMetaRef
+int LuaItemStack::l_get_item_meta(lua_State *L)
+{
+	NO_MAP_LOCK_REQUIRED;
+	LuaItemStack *o = checkObject<LuaItemStack>(L, 1);
+	lua_Integer index = luaL_checkinteger(L, 2) - 1;
+	ItemMetaRef::create(L, o, index);
 	return 1;
 }
 
@@ -536,6 +546,7 @@ const luaL_Reg LuaItemStack::methods[] = {
 	luamethod(LuaItemStack, get_wear),
 	luamethod(LuaItemStack, set_wear),
 	luamethod(LuaItemStack, get_meta),
+	luamethod(LuaItemStack, get_item_meta),
 	luamethod(LuaItemStack, get_metadata),
 	luamethod(LuaItemStack, set_metadata),
 	luamethod(LuaItemStack, get_description),

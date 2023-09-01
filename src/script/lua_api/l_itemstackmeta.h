@@ -66,3 +66,33 @@ public:
 
 	static const char className[];
 };
+
+class ItemMetaRef : public MetaDataRef
+{
+private:
+	LuaItemStack *m_stack;
+	u32 m_index;
+	ItemMetadata m_meta;
+
+	static const luaL_Reg methods[];
+
+	virtual IMetadata *getmeta(bool auto_create);
+	virtual void clearMeta();
+
+	virtual void reportMetadataChange(const std::string *name = nullptr);
+
+public:
+	// takes a reference
+	ItemMetaRef(LuaItemStack *stack, u32 index);
+	~ItemMetaRef();
+
+	DISABLE_CLASS_COPY(ItemMetaRef)
+
+	// Creates an ItemMetaRef and leaves it on top of stack
+	// Not callable from Lua; all references are created on the C side.
+	static void create(lua_State *L, LuaItemStack *stack, u32 index);
+
+	static void Register(lua_State *L);
+
+	static const char className[];
+};

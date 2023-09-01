@@ -75,6 +75,8 @@ local function test_metadata(meta)
 	assert(#meta:get_keys() == 0)
 
 	assert(not meta:equals(compare_meta))
+
+	meta:set_string("x", "xyz")
 end
 
 local storage_a = core.get_mod_storage()
@@ -85,8 +87,16 @@ local function test_mod_storage()
 end
 unittests.register("test_mod_storage", test_mod_storage)
 
-local function test_item_metadata()
+local function test_itemstack_metadata()
 	test_metadata(ItemStack("unittest:coal_lump"):get_meta())
+end
+unittests.register("test_itemstack_metadata", test_itemstack_metadata)
+
+local function test_item_metadata()
+	local stack = ItemStack("unittest:coal_lump 46")
+	test_metadata(stack:get_item_meta(12))
+	test_metadata(stack:get_item_meta(1))
+	test_metadata(stack:get_item_meta(16))
 end
 unittests.register("test_item_metadata", test_item_metadata)
 

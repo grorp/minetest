@@ -27,6 +27,8 @@ class IItemDefManager;
 
 class ItemStackMetadata : public SimpleMetadata
 {
+	friend class ItemMetadata;
+
 public:
 	ItemStackMetadata() : toolcaps_overridden(false) {}
 
@@ -51,4 +53,24 @@ private:
 
 	bool toolcaps_overridden;
 	ToolCapabilities toolcaps_override;
+};
+
+class ItemMetadata : public IMetadata
+{
+public:
+	ItemMetadata(ItemStackMetadata *parent, u32 index);
+
+	void clear() override;
+	bool contains(const std::string &name) const override;
+	bool setString(const std::string &name, const std::string &var) override;
+	const StringMap &getStrings(StringMap *place) const override;
+	const std::vector<std::string> &getKeys(std::vector<std::string> *place) const override;
+
+protected:
+	const std::string *getStringRaw(const std::string &name, std::string *place) const override;
+
+private:
+	ItemStackMetadata *m_parent;
+	u32 m_index;
+	std::string m_key_prepend;
 };

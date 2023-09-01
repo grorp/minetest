@@ -68,12 +68,11 @@ ItemStackMetaRef::~ItemStackMetaRef()
 	istack->drop();
 }
 
-// Creates an NodeMetaRef and leaves it on top of stack
+// Creates an ItemStackMetaRef and leaves it on top of stack
 // Not callable from Lua; all references are created on the C side.
 void ItemStackMetaRef::create(lua_State *L, LuaItemStack *istack)
 {
 	ItemStackMetaRef *o = new ItemStackMetaRef(istack);
-	//infostream<<"NodeMetaRef::create: o="<<o<<std::endl;
 	*(void **)(lua_newuserdata(L, sizeof(void *))) = o;
 	luaL_getmetatable(L, className);
 	lua_setmetatable(L, -2);
@@ -84,7 +83,7 @@ void ItemStackMetaRef::Register(lua_State *L)
 	registerMetadataClass(L, className, methods);
 
 	// Cannot be created from Lua
-	//lua_register(L, className, create_object);
+	// lua_register(L, className, create_object);
 }
 
 const char ItemStackMetaRef::className[] = "ItemStackMetaRef";
@@ -102,5 +101,70 @@ const luaL_Reg ItemStackMetaRef::methods[] = {
 	luamethod(MetaDataRef, from_table),
 	luamethod(MetaDataRef, equals),
 	luamethod(ItemStackMetaRef, set_tool_capabilities),
+	{0,0}
+};
+
+/*
+	ItemMetaRef
+*/
+
+IMetadata *ItemMetaRef::getmeta(bool auto_create)
+{
+	return &m_meta;
+}
+
+void ItemMetaRef::clearMeta()
+{
+	m_meta.clear();
+}
+
+void ItemMetaRef::reportMetadataChange(const std::string *name)
+{
+	// TODO
+}
+
+ItemMetaRef::ItemMetaRef(LuaItemStack *stack, u32 index) :
+		m_stack(stack), m_index(index), m_meta(&stack->getItem().metadata, index)
+{
+	m_stack->grab();
+}
+
+ItemMetaRef::~ItemMetaRef()
+{
+	m_stack->drop();
+}
+
+// Creates an ItemMetaRef and leaves it on top of stack
+// Not callable from Lua; all references are created on the C side.
+void ItemMetaRef::create(lua_State *L, LuaItemStack *stack, u32 index)
+{
+	ItemMetaRef *o = new ItemMetaRef(stack, index);
+	*(void **)(lua_newuserdata(L, sizeof(void *))) = o;
+	luaL_getmetatable(L, className);
+	lua_setmetatable(L, -2);
+}
+
+void ItemMetaRef::Register(lua_State *L)
+{
+	registerMetadataClass(L, className, methods);
+
+	// Cannot be created from Lua
+	// lua_register(L, className, create_object);
+}
+
+const char ItemMetaRef::className[] = "ItemMetaRef";
+const luaL_Reg ItemMetaRef::methods[] = {
+	luamethod(MetaDataRef, contains),
+	luamethod(MetaDataRef, get),
+	luamethod(MetaDataRef, get_string),
+	luamethod(MetaDataRef, set_string),
+	luamethod(MetaDataRef, get_int),
+	luamethod(MetaDataRef, set_int),
+	luamethod(MetaDataRef, get_float),
+	luamethod(MetaDataRef, set_float),
+	luamethod(MetaDataRef, get_keys),
+	luamethod(MetaDataRef, to_table),
+	luamethod(MetaDataRef, from_table),
+	luamethod(MetaDataRef, equals),
 	{0,0}
 };

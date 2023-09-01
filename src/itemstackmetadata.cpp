@@ -115,4 +115,66 @@ void ItemStackMetadata::setToolCapabilities(const ToolCapabilities &caps)
 void ItemStackMetadata::clearToolCapabilities()
 {
 	setString(TOOLCAP_KEY, "");
+
+}
+
+ItemMetadata::ItemMetadata(ItemStackMetadata *parent, u32 index) :
+		m_parent(parent), m_index(index)
+{
+	m_key_prepend = "ItemMetadata_" + std::to_string(m_index) + "_";
+}
+
+void ItemMetadata::clear()
+{
+	std::vector<std::string> keys;
+	m_parent->getKeys(&keys);
+
+	for (const auto &key : keys) {
+		if (key.rfind(m_key_prepend, 0) == 0) {
+			m_parent->removeString(key);
+		}
+	}
+}
+
+bool ItemMetadata::contains(const std::string &name) const
+{
+	return m_parent->contains(m_key_prepend + name);
+}
+
+bool ItemMetadata::setString(const std::string &name, const std::string &var)
+{
+	return m_parent->setString(m_key_prepend + name, var);
+}
+
+const StringMap &ItemMetadata::getStrings(StringMap *place) const
+{
+	StringMap strings;
+	strings = m_parent->getStrings(&strings);
+
+	place->clear();
+	for (const auto &[name, var] : strings) {
+		if (name.rfind(m_key_prepend, 0) == 0) {
+			place->insert(std::pair(name.substr(m_key_prepend.length()), var));
+		}
+	}
+	return *place;
+}
+
+const std::vector<std::string> &ItemMetadata::getKeys(std::vector<std::string> *place) const
+{
+	std::vector<std::string> keys;
+	keys = m_parent->getKeys(&keys);
+
+	place->clear();
+	for (const auto &key : keys) {
+		if (key.rfind(m_key_prepend, 0) == 0) {
+			place->push_back(key.substr(m_key_prepend.length()));
+		}
+	}
+	return *place;
+}
+
+const std::string *ItemMetadata::getStringRaw(const std::string &name, std::string *place) const
+{
+	return m_parent->getStringRaw(m_key_prepend + name, place);
 }

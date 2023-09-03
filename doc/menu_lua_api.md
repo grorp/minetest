@@ -61,6 +61,8 @@ Functions
   * save a string value that persists even if menu is closed
 * `core.get_once(key)`:
   * get a string value saved by above function, or `nil`
+* `core.get_build_info()`
+  * Returns a string containing build information, similar to the output of `minetest --version`.
 
 
 

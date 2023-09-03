@@ -29,7 +29,7 @@ read_globals = {
 	"PseudoRandom",
 	"PcgRandom",
 
-	string = {fields = {"split", "trim"}},
+	string = {fields = {"split", "tail", "trim"}},
 	table  = {fields = {"copy", "getn", "indexof", "insert_all"}},
 	math   = {fields = {"hypot", "round"}},
 }

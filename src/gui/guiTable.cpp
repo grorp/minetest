@@ -53,10 +53,15 @@ GUITable::GUITable(gui::IGUIEnvironment *env,
 
 	gui::IGUISkin* skin = Environment->getSkin();
 
+	float dpi = RenderingEngine::getDisplayDensity();
+	float gui_scaling = g_settings->getFloat("gui_scaling", 0.5f, 20.0f);
+	m_scaling = dpi * gui_scaling;
+	m_padding_y = 2 * myround(2.0f * m_scaling);
+
 	m_font = skin->getFont();
 	if (m_font) {
 		m_font->grab();
-		m_rowheight = m_font->getDimension(L"Ay").Height + 4;
+		m_rowheight = m_font->getDimension(L"Ay").Height + m_padding_y;
 		m_rowheight = MYMAX(m_rowheight, 1);
 	}
 
@@ -77,10 +82,6 @@ GUITable::GUITable(gui::IGUIEnvironment *env,
 	setTabStop(true);
 	setTabOrder(-1);
 	updateAbsolutePosition();
-
-	float dpi = RenderingEngine::getDisplayDensity();
-	float gui_scaling = g_settings->getFloat("gui_scaling", 0.5f, 20.0f);
-	m_scaling = dpi * gui_scaling;
 
 	#ifdef HAVE_TOUCHSCREENGUI
 		// dp scaling is applied by the skin
@@ -398,7 +399,7 @@ void GUITable::setTable(const TableOptions &options,
 					core::dimension2di orig_size(image->getOriginalSize());
 
 					s32 img_height = myround(orig_size.Height * m_scaling);
-					img_height = MYMIN(img_height, m_rowheight);
+					img_height = MYMIN(img_height, m_rowheight - m_padding_y);
 					img_width = myround((f32)orig_size.Width / (f32)orig_size.Height * img_height);
 				}
 				row->content_width = MYMAX(img_width, width);
@@ -771,7 +772,7 @@ void GUITable::drawCell(const Cell *cell, video::SColor color,
 			core::rect<s32> source_rect(orig_size);
 
 			s32 img_height = myround(orig_size.Height * m_scaling);
-			img_height = MYMIN(img_height, m_rowheight);
+			img_height = MYMIN(img_height, m_rowheight - m_padding_y);
 			s32 img_width = myround((f32)orig_size.Width / (f32)orig_size.Height * img_height);
 
 			v2s32 pos = row_rect.UpperLeftCorner +

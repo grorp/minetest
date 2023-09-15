@@ -182,7 +182,8 @@ protected:
 	ISimpleTextureSource *m_tsrc;
 
 	// Cached DPI * gui_scaling
-	f32 m_scaling;
+	float m_scaling;
+	s32 m_padding_y;
 
 	// Table content (including hidden rows)
 	std::vector<Row> m_rows;

@@ -77,14 +77,20 @@ GUITable::GUITable(gui::IGUIEnvironment *env,
 	setTabStop(true);
 	setTabOrder(-1);
 	updateAbsolutePosition();
-#ifdef HAVE_TOUCHSCREENGUI
-	float density = 1; // dp scaling is applied by the skin
-#else
-	float density = RenderingEngine::getDisplayDensity();
-#endif
+
+	float dpi = RenderingEngine::getDisplayDensity();
+	float gui_scaling = g_settings->getFloat("gui_scaling", 0.5f, 20.0f);
+	m_scaling = dpi * gui_scaling;
+
+	#ifdef HAVE_TOUCHSCREENGUI
+		// dp scaling is applied by the skin
+		float scrollbar_scaling = gui_scaling;
+	#else
+		float scrollbar_scaling = dpi * gui_scaling;
+	#endif
+
 	core::rect<s32> relative_rect = m_scrollbar->getRelativePosition();
-	s32 width = (relative_rect.getWidth() / (2.0 / 3.0)) * density *
-			g_settings->getFloat("gui_scaling", 0.5f, 20.0f);
+	s32 width = (relative_rect.getWidth() / (2.0 / 3.0)) * scrollbar_scaling;
 	m_scrollbar->setRelativePosition(core::rect<s32>(
 			relative_rect.LowerRightCorner.X-width,relative_rect.UpperLeftCorner.Y,
 			relative_rect.LowerRightCorner.X,relative_rect.LowerRightCorner.Y
@@ -387,8 +393,15 @@ void GUITable::setTable(const TableOptions &options,
 					image = m_images[row->content_index];
 
 				// Get content width and update xmax
-				row->content_width = image ? image->getOriginalSize().Width : 0;
-				row->content_width = MYMAX(row->content_width, width);
+				s32 img_width = 0;
+				if (image) {
+					core::dimension2di orig_size(image->getOriginalSize());
+
+					s32 img_height = myround(orig_size.Height * m_scaling);
+					img_height = MYMIN(img_height, m_rowheight);
+					img_width = myround((f32)orig_size.Width / (f32)orig_size.Height * img_height);
+				}
+				row->content_width = MYMAX(img_width, width);
 				s32 row_xmax = row->x + padding + row->content_width;
 				xmax = MYMAX(xmax, row_xmax);
 			}
@@ -753,23 +766,20 @@ void GUITable::drawCell(const Cell *cell, video::SColor color,
 		video::ITexture *image = m_images[cell->content_index];
 
 		if (image) {
-			core::position2d<s32> dest_pos =
-					row_rect.UpperLeftCorner;
-			dest_pos.X += cell->xpos;
-			core::rect<s32> source_rect(
-					core::position2d<s32>(0, 0),
-					image->getOriginalSize());
-			s32 imgh = source_rect.LowerRightCorner.Y;
-			s32 rowh = row_rect.getHeight();
-			if (imgh < rowh)
-				dest_pos.Y += (rowh - imgh) / 2;
-			else
-				source_rect.LowerRightCorner.Y = rowh;
+			core::dimension2di orig_size(image->getOriginalSize());
 
-			video::SColor color(255, 255, 255, 255);
+			core::rect<s32> source_rect(orig_size);
 
-			driver->draw2DImage(image, dest_pos, source_rect,
-					&client_clip, color, true);
+			s32 img_height = myround(orig_size.Height * m_scaling);
+			img_height = MYMIN(img_height, m_rowheight);
+			s32 img_width = myround((f32)orig_size.Width / (f32)orig_size.Height * img_height);
+
+			v2s32 pos = row_rect.UpperLeftCorner +
+					v2s32(cell->xpos, m_rowheight / 2 - img_height / 2);
+			core::rect<s32> dest_rect(pos, core::dimension2di(img_width, img_height));
+
+			draw2DImageFilterScaled(driver, image, dest_rect, source_rect,
+					&client_clip, nullptr, true);
 		}
 	}
 }

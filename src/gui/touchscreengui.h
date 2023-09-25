@@ -38,7 +38,9 @@ using namespace irr::gui;
 
 typedef enum
 {
-	jump_id = 0,
+	dig_id = 0,
+	place_id,
+	jump_id,
 	crunch_id,
 	zoom_id,
 	aux1_id,
@@ -72,20 +74,23 @@ typedef enum
 
 #define MIN_DIG_TIME_MS 500
 #define BUTTON_REPEAT_DELAY 0.2f
-#define SETTINGS_BAR_Y_OFFSET 5
-#define RARE_CONTROLS_BAR_Y_OFFSET 5
+#define SETTINGS_BAR_Y_OFFSET 10
+#define RARE_CONTROLS_BAR_Y_OFFSET 10
 
 extern const std::string button_image_names[];
 extern const std::string joystick_image_names[];
 
 struct button_info
 {
+	bool do_repeat;
+	bool immediate_release;
+
 	float repeat_counter;
 	float repeat_delay;
+
 	EKEY_CODE keycode;
 	std::vector<size_t> ids;
 	IGUIButton *gui_button = nullptr;
-	bool immediate_release;
 
 	enum {
 		NOT_TOGGLEABLE,
@@ -154,6 +159,11 @@ private:
 	autohide_button_bar_dir m_dir = AHBB_Dir_Right_Left;
 };
 
+enum class TouchScreenMode {
+	LongTap,
+	Buttons,
+};
+
 class TouchScreenGUI
 {
 public:
@@ -199,10 +209,13 @@ public:
 
 private:
 	bool m_initialized = false;
+
 	IrrlichtDevice *m_device;
 	IGUIEnvironment *m_guienv;
 	IEventReceiver *m_receiver;
 	ISimpleTextureSource *m_texturesource;
+
+	TouchScreenMode m_mode = TouchScreenMode::Buttons;
 	v2u32 m_screensize;
 	s32 button_size;
 	double m_touchscreen_threshold;
@@ -256,7 +269,7 @@ private:
 	// initialize a button
 	void initButton(touch_gui_button_id id, const rect<s32> &button_rect,
 			const std::wstring &caption, bool immediate_release,
-			float repeat_delay = BUTTON_REPEAT_DELAY);
+			float repeat_delay = BUTTON_REPEAT_DELAY, bool do_repeat = true);
 
 	// initialize a joystick button
 	std::shared_ptr<button_info> initJoystickButton(touch_gui_button_id id,
@@ -274,7 +287,8 @@ private:
 	std::vector<id_status> m_known_ids;
 
 	// handle a button event
-	void handleButtonEvent(touch_gui_button_id bID, size_t eventID, bool action);
+	// returns whether the event should be eaten
+	bool handleButtonEvent(touch_gui_button_id button_id, size_t finger_id, bool pressed);
 
 	// handle pressing hotbar items
 	bool isHotbarButton(const SEvent &event);

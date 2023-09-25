@@ -3272,7 +3272,7 @@ void Game::processPlayerInteraction(f32 dtime, bool show_hud)
 
 	PointedThing pointed = updatePointedThing(shootline,
 			selected_def.liquids_pointable,
-			!runData.btn_down_for_dig,
+			true,
 			camera_offset);
 
 	if (pointed != runData.pointed_old)

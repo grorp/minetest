@@ -56,6 +56,7 @@ GUITable::GUITable(gui::IGUIEnvironment *env,
 	float dpi = RenderingEngine::getDisplayDensity();
 	float gui_scaling = g_settings->getFloat("gui_scaling", 0.5f, 20.0f);
 	m_scaling = dpi * gui_scaling;
+	// Make sure that the padding is always an even number.
 	m_padding_y = 2 * myround(2.0f * m_scaling);
 
 	m_font = skin->getFont();
@@ -376,6 +377,7 @@ void GUITable::setTable(const TableOptions &options,
 		else if (columntype == COLUMN_TYPE_IMAGE) {
 			// Find right edge of column
 			s32 xmax = 0;
+
 			for (s32 i = 0; i < rowcount; ++i) {
 				TempRow *row = &rows[i];
 				row->content_index = -1;
@@ -384,30 +386,31 @@ void GUITable::setTable(const TableOptions &options,
 				// column options so check active_image_indices.
 				s32 image_index = stoi(content[i * colcount + j]);
 				std::map<s32, s32>::iterator image_iter =
-					active_image_indices.find(image_index);
-				if (image_iter != active_image_indices.end())
-					row->content_index = image_iter->second;
+						active_image_indices.find(image_index);
 
-				// Get texture object (might be NULL)
-				video::ITexture *image = NULL;
-				if (row->content_index >= 0)
-					image = m_images[row->content_index];
+				if (image_iter != active_image_indices.end()) {
+					row->content_index = image_iter->second;
+					newcell.img = m_images[row->content_index];
+
+					core::dimension2di orig_size(newcell.img->getOriginalSize());
+
+					newcell.img_size.Y = MYMIN(myround(orig_size.Height * m_scaling),
+							m_rowheight - m_padding_y);
+					newcell.img_size.X = myround((f32)orig_size.Width /
+							(f32)orig_size.Height * newcell.img_size.Y);
+				} else {
+					newcell.img = nullptr;
+				}
+				rows[i].cells.push_back(newcell);
 
 				// Get content width and update xmax
-				s32 img_width = 0;
-				if (image) {
-					core::dimension2di orig_size(image->getOriginalSize());
-
-					s32 img_height = myround(orig_size.Height * m_scaling);
-					img_height = MYMIN(img_height, m_rowheight - m_padding_y);
-					img_width = myround((f32)orig_size.Width / (f32)orig_size.Height * img_height);
-				}
-				row->content_width = MYMAX(img_width, width);
+				row->content_width = MYMAX(newcell.img_size.X, width);
 				s32 row_xmax = row->x + padding + row->content_width;
 				xmax = MYMAX(xmax, row_xmax);
 			}
 			// Add a new cell (of image type) to each row
 			for (s32 i = 0; i < rowcount; ++i) {
+				
 				newcell.xmin = rows[i].x + padding;
 				alignContent(&newcell, xmax, rows[i].content_width, align);
 				newcell.content_index = rows[i].content_index;

@@ -20,6 +20,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #pragma once
 
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -156,6 +157,9 @@ protected:
 		COLUMN_TYPE_TREE,
 	};
 
+	struct CellImage {
+	};
+
 	struct Cell {
 		s32 xmin;
 		s32 xmax;
@@ -166,6 +170,11 @@ protected:
 		video::SColor color;
 		bool color_defined;
 		s32 reported_column;
+
+		video::ITexture *img;
+		// img_pos and img_size are only valid if img is not nullptr.
+		v2s32 img_pos;
+		v2s32 img_size;
 	};
 
 	struct Row {

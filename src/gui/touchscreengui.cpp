@@ -46,6 +46,15 @@ const std::string button_image_names[] = {
 	"touch_aux1.png"
 };
 
+const std::string button_down_image_names[] = {
+	"touch_dig_down.png",
+	"touch_place_down.png",
+	"touch_jump_down.png",
+	"touch_sneak_down.png",
+	"touch_zoom_down.png",
+	"touch_aux1_down.png"
+};
+
 const std::string joystick_image_names[] = {
 	"joystick_off.png",
 	"joystick_bg.png",
@@ -648,14 +657,9 @@ bool TouchScreenGUI::handleButtonEvent(touch_gui_button_id button_id,
 		translated.KeyInput.PressedDown = true;
 		m_receiver->OnEvent(translated);
 
-		if (button_id == dig_id) 
-			load_button_texture(btn, "touch_dig_down.png",
-					btn->gui_button->getRelativePosition(),
-					m_texturesource, m_guienv->getVideoDriver());
-		else if (button_id == place_id)
-			load_button_texture(btn, "touch_place_down.png",
-					btn->gui_button->getRelativePosition(),
-					m_texturesource, m_guienv->getVideoDriver());
+		load_button_texture(btn, button_down_image_names[button_id],
+				btn->gui_button->getRelativePosition(),
+				m_texturesource, m_guienv->getVideoDriver());
 		
 		btn->repeat_counter = 0.0f;
 	}
@@ -673,14 +677,9 @@ bool TouchScreenGUI::handleButtonEvent(touch_gui_button_id button_id,
 		translated.KeyInput.PressedDown = false;
 		m_receiver->OnEvent(translated);
 
-		if (button_id == dig_id) 
-			load_button_texture(btn, "touch_dig.png",
-					btn->gui_button->getRelativePosition(),
-					m_texturesource, m_guienv->getVideoDriver());
-		else if (button_id == place_id)
-			load_button_texture(btn, "touch_place.png",
-					btn->gui_button->getRelativePosition(),
-					m_texturesource, m_guienv->getVideoDriver());
+		load_button_texture(btn, button_image_names[button_id],
+				btn->gui_button->getRelativePosition(),
+				m_texturesource, m_guienv->getVideoDriver());
 
 		btn->repeat_counter = -1.0f;
 	}

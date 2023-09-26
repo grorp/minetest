@@ -503,8 +503,7 @@ void TouchScreenGUI::init(ISimpleTextureSource *tsrc)
 					m_screensize.X - 1.75f * button_size,
 					m_screensize.Y),
 			L"H", false);
-
-	/*
+/*
 	// init zoom button
 	initButton(zoom_id,
 			rect<s32>(m_screensize.X - 1.25f * button_size,
@@ -512,32 +511,33 @@ void TouchScreenGUI::init(ISimpleTextureSource *tsrc)
 					m_screensize.X - 0.25f * button_size,
 					m_screensize.Y - 3 * button_size),
 			L"z", false);
-
+*/
+	
 	// init aux1 button
 	if (!m_joystick_triggers_aux1)
 		initButton(aux1_id,
-				rect<s32>(m_screensize.X - 1.25f * button_size,
-						m_screensize.Y - 2.5f * button_size,
-						m_screensize.X - 0.25f * button_size,
-						m_screensize.Y - 1.5f * button_size),
+			rect<s32>(m_screensize.X - 3.5f * some_size,
+					m_screensize.Y/2 - some_size * 1.25f,
+					m_screensize.X - 2.5f * some_size,
+					m_screensize.Y/2 - some_size * 0.25f),
 				L"spc1", false);
-	*/
+
 
 
 	float some_size = RenderingEngine::getDisplayDensity() * 48.0f *
 					g_settings->getFloat("hud_scaling");
 
 	initButton(dig_id,
-			rect<s32>(m_screensize.X - 3.5f * some_size,
-					m_screensize.Y/2 - some_size * 1.25f,
-					m_screensize.X - 2.5f * some_size,
-					m_screensize.Y/2 - some_size * 0.25f),
+            rect<s32>(m_screensize.X - 3.0f * some_size,
+						m_screensize.Y/2 + some_size * 0.25f,
+						m_screensize.X - 2.0f * some_size,
+						m_screensize.Y/2 + some_size * 1.25f),
 			L"dig", false, 0.0f, false);
 	initButton(place_id,
-				rect<s32>(m_screensize.X - 3.5f * some_size,
-						m_screensize.Y/2 + some_size * 0.25f,
-						m_screensize.X - 2.5f * some_size,
-						m_screensize.Y/2 + some_size * 1.25f),
+				rect<s32>(m_screensize.X - 1.5f * some_size,
+						m_screensize.Y/2 + some_size * 1.0f,
+						m_screensize.X - 0.5f * some_size,
+						m_screensize.Y/2 + some_size * 2.0f),
 			L"place", false, 0.0f, false);
 
 

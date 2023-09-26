@@ -634,16 +634,33 @@ std::optional<u16> TouchScreenGUI::getHotbarSelection()
 	return selection;
 }
 
+static void btn_change_state(touch_gui_button_id id, button_info *btn, IEventReceiver *receiver, ISimpleTextureSource *tsrc, video::IVideoDriver *driver, bool state) {
+	SEvent event{};
+	event.EventType        = irr::EET_KEY_INPUT_EVENT;
+	event.KeyInput.Char    = 0;
+	event.KeyInput.Key     = btn->keycode;
+	event.KeyInput.PressedDown = state;
+	event.KeyInput.Shift   = false;
+	event.KeyInput.Control = false;
+
+	receiver->OnEvent(event);
+
+	load_button_texture(btn, state ? button_down_image_names[id] : button_image_names[id],
+		btn->gui_button->getRelativePosition(), tsrc, driver);
+
+	if (state) {
+		btn->repeat_counter = 0.0f;
+	} else {
+		btn->repeat_counter = -1.0f;
+	}
+}
+
 bool TouchScreenGUI::handleButtonEvent(touch_gui_button_id button_id,
 		size_t finger_id, bool pressed)
 {
 	button_info *btn = &m_buttons[button_id];
-	SEvent translated{};
-	translated.EventType        = irr::EET_KEY_INPUT_EVENT;
-	translated.KeyInput.Char    = 0;
-	translated.KeyInput.Key     = btn->keycode;
-	translated.KeyInput.Shift   = false;
-	translated.KeyInput.Control = false;
+
+	bool is_toggle_btn = button_id == crunch_id || button_id == aux1_id || button_id == zoom_id;
 
 	// add this event
 	if (pressed) {
@@ -654,14 +671,12 @@ bool TouchScreenGUI::handleButtonEvent(touch_gui_button_id button_id,
 		if (btn->ids.size() > 1)
 			return false;
 
-		translated.KeyInput.PressedDown = true;
-		m_receiver->OnEvent(translated);
-
-		load_button_texture(btn, button_down_image_names[button_id],
-				btn->gui_button->getRelativePosition(),
-				m_texturesource, m_guienv->getVideoDriver());
-		
-		btn->repeat_counter = 0.0f;
+		if (is_toggle_btn) {
+			btn->toggle_pressed = !btn->toggle_pressed;
+			btn_change_state(button_id, btn, m_receiver, m_texturesource, m_guienv->getVideoDriver(), btn->toggle_pressed);
+		} else {
+			btn_change_state(button_id, btn, m_receiver, m_texturesource, m_guienv->getVideoDriver(), true);
+		}
 	}
 
 	// remove event
@@ -674,19 +689,16 @@ bool TouchScreenGUI::handleButtonEvent(touch_gui_button_id button_id,
 		if (!btn->ids.empty())
 			return false;
 
-		translated.KeyInput.PressedDown = false;
-		m_receiver->OnEvent(translated);
-
-		load_button_texture(btn, button_image_names[button_id],
-				btn->gui_button->getRelativePosition(),
-				m_texturesource, m_guienv->getVideoDriver());
-
-		btn->repeat_counter = -1.0f;
+		if (!is_toggle_btn)
+			btn_change_state(button_id, btn, m_receiver, m_texturesource, m_guienv->getVideoDriver(), false);
 	}
 
+	/*
 	if (button_id == dig_id || button_id == place_id)
 		return false;
 	return true;
+	*/
+	return false; // for better control flow
 }
 
 void TouchScreenGUI::handleReleaseEvent(size_t evt_id)

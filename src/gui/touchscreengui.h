@@ -98,6 +98,9 @@ struct button_info
 		SECOND_TEXTURE
 	} toggleable = NOT_TOGGLEABLE;
 	std::vector<std::string> textures;
+
+	// for toggle buttons
+	bool toggle_pressed = false;
 };
 
 class AutoHideButtonBar

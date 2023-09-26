@@ -458,6 +458,10 @@ void TouchScreenGUI::init(ISimpleTextureSource *tsrc)
 {
 	assert(tsrc);
 
+	float some_size = RenderingEngine::getDisplayDensity() * 48.0f *
+				g_settings->getFloat("hud_scaling");
+	
+	
 	m_visible       = true;
 	m_mode = TouchScreenMode::Buttons;
 	m_texturesource = tsrc;
@@ -516,16 +520,11 @@ void TouchScreenGUI::init(ISimpleTextureSource *tsrc)
 	// init aux1 button
 	if (!m_joystick_triggers_aux1)
 		initButton(aux1_id,
-			rect<s32>(m_screensize.X - 3.5f * some_size,
+			rect<s32>(m_screensize.X - 3.0f * some_size,
 					m_screensize.Y/2 - some_size * 1.25f,
-					m_screensize.X - 2.5f * some_size,
+					m_screensize.X - 2.0f * some_size,
 					m_screensize.Y/2 - some_size * 0.25f),
 				L"spc1", false);
-
-
-
-	float some_size = RenderingEngine::getDisplayDensity() * 48.0f *
-					g_settings->getFloat("hud_scaling");
 
 	initButton(dig_id,
             rect<s32>(m_screensize.X - 3.0f * some_size,
@@ -533,6 +532,7 @@ void TouchScreenGUI::init(ISimpleTextureSource *tsrc)
 						m_screensize.X - 2.0f * some_size,
 						m_screensize.Y/2 + some_size * 1.25f),
 			L"dig", false, 0.0f, false);
+	
 	initButton(place_id,
 				rect<s32>(m_screensize.X - 1.5f * some_size,
 						m_screensize.Y/2 + some_size * 1.0f,

@@ -151,18 +151,18 @@ invert_hotbar_mouse_wheel (Hotbar: Invert mouse wheel direction) bool false
 #    The length in pixels it takes for touchscreen interaction to start.
 #
 #    Requires: touchscreen_gui
-touchscreen_threshold (Touchscreen threshold) int 20 0 100
+touchscreen_threshold (Touchscreen threshold) int 10 0 100
 
 #    Touchscreen sensitivity multiplier.
 #
 #    Requires: touchscreen_gui
-touchscreen_sensitivity (Touchscreen sensitivity) float 0.2 0.001 10.0
+touchscreen_sensitivity (Touchscreen sensitivity) float 0.1 0.001 10.0
 
 #    Use crosshair to select object instead of whole screen.
 #    If enabled, a crosshair will be shown and will be used for selecting object.
 #
 #    Requires: touchscreen_gui
-touch_use_crosshair (Use crosshair for touch screen) bool false
+touch_use_crosshair (Use crosshair for touch screen) bool true
 
 #    Fixes the position of virtual joystick.
 #    If disabled, virtual joystick will center to first-touch's position.

@@ -494,18 +494,18 @@ void TouchScreenGUI::init(ISimpleTextureSource *tsrc)
 
 	// init jump button
 	initButton(jump_id,
-			rect<s32>(m_screensize.X - 1.75f * button_size,
-					m_screensize.Y - button_size,
-					m_screensize.X - 0.25f * button_size,
-					m_screensize.Y),
+				rect<s32>(m_screensize.X - 1.5f * some_size,
+						m_screensize.Y/2 - some_size * 2.0f,
+						m_screensize.X - 0.5f * some_size,
+						m_screensize.Y/2 - some_size * 1.0f),
 			L"x", false);
 
 	// init crunch button
 	initButton(crunch_id,
-			rect<s32>(m_screensize.X - 3.25f * button_size,
-					m_screensize.Y - button_size,
-					m_screensize.X - 1.75f * button_size,
-					m_screensize.Y),
+				rect<s32>(m_screensize.X - 1.5f * some_size,
+						m_screensize.Y/2 - some_size * 0.5f,
+						m_screensize.X - 0.5f * some_size,
+						m_screensize.Y/2 + some_size * 0.5f),
 			L"H", false);
 /*
 	// init zoom button

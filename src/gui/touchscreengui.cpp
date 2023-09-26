@@ -516,32 +516,24 @@ void TouchScreenGUI::init(ISimpleTextureSource *tsrc)
 						m_screensize.X - 0.5f * some_size,
 						m_screensize.Y/2 + some_size * 0.5f),
 			L"H", false);
-/*
-	// init zoom button
-	initButton(zoom_id,
-			rect<s32>(m_screensize.X - 1.25f * button_size,
-					m_screensize.Y - 4 * button_size,
-					m_screensize.X - 0.25f * button_size,
-					m_screensize.Y - 3 * button_size),
-			L"z", false);
-*/
+
+	auto good_pos = rect<s32>(m_screensize.X - 3.0f * some_size,
+			m_screensize.Y/2 - some_size * 1.25f,
+			m_screensize.X - 2.0f * some_size,
+			m_screensize.Y/2 - some_size * 0.25f);
+	auto bad_pos = rect<s32>(m_screensize.X - 1.5f * some_size,
+			m_screensize.Y - some_size * 1.5f,
+			m_screensize.X - 0.5f * some_size,
+			m_screensize.Y - some_size * 0.5f);
 	
+
 	// init aux1 button
+	// init zoom button
 	if (!m_joystick_triggers_aux1) {
-		initButton(aux1_id,
-			rect<s32>(m_screensize.X - 3.0f * some_size,
-					m_screensize.Y/2 - some_size * 1.25f,
-					m_screensize.X - 2.0f * some_size,
-					m_screensize.Y/2 - some_size * 0.25f),
-				L"spc1", false);
+		initButton(aux1_id, good_pos, L"spc1", false);
+		initButton(zoom_id, bad_pos, L"spc1", false);
 	} else {
-		initButton(zoom_id,
-			rect<s32>(m_screensize.X - 3.0f * some_size,
-					m_screensize.Y/2 - some_size * 1.25f,
-					m_screensize.X - 2.0f * some_size,
-					m_screensize.Y/2 - some_size * 0.25f),
-				L"spc1", false);
-		// TODO: find a place for zoom when aux1 is there, too
+		initButton(zoom_id, good_pos, L"spc1", false);
 	}
 
 	initButton(dig_id,

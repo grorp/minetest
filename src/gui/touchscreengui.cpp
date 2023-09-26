@@ -526,11 +526,6 @@ void TouchScreenGUI::init(ISimpleTextureSource *tsrc)
 						m_screensize.Y/2 + some_size * 2.0f),
 			L"H", false);
 
-	auto dig_pos = rect<s32>(m_screensize.X - 3.0f * some_size,
-			m_screensize.Y/2 - some_size * 0.5f,
-			m_screensize.X - 2.0f * some_size,
-			m_screensize.Y/2 + some_size * 0.5f);
-
 	// init aux1 button
 	// init zoom button
 	if (!m_joystick_triggers_aux1) {
@@ -540,11 +535,6 @@ void TouchScreenGUI::init(ISimpleTextureSource *tsrc)
 						m_screensize.X - 2.0f * some_size,
 						m_screensize.Y/2 + some_size * 1.25f),
 				L"spc1", false);
-
-		dig_pos = rect<s32>(m_screensize.X - 3.0f * some_size,
-				m_screensize.Y/2 - some_size * 1.25f,
-				m_screensize.X - 2.0f * some_size,
-				m_screensize.Y/2 - some_size * 0.25f);
 	}
 
 	initButton(zoom_id,
@@ -554,8 +544,13 @@ void TouchScreenGUI::init(ISimpleTextureSource *tsrc)
 					m_screensize.Y - some_size * 0.5f),
 			L"spc1", false);
 
-	initButton(dig_id, dig_pos, L"dig", false, 0.0f, false);
-	
+	initButton(dig_id,
+			rect<s32>(m_screensize.X - 3.0f * some_size,
+					m_screensize.Y/2 - some_size * 1.25f,
+					m_screensize.X - 2.0f * some_size,
+					m_screensize.Y/2 - some_size * 0.25f),
+			L"dig", false, 0.0f, false);
+
 	initButton(place_id,
 			rect<s32>(m_screensize.X - 1.5f * some_size,
 					m_screensize.Y/2 - some_size * 2.0f,

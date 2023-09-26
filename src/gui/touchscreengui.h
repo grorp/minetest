@@ -162,11 +162,6 @@ private:
 	autohide_button_bar_dir m_dir = AHBB_Dir_Right_Left;
 };
 
-enum class TouchScreenMode {
-	LongTap,
-	Buttons,
-};
-
 class TouchScreenGUI
 {
 public:
@@ -218,7 +213,6 @@ private:
 	IEventReceiver *m_receiver;
 	ISimpleTextureSource *m_texturesource;
 
-	TouchScreenMode m_mode = TouchScreenMode::Buttons;
 	v2u32 m_screensize;
 	s32 button_size;
 	double m_touchscreen_threshold;
@@ -310,6 +304,8 @@ private:
 
 	// rare controls bar
 	AutoHideButtonBar m_rare_controls_bar;
+
+	gui::IGUIImage *my_image;
 };
 
 extern TouchScreenGUI *g_touchscreengui;

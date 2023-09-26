@@ -469,10 +469,19 @@ void TouchScreenGUI::init(ISimpleTextureSource *tsrc)
 
 	float some_size = RenderingEngine::getDisplayDensity() * 48.0f *
 				g_settings->getFloat("hud_scaling");
-	
-	
+
+	my_image = m_guienv->addImage(
+			rect<s32>(0.5f * some_size,
+					m_screensize.Y - 1.5f * some_size,
+					1.5f * some_size,
+					m_screensize.Y - 0.5f * some_size),
+			nullptr, 436368, nullptr, true);
+	my_image->setImage(tsrc->getTexture(button_down_image_names[aux1_id]));
+	my_image->setScaleImage(true);
+	my_image->setVisible(false);
+	my_image->grab();
+
 	m_visible       = true;
-	m_mode = TouchScreenMode::Buttons;
 	m_texturesource = tsrc;
 
 	// Initialize joystick display "button".
@@ -504,50 +513,54 @@ void TouchScreenGUI::init(ISimpleTextureSource *tsrc)
 	// init jump button
 	initButton(jump_id,
 				rect<s32>(m_screensize.X - 1.5f * some_size,
-						m_screensize.Y/2 - some_size * 2.0f,
+						m_screensize.Y/2 - some_size * 0.5f,
 						m_screensize.X - 0.5f * some_size,
-						m_screensize.Y/2 - some_size * 1.0f),
+						m_screensize.Y/2 + some_size * 0.5f),
 			L"x", false);
 
 	// init crunch button
 	initButton(crunch_id,
 				rect<s32>(m_screensize.X - 1.5f * some_size,
-						m_screensize.Y/2 - some_size * 0.5f,
+						m_screensize.Y/2 + some_size * 1.0f,
 						m_screensize.X - 0.5f * some_size,
-						m_screensize.Y/2 + some_size * 0.5f),
+						m_screensize.Y/2 + some_size * 2.0f),
 			L"H", false);
 
-	auto good_pos = rect<s32>(m_screensize.X - 3.0f * some_size,
-			m_screensize.Y/2 - some_size * 1.25f,
+	auto dig_pos = rect<s32>(m_screensize.X - 3.0f * some_size,
+			m_screensize.Y/2 - some_size * 0.5f,
 			m_screensize.X - 2.0f * some_size,
-			m_screensize.Y/2 - some_size * 0.25f);
-	auto bad_pos = rect<s32>(m_screensize.X - 1.5f * some_size,
-			m_screensize.Y - some_size * 1.5f,
-			m_screensize.X - 0.5f * some_size,
-			m_screensize.Y - some_size * 0.5f);
-	
+			m_screensize.Y/2 + some_size * 0.5f);
 
 	// init aux1 button
 	// init zoom button
 	if (!m_joystick_triggers_aux1) {
-		initButton(aux1_id, good_pos, L"spc1", false);
-		initButton(zoom_id, bad_pos, L"spc1", false);
-	} else {
-		initButton(zoom_id, good_pos, L"spc1", false);
-	}
-
-	initButton(dig_id,
-            rect<s32>(m_screensize.X - 3.0f * some_size,
+		initButton(aux1_id,
+				rect<s32>(m_screensize.X - 3.0f * some_size,
 						m_screensize.Y/2 + some_size * 0.25f,
 						m_screensize.X - 2.0f * some_size,
 						m_screensize.Y/2 + some_size * 1.25f),
-			L"dig", false, 0.0f, false);
+				L"spc1", false);
+
+		dig_pos = rect<s32>(m_screensize.X - 3.0f * some_size,
+				m_screensize.Y/2 - some_size * 1.25f,
+				m_screensize.X - 2.0f * some_size,
+				m_screensize.Y/2 - some_size * 0.25f);
+	}
+
+	initButton(zoom_id,
+			rect<s32>(m_screensize.X - 1.5f * some_size,
+					m_screensize.Y - some_size * 1.5f,
+					m_screensize.X - 0.5f * some_size,
+					m_screensize.Y - some_size * 0.5f),
+			L"spc1", false);
+
+	initButton(dig_id, dig_pos, L"dig", false, 0.0f, false);
 	
 	initButton(place_id,
-				rect<s32>(m_screensize.X - 1.5f * some_size,
-						m_screensize.Y/2 + some_size * 1.0f,
-						m_screensize.X - 0.5f * some_size,
-						m_screensize.Y/2 + some_size * 2.0f),
+			rect<s32>(m_screensize.X - 1.5f * some_size,
+					m_screensize.Y/2 - some_size * 2.0f,
+					m_screensize.X - 0.5f * some_size,
+					m_screensize.Y/2 - some_size * 1.0f),
 			L"place", false, 0.0f, false);
 
 
@@ -661,7 +674,7 @@ bool TouchScreenGUI::handleButtonEvent(touch_gui_button_id button_id,
 {
 	button_info *btn = &m_buttons[button_id];
 
-	bool is_toggle_btn = button_id == crunch_id || button_id == aux1_id || button_id == zoom_id;
+	bool is_toggle_btn = button_id == crunch_id || button_id == aux1_id;
 
 	// add this event
 	if (pressed) {
@@ -979,6 +992,8 @@ void TouchScreenGUI::handleChangedButton(const SEvent &event)
 void TouchScreenGUI::applyJoystickStatus()
 {
 	if (m_joystick_triggers_aux1) {
+		my_image->setVisible(m_joystick_status_aux1);
+
 		SEvent translated{};
 		translated.EventType            = irr::EET_KEY_INPUT_EVENT;
 		translated.KeyInput.Key         = id_to_keycode(aux1_id);

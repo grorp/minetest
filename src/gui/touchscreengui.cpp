@@ -527,13 +527,22 @@ void TouchScreenGUI::init(ISimpleTextureSource *tsrc)
 */
 	
 	// init aux1 button
-	if (!m_joystick_triggers_aux1)
+	if (!m_joystick_triggers_aux1) {
 		initButton(aux1_id,
 			rect<s32>(m_screensize.X - 3.0f * some_size,
 					m_screensize.Y/2 - some_size * 1.25f,
 					m_screensize.X - 2.0f * some_size,
 					m_screensize.Y/2 - some_size * 0.25f),
 				L"spc1", false);
+	} else {
+		initButton(zoom_id,
+			rect<s32>(m_screensize.X - 3.0f * some_size,
+					m_screensize.Y/2 - some_size * 1.25f,
+					m_screensize.X - 2.0f * some_size,
+					m_screensize.Y/2 - some_size * 0.25f),
+				L"spc1", false);
+		// TODO: find a place for zoom when aux1 is there, too
+	}
 
 	initButton(dig_id,
             rect<s32>(m_screensize.X - 3.0f * some_size,

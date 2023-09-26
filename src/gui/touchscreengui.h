@@ -293,9 +293,6 @@ private:
 	// handle pressing hotbar items
 	bool isHotbarButton(const SEvent &event);
 
-	// do a right-click
-	bool doRightClick();
-
 	// handle release event
 	void handleReleaseEvent(size_t evt_id);
 

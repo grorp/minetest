@@ -38,12 +38,12 @@ using namespace irr::core;
 TouchScreenGUI *g_touchscreengui;
 
 const std::string button_image_names[] = {
-	"touch_mouse_left.png",
-	"touch_mouse_right.png",
-	"jump_btn.png",
-	"down.png",
-	"zoom.png",
-	"aux1_btn.png"
+	"touch_dig.png",
+	"touch_place.png",
+	"touch_jump.png",
+	"touch_sneak.png",
+	"touch_zoom.png",
+	"touch_aux1.png"
 };
 
 const std::string joystick_image_names[] = {
@@ -649,11 +649,11 @@ bool TouchScreenGUI::handleButtonEvent(touch_gui_button_id button_id,
 		m_receiver->OnEvent(translated);
 
 		if (button_id == dig_id) 
-			load_button_texture(btn, "touch_mouse_left_down.png",
+			load_button_texture(btn, "touch_dig_down.png",
 					btn->gui_button->getRelativePosition(),
 					m_texturesource, m_guienv->getVideoDriver());
 		else if (button_id == place_id)
-			load_button_texture(btn, "touch_mouse_right_down.png",
+			load_button_texture(btn, "touch_place_down.png",
 					btn->gui_button->getRelativePosition(),
 					m_texturesource, m_guienv->getVideoDriver());
 		
@@ -674,11 +674,11 @@ bool TouchScreenGUI::handleButtonEvent(touch_gui_button_id button_id,
 		m_receiver->OnEvent(translated);
 
 		if (button_id == dig_id) 
-			load_button_texture(btn, "touch_mouse_left.png",
+			load_button_texture(btn, "touch_dig.png",
 					btn->gui_button->getRelativePosition(),
 					m_texturesource, m_guienv->getVideoDriver());
 		else if (button_id == place_id)
-			load_button_texture(btn, "touch_mouse_right.png",
+			load_button_texture(btn, "touch_place.png",
 					btn->gui_button->getRelativePosition(),
 					m_texturesource, m_guienv->getVideoDriver());
 
@@ -962,40 +962,6 @@ void TouchScreenGUI::handleChangedButton(const SEvent &event)
 	button_info *btn = &m_buttons[current_button_id];
 	if (std::find(btn->ids.begin(), btn->ids.end(), event.TouchInput.ID) == btn->ids.end())
 		handleButtonEvent((touch_gui_button_id) current_button_id, event.TouchInput.ID, true);
-}
-
-bool TouchScreenGUI::doRightClick()
-{
-	v2s32 mPos = v2s32(m_move_downlocation.X, m_move_downlocation.Y);
-	if (m_draw_crosshair) {
-		mPos.X = m_screensize.X / 2;
-		mPos.Y = m_screensize.Y / 2;
-	}
-
-	SEvent translated {};
-	translated.EventType               = EET_MOUSE_INPUT_EVENT;
-	translated.MouseInput.X            = mPos.X;
-	translated.MouseInput.Y            = mPos.Y;
-	translated.MouseInput.Shift        = false;
-	translated.MouseInput.Control      = false;
-	translated.MouseInput.ButtonStates = EMBSM_RIGHT;
-
-	// update shootline
-	m_shootline = m_device
-			->getSceneManager()
-			->getSceneCollisionManager()
-			->getRayFromScreenCoordinates(mPos);
-
-	translated.MouseInput.Event = EMIE_RMOUSE_PRESSED_DOWN;
-	verbosestream << "TouchScreenGUI::translateEvent right click press" << std::endl;
-	m_receiver->OnEvent(translated);
-
-	translated.MouseInput.ButtonStates = 0;
-	translated.MouseInput.Event = EMIE_RMOUSE_LEFT_UP;
-	verbosestream << "TouchScreenGUI::translateEvent right click release" << std::endl;
-	m_receiver->OnEvent(translated);
-
-	return true;
 }
 
 void TouchScreenGUI::applyJoystickStatus()

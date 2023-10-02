@@ -344,6 +344,7 @@ void GUITable::setTable(const TableOptions &options,
 		if (columntype == COLUMN_TYPE_TEXT) {
 			// Find right edge of column
 			s32 xmax = 0;
+
 			for (s32 i = 0; i < rowcount; ++i) {
 				TempRow *row = &rows[i];
 				row->content_index = allocString(content[i * colcount + j]);
@@ -354,6 +355,7 @@ void GUITable::setTable(const TableOptions &options,
 				s32 row_xmax = row->x + padding + row->content_width;
 				xmax = MYMAX(xmax, row_xmax);
 			}
+
 			// Add a new cell (of text type) to each row
 			for (s32 i = 0; i < rowcount; ++i) {
 				newcell.xmin = rows[i].x + padding;
@@ -393,12 +395,14 @@ void GUITable::setTable(const TableOptions &options,
 				}
 
 				// Get content width and update xmax
-				row->content_width = MYMAX(newcell.img_size.Width, width);
+				row->content_width = newcell.img_size.Width;
+				row->content_width = MYMAX(row->content_width, width);
 				s32 row_xmax = row->x + padding + row->content_width;
 				xmax = MYMAX(xmax, row_xmax);
 
 				rows[i].cells.push_back(newcell);
 			}
+
 			// Add a new cell (of image type) to each row
 			for (s32 i = 0; i < rowcount; ++i) {
 				Cell &cell = rows[i].cells.back();
@@ -408,6 +412,7 @@ void GUITable::setTable(const TableOptions &options,
 				cell.content_index = rows[i].content_index;
 				rows[i].x = cell.xmax;
 			}
+
 			active_image_indices.clear();
 		}
 		else if (columntype == COLUMN_TYPE_COLOR) {
@@ -426,6 +431,7 @@ void GUITable::setTable(const TableOptions &options,
 				content_width = m_font ? m_font->getDimension(L"+").Width : 0;
 				m_has_tree_column = true;
 			}
+
 			// Add a new cell (of indent or tree type) to each row
 			for (s32 i = 0; i < rowcount; ++i) {
 				TempRow *row = &rows[i];

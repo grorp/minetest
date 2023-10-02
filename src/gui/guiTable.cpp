@@ -84,19 +84,11 @@ GUITable::GUITable(gui::IGUIEnvironment *env,
 	setTabOrder(-1);
 	updateAbsolutePosition();
 
-	#ifdef HAVE_TOUCHSCREENGUI
-		// dp scaling is applied by the skin
-		float scrollbar_scaling = gui_scaling;
-	#else
-		float scrollbar_scaling = dpi * gui_scaling;
-	#endif
-
-	core::rect<s32> relative_rect = m_scrollbar->getRelativePosition();
-	s32 width = (relative_rect.getWidth() / (2.0 / 3.0)) * scrollbar_scaling;
+	core::rect<s32> rect = m_scrollbar->getRelativePosition();
+	s32 width = rect.getWidth() * 1.5f;
 	m_scrollbar->setRelativePosition(core::rect<s32>(
-			relative_rect.LowerRightCorner.X-width,relative_rect.UpperLeftCorner.Y,
-			relative_rect.LowerRightCorner.X,relative_rect.LowerRightCorner.Y
-			));
+			rect.LowerRightCorner.X - width, rect.UpperLeftCorner.Y,
+			rect.LowerRightCorner.X, rect.LowerRightCorner.Y));
 }
 
 GUITable::~GUITable()
@@ -390,32 +382,31 @@ void GUITable::setTable(const TableOptions &options,
 
 				if (image_iter != active_image_indices.end()) {
 					row->content_index = image_iter->second;
-					newcell.img = m_images[row->content_index];
 
-					core::dimension2di orig_size(newcell.img->getOriginalSize());
+					video::ITexture *img = m_images[row->content_index];
+					core::dimension2di orig_size(img->getOriginalSize());
 
-					newcell.img_size.Y = MYMIN(myround(orig_size.Height * m_scaling),
+					newcell.img_size.Height = MYMIN(myround(orig_size.Height * m_scaling),
 							m_rowheight - m_padding_y);
-					newcell.img_size.X = myround((f32)orig_size.Width /
-							(f32)orig_size.Height * newcell.img_size.Y);
-				} else {
-					newcell.img = nullptr;
+					newcell.img_size.Width = myround((f32)orig_size.Width /
+							(f32)orig_size.Height * newcell.img_size.Height);
 				}
-				rows[i].cells.push_back(newcell);
 
 				// Get content width and update xmax
-				row->content_width = MYMAX(newcell.img_size.X, width);
+				row->content_width = MYMAX(newcell.img_size.Width, width);
 				s32 row_xmax = row->x + padding + row->content_width;
 				xmax = MYMAX(xmax, row_xmax);
+
+				rows[i].cells.push_back(newcell);
 			}
 			// Add a new cell (of image type) to each row
 			for (s32 i = 0; i < rowcount; ++i) {
-				
-				newcell.xmin = rows[i].x + padding;
-				alignContent(&newcell, xmax, rows[i].content_width, align);
-				newcell.content_index = rows[i].content_index;
-				rows[i].cells.push_back(newcell);
-				rows[i].x = newcell.xmax;
+				Cell &cell = rows[i].cells.back();
+
+				cell.xmin = rows[i].x + padding;
+				alignContent(&cell, xmax, rows[i].content_width, align);
+				cell.content_index = rows[i].content_index;
+				rows[i].x = cell.xmax;
 			}
 			active_image_indices.clear();
 		}
@@ -770,17 +761,11 @@ void GUITable::drawCell(const Cell *cell, video::SColor color,
 		video::ITexture *image = m_images[cell->content_index];
 
 		if (image) {
-			core::dimension2di orig_size(image->getOriginalSize());
-
-			core::rect<s32> source_rect(orig_size);
-
-			s32 img_height = myround(orig_size.Height * m_scaling);
-			img_height = MYMIN(img_height, m_rowheight - m_padding_y);
-			s32 img_width = myround((f32)orig_size.Width / (f32)orig_size.Height * img_height);
+			core::rect<s32> source_rect(image->getOriginalSize());
 
 			v2s32 pos = row_rect.UpperLeftCorner +
-					v2s32(cell->xpos, m_rowheight / 2 - img_height / 2);
-			core::rect<s32> dest_rect(pos, core::dimension2di(img_width, img_height));
+					v2s32(cell->xpos, m_rowheight / 2 - cell->img_size.Height / 2);
+			core::rect<s32> dest_rect(pos, cell->img_size);
 
 			draw2DImageFilterScaled(driver, image, dest_rect, source_rect,
 					&client_clip, nullptr, true);

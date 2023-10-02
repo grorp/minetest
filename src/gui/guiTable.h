@@ -171,10 +171,8 @@ protected:
 		bool color_defined;
 		s32 reported_column;
 
-		video::ITexture *img;
-		// img_pos and img_size are only valid if img is not nullptr.
-		v2s32 img_pos;
-		v2s32 img_size;
+		// Only valid for image cells.
+		core::dimension2di img_size;
 	};
 
 	struct Row {

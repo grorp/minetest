@@ -157,9 +157,6 @@ protected:
 		COLUMN_TYPE_TREE,
 	};
 
-	struct CellImage {
-	};
-
 	struct Cell {
 		s32 xmin;
 		s32 xmax;

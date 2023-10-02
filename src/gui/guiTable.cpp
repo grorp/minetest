@@ -66,9 +66,9 @@ GUITable::GUITable(gui::IGUIEnvironment *env,
 		m_rowheight = MYMAX(m_rowheight, 1);
 	}
 
-	const s32 s = skin->getSize(gui::EGDS_SCROLLBAR_SIZE);
+	const s32 s_width = skin->getSize(gui::EGDS_SCROLLBAR_SIZE) * 1.5f;
 	m_scrollbar = new GUIScrollBar(Environment, this, -1,
-			core::rect<s32>(RelativeRect.getWidth() - s,
+			core::rect<s32>(RelativeRect.getWidth() - s_width,
 					0,
 					RelativeRect.getWidth(),
 					RelativeRect.getHeight()),
@@ -83,12 +83,6 @@ GUITable::GUITable(gui::IGUIEnvironment *env,
 	setTabStop(true);
 	setTabOrder(-1);
 	updateAbsolutePosition();
-
-	core::rect<s32> rect = m_scrollbar->getRelativePosition();
-	s32 width = rect.getWidth() * 1.5f;
-	m_scrollbar->setRelativePosition(core::rect<s32>(
-			rect.LowerRightCorner.X - width, rect.UpperLeftCorner.Y,
-			rect.LowerRightCorner.X, rect.LowerRightCorner.Y));
 }
 
 GUITable::~GUITable()

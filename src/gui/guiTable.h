@@ -190,6 +190,7 @@ protected:
 
 	// Cached DPI * gui_scaling
 	float m_scaling;
+	// Total amount of vertical padding
 	s32 m_padding_y;
 
 	// Table content (including hidden rows)

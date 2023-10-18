@@ -220,6 +220,15 @@ get_setting_info("language").option_labels = {
 }
 
 
+local function split_query(query)
+	local query_keywords = {}
+	for word in query:lower():gmatch("%S+") do
+		table.insert(query_keywords, word)
+	end
+	return query_keywords
+end
+
+
 -- See if setting matches keywords
 local function get_setting_match_weight(entry, query_keywords)
 	local setting_score = 0
@@ -281,17 +290,15 @@ local function update_filtered_pages(query)
 	filtered_pages = {}
 	filtered_page_by_id = {}
 
-	local query_keywords = {}
-	for word in query:lower():gmatch("%S+") do
-		table.insert(query_keywords, word)
-	end
-
+	local query_keywords = split_query(query)
 	local best_page = nil
 	local best_page_weight = -1
 
+	local show_advanced = core.settings:get_bool("show_advanced")
+
 	for _, page in ipairs(all_pages) do
 		local content, page_weight = filter_page_content(page, query_keywords)
-		if page_has_contents(page, content) then
+		if page_has_contents(page, content, show_advanced) then
 			local new_page = table.copy(page)
 			new_page.content = content
 
@@ -347,12 +354,11 @@ local function check_requirements(name, requires)
 end
 
 
-function page_has_contents(page, actual_content)
+function page_has_contents(page, actual_content, show_advanced)
 	local is_advanced =
 			page.id:sub(1, #"client_and_server") == "client_and_server" or
 			page.id:sub(1, #"mapgen") == "mapgen" or
 			page.id:sub(1, #"advanced") == "advanced"
-	local show_advanced = core.settings:get_bool("show_advanced")
 	if is_advanced and not show_advanced then
 		return false
 	end
@@ -503,43 +509,64 @@ local function get_formspec(dialogdata)
 			"tooltip[search;", fgettext("Search"), "]",
 			"tooltip[search_clear;", fgettext("Clear"), "]",
 		"container_end[]",
-		"scroll_container[0.25,1.25;", tostring(left_pane_width), ",",
-				tostring(tabsize.height - 1.5), ";leftscroll;vertical;0.1]",
-		"style_type[button;border=false;bgcolor=#3333]",
-		"style_type[button:hover;border=false;bgcolor=#6663]",
 	}
 
-	local y = 0
-	local last_section = nil
-	for _, other_page in ipairs(filtered_pages) do
-		if other_page.section ~= last_section then
-			fs[#fs + 1] = ("label[0.1,%f;%s]"):format(
-				y + 0.41, core.colorize("#ff0", fgettext(other_page.section)))
-			last_section = other_page.section
+	if #filtered_pages > 0 then
+		fs[#fs + 1] = "style_type[button;border=false;bgcolor=#3333]"
+		fs[#fs + 1] = "style_type[button:hover;border=false;bgcolor=#6663]"
+		fs[#fs + 1] = ("scroll_container[0.25,1.25;%f,%f;leftscroll;vertical;0.1]"):format(
+				left_pane_width, tabsize.height - 1.5)
+
+		local y = 0
+		local last_section = nil
+		for _, other_page in ipairs(filtered_pages) do
+			if other_page.section ~= last_section then
+				fs[#fs + 1] = ("label[0.1,%f;%s]"):format(
+					y + 0.41, core.colorize("#ff0", fgettext(other_page.section)))
+				last_section = other_page.section
+				y = y + 0.82
+			end
+			fs[#fs + 1] = ("box[0,%f;%f,0.8;%s]"):format(
+				y, left_pane_width, other_page.id == page_id and "#467832FF" or "#3339")
+			fs[#fs + 1] = ("button[0,%f;%f,0.8;page_%s;%s]")
+				:format(y, left_pane_width, other_page.id, fgettext(other_page.title))
 			y = y + 0.82
 		end
-		fs[#fs + 1] = ("box[0,%f;%f,0.8;%s]"):format(
-			y, left_pane_width, other_page.id == page_id and "#467832FF" or "#3339")
-		fs[#fs + 1] = ("button[0,%f;%f,0.8;page_%s;%s]")
-			:format(y, left_pane_width, other_page.id, fgettext(other_page.title))
-		y = y + 0.82
-	end
 
-	if #filtered_pages == 0 then
+		fs[#fs + 1] = "scroll_container_end[]"
+		fs[#fs + 1] = "style_type[button;border=;bgcolor=]"
+
+		if y >= tabsize.height - 1.25 then
+			fs[#fs + 1] = make_scrollbaroptions_for_scroll_container(tabsize.height - 1.5, y, 0.1)
+			fs[#fs + 1] = ("scrollbar[%f,1.25;%f,%f;vertical;leftscroll;%f]"):format(
+					left_pane_width + 0.25, scrollbar_w, tabsize.height - 1.5, dialogdata.leftscroll or 0)
+		end
+	else
+		fs[#fs + 1] = "container[0.25,1.25]"
+
 		fs[#fs + 1] = "label[0.1,0.41;"
 		fs[#fs + 1] = fgettext("No results")
 		fs[#fs + 1] = "]"
+
+		if not show_advanced then
+			local advanced_available = false
+			local query_keywords = split_query(dialogdata.query)
+
+			for _, page in ipairs(all_pages) do
+				local content = filter_page_content(page, query_keywords)
+				if page_has_contents(page, content, true) then
+					advanced_available = true
+				end
+			end
+
+			if advanced_available then
+				fs[#fs + 1] = ("button[0,0.82;%f,0.8;no_results_show_advanced;%s]"):format(
+						left_pane_width + scrollbar_w, fgettext("Show advanced settings"))
+			end
+		end
+
+		fs[#fs + 1] = "container_end[]"
 	end
-
-	fs[#fs + 1] = "scroll_container_end[]"
-
-	if y >= tabsize.height - 1.25 then
-		fs[#fs + 1] = make_scrollbaroptions_for_scroll_container(tabsize.height - 1.5, y, 0.1)
-		fs[#fs + 1] = ("scrollbar[%f,1.25;%f,%f;vertical;leftscroll;%f]"):format(
-				left_pane_width + 0.25, scrollbar_w, tabsize.height - 1.5, dialogdata.leftscroll or 0)
-	end
-
-	fs[#fs + 1] = "style_type[button;border=;bgcolor=]"
 
 	if not dialogdata.components then
 		dialogdata.components = page and build_page_components(page) or {}
@@ -549,7 +576,7 @@ local function get_formspec(dialogdata)
 	fs[#fs + 1] = ("scroll_container[%f,0;%f,%f;rightscroll;vertical;0.1]"):format(
 			tabsize.width - right_pane_width - scrollbar_w, right_pane_width, tabsize.height)
 
-	y = 0.25
+	local y = 0.25
 	for i, comp in ipairs(dialogdata.components) do
 		fs[#fs + 1] = ("container[0,%f]"):format(y)
 
@@ -661,6 +688,17 @@ local function buttonhandler(this, fields)
 		dialogdata.rightscroll = 0
 
 		dialogdata.page_id = update_filtered_pages("")
+		return true
+	end
+
+	if fields.no_results_show_advanced then
+		core.settings:set_bool("show_advanced", true)
+
+		dialogdata.components = nil
+		dialogdata.leftscroll = 0
+		dialogdata.rightscroll = 0
+
+		dialogdata.page_id = update_filtered_pages(dialogdata.query)
 		return true
 	end
 

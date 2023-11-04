@@ -260,16 +260,12 @@ namespace gui
 		virtual void drawIcon(IGUIElement* element, EGUI_DEFAULT_ICON icon,
 				const core::position2di position,
 				u32 starttime=0, u32 currenttime=0,
-				bool loop=false, const core::rect<s32>* clip=0)
-		{
-			drawColoredIcon(element, icon, position, starttime, currenttime, loop, clip);
-		}
+				bool loop=false, const core::rect<s32>* clip=0);
 
-		virtual void drawColoredIcon(IGUIElement* element, EGUI_DEFAULT_ICON icon,
-				const core::position2di position,
+		virtual void drawIcon(IGUIElement* element, EGUI_DEFAULT_ICON icon,
+				const core::rect<s32> position,
 				u32 starttime=0, u32 currenttime=0,
-				bool loop=false, const core::rect<s32>* clip=0,
-				const video::SColor* colors=0);
+				bool loop=false, const core::rect<s32>* clip=0) override;
 
 		//! draws a 2d rectangle.
 		/** \param element: Pointer to the element which wishes to draw this icon.

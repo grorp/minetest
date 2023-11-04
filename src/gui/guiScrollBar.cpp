@@ -355,10 +355,10 @@ void GUIScrollBar::refreshControls()
 			up_button->setSpriteBank(sprites);
 			up_button->setSprite(EGBS_BUTTON_UP,
 					s32(skin->getIcon(EGDI_CURSOR_LEFT)),
-					current_icon_color);
+					current_icon_color, false, true);
 			up_button->setSprite(EGBS_BUTTON_DOWN,
 					s32(skin->getIcon(EGDI_CURSOR_LEFT)),
-					current_icon_color);
+					current_icon_color, false, true);
 		}
 		up_button->setRelativePosition(core::rect<s32>(0, 0, h, h));
 		up_button->setAlignment(EGUIA_UPPERLEFT, EGUIA_UPPERLEFT, EGUIA_UPPERLEFT,
@@ -377,10 +377,10 @@ void GUIScrollBar::refreshControls()
 			down_button->setSpriteBank(sprites);
 			down_button->setSprite(EGBS_BUTTON_UP,
 					s32(skin->getIcon(EGDI_CURSOR_RIGHT)),
-					current_icon_color);
+					current_icon_color, false, true);
 			down_button->setSprite(EGBS_BUTTON_DOWN,
 					s32(skin->getIcon(EGDI_CURSOR_RIGHT)),
-					current_icon_color);
+					current_icon_color, false, true);
 		}
 		down_button->setRelativePosition(
 				core::rect<s32>(RelativeRect.getWidth() - h, 0,
@@ -401,10 +401,10 @@ void GUIScrollBar::refreshControls()
 			up_button->setSpriteBank(sprites);
 			up_button->setSprite(EGBS_BUTTON_UP,
 					s32(skin->getIcon(EGDI_CURSOR_UP)),
-					current_icon_color);
+					current_icon_color, false, true);
 			up_button->setSprite(EGBS_BUTTON_DOWN,
 					s32(skin->getIcon(EGDI_CURSOR_UP)),
-					current_icon_color);
+					current_icon_color, false, true);
 		}
 		up_button->setRelativePosition(core::rect<s32>(0, 0, w, w));
 		up_button->setAlignment(EGUIA_UPPERLEFT, EGUIA_LOWERRIGHT,
@@ -423,10 +423,10 @@ void GUIScrollBar::refreshControls()
 			down_button->setSpriteBank(sprites);
 			down_button->setSprite(EGBS_BUTTON_UP,
 					s32(skin->getIcon(EGDI_CURSOR_DOWN)),
-					current_icon_color);
+					current_icon_color, false, true);
 			down_button->setSprite(EGBS_BUTTON_DOWN,
 					s32(skin->getIcon(EGDI_CURSOR_DOWN)),
-					current_icon_color);
+					current_icon_color, false, true);
 		}
 		down_button->setRelativePosition(
 				core::rect<s32>(0, RelativeRect.getHeight() - w, w,

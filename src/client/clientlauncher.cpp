@@ -151,14 +151,7 @@ bool ClientLauncher::run(GameStartData &start_data, const Settings &cmd_args)
 	skin->setSize(gui::EGDS_CHECK_BOX_WIDTH, (s32)(17.0f * density));
 	skin->setSize(gui::EGDS_SCROLLBAR_SIZE, (s32)(14.0f * density));
 	skin->setSize(gui::EGDS_WINDOW_BUTTON_WIDTH, (s32)(15.0f * density));
-	if (density > 1.5f) {
-		std::string sprite_path = porting::path_share + "/textures/base/pack/";
-		if (density > 3.5f)
-			sprite_path.append("checkbox_64.png");
-		else if (density > 2.0f)
-			sprite_path.append("checkbox_32.png");
-		else
-			sprite_path.append("checkbox_16.png");
+		std::string sprite_path = porting::path_share + "/textures/base/pack/checkbox_64.png";
 		// Texture dimensions should be a power of 2
 		gui::IGUISpriteBank *sprites = skin->getSpriteBank();
 		video::IVideoDriver *driver = m_rendering_engine->get_video_driver();
@@ -168,7 +161,6 @@ bool ClientLauncher::run(GameStartData &start_data, const Settings &cmd_args)
 			if (sprite_id != -1)
 				skin->setIcon(gui::EGDI_CHECK_BOX_CHECKED, sprite_id);
 		}
-	}
 
 	g_fontengine = new FontEngine(guienv);
 	FATAL_ERROR_IF(g_fontengine == NULL, "Font engine creation failed.");

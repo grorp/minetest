@@ -9,8 +9,16 @@
 #include "IGUIFont.h"
 #include "IGUISpriteBank.h"
 #include "IGUIElement.h"
+#include "ITexture.h"
 #include "IVideoDriver.h"
 #include "IAttributes.h"
+#include "SColor.h"
+
+#include "dimension2d.h"
+#include "settings.h"
+#include "client/renderingengine.h"
+#include "util/basic_macros.h"
+#include "util/numeric.h"
 
 namespace irr
 {
@@ -988,25 +996,80 @@ by more complex implementations to find out how to draw the part exactly.
 \param currenttime: The present time, used to calculate the frame number
 \param loop: Whether the animation should loop or not
 \param clip: Clip area.	*/
-// PATCH
-void GUISkin::drawColoredIcon(IGUIElement* element, EGUI_DEFAULT_ICON icon,
-			const core::position2di position,
-			u32 starttime, u32 currenttime,
-			bool loop, const core::rect<s32>* clip,
-			const video::SColor* colors)
+void GUISkin::drawIcon(IGUIElement* element, EGUI_DEFAULT_ICON icon,
+	const core::position2di position,
+	u32 starttime, u32 currenttime,
+	bool loop, const core::rect<s32>* clip)
 {
 	if (!SpriteBank)
 		return;
 
-	if (!colors)
-		colors = Colors;
+	u32 time = currenttime - starttime;
+
+	core::rect<s32> src_rect = SpriteBank->getSpriteSize(Icons[icon], time, loop);
+	if (src_rect.getArea() == 0)
+		return;
+
+	float density = rangelim(g_settings->getFloat("gui_scaling"), 0.5, 20) *
+		RenderingEngine::getDisplayDensity();
+	core::dimension2di dest_size(src_rect.getWidth() * density, src_rect.getHeight() * density);
+	core::rect<s32> dest_rect(position - dest_size / 2, dest_size);
 
 	bool gray = element && !element->isEnabled();
-	SpriteBank->draw2DSprite(Icons[icon], position, clip,
-			colors[gray? EGDC_GRAY_WINDOW_SYMBOL : EGDC_WINDOW_SYMBOL], starttime, currenttime, loop, true);
-}
-// END PATCH
+	video::SColor c = Colors[gray? EGDC_GRAY_WINDOW_SYMBOL : EGDC_WINDOW_SYMBOL];
+	video::SColor colors[4] = {c, c, c, c};
 
+	SpriteBank->draw2DSprite(Icons[icon], dest_rect, clip,
+			colors, time, loop);
+}
+
+//! draws an icon, usually from the skin's sprite bank
+/**	\param parent: Pointer to the element which wishes to draw this icon.
+This parameter is usually not used by IGUISkin, but can be used for example
+by more complex implementations to find out how to draw the part exactly.
+\param icon: Specifies the icon to be drawn.
+\param position: The position to draw the icon
+\param starttime: The time at the start of the animation
+\param currenttime: The present time, used to calculate the frame number
+\param loop: Whether the animation should loop or not
+\param clip: Clip area.	*/
+void GUISkin::drawIcon(IGUIElement* element, EGUI_DEFAULT_ICON icon,
+	const core::rect<s32> position,
+	u32 starttime, u32 currenttime,
+	bool loop, const core::rect<s32>* clip)
+{
+	if (!SpriteBank)
+		return;
+
+	u32 time = currenttime - starttime;
+
+	core::rect<s32> src_rect = SpriteBank->getSpriteSize(Icons[icon], time, loop);
+	if (src_rect.getArea() == 0)
+		return;
+	std::cout << "[GUISkin::drawIcon] icon=" << Icons[icon] << " sprite src width=" << src_rect.getWidth() << " height=" << src_rect.getHeight() << std::endl;
+
+	float density = myround(rangelim(g_settings->getFloat("gui_scaling"), 0.5, 20) *
+		RenderingEngine::getDisplayDensity());
+	core::dimension2di dest_size(7 * density, 8 * density);
+
+	/*
+	f32 scale = std::min((f32)position.getWidth() / (f32)dest_size.Width,
+			(f32)position.getHeight() / (f32)dest_size.Height);
+	if (scale < 1.0f) {
+		dest_size.Width *= scale;
+		dest_size.Height *= scale;
+	}
+	*/
+
+	core::rect<s32> dest_rect(position.getCenter() - dest_size / 2, dest_size);
+
+	bool gray = element && !element->isEnabled();
+	video::SColor c = Colors[gray? EGDC_GRAY_WINDOW_SYMBOL : EGDC_WINDOW_SYMBOL];
+	video::SColor colors[4] = {c, c, c, c};
+
+	SpriteBank->draw2DSprite(Icons[icon], dest_rect, clip,
+			colors, time, loop);
+}
 
 EGUI_SKIN_TYPE GUISkin::getType() const
 {

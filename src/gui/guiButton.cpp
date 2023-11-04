@@ -358,12 +358,14 @@ void GUIButton::drawSprite(EGUI_BUTTON_STATE state, u32 startTime, const core::p
 
 	if (ButtonSprites[stateIdx].Index != -1)
 	{
-		if ( ButtonSprites[stateIdx].Scale )
+		if ( ButtonSprites[stateIdx].Scale || true )
 		{
+			std::cout << "[GUIButton::drawSprite] drawing scaled icon " << std::endl;
 			const video::SColor colors[] = {ButtonSprites[stateIdx].Color,ButtonSprites[stateIdx].Color,ButtonSprites[stateIdx].Color,ButtonSprites[stateIdx].Color};
-			SpriteBank->draw2DSprite(ButtonSprites[stateIdx].Index, AbsoluteRect.UpperLeftCorner,
-					&AbsoluteClippingRect, colors[0], // FIXME: remove [0]
-					porting::getTimeMs()-startTime, ButtonSprites[stateIdx].Loop);
+			Environment->getSkin()->setIcon(irr::gui::EGDI_MENU_MORE, ButtonSprites[stateIdx].Index);
+			Environment->getSkin()->drawIcon(this, irr::gui::EGDI_MENU_MORE, AbsoluteRect,
+					startTime, porting::getTimeMs(),
+					ButtonSprites[stateIdx].Loop, &AbsoluteClippingRect);
 		}
 		else
 		{

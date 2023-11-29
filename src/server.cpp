@@ -112,6 +112,8 @@ void *ServerThread::run()
 	 * doesn't busy wait) and will process any remaining packets.
 	 */
 
+	m_server->init();
+
 	try {
 		m_server->AsyncRunStep(true);
 	} catch (con::ConnectionBindFailed &e) {
@@ -520,11 +522,13 @@ void Server::init()
 	m_max_chatmessage_length = g_settings->getU16("chat_message_max_size");
 	m_csm_restriction_flags = g_settings->getU64("csm_restriction_flags");
 	m_csm_restriction_noderange = g_settings->getU32("csm_restriction_noderange");
+
+	sef_ready = true;
 }
 
 void Server::start()
 {
-	init();
+	sef_ready = false;
 
 	infostream << "Starting server on " << m_bind_addr.serializeString()
 			<< "..." << std::endl;

@@ -1383,6 +1383,7 @@ bool Game::initSound()
 bool Game::createSingleplayerServer(const std::string &map_dir,
 		const SubgameSpec &gamespec, u16 port)
 {
+	std::cout << "[createSingleplayerServer] called" << std::endl;
 	showOverlayMessage(N_("Creating server..."), 0, 5);
 
 	std::string bind_str;
@@ -1411,10 +1412,19 @@ bool Game::createSingleplayerServer(const std::string &map_dir,
 		errorstream << *error_message << std::endl;
 		return false;
 	}
+	std::cout << "[createSingleplayerServer] bind address stuff finished" << std::endl;
 
 	server = new Server(map_dir, gamespec, simple_singleplayer_mode, bind_addr,
 			false, nullptr, error_message);
+	std::cout << "[createSingleplayerServer] Server() finished" << std::endl;
 	server->start();
+	std::cout << "[createSingleplayerServer] Server::start() finished" << std::endl;
+
+	while (!server->sef_ready) {
+		m_rendering_engine->run();
+		showOverlayMessage(N_("Creating server..."), 5.f/1000.f, 5);
+		sleep_ms(5);
+	}
 
 	return true;
 }

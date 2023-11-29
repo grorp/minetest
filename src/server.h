@@ -395,7 +395,10 @@ public:
 	// Environment mutex (envlock)
 	std::mutex m_env_mutex;
 
+	bool sef_ready = false;
+
 private:
+	friend class ServerThread;
 	friend class EmergeThread;
 	friend class RemoteClient;
 	friend class TestServerShutdownState;

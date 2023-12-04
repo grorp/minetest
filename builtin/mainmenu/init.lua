@@ -63,6 +63,9 @@ local function main_event_handler(tabview, event)
 	if event == "MenuQuit" then
 		core.close()
 	end
+	if event == "Resize" then
+		ui.update()
+	end
 	return true
 end
 

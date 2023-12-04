@@ -37,6 +37,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "client/guiscalingfilter.h"
 #include "irrlicht_changes/static_text.h"
 #include "client/tile.h"
+#include "clientdynamicinfo.h"
 
 #if USE_SOUND
 	#include "client/sound/sound_openal.h"
@@ -262,6 +263,8 @@ void GUIEngine::run()
 		);
 	const bool initial_window_maximized = g_settings->getBool("window_maximized");
 
+	auto last_dyn_info = ClientDynamicInfo::getCurrent();
+
 	u64 t_last_frame = porting::getTimeUs();
 	f32 dtime = 0.0f;
 
@@ -307,6 +310,12 @@ void GUIEngine::run()
 		u64 t_now = porting::getTimeUs();
 		dtime = static_cast<f32>(t_now - t_last_frame) * 1.0e-6f;
 		t_last_frame = t_now;
+
+		auto dyn_info = ClientDynamicInfo::getCurrent();
+		if (!dyn_info.equal(last_dyn_info)) {
+			getScriptIface()->handleMainMenuEvent("Resize");
+			last_dyn_info = dyn_info;
+		}
 
 		m_script->step();
 

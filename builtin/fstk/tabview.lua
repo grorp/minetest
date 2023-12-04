@@ -68,8 +68,39 @@ local function get_formspec(self)
 
 	local tsize = tab.tabsize or { width = self.width, height = self.height }
 	if self.parent == nil and not prepend then
-		prepend = string.format("size[%f,%f,%s]", tsize.width, tsize.height,
-				dump(self.fixed_size))
+		local position_y = 0.5
+		local anchor_y = 0.5
+
+		if TOUCHSCREEN_GUI then
+			-- On touchscreen builds, the mainmenu consumes a larger proportion
+			-- of the available vertical space than on desktop.
+			-- To prevent the header from becoming very small because of that,
+			-- we move the mainmenu as far down as possible.
+
+			local max_size = core.get_window_info().max_formspec_size
+			local avail_height = max_size.y
+			if tsize.width > max_size.x then
+				-- Account for aspect ratios where the menu is shrunk horizontally.
+				avail_height = avail_height / max_size.x * tsize.width
+			end
+			-- Compensate for the default formspec padding of 0.05.
+			avail_height = avail_height * 1.111111111111
+
+			local height_including_tabheader_and_gamebar = 0.85 + tsize.height + 1.4
+
+			if height_including_tabheader_and_gamebar <= avail_height then
+				-- Only do this if it won't cause other stuff to go off-screen
+				-- (this can happen if the user increases the "gui_scaling" setting).
+
+				local height_including_gamebar = tsize.height + 1.4
+				position_y = 1
+				anchor_y = height_including_gamebar / tsize.height
+			end
+		end
+
+		prepend = string.format("size[%f,%f,%s]position[0.5,%f]anchor[0.5,%f]",
+				tsize.width, tsize.height, dump(self.fixed_size), position_y,
+				anchor_y)
 
 		if tab.formspec_version then
 			prepend = ("formspec_version[%d]"):format(tab.formspec_version) .. prepend

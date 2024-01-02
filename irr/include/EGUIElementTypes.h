@@ -90,6 +90,12 @@ enum EGUI_ELEMENT_TYPE
 	//! The root of the GUI
 	EGUIET_ROOT,
 
+	//! Scroll container
+	EGUIET_CUSTOM_SCROLLCONTAINER,
+
+	//! GUI table
+	EGUIET_CUSTOM_GUITABLE,
+
 	//! Not an element, amount of elements in there
 	EGUIET_COUNT,
 

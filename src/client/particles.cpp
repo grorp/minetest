@@ -201,6 +201,10 @@ void Particle::step(float dtime)
 				}
 			}
 		} else {
+			if (r.collides) {
+				if (p_velocity.Y == 0.0f)
+					p_velocity = v3f();
+			}
 			m_velocity = p_velocity / BS;
 		}
 		m_pos = p_pos / BS;
@@ -243,6 +247,7 @@ void Particle::step(float dtime)
 
 void Particle::updateLight()
 {
+	/*
 	u8 light = 0;
 	bool pos_ok;
 
@@ -263,6 +268,11 @@ void Particle::updateLight()
 		m_light * m_base_color.getRed() / 255,
 		m_light * m_base_color.getGreen() / 255,
 		m_light * m_base_color.getBlue() / 255);
+	*/
+	m_color.set(m_alpha*255,
+		 m_base_color.getRed(),
+		 m_base_color.getGreen(),
+		 m_base_color.getBlue());
 }
 
 void Particle::updateVertices()
@@ -847,7 +857,7 @@ void ParticleManager::addDiggingParticles(IGameDef *gamedef,
 		return;
 
 	for (u16 j = 0; j < 16; j++) {
-		addNodeParticle(gamedef, player, pos, n, f);
+		addNodeParticle(gamedef, player, pos, n, f, true);
 	}
 }
 
@@ -855,7 +865,7 @@ void ParticleManager::addDiggingParticles(IGameDef *gamedef,
 // function, called from Game::handleDigging() in game.cpp.
 
 void ParticleManager::addNodeParticle(IGameDef *gamedef,
-	LocalPlayer *player, v3s16 pos, const MapNode &n, const ContentFeatures &f)
+	LocalPlayer *player, v3s16 pos, const MapNode &n, const ContentFeatures &f, bool the_end)
 {
 	ParticleParameters p;
 	video::ITexture *ref = nullptr;
@@ -865,7 +875,9 @@ void ParticleManager::addNodeParticle(IGameDef *gamedef,
 	if (!getNodeParticleParams(n, f, p, &ref, texpos, texsize, &color))
 		return;
 
-	p.expirationtime = myrand_range(0, 100) / 100.0f;
+	p.expirationtime = myrand_range(100, 200) / 100.0f;
+	if (the_end)
+		p.collisiondetection = true;
 
 	// Physics
 	p.vel = v3f(

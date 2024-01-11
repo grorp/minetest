@@ -59,7 +59,7 @@ bool GUIScrollContainer::OnEvent(const SEvent &event)
 		return retval;
 	}
 
-	if (event.EventType == EET_MOUSE_INPUT_EVENT) {
+	if (event.EventType == EET_MOUSE_INPUT_EVENT && m_scrollbar) {
 		if (event.MouseInput.Event == EMIE_LMOUSE_PRESSED_DOWN) {
 			m_swipe_start_y = event.MouseInput.Y -
 					  m_scrollbar->getPos() * m_scrollfactor;

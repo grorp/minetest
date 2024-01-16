@@ -3922,7 +3922,7 @@ void GUIFormSpecMenu::acceptInput(FormspecQuitMode quitmode)
 					// without rtti support in Irrlicht
 					IGUIElement *element = getElementFromId(s.fid, true);
 					GUIScrollBar *e = nullptr;
-					if (element && element->getType() == gui::EGUIET_ELEMENT)
+					if (element && element->getType() == gui::EGUIET_CUSTOM_SCROLLBAR)
 						e = static_cast<GUIScrollBar *>(element);
 
 					if (e) {

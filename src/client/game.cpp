@@ -51,6 +51,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "gui/guiPasswordChange.h"
 #include "gui/guiVolumeChange.h"
 #include "gui/mainmenumanager.h"
+#include "gui/manager.h"
 #include "gui/profilergraph.h"
 #include "mapblock.h"
 #include "minimap.h"
@@ -902,6 +903,7 @@ private:
 	void handleClientEvent_Deathscreen(ClientEvent *event, CameraOrientation *cam);
 	void handleClientEvent_ShowFormSpec(ClientEvent *event, CameraOrientation *cam);
 	void handleClientEvent_ShowLocalFormSpec(ClientEvent *event, CameraOrientation *cam);
+	void handleClientEvent_UiMessage(ClientEvent *event, CameraOrientation *cam);
 	void handleClientEvent_HandleParticleEvent(ClientEvent *event,
 		CameraOrientation *cam);
 	void handleClientEvent_HudAdd(ClientEvent *event, CameraOrientation *cam);
@@ -950,6 +952,7 @@ private:
 
 	std::unique_ptr<GameUI> m_game_ui;
 	GUIChatConsole *gui_chat_console = nullptr; // Free using ->Drop()
+	ui::GUIManagerElem *gui_manager_elem = nullptr; // Free using ->Drop()
 	MapDrawControl *draw_control = nullptr;
 	Camera *camera = nullptr;
 	Clouds *clouds = nullptr;	                  // Free using ->Drop()
@@ -1290,6 +1293,8 @@ void Game::shutdown()
 	if (formspec)
 		formspec->quitMenu();
 
+	ui::g_manager.reset();
+
 	// Clear text when exiting.
 	m_game_ui->clearText();
 
@@ -1303,6 +1308,8 @@ void Game::shutdown()
 
 	if (gui_chat_console)
 		gui_chat_console->drop();
+	if (gui_manager_elem)
+		gui_manager_elem->drop();
 
 	if (sky)
 		sky->drop();
@@ -1560,6 +1567,8 @@ bool Game::createClient(const GameStartData &start_data)
 	if (mapper && client->modsLoaded())
 		client->getScript()->on_minimap_ready(mapper);
 
+	ui::g_manager.setClient(client);
+
 	return true;
 }
 
@@ -1576,6 +1585,9 @@ bool Game::initGui()
 	// Chat backend and console
 	gui_chat_console = new GUIChatConsole(guienv, guienv->getRootGUIElement(),
 			-1, chat_backend, client, &g_menumgr);
+
+	// Thingy to draw UI manager after chat but before formspecs.
+	gui_manager_elem = new ui::GUIManagerElem(guienv, guiroot, -1);
 
 	if (g_touchscreengui)
 		g_touchscreengui->init(texture_src);
@@ -2799,6 +2811,7 @@ const ClientEventHandler Game::clientEventHandler[CLIENTEVENT_MAX] = {
 	{&Game::handleClientEvent_Deathscreen},
 	{&Game::handleClientEvent_ShowFormSpec},
 	{&Game::handleClientEvent_ShowLocalFormSpec},
+	{&Game::handleClientEvent_UiMessage},
 	{&Game::handleClientEvent_HandleParticleEvent},
 	{&Game::handleClientEvent_HandleParticleEvent},
 	{&Game::handleClientEvent_HandleParticleEvent},
@@ -2902,6 +2915,12 @@ void Game::handleClientEvent_ShowLocalFormSpec(ClientEvent *event, CameraOrienta
 
 	delete event->show_formspec.formspec;
 	delete event->show_formspec.formname;
+}
+
+void Game::handleClientEvent_UiMessage(ClientEvent *event, CameraOrientation *cam)
+{
+	ui::g_manager.receiveMessage(*event->ui_message.data);
+	delete event->ui_message.data;
 }
 
 void Game::handleClientEvent_HandleParticleEvent(ClientEvent *event,
@@ -4312,7 +4331,7 @@ void Game::drawScene(ProfilerGraph *graph, RunStats *stats)
 		draw_crosshair = false;
 
 	this->m_rendering_engine->draw_scene(sky_color, this->m_game_ui->m_flags.show_hud,
-			draw_wield_tool, draw_crosshair);
+			this->m_game_ui->m_flags.show_chat, draw_wield_tool, draw_crosshair);
 
 	/*
 		Profiler graph

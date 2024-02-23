@@ -25,4 +25,4 @@ extern const char *g_version_string;
 extern const char *g_version_hash;
 extern const char *g_build_info;
 
-void write_version(std::ostream &os);
+void write_version(std::ostream &os, bool use_rendering_engine=false);

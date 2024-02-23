@@ -22,6 +22,10 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "porting.h"
 #include "IrrCompileConfig.h"
 
+#ifndef SERVER
+#include "client/renderingengine.h"
+#endif
+
 #if USE_CMAKE_CONFIG_H
 	#include "cmake_config_githash.h"
 #endif
@@ -57,7 +61,7 @@ const char *g_build_info =
 #endif
 ;
 
-void write_version(std::ostream &os)
+void write_version(std::ostream &os, bool use_rendering_engine)
 {
 	os << PROJECT_NAME_C " " << g_version_hash
 		<< " (" << porting::getPlatformName() << ")" << std::endl;
@@ -78,4 +82,33 @@ void write_version(std::ostream &os)
 #endif
 	os << "Running on " << porting::get_sysinfo() << std::endl;
 	os << g_build_info << std::endl;
+
+#ifndef SERVER
+	if (!use_rendering_engine)
+		return;
+
+	const char *device_name = [] {
+		switch (RenderingEngine::get_raw_device()->getType()) {
+		case EIDT_WIN32: return "WIN32";
+		case EIDT_X11: return "X11";
+		case EIDT_OSX: return "OSX";
+		case EIDT_SDL: return "SDL";
+		case EIDT_ANDROID: return "ANDROID";
+		default: return "Unknown";
+		}
+	}();
+	os << "Active Irrlicht device = " << device_name << std::endl;;
+
+	auto drivertype = RenderingEngine::get_video_driver()->getDriverType();
+	auto info = RenderingEngine::getVideoDriverInfo(drivertype);
+	os << "Active video driver = " << info.name << std::endl;
+
+	os << "Active renderer = ";
+	#if IRRLICHT_VERSION_MT_REVISION >= 15
+		os << RenderingEngine::get_video_driver()->getName() << std::endl;
+	#else
+		auto tmp = wide_to_utf8(RenderingEngine::get_video_driver()->getName());
+		os << tmp << std::endl;
+	#endif
+#endif
 }

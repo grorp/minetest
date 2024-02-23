@@ -957,36 +957,8 @@ int ModApiMainMenu::l_get_window_info(lua_State *L)
 int ModApiMainMenu::l_get_active_driver(lua_State *L)
 {
 	auto drivertype = RenderingEngine::get_video_driver()->getDriverType();
-	lua_pushstring(L, RenderingEngine::getVideoDriverInfo(drivertype).name.c_str());
-	return 1;
-}
-
-
-int ModApiMainMenu::l_get_active_renderer(lua_State *L)
-{
-#if IRRLICHT_VERSION_MT_REVISION >= 15
-	lua_pushstring(L, RenderingEngine::get_video_driver()->getName());
-#else
-	auto tmp = wide_to_utf8(RenderingEngine::get_video_driver()->getName());
-	lua_pushstring(L, tmp.c_str());
-#endif
-	return 1;
-}
-
-/******************************************************************************/
-int ModApiMainMenu::l_get_active_irrlicht_device(lua_State *L)
-{
-	const char *device_name = [] {
-		switch (RenderingEngine::get_raw_device()->getType()) {
-		case EIDT_WIN32: return "WIN32";
-		case EIDT_X11: return "X11";
-		case EIDT_OSX: return "OSX";
-		case EIDT_SDL: return "SDL";
-		case EIDT_ANDROID: return "ANDROID";
-		default: return "Unknown";
-		}
-	}();
-	lua_pushstring(L, device_name);
+	auto info = RenderingEngine::getVideoDriverInfo(drivertype);
+	lua_pushstring(L, info.name.c_str());
 	return 1;
 }
 
@@ -994,7 +966,7 @@ int ModApiMainMenu::l_get_active_irrlicht_device(lua_State *L)
 int ModApiMainMenu::l_get_build_info(lua_State *L)
 {
 	std::ostringstream ostream;
-	write_version(ostream);
+	write_version(ostream, true);
 	lua_pushstring(L, ostream.str().c_str());
 	return 1;
 }
@@ -1150,8 +1122,6 @@ void ModApiMainMenu::Initialize(lua_State *L, int top)
 	API_FCT(get_video_drivers);
 	API_FCT(get_window_info);
 	API_FCT(get_active_driver);
-	API_FCT(get_active_renderer);
-	API_FCT(get_active_irrlicht_device);
 	API_FCT(get_build_info);
 	API_FCT(get_min_supp_proto);
 	API_FCT(get_max_supp_proto);

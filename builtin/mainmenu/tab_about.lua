@@ -156,7 +156,7 @@ return {
 
 		local fs = {
 			-- This is the right half of the tab (the credits).
-			"hypertext[5.5,0.25;9.75,6.6;credits;" .. minetest.formspec_escape(hypertext) .. "]",
+			"hypertext[5.5,0.25;9.75,6.6;credits;", minetest.formspec_escape(hypertext), "]",
 		}
 
 		-- Place the content of the left half from bottom to top.

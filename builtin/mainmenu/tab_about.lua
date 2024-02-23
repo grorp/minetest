@@ -125,31 +125,8 @@ local function read_text_file(path)
 end
 
 local function collect_debug_info()
-	local version = core.get_version()
 	local build_info = core.get_build_info()
-	local irrlicht_device = core.get_active_irrlicht_device()
-	local driver = core.get_active_driver()
-	local renderer = core.get_active_renderer()
-
-	local path_prefix = core.get_user_path() .. DIR_DELIM
-	-- Write the current settings to "minetest.conf" so we don't read outdated ones.
-	core.settings:write()
-	local minetest_conf = read_text_file(path_prefix .. "minetest.conf")
-	local debug_txt = string.tail(read_text_file(path_prefix .. "debug.txt"), 64)
-
-	return table.concat({
-		version.project, " ", (version.hash or version.string), " (", PLATFORM, ")\n",
-		build_info, "\n\n",
-		"Active Irrlicht device = ", irrlicht_device, "\n",
-		"Active \"video_driver\"  = ", driver, "\n", -- not redundant!
-		"Active renderer        = ", renderer, "\n\n",
-		"minetest.conf\n",
-		"-------------\n",
-		minetest_conf, "\n",
-		"debug.txt\n",
-		"---------\n",
-		debug_txt,
-	})
+	return build_info
 end
 
 return {
@@ -215,8 +192,8 @@ return {
 		end
 
 		pos_y = pos_y - BTN_H
-		local export_debug_label = PLATFORM == "Android" and fgettext("Share debug info") or
-				fgettext("Copy debug info")
+		local export_debug_label = PLATFORM == "Android" and fgettext("Share build info") or
+				fgettext("Copy build info")
 		fs[#fs + 1] = ("button[0.5,%f;4.5,%f;export_debug;%s]"):format(pos_y, BTN_H, export_debug_label)
 		pos_y = pos_y - (show_userdata_btn and 0.25 or 0.15)
 

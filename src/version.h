@@ -19,6 +19,10 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #pragma once
 
+#include <ostream>
+
 extern const char *g_version_string;
 extern const char *g_version_hash;
 extern const char *g_build_info;
+
+void write_version(std::ostream &os);

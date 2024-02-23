@@ -17,6 +17,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
+#include <sstream>
 #include "lua_api/l_mainmenu.h"
 #include "lua_api/l_internal.h"
 #include "common/c_content.h"
@@ -992,7 +993,9 @@ int ModApiMainMenu::l_get_active_irrlicht_device(lua_State *L)
 /******************************************************************************/
 int ModApiMainMenu::l_get_build_info(lua_State *L)
 {
-	lua_pushstring(L, g_build_info);
+	std::ostringstream ostream;
+	write_version(ostream);
+	lua_pushstring(L, ostream.str().c_str());
 	return 1;
 }
 

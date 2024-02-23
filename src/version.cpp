@@ -19,10 +19,20 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "version.h"
 #include "config.h"
+#include "porting.h"
+#include "IrrCompileConfig.h"
 
 #if USE_CMAKE_CONFIG_H
 	#include "cmake_config_githash.h"
 #endif
+
+extern "C" {
+#if USE_LUAJIT
+	#include <luajit.h>
+#else
+	#include <lua.h>
+#endif
+}
 
 #ifndef VERSION_GITHASH
 	#define VERSION_GITHASH VERSION_STRING
@@ -46,3 +56,26 @@ const char *g_build_info =
 	"\n" "STATIC_LOCALEDIR=" STR(STATIC_LOCALEDIR)
 #endif
 ;
+
+void write_version(std::ostream &os)
+{
+	os << PROJECT_NAME_C " " << g_version_hash
+		<< " (" << porting::getPlatformName() << ")" << std::endl;
+#ifndef SERVER
+	os << "Using Irrlicht " IRRLICHT_SDK_VERSION << std::endl;
+#endif
+#if USE_LUAJIT
+	os << "Using " << LUAJIT_VERSION << std::endl;
+#else
+	os << "Using " << LUA_RELEASE << std::endl;
+#endif
+#if defined(__clang__)
+	os << "Built by Clang " << __clang_major__ << "." << __clang_minor__ << std::endl;
+#elif defined(__GNUC__)
+	os << "Built by GCC " << __GNUC__ << "." << __GNUC_MINOR__ << std::endl;
+#elif defined(_MSC_VER)
+	os << "Built by MSVC " << (_MSC_VER / 100) << "." << (_MSC_VER % 100) << std::endl;
+#endif
+	os << "Running on " << porting::get_sysinfo() << std::endl;
+	os << g_build_info << std::endl;
+}

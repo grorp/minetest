@@ -168,20 +168,18 @@ return {
 
 		local pos_y = TAB_H - TAB_PADDING
 
-		if PLATFORM ~= "Android" then
+		if PLATFORM == "Android" then
+			pos_y = pos_y - BTN_H
+			fs[#fs + 1] = ("button[0.5,%f;4.5,%f;share_debug;%s]"):format(
+					pos_y, BTN_H, fgettext("Share debug log"))
+			pos_y = pos_y - 0.1
+		else
 			pos_y = pos_y - BTN_H
 			fs[#fs + 1] = "tooltip[userdata;" ..
 					fgettext("Opens the directory that contains user-provided worlds, games, mods,\n" ..
 							"and texture packs in a file manager / explorer.") .. "]"
 			fs[#fs + 1] = ("button[0.5,%f;4.5,%f;userdata;%s]"):format(
 					pos_y, BTN_H, fgettext("Open user data directory"))
-			pos_y = pos_y - 0.1
-		end
-
-		if PLATFORM == "Android" then
-			pos_y = pos_y - BTN_H
-			fs[#fs + 1] = ("button[0.5,%f;4.5,%f;share_debug;%s]"):format(
-					pos_y, BTN_H, fgettext("Share debug log"))
 			pos_y = pos_y - 0.1
 		end
 

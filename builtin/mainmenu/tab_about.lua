@@ -184,7 +184,7 @@ return {
 		end
 
 		pos_y = pos_y - BTN_H
-		fs[#fs + 1] = ("button[0.5,%f;4.5,%f;copy_build;%s]"):format(
+		fs[#fs + 1] = ("button[0.5,%f;4.5,%f;copy_build_info;%s]"):format(
 				pos_y, BTN_H, fgettext("Copy build info"))
 		pos_y = pos_y - 0.25
 
@@ -214,7 +214,7 @@ return {
 			core.share_file(path)
 		end
 
-		if fields.copy_build then
+		if fields.copy_build_info then
 			core.copy_text(core.get_build_info())
 		end
 

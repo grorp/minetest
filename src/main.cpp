@@ -51,15 +51,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "gui/mainmenumanager.h"
 #endif
 
-// for version information only
-extern "C" {
-#if USE_LUAJIT
-	#include <luajit.h>
-#else
-	#include <lua.h>
-#endif
-}
-
 #if !defined(__cpp_rtti) || !defined(__cpp_exceptions)
 #error Minetest cannot be built without exceptions or RTTI
 #endif
@@ -94,7 +85,6 @@ static void set_allowed_options(OptionList *allowed_options);
 
 static void print_help(const OptionList &allowed_options);
 static void print_allowed_options(const OptionList &allowed_options);
-static void print_version(std::ostream &os);
 static void print_worldspecs(const std::vector<WorldSpec> &worldspecs,
 	std::ostream &os, bool print_name = true, bool print_path = true);
 static void print_modified_quicktune_values();
@@ -159,7 +149,7 @@ int main(int argc, char *argv[])
 
 	if (cmd_args.getFlag("version")) {
 		porting::attachOrCreateConsole();
-		print_version(std::cout);
+		write_version(std::cout);
 		return 0;
 	}
 
@@ -421,29 +411,6 @@ static void print_allowed_options(const OptionList &allowed_options)
 
 		std::cout << std::endl;
 	}
-}
-
-static void print_version(std::ostream &os)
-{
-	os << PROJECT_NAME_C " " << g_version_hash
-		<< " (" << porting::getPlatformName() << ")" << std::endl;
-#ifndef SERVER
-	os << "Using Irrlicht " IRRLICHT_SDK_VERSION << std::endl;
-#endif
-#if USE_LUAJIT
-	os << "Using " << LUAJIT_VERSION << std::endl;
-#else
-	os << "Using " << LUA_RELEASE << std::endl;
-#endif
-#if defined(__clang__)
-	os << "Built by Clang " << __clang_major__ << "." << __clang_minor__ << std::endl;
-#elif defined(__GNUC__)
-	os << "Built by GCC " << __GNUC__ << "." << __GNUC_MINOR__ << std::endl;
-#elif defined(_MSC_VER)
-	os << "Built by MSVC " << (_MSC_VER / 100) << "." << (_MSC_VER % 100) << std::endl;
-#endif
-	os << "Running on " << porting::get_sysinfo() << std::endl;
-	os << g_build_info << std::endl;
 }
 
 static void list_game_ids()
@@ -724,7 +691,7 @@ static void uninit_common()
 
 static void startup_message()
 {
-	print_version(infostream);
+	write_version(infostream);
 	infostream << "SER_FMT_VER_HIGHEST_READ=" <<
 		TOSTRING(SER_FMT_VER_HIGHEST_READ) <<
 		" LATEST_PROTOCOL_VERSION=" << TOSTRING(LATEST_PROTOCOL_VERSION)

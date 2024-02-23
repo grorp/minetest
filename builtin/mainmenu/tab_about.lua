@@ -154,37 +154,56 @@ return {
 
 		hypertext = table.concat(hypertext):sub(1, -2)
 
-		local fs = "image[1.5,0.6;2.5,2.5;" .. core.formspec_escape(logofile) .. "]" ..
-			"style[label_button;border=false]" ..
-			"button[0.1,3.4;5.3,0.5;label_button;" ..
-			core.formspec_escape(version.project .. " " .. version.string) .. "]" ..
-			"button[1.5,4.1;2.5,0.8;homepage;minetest.net]" ..
-			"hypertext[5.5,0.25;9.75,6.6;credits;" .. minetest.formspec_escape(hypertext) .. "]"
+		local fs = {
+			-- This is the right half of the tab (the credits).
+			"hypertext[5.5,0.25;9.75,6.6;credits;" .. minetest.formspec_escape(hypertext) .. "]",
+		}
 
-		-- Render information
-		local active_renderer_info = fgettext("Active renderer:") .. " " ..
-			core.formspec_escape(core.get_active_renderer())
-		fs = fs .. "style[label_button2;border=false]" ..
-			"button[0.1,6;5.3,0.5;label_button2;" .. active_renderer_info .. "]"..
-			"tooltip[label_button2;" .. active_renderer_info .. "]"
+		-- Place the content of the left half from bottom to top.
+		local TAB_H = 7.1
+		local TAB_PADDING = 0.5
+		local LOGO_SIZE = 2.5
+		local BTN_H = 0.8
+		local LABEL_BTN_H = 0.5
 
-		-- Irrlicht device information
-		local irrlicht_device_info = fgettext("Irrlicht device:") .. " " ..
-			core.formspec_escape(core.get_active_irrlicht_device())
-		fs = fs .. "style[label_button3;border=false]" ..
-			"button[0.1,6.5;5.3,0.5;label_button3;" .. irrlicht_device_info .. "]"..
-			"tooltip[label_button3;" .. irrlicht_device_info .. "]"
+		local pos_y = TAB_H - TAB_PADDING
 
-		if PLATFORM == "Android" then
-			fs = fs .. "button[0.5,5.1;4.5,0.8;share_debug;" .. fgettext("Share debug log") .. "]"
-		else
-			fs = fs .. "tooltip[userdata;" ..
+		if PLATFORM ~= "Android" then
+			pos_y = pos_y - BTN_H
+			fs[#fs + 1] = "tooltip[userdata;" ..
 					fgettext("Opens the directory that contains user-provided worlds, games, mods,\n" ..
 							"and texture packs in a file manager / explorer.") .. "]"
-			fs = fs .. "button[0.5,5.1;4.5,0.8;userdata;" .. fgettext("Open User Data Directory") .. "]"
+			fs[#fs + 1] = ("button[0.5,%f;4.5,%f;userdata;%s]"):format(
+					pos_y, BTN_H, fgettext("Open user data directory"))
+			pos_y = pos_y - 0.1
 		end
 
-		return fs
+		if PLATFORM == "Android" then
+			pos_y = pos_y - BTN_H
+			fs[#fs + 1] = ("button[0.5,%f;4.5,%f;share_debug;%s]"):format(
+					pos_y, BTN_H, fgettext("Share debug log"))
+			pos_y = pos_y - 0.1
+		end
+
+		pos_y = pos_y - BTN_H
+		fs[#fs + 1] = ("button[0.5,%f;4.5,%f;copy_build;%s]"):format(
+				pos_y, BTN_H, fgettext("Copy build info"))
+		pos_y = pos_y - 0.25
+
+		pos_y = pos_y - BTN_H
+		fs[#fs + 1] = ("button[0.5,%f;4.5,%f;homepage;minetest.net]"):format(pos_y, BTN_H)
+		pos_y = pos_y - 0.15
+
+		pos_y = pos_y - LABEL_BTN_H
+		fs[#fs + 1] = "style[label_button;border=false]"
+		fs[#fs + 1] = ("button[0.1,%f;5.3,%f;label_button;%s]"):format(
+				pos_y, LABEL_BTN_H, core.formspec_escape(version.project .. " " .. version.string))
+
+		-- Place the logo in the middle of the remaining vertical space.
+		fs[#fs + 1] = ("image[1.5,%f;%f,%f;%s]"):format(
+				pos_y / 2 - LOGO_SIZE / 2, LOGO_SIZE, LOGO_SIZE, logofile)
+
+		return table.concat(fs, "")
 	end,
 
 	cbf_button_handler = function(this, fields, name, tabdata)
@@ -195,6 +214,10 @@ return {
 		if fields.share_debug then
 			local path = core.get_user_path() .. DIR_DELIM .. "debug.txt"
 			core.share_file(path)
+		end
+
+		if fields.copy_build then
+			core.copy_text(core.get_build_info())
 		end
 
 		if fields.userdata then

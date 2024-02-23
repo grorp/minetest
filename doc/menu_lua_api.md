@@ -51,6 +51,8 @@ Functions
 * `core.open_dir(path)`
   * opens the path in the system file browser/explorer, returns false on failure.
   * Must be an existing directory.
+* `core.copy_text(text)`
+  * Copies `text` to the clipboard.
 * `core.share_file(path)`
   * Android only. Shares file using the share popup
 * `core.get_version()` (possible in async calls)
@@ -217,10 +219,9 @@ GUI
   * returns nil or selected file/folder
 * `core.get_active_driver()`:
   * technical name of active video driver, e.g. "opengl"
-* `core.get_active_renderer()`:
-  * name of current renderer, e.g. "OpenGL 4.6"
-* `core.get_active_irrlicht_device()`:
-  * name of current irrlicht device, e.g. "SDL"
+* `core.get_build_info()`
+  * Returns a string containing build information, similar to the output of `minetest --version`.
+  * Additionally includes rendering stuff like the active video driver.
 * `core.get_window_info()`: Same as server-side `get_player_window_information` API.
 
   ```lua

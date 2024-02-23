@@ -108,9 +108,7 @@ private:
 
 	static int l_get_active_driver(lua_State *L);
 
-	static int l_get_active_renderer(lua_State *L);
-
-	static int l_get_active_irrlicht_device(lua_State *L);
+	static int l_get_build_info(lua_State *L);
 
 	//filesystem
 
@@ -159,6 +157,8 @@ private:
 	static int l_open_url(lua_State *L);
 
 	static int l_open_dir(lua_State *L);
+
+	static int l_copy_text(lua_State *L);
 
 	static int l_share_file(lua_State *L);
 

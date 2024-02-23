@@ -17,6 +17,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
+#include <sstream>
 #include "lua_api/l_mainmenu.h"
 #include "lua_api/l_internal.h"
 #include "common/c_content.h"
@@ -956,36 +957,17 @@ int ModApiMainMenu::l_get_window_info(lua_State *L)
 int ModApiMainMenu::l_get_active_driver(lua_State *L)
 {
 	auto drivertype = RenderingEngine::get_video_driver()->getDriverType();
-	lua_pushstring(L, RenderingEngine::getVideoDriverInfo(drivertype).name.c_str());
-	return 1;
-}
-
-
-int ModApiMainMenu::l_get_active_renderer(lua_State *L)
-{
-#if IRRLICHT_VERSION_MT_REVISION >= 15
-	lua_pushstring(L, RenderingEngine::get_video_driver()->getName());
-#else
-	auto tmp = wide_to_utf8(RenderingEngine::get_video_driver()->getName());
-	lua_pushstring(L, tmp.c_str());
-#endif
+	auto info = RenderingEngine::getVideoDriverInfo(drivertype);
+	lua_pushstring(L, info.name.c_str());
 	return 1;
 }
 
 /******************************************************************************/
-int ModApiMainMenu::l_get_active_irrlicht_device(lua_State *L)
+int ModApiMainMenu::l_get_build_info(lua_State *L)
 {
-	const char *device_name = [] {
-		switch (RenderingEngine::get_raw_device()->getType()) {
-		case EIDT_WIN32: return "WIN32";
-		case EIDT_X11: return "X11";
-		case EIDT_OSX: return "OSX";
-		case EIDT_SDL: return "SDL";
-		case EIDT_ANDROID: return "ANDROID";
-		default: return "Unknown";
-		}
-	}();
-	lua_pushstring(L, device_name);
+	std::ostringstream ostream;
+	write_version(ostream, true);
+	lua_pushstring(L, ostream.str().c_str());
 	return 1;
 }
 
@@ -1016,6 +998,14 @@ int ModApiMainMenu::l_open_dir(lua_State *L)
 	std::string path = luaL_checkstring(L, 1);
 	lua_pushboolean(L, porting::open_directory(path));
 	return 1;
+}
+
+/******************************************************************************/
+int ModApiMainMenu::l_copy_text(lua_State *L)
+{
+	const char *text = luaL_checkstring(L, 1);
+	RenderingEngine::get_raw_device()->getOSOperator()->copyToClipboard(text);
+	return 0;
 }
 
 /******************************************************************************/
@@ -1132,12 +1122,12 @@ void ModApiMainMenu::Initialize(lua_State *L, int top)
 	API_FCT(get_video_drivers);
 	API_FCT(get_window_info);
 	API_FCT(get_active_driver);
-	API_FCT(get_active_renderer);
-	API_FCT(get_active_irrlicht_device);
+	API_FCT(get_build_info);
 	API_FCT(get_min_supp_proto);
 	API_FCT(get_max_supp_proto);
 	API_FCT(open_url);
 	API_FCT(open_dir);
+	API_FCT(copy_text);
 	API_FCT(share_file);
 	API_FCT(do_async_callback);
 	API_FCT(set_once);

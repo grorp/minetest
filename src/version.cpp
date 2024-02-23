@@ -17,17 +17,15 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
+#include "IrrCompileConfig.h"
 #include "version.h"
 #include "config.h"
 #include "porting.h"
-#include "IrrCompileConfig.h"
-
+#if IRRLICHT_VERSION_MT_REVISION < 15
+#include "util/string.h"
+#endif
 #ifndef SERVER
 #include "client/renderingengine.h"
-#endif
-
-#if USE_CMAKE_CONFIG_H
-	#include "cmake_config_githash.h"
 #endif
 
 extern "C" {
@@ -37,6 +35,10 @@ extern "C" {
 	#include <lua.h>
 #endif
 }
+
+#if USE_CMAKE_CONFIG_H
+	#include "cmake_config_githash.h"
+#endif
 
 #ifndef VERSION_GITHASH
 	#define VERSION_GITHASH VERSION_STRING
@@ -97,18 +99,18 @@ void write_version(std::ostream &os, bool use_rendering_engine)
 		default: return "Unknown";
 		}
 	}();
-	os << "Active Irrlicht device = " << device_name << std::endl;;
+	os << "Active Irrlicht device = " << device_name << std::endl;
 
 	auto drivertype = RenderingEngine::get_video_driver()->getDriverType();
 	auto info = RenderingEngine::getVideoDriverInfo(drivertype);
 	os << "Active video driver = " << info.name << std::endl;
 
 	os << "Active renderer = ";
-	#if IRRLICHT_VERSION_MT_REVISION >= 15
-		os << RenderingEngine::get_video_driver()->getName() << std::endl;
-	#else
-		auto tmp = wide_to_utf8(RenderingEngine::get_video_driver()->getName());
-		os << tmp << std::endl;
-	#endif
+#if IRRLICHT_VERSION_MT_REVISION >= 15
+	os << RenderingEngine::get_video_driver()->getName() << std::endl;
+#else
+	auto tmp = wide_to_utf8(RenderingEngine::get_video_driver()->getName());
+	os << tmp << std::endl;
+#endif
 #endif
 }

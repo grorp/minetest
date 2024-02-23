@@ -57,10 +57,13 @@ void showComboBoxDialog(const std::string optionList[], s32 listSize, s32 select
 
 /**
  * Opens a share intent to the file at path
- *
- * @param path
  */
 void shareFileAndroid(const std::string &path);
+
+/**
+ * Copies text to the clipboard
+ */
+void copyTextAndroid(const std::string &text);
 
 /*
  * Types of Android input dialog:

@@ -233,6 +233,19 @@ void shareFileAndroid(const std::string &path)
 	jnienv->CallVoidMethod(app_global->activity->clazz, url_open, jurl);
 }
 
+
+void copyTextAndroid(const std::string &text)
+{
+	jmethodID copy_text = jnienv->GetMethodID(nativeActivity, "copyText",
+			"(Ljava/lang/String;)V");
+
+	FATAL_ERROR_IF(copy_text == nullptr,
+			"porting::copyTextAndroid unable to find Java copyText method");
+
+	jstring jtext = jnienv->NewStringUTF(text.c_str());
+	jnienv->CallVoidMethod(app_global->activity->clazz, copy_text, jtext);
+}
+
 AndroidDialogType getLastInputDialogType()
 {
 	jmethodID lastdialogtype = jnienv->GetMethodID(nativeActivity,

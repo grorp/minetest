@@ -21,6 +21,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 package net.minetest.minetest;
 
 import android.app.NativeActivity;
+import android.content.ClipboardManager;
+import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -240,6 +242,12 @@ public class GameActivity extends NativeActivity {
 
 		Intent shareIntent = Intent.createChooser(intent, null);
 		startActivity(shareIntent);
+	}
+
+	public void copyText(String text) {
+		ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+		ClipData clip = ClipData.newPlainText(null, text);
+		clipboard.setPrimaryClip(clip);
 	}
 
 	public String getLanguage() {

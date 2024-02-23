@@ -1003,8 +1003,12 @@ int ModApiMainMenu::l_open_dir(lua_State *L)
 /******************************************************************************/
 int ModApiMainMenu::l_copy_text(lua_State *L)
 {
-	const char *text = luaL_checkstring(L, 1);
-	RenderingEngine::get_raw_device()->getOSOperator()->copyToClipboard(text);
+	std::string text = luaL_checkstring(L, 1);
+#ifdef __ANDROID__
+	porting::copyTextAndroid(text);
+#else
+	RenderingEngine::get_raw_device()->getOSOperator()->copyToClipboard(text.c_str());
+#endif
 	return 0;
 }
 

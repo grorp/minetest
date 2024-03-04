@@ -25,30 +25,11 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "hud.h"
 #include "irrlichttypes_extrabloated.h"
 #include "modalMenu.h"
+#include "touchscreengui.h"
 
 class ISimpleTextureSource;
 
-enum TouchButton : u8 {
-	BTN_RARE_CONTROLS_BAR,
-	BTN_SETTINGS_BAR,
-	BTN_JOYSTICK,
-	BTN_JUMP,
-	BTN_SNEAK,
-	BTN_ZOOM,
-	BTN_AUX1,
-	TouchButton_END,
-};
-
 extern const EnumString es_TouchButton[];
-
-struct button_meta {
-	v2s32 pos;
-	u32 height;
-};
-
-struct button_layout {
-	std::unordered_map<TouchButton, button_meta> layout;
-};
 
 class GUITouchscreenLayout : public GUIModalMenu
 {

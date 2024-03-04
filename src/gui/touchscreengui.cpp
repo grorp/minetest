@@ -464,28 +464,24 @@ void TouchScreenGUI::init(ISimpleTextureSource *tsrc)
 
 	m_visible       = true;
 	m_texturesource = tsrc;
+	createButtons(get_default_layout(m_device->getVideoDriver()->getScreenSize()));
+}
+
+void TouchScreenGUI::createButtons(const button_layout &layout) {
+	m_layout = layout;
 
 	// Initialize joystick display "button".
 	// Joystick is placed on the bottom left of screen.
 	if (m_fixed_joystick) {
 		m_joystick_btn_off = initJoystickButton(joystick_off_id,
-				rect<s32>(button_size,
-						m_screensize.Y - button_size * 4,
-						button_size * 4,
-						m_screensize.Y - button_size), 0);
+				layout.getRect(BTN_JOYSTICK, m_texturesource), 0);
 	} else {
 		m_joystick_btn_off = initJoystickButton(joystick_off_id,
-				rect<s32>(button_size,
-						m_screensize.Y - button_size * 3,
-						button_size * 3,
-						m_screensize.Y - button_size), 0);
+				layout.getRect(BTN_JOYSTICK, m_texturesource), 0);
 	}
 
 	m_joystick_btn_bg = initJoystickButton(joystick_bg_id,
-			rect<s32>(button_size,
-					m_screensize.Y - button_size * 4,
-					button_size * 4,
-					m_screensize.Y - button_size),
+			layout.getRect(BTN_JOYSTICK, m_texturesource),
 			1, false);
 
 	m_joystick_btn_center = initJoystickButton(joystick_center_id,
@@ -493,44 +489,28 @@ void TouchScreenGUI::init(ISimpleTextureSource *tsrc)
 
 	// init jump button
 	initButton(jump_id,
-			rect<s32>(m_screensize.X - 1.75f * button_size,
-					m_screensize.Y - button_size,
-					m_screensize.X - 0.25f * button_size,
-					m_screensize.Y),
+			layout.getRect(BTN_JUMP, m_texturesource),
 			L"x", false);
 
 	// init crunch button
 	initButton(crunch_id,
-			rect<s32>(m_screensize.X - 3.25f * button_size,
-					m_screensize.Y - button_size,
-					m_screensize.X - 1.75f * button_size,
-					m_screensize.Y),
+			layout.getRect(BTN_SNEAK, m_texturesource),
 			L"H", false);
 
 	// init zoom button
 	initButton(zoom_id,
-			rect<s32>(m_screensize.X - 1.25f * button_size,
-					m_screensize.Y - 4 * button_size,
-					m_screensize.X - 0.25f * button_size,
-					m_screensize.Y - 3 * button_size),
+			layout.getRect(BTN_ZOOM, m_texturesource),
 			L"z", false);
 
 	// init aux1 button
 	if (!m_joystick_triggers_aux1)
 		initButton(aux1_id,
-				rect<s32>(m_screensize.X - 1.25f * button_size,
-						m_screensize.Y - 2.5f * button_size,
-						m_screensize.X - 0.25f * button_size,
-						m_screensize.Y - 1.5f * button_size),
+				layout.getRect(BTN_AUX1, m_texturesource),
 				L"spc1", false);
 
 	m_settings_bar.init(m_texturesource, "gear_icon.png", settings_starter_id,
-			v2s32(m_screensize.X - 1.25f * button_size,
-					m_screensize.Y - (SETTINGS_BAR_Y_OFFSET + 1.0f) * button_size
-							+ 0.5f * button_size),
-			v2s32(m_screensize.X - 0.25f * button_size,
-					m_screensize.Y - SETTINGS_BAR_Y_OFFSET * button_size
-							+ 0.5f * button_size),
+			layout.getRect(BTN_SETTINGS_BAR, m_texturesource).UpperLeftCorner,
+			layout.getRect(BTN_SETTINGS_BAR, m_texturesource).LowerRightCorner,
 			AHBB_Dir_Right_Left, 3.0f);
 
 	const static std::map<touch_gui_button_id, std::string> settings_bar_buttons {
@@ -557,12 +537,8 @@ void TouchScreenGUI::init(ISimpleTextureSource *tsrc)
 
 	m_rare_controls_bar.init(m_texturesource, "rare_controls.png",
 			rare_controls_starter_id,
-			v2s32(0.25f * button_size,
-					m_screensize.Y - (RARE_CONTROLS_BAR_Y_OFFSET + 1.0f) * button_size
-							+ 0.5f * button_size),
-			v2s32(0.75f * button_size,
-					m_screensize.Y - RARE_CONTROLS_BAR_Y_OFFSET * button_size
-							+ 0.5f * button_size),
+			layout.getRect(BTN_RARE_CONTROLS_BAR, m_texturesource).UpperLeftCorner,
+			layout.getRect(BTN_RARE_CONTROLS_BAR, m_texturesource).LowerRightCorner,
 			AHBB_Dir_Left_Right, 2.0f);
 
 	const static std::map<touch_gui_button_id, std::string> rare_controls_bar_buttons {
@@ -940,11 +916,8 @@ void TouchScreenGUI::applyJoystickStatus()
 	}
 }
 
-TouchScreenGUI::~TouchScreenGUI()
+void TouchScreenGUI::removeButtons()
 {
-	if (!m_initialized)
-		return;
-
 	for (auto &button : m_buttons) {
 		if (button.gui_button) {
 			button.gui_button->drop();
@@ -966,6 +939,16 @@ TouchScreenGUI::~TouchScreenGUI()
 		m_joystick_btn_center->gui_button->drop();
 		m_joystick_btn_center->gui_button = nullptr;
 	}
+
+	m_rare_controls_bar = AutoHideButtonBar(m_device, m_receiver);
+	m_settings_bar = AutoHideButtonBar(m_device, m_receiver);
+}
+
+TouchScreenGUI::~TouchScreenGUI()
+{
+	if (!m_initialized)
+		return;
+	removeButtons();
 }
 
 void TouchScreenGUI::step(float dtime)

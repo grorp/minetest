@@ -109,6 +109,33 @@ struct button_info
 	std::vector<std::string> textures;
 };
 
+
+/* BEGIN layout stuff*/
+
+enum TouchButton : u8 {
+	BTN_RARE_CONTROLS_BAR,
+	BTN_SETTINGS_BAR,
+	BTN_JOYSTICK,
+	BTN_JUMP,
+	BTN_SNEAK,
+	BTN_ZOOM,
+	BTN_AUX1,
+	TouchButton_END,
+};
+
+struct button_meta {
+	v2s32 pos;
+	u32 height;
+};
+
+struct button_layout {
+	std::unordered_map<TouchButton, button_meta> layout;
+
+	core::rect<s32> getRect(TouchButton btn, ISimpleTextureSource *tsrc) const;
+};
+
+/* END layout stuff*/
+
 class AutoHideButtonBar
 {
 public:
@@ -315,9 +342,18 @@ private:
 
 	bool m_place_pressed = false;
 	u64 m_place_pressed_until = 0;
+
+	button_layout m_layout;
+
+	void createButtons(const button_layout &layout);
+	void removeButtons();
+
+	friend class GUITouchscreenLayout;
 };
 
 extern TouchScreenGUI *g_touchscreengui;
 
 void load_button_texture(IGUIButton *btn, const std::string &path,
 		const rect<s32> &button_rect, ISimpleTextureSource *tsrc, video::IVideoDriver *driver);
+
+button_layout get_default_layout(v2u32 screensize);

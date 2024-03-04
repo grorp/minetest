@@ -21,6 +21,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "IEventReceiver.h"
 #include "IGUIElement.h"
 #include "ITexture.h"
+#include "client/texturesource.h"
 #include "debug.h"
 #include "dimension2d.h"
 #include "guiButton.h"
@@ -102,6 +103,21 @@ button_layout get_default_layout(v2u32 screensize) {
 	}};
 }
 
+core::rect<s32> button_layout::getRect(TouchButton btn, ISimpleTextureSource *tsrc) const
+{
+
+	video::ITexture *tex = tsrc->getTexture(touch_button_images[btn]);
+	dimension2du orig_size = tex->getOriginalSize();
+	button_meta meta = layout.at(btn);
+
+	return core::rect<s32>(
+		meta.pos.X,
+		meta.pos.Y,
+		meta.pos.X + (f32)orig_size.Width / (f32)orig_size.Height * meta.height,
+		meta.pos.Y + meta.height);
+
+}
+
 GUITouchscreenLayout::GUITouchscreenLayout(gui::IGUIEnvironment* env,
 		gui::IGUIElement* parent, s32 id,
 		IMenuManager *menumgr, ISimpleTextureSource *tsrc
@@ -109,7 +125,7 @@ GUITouchscreenLayout::GUITouchscreenLayout(gui::IGUIEnvironment* env,
 	GUIModalMenu(env, parent, id, menumgr),
 	m_tsrc(tsrc)
 {
-	m_cur_layout = get_default_layout(Environment->getVideoDriver()->getScreenSize());
+	m_cur_layout = g_touchscreengui->m_layout;
 }
 
 void GUITouchscreenLayout::regenerateGui(v2u32 screensize)
@@ -123,16 +139,8 @@ void GUITouchscreenLayout::regenerateGui(v2u32 screensize)
 		if (m_cur_layout.layout.count(btn) != 1)
 			continue;
 
-		button_meta meta = m_cur_layout.layout.at(btn);
+		IGUIImage *irrimg = Environment->addImage(m_cur_layout.getRect(btn, m_tsrc), this, ID_OFFSET + btn);
 		video::ITexture *tex = m_tsrc->getTexture(touch_button_images[btn]);
-		dimension2du orig_size = tex->getOriginalSize();
-
-		core::rect<s32> rect(
-			meta.pos.X,
-			meta.pos.Y,
-			meta.pos.X + (f32)orig_size.Width / (f32)orig_size.Height * meta.height,
-			meta.pos.Y + meta.height);
-		IGUIImage *irrimg = Environment->addImage(rect, this, ID_OFFSET + btn);
 		irrimg->setImage(tex);
 		irrimg->setScaleImage(true);
 		m_gui_buttons[btn] = irrimg;
@@ -214,6 +222,8 @@ bool GUITouchscreenLayout::OnEvent(const SEvent& event)
 	} else if (event.EventType == EET_GUI_EVENT) {
 		if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
 			if (event.GUIEvent.Caller == m_gui_done_btn) {
+				g_touchscreengui->removeButtons();
+				g_touchscreengui->createButtons(m_cur_layout);
 				quitMenu();
 				return true;
 			}

@@ -26,6 +26,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "guiButton.h"
 #include "guiScrollBar.h"
 #include "log.h"
+#include "rect.h"
 #include "serialization.h"
 #include <string>
 #include <IGUICheckBox.h>
@@ -136,6 +137,18 @@ void GUITouchscreenLayout::regenerateGui(v2u32 screensize)
 		irrimg->setScaleImage(true);
 		m_gui_buttons[btn] = irrimg;
 	}
+
+	const wchar_t *btn_text = L"Done";
+	s32 pad = RenderingEngine::getDisplayDensity() * 16;
+	m_gui_done_btn = Environment->addButton(core::rect<s32>(), this, -1, btn_text);
+	IGUIFont *font = m_gui_done_btn->getActiveFont();
+	dimension2du dim = font->getDimension(btn_text);
+	m_gui_done_btn->setRelativePosition(core::rect<s32>(
+		screensize.X / 2 - dim.Width / 2 - pad,
+		pad,
+		screensize.X / 2 + dim.Width / 2 + pad,
+		dim.Height + 3 * pad
+	));
 }
 
 void GUITouchscreenLayout::drawMenu()
@@ -143,13 +156,19 @@ void GUITouchscreenLayout::drawMenu()
 	gui::IGUISkin* skin = Environment->getSkin();
 	if (!skin)
 		return;
+
 	video::IVideoDriver* driver = Environment->getVideoDriver();
 	video::SColor bgcolor(200, 0, 0, 0);
 	video::SColor highlight(255, 255, 255, 0);
+
 	driver->draw2DRectangle(bgcolor, AbsoluteRect, &AbsoluteClippingRect);
-	if (m_sel_btn != TouchButton_END && m_gui_buttons.count(m_sel_btn) == 1) {
+
+	bool valid_selection = m_sel_btn != TouchButton_END && m_gui_buttons.count(m_sel_btn) == 1;
+	if (valid_selection) {
 		driver->draw2DRectangle(highlight, m_gui_buttons[m_sel_btn]->getAbsolutePosition(), &AbsoluteClippingRect);
 	}
+	m_gui_done_btn->setVisible(!valid_selection);
+	
 	gui::IGUIElement::draw();
 }
 
@@ -170,9 +189,10 @@ bool GUITouchscreenLayout::OnEvent(const SEvent& event)
 				m_sel_btn = (TouchButton)(id - ID_OFFSET);
 				m_last_mouse_pos = mouse_pos;
 				m_mouse_down = true;
-				return true;
+			} else {
+				m_sel_btn = TouchButton_END;
 			}
-			break;
+			return true;
 		}
 		case EMIE_MOUSE_MOVED: {
 			if (m_mouse_down && m_sel_btn != TouchButton_END) {
@@ -190,6 +210,13 @@ bool GUITouchscreenLayout::OnEvent(const SEvent& event)
 		}
 		default:
 			break;
+		}
+	} else if (event.EventType == EET_GUI_EVENT) {
+		if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
+			if (event.GUIEvent.Caller == m_gui_done_btn) {
+				quitMenu();
+				return true;
+			}
 		}
 	}
 

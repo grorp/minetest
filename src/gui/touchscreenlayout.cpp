@@ -18,11 +18,13 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 */
 
 #include "touchscreenlayout.h"
+#include "IGUIElement.h"
 #include "ITexture.h"
 #include "debug.h"
 #include "dimension2d.h"
 #include "guiButton.h"
 #include "guiScrollBar.h"
+#include "log.h"
 #include "serialization.h"
 #include <string>
 #include <IGUICheckBox.h>
@@ -35,7 +37,9 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "touchscreengui.h"
 
 #include "gettext.h"
+#include "IGUIImage.h"
 
+constexpr s32 ID_OFFSET = 737;
 
 const struct EnumString es_TouchButton[] =
 {
@@ -135,8 +139,10 @@ void GUITouchscreenLayout::regenerateGui(v2u32 screensize)
 			meta.pos.Y,
 			meta.pos.X + (f32)orig_size.Width / (f32)orig_size.Height * meta.height,
 			meta.pos.Y + meta.height);
-		IGUIButton *irrbtn = Environment->addButton(rect, this, 77 + btn);
-		load_button_texture(irrbtn, touch_button_images[btn], rect, m_tsrc, RenderingEngine::get_video_driver());
+		IGUIImage *irrimg = Environment->addImage(rect, this, ID_OFFSET + btn);
+		irrimg->setImage(tex);
+		irrimg->setScaleImage(true);
+		m_gui_buttons[btn] = irrimg;
 	}
 }
 
@@ -147,16 +153,34 @@ void GUITouchscreenLayout::drawMenu()
 		return;
 	video::IVideoDriver* driver = Environment->getVideoDriver();
 	video::SColor bgcolor(200, 0, 0, 0);
+	video::SColor highlight(255, 255, 255, 0);
 	driver->draw2DRectangle(bgcolor, AbsoluteRect, &AbsoluteClippingRect);
+	if (m_sel_btn != TouchButton_END && m_gui_buttons.count(m_sel_btn) == 1) {
+		driver->draw2DRectangle(highlight, m_gui_buttons[m_sel_btn]->getAbsolutePosition(), &AbsoluteClippingRect);
+	}
 	gui::IGUIElement::draw();
 }
 
 bool GUITouchscreenLayout::OnEvent(const SEvent& event)
 {
 	if (event.EventType == EET_KEY_INPUT_EVENT) {
-		if (event.KeyInput.Key == KEY_ESCAPE && event.KeyInput.PressedDown) {
+		if ((event.KeyInput.Key == KEY_ESCAPE || event.KeyInput.Key == KEY_CANCEL) && event.KeyInput.PressedDown) {
 			quitMenu();
 			return true;
+		}
+	} else if (event.EventType == EET_MOUSE_INPUT_EVENT) {
+		switch (event.MouseInput.Event) {
+		case EMIE_LMOUSE_PRESSED_DOWN: {
+			IGUIElement *el = Environment->getRootGUIElement()->
+					getElementFromPoint(v2s32(event.MouseInput.X, event.MouseInput.Y));
+			s32 id = el->getID();
+			if (id >= ID_OFFSET && id < ID_OFFSET + TouchButton_END) {
+				m_sel_btn = (TouchButton)(id - ID_OFFSET);
+			}
+			return true;
+		}
+		default:
+			break;
 		}
 	}
 

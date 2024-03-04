@@ -19,6 +19,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #pragma once
 
+#include "IGUIButton.h"
+#include "IGUIImage.h"
 #include "common/c_types.h"
 #include "hud.h"
 #include "irrlichttypes_extrabloated.h"
@@ -63,4 +65,7 @@ protected:
 
 private:
 	ISimpleTextureSource *m_tsrc;
+
+	TouchButton m_sel_btn = TouchButton_END;
+	std::unordered_map<TouchButton, gui::IGUIImage *> m_gui_buttons;
 };

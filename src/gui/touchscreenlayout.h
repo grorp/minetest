@@ -41,6 +41,15 @@ enum TouchButton : u8 {
 
 extern const EnumString es_TouchButton[];
 
+struct button_meta {
+	v2s32 pos;
+	u32 height;
+};
+
+struct button_layout {
+	std::unordered_map<TouchButton, button_meta> layout;
+};
+
 class GUITouchscreenLayout : public GUIModalMenu
 {
 public:
@@ -67,5 +76,9 @@ private:
 	ISimpleTextureSource *m_tsrc;
 
 	TouchButton m_sel_btn = TouchButton_END;
+	v2s32 m_last_mouse_pos;
+	bool m_mouse_down = false;
 	std::unordered_map<TouchButton, gui::IGUIImage *> m_gui_buttons;
+
+	button_layout m_cur_layout;
 };

@@ -18,6 +18,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 */
 
 #include "touchscreenlayout.h"
+#include "IEventReceiver.h"
 #include "IGUIElement.h"
 #include "ITexture.h"
 #include "debug.h"
@@ -64,15 +65,6 @@ const std::string touch_button_images[] =
 	"aux1_btn.png"
 };
 
-struct button_meta {
-	v2s32 pos;
-	u32 height;
-};
-
-struct button_layout {
-	std::unordered_map<TouchButton, button_meta> layout;
-};
-
 button_layout get_default_layout(v2u32 screensize) {
 	u32 button_size = MYMIN(screensize.Y / 4.5f,
 			RenderingEngine::getDisplayDensity() * 65.0f *
@@ -116,6 +108,7 @@ GUITouchscreenLayout::GUITouchscreenLayout(gui::IGUIEnvironment* env,
 	GUIModalMenu(env, parent, id, menumgr),
 	m_tsrc(tsrc)
 {
+	m_cur_layout = get_default_layout(Environment->getVideoDriver()->getScreenSize());
 }
 
 void GUITouchscreenLayout::regenerateGui(v2u32 screensize)
@@ -124,13 +117,12 @@ void GUITouchscreenLayout::regenerateGui(v2u32 screensize)
 	DesiredRect = core::rect<s32>(0, 0, screensize.X, screensize.Y);
 	recalculateAbsolutePosition(false);
 
-	button_layout layout = get_default_layout(screensize);
 	for (u8 i = 0; i < TouchButton_END; i++) {
 		TouchButton btn = (TouchButton)i;
-		if (layout.layout.count(btn) != 1)
+		if (m_cur_layout.layout.count(btn) != 1)
 			continue;
 
-		button_meta meta = layout.layout.at(btn);
+		button_meta meta = m_cur_layout.layout.at(btn);
 		video::ITexture *tex = m_tsrc->getTexture(touch_button_images[btn]);
 		dimension2du orig_size = tex->getOriginalSize();
 
@@ -171,12 +163,29 @@ bool GUITouchscreenLayout::OnEvent(const SEvent& event)
 	} else if (event.EventType == EET_MOUSE_INPUT_EVENT) {
 		switch (event.MouseInput.Event) {
 		case EMIE_LMOUSE_PRESSED_DOWN: {
-			IGUIElement *el = Environment->getRootGUIElement()->
-					getElementFromPoint(v2s32(event.MouseInput.X, event.MouseInput.Y));
+			v2s32 mouse_pos = v2s32(event.MouseInput.X, event.MouseInput.Y);
+			IGUIElement *el = Environment->getRootGUIElement()->getElementFromPoint(mouse_pos);
 			s32 id = el->getID();
 			if (id >= ID_OFFSET && id < ID_OFFSET + TouchButton_END) {
 				m_sel_btn = (TouchButton)(id - ID_OFFSET);
+				m_last_mouse_pos = mouse_pos;
+				m_mouse_down = true;
+				return true;
 			}
+			break;
+		}
+		case EMIE_MOUSE_MOVED: {
+			if (m_mouse_down && m_sel_btn != TouchButton_END) {
+				v2s32 mouse_pos = v2s32(event.MouseInput.X, event.MouseInput.Y);
+				m_cur_layout.layout[m_sel_btn].pos += mouse_pos - m_last_mouse_pos;
+				m_last_mouse_pos = mouse_pos;
+				regenerateGui(Environment->getVideoDriver()->getScreenSize());
+				return true;
+			}
+			break;
+		}
+		case EMIE_LMOUSE_LEFT_UP: {
+			m_mouse_down = false;
 			return true;
 		}
 		default:

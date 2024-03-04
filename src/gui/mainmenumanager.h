@@ -138,11 +138,15 @@ public:
 		keyconfig_changed = true;
 	}
 
+	virtual void touchscreenLayout() {
+		touchscreenlayout_requested = true;
+	}
 
 	bool disconnect_requested = false;
 	bool changepassword_requested = false;
 	bool changevolume_requested = false;
 	bool keyconfig_requested = false;
+	bool touchscreenlayout_requested = false;
 	bool shutdown_requested = false;
 
 	bool keyconfig_changed = false;

@@ -318,3 +318,6 @@ private:
 };
 
 extern TouchScreenGUI *g_touchscreengui;
+
+void load_button_texture(IGUIButton *btn, const std::string &path,
+		const rect<s32> &button_rect, ISimpleTextureSource *tsrc, video::IVideoDriver *driver);

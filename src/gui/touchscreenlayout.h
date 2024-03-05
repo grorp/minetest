@@ -60,8 +60,10 @@ private:
 	ISimpleTextureSource *m_tsrc;
 
 	TouchButton m_sel_btn = TouchButton_END;
+	v2s32 m_sel_movement{};
 	v2s32 m_last_mouse_pos;
 	bool m_mouse_down = false;
+	bool m_dragging = false;
 	std::unordered_map<TouchButton, gui::IGUIImage *> m_gui_buttons;
 	gui::IGUIButton *m_gui_done_btn;
 

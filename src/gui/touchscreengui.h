@@ -148,12 +148,16 @@ enum class BarDir {
 	Down,
 };
 
+struct bar_button_meta {
+	std::optional<v2s32> real_pos;
+};
+
 struct button_meta {
 	v2s32 pos;
 	u32 height;
 	struct bar_props {
 		BarDir dir;
-		std::vector<std::pair<TouchButton, button_meta>> content;
+		std::vector<std::pair<TouchButton, bar_button_meta>> content;
 	};
 	std::optional<bar_props> bar;
 };

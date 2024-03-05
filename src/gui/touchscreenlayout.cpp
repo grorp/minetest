@@ -240,27 +240,38 @@ void GUITouchscreenLayout::regenerateGui(v2u32 screensize)
 	DesiredRect = core::rect<s32>(0, 0, screensize.X, screensize.Y);
 	recalculateAbsolutePosition(false);
 
-	for (const auto &v : m_cur_layout.layout) {
+	for (auto &v : m_cur_layout.layout) {
 		TouchButton btn = v.first;
-		button_meta meta = v.second;
+		button_meta &meta = v.second;
 
+		if (btn == m_sel_btn)
+			meta.pos += m_sel_movement;
 		core::rect<s32> rect = m_cur_layout.getRect(btn, m_tsrc);
 		addButton(btn, rect);
 
 		if (meta.bar.has_value() && m_expanded_bar == btn) {
-			const button_meta::bar_props bar = *meta.bar;
+			core::rect<s32> parent_rect = rect;
+			button_meta::bar_props &bar = *meta.bar;
 
 			if (bar.dir == BarDir::Right || bar.dir == BarDir::Down)
 				rect = apply_offset(bar.dir, rect);
 
-			for (const auto &w : bar.content) {
+			for (auto &w : bar.content) {
 				TouchButton inbtn = w.first;
-				button_meta inmeta = v.second;
+				bar_button_meta &inmeta = w.second;
+
 				v2u32 orig_size =  m_cur_layout.getOrigSize(inbtn, m_tsrc);
 				rect = resize_for_different_button(bar.dir, rect, orig_size);
 				if (bar.dir == BarDir::Left || bar.dir == BarDir::Up)
 					rect = apply_offset(bar.dir, rect);
-				addButton(inbtn, rect);
+
+				v2s32 real_pos_base = rect.UpperLeftCorner - parent_rect.UpperLeftCorner;
+				if (!inmeta.real_pos.has_value())
+					inmeta.real_pos = real_pos_base;
+				if (inbtn == m_sel_btn)
+					*inmeta.real_pos += m_sel_movement;
+				addButton(inbtn, rect - real_pos_base + *inmeta.real_pos);
+
 				if (bar.dir == BarDir::Right || bar.dir == BarDir::Down)
 					rect = apply_offset(bar.dir, rect);
 			}
@@ -278,6 +289,8 @@ void GUITouchscreenLayout::regenerateGui(v2u32 screensize)
 		screensize.X / 2 + dim.Width / 2 + pad,
 		dim.Height + 3 * pad
 	));
+
+	m_sel_movement = v2s32();
 }
 
 void GUITouchscreenLayout::drawMenu()
@@ -335,7 +348,9 @@ bool GUITouchscreenLayout::OnEvent(const SEvent& event)
 		case EMIE_MOUSE_MOVED: {
 			if (m_mouse_down && m_sel_btn != TouchButton_END) {
 				v2s32 mouse_pos = v2s32(event.MouseInput.X, event.MouseInput.Y);
-				m_cur_layout.layout[m_sel_btn].pos += mouse_pos - m_last_mouse_pos;
+
+				m_dragging = true;
+				m_sel_movement = mouse_pos - m_last_mouse_pos;
 				m_last_mouse_pos = mouse_pos;
 				regenerateGui(Environment->getVideoDriver()->getScreenSize());
 				return true;
@@ -344,6 +359,7 @@ bool GUITouchscreenLayout::OnEvent(const SEvent& event)
 		}
 		case EMIE_LMOUSE_LEFT_UP: {
 			m_mouse_down = false;
+			m_dragging = false;
 			return true;
 		}
 		default:

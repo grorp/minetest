@@ -37,6 +37,7 @@ public:
 	GUITouchscreenLayout(gui::IGUIEnvironment* env,
             gui::IGUIElement* parent, s32 id,
             IMenuManager *menumgr, ISimpleTextureSource *tsrc);
+	~GUITouchscreenLayout();
 
 	/*
 		Remove and re-add (or reposition) stuff
@@ -63,4 +64,5 @@ private:
 	gui::IGUIButton *m_gui_done_btn;
 
 	button_layout m_cur_layout;
+	std::optional<std::string> m_old_fps_max_unfocused;
 };

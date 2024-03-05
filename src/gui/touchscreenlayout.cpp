@@ -29,6 +29,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "log.h"
 #include "rect.h"
 #include "serialization.h"
+#include <optional>
 #include <string>
 #include <IGUICheckBox.h>
 #include <IGUIButton.h>
@@ -126,6 +127,21 @@ GUITouchscreenLayout::GUITouchscreenLayout(gui::IGUIEnvironment* env,
 	m_tsrc(tsrc)
 {
 	m_cur_layout = g_touchscreengui->m_layout;
+
+	// We need all the FPS we can get if we want drag & drop to be smooth.
+	if (g_settings->existsLocal("fps_max_unfocused"))
+		m_old_fps_max_unfocused = g_settings->get("fps_max_unfocused");
+	else
+		m_old_fps_max_unfocused = std::nullopt;
+	g_settings->set("fps_max_unfocused", g_settings->get("fps_max"));
+}
+
+GUITouchscreenLayout::~GUITouchscreenLayout() {
+	if (m_old_fps_max_unfocused.has_value())
+		g_settings->set("fps_max_unfocused", *m_old_fps_max_unfocused);
+	else
+		g_settings->remove("fps_max_unfocused");
+
 }
 
 void GUITouchscreenLayout::regenerateGui(v2u32 screensize)
@@ -167,7 +183,7 @@ void GUITouchscreenLayout::drawMenu()
 
 	video::IVideoDriver* driver = Environment->getVideoDriver();
 	video::SColor bgcolor(200, 0, 0, 0);
-	video::SColor highlight(255, 255, 255, 0);
+	video::SColor highlight(255, 128, 128, 128);
 
 	driver->draw2DRectangle(bgcolor, AbsoluteRect, &AbsoluteClippingRect);
 

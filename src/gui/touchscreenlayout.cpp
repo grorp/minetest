@@ -31,6 +31,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "rect.h"
 #include "serialization.h"
 #include <optional>
+#include <stdexcept>
 #include <string>
 #include <IGUICheckBox.h>
 #include <IGUIButton.h>
@@ -129,57 +130,6 @@ button_layout get_default_layout(v2u32 screensize) {
 	return l;
 }
 
-v2u32 button_layout::getOrigSize(TouchButton btn, ISimpleTextureSource *tsrc) const
-{
-	video::ITexture *tex = tsrc->getTexture(touch_button_images[btn]);
-	return tex->getOriginalSize();
-}
-
-core::rect<s32> button_layout::getRect(TouchButton btn, ISimpleTextureSource *tsrc) const
-{
-	v2u32 orig_size = getOrigSize(btn, tsrc);
-	button_meta meta = layout.at(btn);
-
-	return core::rect<s32>(
-		meta.pos.X,
-		meta.pos.Y,
-		meta.pos.X + (f32)orig_size.X / (f32)orig_size.Y * meta.height,
-		meta.pos.Y + meta.height);
-}
-
-GUITouchscreenLayout::GUITouchscreenLayout(gui::IGUIEnvironment* env,
-		gui::IGUIElement* parent, s32 id,
-		IMenuManager *menumgr, ISimpleTextureSource *tsrc
-):
-	GUIModalMenu(env, parent, id, menumgr),
-	m_tsrc(tsrc)
-{
-	m_cur_layout = g_touchscreengui->m_layout;
-
-	// We need all the FPS we can get if we want drag & drop to be smooth.
-	if (g_settings->existsLocal("fps_max_unfocused"))
-		m_old_fps_max_unfocused = g_settings->get("fps_max_unfocused");
-	else
-		m_old_fps_max_unfocused = std::nullopt;
-	g_settings->set("fps_max_unfocused", g_settings->get("fps_max"));
-}
-
-GUITouchscreenLayout::~GUITouchscreenLayout() {
-	if (m_old_fps_max_unfocused.has_value())
-		g_settings->set("fps_max_unfocused", *m_old_fps_max_unfocused);
-	else
-		g_settings->remove("fps_max_unfocused");
-
-}
-
-void GUITouchscreenLayout::addButton(TouchButton btn, core::rect<s32> rect) {
-	IGUIImage *irrimg = Environment->addImage(rect, this, ID_OFFSET + btn);
-	video::ITexture *tex = m_tsrc->getTexture(touch_button_images[btn]);
-	irrimg->setImage(tex);
-	irrimg->setScaleImage(true);
-	m_gui_buttons[btn] = irrimg;
-}
-
 static core::rect<s32> resize_for_different_button(BarDir dir, core::rect<s32> rect, v2u32 orig_size) {
 	switch (dir) {
 	case BarDir::Left:
@@ -231,6 +181,108 @@ static core::rect<s32> apply_offset(BarDir dir, core::rect<s32> rect) {
 	return rect;
 }
 
+v2u32 button_layout::getOrigSize(TouchButton btn, ISimpleTextureSource *tsrc) const
+{
+	video::ITexture *tex = tsrc->getTexture(touch_button_images[btn]);
+	return tex->getOriginalSize();
+}
+
+core::rect<s32> button_layout::getRectSimple(TouchButton btn, ISimpleTextureSource *tsrc) const
+{
+	button_meta meta = layout.at(btn);
+	v2u32 orig_size = getOrigSize(btn, tsrc);
+	return core::rect<s32>(
+		meta.pos.X,
+		meta.pos.Y,
+		meta.pos.X + (f32)orig_size.X / (f32)orig_size.Y * meta.height,
+		meta.pos.Y + meta.height);
+}
+
+core::rect<s32> button_layout::getRect(TouchButton btn, ISimpleTextureSource *tsrc) const
+{
+	if (layout.count(btn) == 1)
+		return getRectSimple(btn, tsrc);
+
+	for (auto &v : layout) {
+		TouchButton outer_btn = v.first;
+		const button_meta &outer_meta = v.second;
+
+		if (outer_meta.bar.has_value()) {
+			core::rect<s32> rect = getRectSimple(outer_btn, tsrc);
+			const button_meta::bar_props &bar = *outer_meta.bar;
+
+			if (bar.dir == BarDir::Right || bar.dir == BarDir::Down)
+				rect = apply_offset(bar.dir, rect);
+
+			for (auto &w : bar.content) {
+				TouchButton inner_btn = w.first;
+
+				v2u32 orig_size = getOrigSize(inner_btn, tsrc);
+				rect = resize_for_different_button(bar.dir, rect, orig_size);
+				if (bar.dir == BarDir::Left || bar.dir == BarDir::Up)
+					rect = apply_offset(bar.dir, rect);
+
+				if (inner_btn == btn)
+					return rect;
+
+				if (bar.dir == BarDir::Right || bar.dir == BarDir::Down)
+					rect = apply_offset(bar.dir, rect);
+			}
+		}
+	}
+
+	throw std::out_of_range("button doesn't exit in layout");
+}
+
+static bool button_render_please(const button_layout *layout, TouchButton btn, std::optional<TouchButton> expanded_bar) {
+	if (layout->layout.count(btn) == 1)
+		return true;
+
+	for (auto &v : layout->layout) {
+		if (v.first == expanded_bar && v.second.bar.has_value()) {
+			for (auto &w : v.second.bar->content) {
+				if (w.first == btn)
+					return true;
+			}
+		}
+	}
+	
+	return false;
+}
+
+GUITouchscreenLayout::GUITouchscreenLayout(gui::IGUIEnvironment* env,
+		gui::IGUIElement* parent, s32 id,
+		IMenuManager *menumgr, ISimpleTextureSource *tsrc
+):
+	GUIModalMenu(env, parent, id, menumgr),
+	m_tsrc(tsrc)
+{
+	m_cur_layout = g_touchscreengui->m_layout;
+
+	// We need all the FPS we can get if we want drag & drop to be smooth.
+	if (g_settings->existsLocal("fps_max_unfocused"))
+		m_old_fps_max_unfocused = g_settings->get("fps_max_unfocused");
+	else
+		m_old_fps_max_unfocused = std::nullopt;
+	g_settings->set("fps_max_unfocused", g_settings->get("fps_max"));
+}
+
+GUITouchscreenLayout::~GUITouchscreenLayout() {
+	if (m_old_fps_max_unfocused.has_value())
+		g_settings->set("fps_max_unfocused", *m_old_fps_max_unfocused);
+	else
+		g_settings->remove("fps_max_unfocused");
+
+}
+
+void GUITouchscreenLayout::addButton(TouchButton btn, core::rect<s32> rect) {
+	IGUIImage *irrimg = Environment->addImage(rect, this, ID_OFFSET + btn);
+	video::ITexture *tex = m_tsrc->getTexture(touch_button_images[btn]);
+	irrimg->setImage(tex);
+	irrimg->setScaleImage(true);
+	m_gui_buttons[btn] = irrimg;
+}
+
 void GUITouchscreenLayout::regenerateGui(v2u32 screensize)
 {
 	m_gui_buttons.clear();
@@ -240,41 +292,11 @@ void GUITouchscreenLayout::regenerateGui(v2u32 screensize)
 	DesiredRect = core::rect<s32>(0, 0, screensize.X, screensize.Y);
 	recalculateAbsolutePosition(false);
 
-	for (auto &v : m_cur_layout.layout) {
-		TouchButton btn = v.first;
-		button_meta &meta = v.second;
-
-		if (btn == m_sel_btn)
-			meta.pos += m_sel_movement;
-		core::rect<s32> rect = m_cur_layout.getRect(btn, m_tsrc);
-		addButton(btn, rect);
-
-		if (meta.bar.has_value() && m_expanded_bar == btn) {
-			core::rect<s32> parent_rect = rect;
-			button_meta::bar_props &bar = *meta.bar;
-
-			if (bar.dir == BarDir::Right || bar.dir == BarDir::Down)
-				rect = apply_offset(bar.dir, rect);
-
-			for (auto &w : bar.content) {
-				TouchButton inbtn = w.first;
-				bar_button_meta &inmeta = w.second;
-
-				v2u32 orig_size =  m_cur_layout.getOrigSize(inbtn, m_tsrc);
-				rect = resize_for_different_button(bar.dir, rect, orig_size);
-				if (bar.dir == BarDir::Left || bar.dir == BarDir::Up)
-					rect = apply_offset(bar.dir, rect);
-
-				v2s32 real_pos_base = rect.UpperLeftCorner - parent_rect.UpperLeftCorner;
-				if (!inmeta.real_pos.has_value())
-					inmeta.real_pos = real_pos_base;
-				if (inbtn == m_sel_btn)
-					*inmeta.real_pos += m_sel_movement;
-				addButton(inbtn, rect - real_pos_base + *inmeta.real_pos);
-
-				if (bar.dir == BarDir::Right || bar.dir == BarDir::Down)
-					rect = apply_offset(bar.dir, rect);
-			}
+	for (u8 i = 0; i < TouchButton_END; i++) {
+		TouchButton btn = (TouchButton)i;
+		if (button_render_please(&m_cur_layout, btn, m_expanded_bar)) {
+			core::rect<s32> rect = m_cur_layout.getRect(btn, m_tsrc);
+			addButton(btn, rect);
 		}
 	}
 
@@ -349,7 +371,7 @@ bool GUITouchscreenLayout::OnEvent(const SEvent& event)
 			if (m_mouse_down && m_sel_btn != TouchButton_END) {
 				v2s32 mouse_pos = v2s32(event.MouseInput.X, event.MouseInput.Y);
 
-				m_dragging = true;
+				m_dragged_button = {m_sel_btn, {}};
 				m_sel_movement = mouse_pos - m_last_mouse_pos;
 				m_last_mouse_pos = mouse_pos;
 				regenerateGui(Environment->getVideoDriver()->getScreenSize());
@@ -359,7 +381,7 @@ bool GUITouchscreenLayout::OnEvent(const SEvent& event)
 		}
 		case EMIE_LMOUSE_LEFT_UP: {
 			m_mouse_down = false;
-			m_dragging = false;
+			m_dragged_button = std::nullopt;
 			return true;
 		}
 		default:

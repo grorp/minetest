@@ -120,12 +120,42 @@ enum TouchButton : u8 {
 	BTN_SNEAK,
 	BTN_ZOOM,
 	BTN_AUX1,
+
+	/* in the settings bar by default */
+	BTN_FLY,
+	BTN_NOCLIP,
+	BTN_FAST,
+	BTN_DEBUG,
+	BTN_CAMERA_MODE,
+	BTN_RANGESELET,
+	BTN_MINIMAP,
+	BTN_TOGGLE_CHAT,
+
+	/* in the rare controls bar by default */
+	BTN_CHAT,
+	BTN_INVENTORY,
+	BTN_DROP,
+	BTN_EXIT,
+
+	/* not a button btw */
 	TouchButton_END,
+};
+
+enum class BarDir {
+	Left,
+	Up,
+	Right,
+	Down,
 };
 
 struct button_meta {
 	v2s32 pos;
 	u32 height;
+	struct bar_props {
+		BarDir dir;
+		std::vector<std::pair<TouchButton, button_meta>> content;
+	};
+	std::optional<bar_props> bar;
 };
 
 struct button_layout {

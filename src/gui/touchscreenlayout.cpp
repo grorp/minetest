@@ -26,6 +26,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "dimension2d.h"
 #include "guiButton.h"
 #include "guiScrollBar.h"
+#include "irr_v2d.h"
 #include "log.h"
 #include "rect.h"
 #include "serialization.h"
@@ -65,14 +66,28 @@ const std::string touch_button_images[] =
 	"jump_btn.png",
 	"down.png",
 	"zoom.png",
-	"aux1_btn.png"
+	"aux1_btn.png",
+
+	"fly_btn.png",
+	"noclip_btn.png",
+	"fast_btn.png",
+	"debug_btn.png",
+	"camera_btn.png",
+	"rangeview_btn.png",
+	"minimap_btn.png",
+	"chat_hide_btn.png",
+
+	"chat_btn.png",
+	"inventory_btn.png",
+	"drop_btn.png",
+	"exit_btn.png",
 };
 
 button_layout get_default_layout(v2u32 screensize) {
 	u32 button_size = MYMIN(screensize.Y / 4.5f,
 			RenderingEngine::getDisplayDensity() * 65.0f *
 					g_settings->getFloat("hud_scaling"));
-	return {{
+	button_layout l = {{
 		{BTN_RARE_CONTROLS_BAR, {
 			.pos = v2s32(0.25f * button_size, screensize.Y - (RARE_CONTROLS_BAR_Y_OFFSET + 1.0f) * button_size + 0.5f * button_size),
 			.height = button_size,
@@ -102,6 +117,16 @@ button_layout get_default_layout(v2u32 screensize) {
 			.height = button_size,
 		}},
 	}};
+
+	l.layout[BTN_SETTINGS_BAR].bar.emplace();
+	l.layout[BTN_SETTINGS_BAR].bar->dir = BarDir::Left;
+	l.layout[BTN_SETTINGS_BAR].bar->content = {{BTN_FLY, {}}, {BTN_NOCLIP, {}}, {BTN_FAST, {}}, {BTN_DEBUG, {}}, {BTN_CAMERA_MODE, {}}, {BTN_RANGESELET, {}}, {BTN_MINIMAP, {}}, {BTN_TOGGLE_CHAT, {}}};
+
+	l.layout[BTN_RARE_CONTROLS_BAR].bar.emplace();
+	l.layout[BTN_RARE_CONTROLS_BAR].bar->dir = BarDir::Right;
+	l.layout[BTN_RARE_CONTROLS_BAR].bar->content = {{BTN_CHAT, {}}, {BTN_INVENTORY, {}}, {BTN_DROP, {}}, {BTN_EXIT, {}}};
+
+	return l;
 }
 
 core::rect<s32> button_layout::getRect(TouchButton btn, ISimpleTextureSource *tsrc) const

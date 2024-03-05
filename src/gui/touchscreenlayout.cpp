@@ -350,13 +350,29 @@ bool GUITouchscreenLayout::OnEvent(const SEvent& event)
 			break;
 		}
 	} else if (event.EventType == EET_GUI_EVENT) {
-		if (event.GUIEvent.EventType == EGET_BUTTON_CLICKED) {
+		switch (event.GUIEvent.EventType) {
+		case EGET_BUTTON_CLICKED: {
 			if (event.GUIEvent.Caller == m_gui_done_btn) {
 				g_touchscreengui->removeButtons();
 				g_touchscreengui->createButtons(m_cur_layout);
 				quitMenu();
 				return true;
 			}
+			break;
+		}
+		case EGET_ELEMENT_FOCUS_LOST: {
+			// Don't allow focusing the images, it breaks drag & drop with real mouse input
+			if (this->isMyChild(event.GUIEvent.Element) && event.GUIEvent.Element->getType() == EGUIET_IMAGE) {
+				// Returning true disables focus change
+				return true;
+			}
+			if (!canTakeFocus(event.GUIEvent.Element))
+				// Returning true disables focus change
+				return true;
+			break;
+		}
+		default:
+			break;
 		}
 	}
 

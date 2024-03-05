@@ -119,29 +119,32 @@ button_layout get_default_layout(v2u32 screensize) {
 	}};
 
 	l.layout[BTN_SETTINGS_BAR].bar.emplace();
-	l.layout[BTN_SETTINGS_BAR].bar->dir = BarDir::Left;
-	l.layout[BTN_SETTINGS_BAR].bar->content = {{BTN_FLY, {}}, {BTN_NOCLIP, {}}, {BTN_FAST, {}}, {BTN_DEBUG, {}}, {BTN_CAMERA_MODE, {}}, {BTN_RANGESELET, {}}, {BTN_MINIMAP, {}}, {BTN_TOGGLE_CHAT, {}}};
+	l.layout[BTN_SETTINGS_BAR].bar->dir = BarDir::Down;
+	l.layout[BTN_SETTINGS_BAR].bar->content = {{BTN_FLY, {}}, {BTN_NOCLIP, {}}, {BTN_JUMP, {}}, {BTN_DEBUG, {}}, {BTN_CAMERA_MODE, {}}, {BTN_RANGESELET, {}}, {BTN_MINIMAP, {}}, {BTN_TOGGLE_CHAT, {}}};
 
 	l.layout[BTN_RARE_CONTROLS_BAR].bar.emplace();
-	l.layout[BTN_RARE_CONTROLS_BAR].bar->dir = BarDir::Right;
-	l.layout[BTN_RARE_CONTROLS_BAR].bar->content = {{BTN_CHAT, {}}, {BTN_INVENTORY, {}}, {BTN_DROP, {}}, {BTN_EXIT, {}}};
+	l.layout[BTN_RARE_CONTROLS_BAR].bar->dir = BarDir::Up;
+	l.layout[BTN_RARE_CONTROLS_BAR].bar->content = {{BTN_CHAT, {}}, {BTN_SNEAK, {}}, {BTN_DROP, {}}, {BTN_EXIT, {}}};
 
 	return l;
 }
 
+v2u32 button_layout::getOrigSize(TouchButton btn, ISimpleTextureSource *tsrc) const
+{
+	video::ITexture *tex = tsrc->getTexture(touch_button_images[btn]);
+	return tex->getOriginalSize();
+}
+
 core::rect<s32> button_layout::getRect(TouchButton btn, ISimpleTextureSource *tsrc) const
 {
-
-	video::ITexture *tex = tsrc->getTexture(touch_button_images[btn]);
-	dimension2du orig_size = tex->getOriginalSize();
+	v2u32 orig_size = getOrigSize(btn, tsrc);
 	button_meta meta = layout.at(btn);
 
 	return core::rect<s32>(
 		meta.pos.X,
 		meta.pos.Y,
-		meta.pos.X + (f32)orig_size.Width / (f32)orig_size.Height * meta.height,
+		meta.pos.X + (f32)orig_size.X / (f32)orig_size.Y * meta.height,
 		meta.pos.Y + meta.height);
-
 }
 
 GUITouchscreenLayout::GUITouchscreenLayout(gui::IGUIEnvironment* env,
@@ -169,22 +172,99 @@ GUITouchscreenLayout::~GUITouchscreenLayout() {
 
 }
 
+void GUITouchscreenLayout::addButton(TouchButton btn, core::rect<s32> rect) {
+	IGUIImage *irrimg = Environment->addImage(rect, this, ID_OFFSET + btn);
+	video::ITexture *tex = m_tsrc->getTexture(touch_button_images[btn]);
+	irrimg->setImage(tex);
+	irrimg->setScaleImage(true);
+	m_gui_buttons[btn] = irrimg;
+}
+
+static core::rect<s32> resize_for_different_button(BarDir dir, core::rect<s32> rect, v2u32 orig_size) {
+	switch (dir) {
+	case BarDir::Left:
+	case BarDir::Right: {
+		rect.LowerRightCorner.X = rect.UpperLeftCorner.X +
+				(f32)orig_size.X / (f32)orig_size.Y * rect.getHeight();
+		break;
+	}
+	case BarDir::Down:
+	case BarDir::Up:
+		rect.LowerRightCorner.Y = rect.UpperLeftCorner.Y +
+				(f32)orig_size.Y / (f32)orig_size.X * rect.getWidth();
+		break;
+	}
+	return rect;
+}
+
+static core::rect<s32> apply_offset(BarDir dir, core::rect<s32> rect) {
+	s32 offset;
+	switch (dir) {
+	case BarDir::Left:
+	case BarDir::Right:
+		offset = rect.getWidth();
+		break;
+	case BarDir::Down:
+	case BarDir::Up:
+		offset = rect.getHeight();
+		break;
+	}
+
+	switch (dir) {
+	case BarDir::Left:
+		rect.UpperLeftCorner.X  -= offset;
+		rect.LowerRightCorner.X -= offset;
+		break;
+	case BarDir::Right:
+		rect.UpperLeftCorner.X  += offset;
+		rect.LowerRightCorner.X += offset;
+		break;
+	case BarDir::Down:
+		rect.UpperLeftCorner.Y  += offset;
+		rect.LowerRightCorner.Y += offset;
+		break;
+	case BarDir::Up:
+		rect.UpperLeftCorner.Y  -= offset;
+		rect.LowerRightCorner.Y -= offset;
+		break;
+	}
+	return rect;
+}
+
 void GUITouchscreenLayout::regenerateGui(v2u32 screensize)
 {
+	m_gui_buttons.clear();
+	m_gui_done_btn = nullptr;
 	removeAllChildren();
+
 	DesiredRect = core::rect<s32>(0, 0, screensize.X, screensize.Y);
 	recalculateAbsolutePosition(false);
 
-	for (u8 i = 0; i < TouchButton_END; i++) {
-		TouchButton btn = (TouchButton)i;
-		if (m_cur_layout.layout.count(btn) != 1)
-			continue;
+	for (const auto &v : m_cur_layout.layout) {
+		TouchButton btn = v.first;
+		button_meta meta = v.second;
 
-		IGUIImage *irrimg = Environment->addImage(m_cur_layout.getRect(btn, m_tsrc), this, ID_OFFSET + btn);
-		video::ITexture *tex = m_tsrc->getTexture(touch_button_images[btn]);
-		irrimg->setImage(tex);
-		irrimg->setScaleImage(true);
-		m_gui_buttons[btn] = irrimg;
+		core::rect<s32> rect = m_cur_layout.getRect(btn, m_tsrc);
+		addButton(btn, rect);
+
+		if (meta.bar.has_value() && m_expanded_bar == btn) {
+			const button_meta::bar_props bar = *meta.bar;
+
+			if (bar.dir == BarDir::Right || bar.dir == BarDir::Down)
+				rect = apply_offset(bar.dir, rect);
+
+			for (const auto &w : bar.content) {
+				TouchButton inbtn = w.first;
+				button_meta inmeta = v.second;
+				v2u32 orig_size =  m_cur_layout.getOrigSize(inbtn, m_tsrc);
+				rect = resize_for_different_button(bar.dir, rect, orig_size);
+				if (bar.dir == BarDir::Left || bar.dir == BarDir::Up)
+					rect = apply_offset(bar.dir, rect);
+				addButton(inbtn, rect);
+				if (bar.dir == BarDir::Right || bar.dir == BarDir::Down)
+					rect = apply_offset(bar.dir, rect);
+			}
+		}
 	}
 
 	const wchar_t *btn_text = L"Done";
@@ -238,6 +318,15 @@ bool GUITouchscreenLayout::OnEvent(const SEvent& event)
 				m_sel_btn = (TouchButton)(id - ID_OFFSET);
 				m_last_mouse_pos = mouse_pos;
 				m_mouse_down = true;
+
+				if (m_cur_layout.layout.count(m_sel_btn) == 1 &&
+						m_cur_layout.layout[m_sel_btn].bar.has_value()) {
+					if (m_expanded_bar != m_sel_btn)
+						m_expanded_bar = m_sel_btn;
+					else
+						m_expanded_bar = std::nullopt;
+					regenerateGui(Environment->getVideoDriver()->getScreenSize());
+				}
 			} else {
 				m_sel_btn = TouchButton_END;
 			}

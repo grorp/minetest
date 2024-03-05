@@ -39,6 +39,8 @@ public:
             IMenuManager *menumgr, ISimpleTextureSource *tsrc);
 	~GUITouchscreenLayout();
 
+
+	void addButton(TouchButton btn, core::rect<s32> rect);
 	/*
 		Remove and re-add (or reposition) stuff
 	*/
@@ -65,4 +67,5 @@ private:
 
 	button_layout m_cur_layout;
 	std::optional<std::string> m_old_fps_max_unfocused;
+	std::optional<TouchButton> m_expanded_bar;
 };

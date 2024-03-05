@@ -161,6 +161,7 @@ struct button_meta {
 struct button_layout {
 	std::unordered_map<TouchButton, button_meta> layout;
 
+	v2u32 getOrigSize(TouchButton btn, ISimpleTextureSource *tsrc) const;
 	core::rect<s32> getRect(TouchButton btn, ISimpleTextureSource *tsrc) const;
 };
 

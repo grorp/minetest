@@ -119,12 +119,12 @@ button_layout get_default_layout(v2u32 screensize) {
 	}};
 
 	l.layout[BTN_SETTINGS_BAR].bar.emplace();
-	l.layout[BTN_SETTINGS_BAR].bar->dir = BarDir::Down;
-	l.layout[BTN_SETTINGS_BAR].bar->content = {{BTN_FLY, {}}, {BTN_NOCLIP, {}}, {BTN_JUMP, {}}, {BTN_DEBUG, {}}, {BTN_CAMERA_MODE, {}}, {BTN_RANGESELET, {}}, {BTN_MINIMAP, {}}, {BTN_TOGGLE_CHAT, {}}};
+	l.layout[BTN_SETTINGS_BAR].bar->dir = BarDir::Left;
+	l.layout[BTN_SETTINGS_BAR].bar->content = {{BTN_FLY, {}}, {BTN_NOCLIP, {}}, {BTN_FAST, {}}, {BTN_DEBUG, {}}, {BTN_CAMERA_MODE, {}}, {BTN_RANGESELET, {}}, {BTN_MINIMAP, {}}, {BTN_TOGGLE_CHAT, {}}};
 
 	l.layout[BTN_RARE_CONTROLS_BAR].bar.emplace();
-	l.layout[BTN_RARE_CONTROLS_BAR].bar->dir = BarDir::Up;
-	l.layout[BTN_RARE_CONTROLS_BAR].bar->content = {{BTN_CHAT, {}}, {BTN_SNEAK, {}}, {BTN_DROP, {}}, {BTN_EXIT, {}}};
+	l.layout[BTN_RARE_CONTROLS_BAR].bar->dir = BarDir::Right;
+	l.layout[BTN_RARE_CONTROLS_BAR].bar->content = {{BTN_CHAT, {}}, {BTN_INVENTORY, {}}, {BTN_DROP, {}}, {BTN_EXIT, {}}};
 
 	return l;
 }

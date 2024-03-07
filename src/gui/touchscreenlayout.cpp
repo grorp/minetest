@@ -285,7 +285,7 @@ static void button_remove(button_layout *layout, TouchButton btn) {
 }
 
 static void button_drop(button_layout *layout, TouchButton btn, button_meta meta, ISimpleTextureSource *tsrc, bool for_real) {
-	errorstream << "[button_drop] called for " << touch_button_images[btn] << std::endl;
+	// errorstream << "[button_drop] called for " << touch_button_images[btn] << std::endl;
 	core::rect<s32> our_rect = get_rect_simple_meta(btn, meta, tsrc);
 	v2f32 our_center = core::rect<f32>(our_rect.UpperLeftCorner.X, our_rect.UpperLeftCorner.Y,
 			our_rect.LowerRightCorner.X, our_rect.LowerRightCorner.Y).getCenter();
@@ -321,9 +321,11 @@ static void button_drop(button_layout *layout, TouchButton btn, button_meta meta
 			}
 
 			if (full_rect.isPointInside(our_rect.getCenter())) {
+				/*
 				errorstream << "button is contained in bar launched by " << touch_button_images[v.first] << std::endl;
 				errorstream << "button is closest to " << touch_button_images[closest_button_in_bar] << std::endl;
 				errorstream << "inserting at index " << closest_index << std::endl;
+				*/
 				if (for_real) {
 					bar.content.insert(bar.content.begin() + closest_index, {btn, {}});
 				} else {
@@ -331,16 +333,18 @@ static void button_drop(button_layout *layout, TouchButton btn, button_meta meta
 					bar.content.insert(bar.content.begin() + closest_index, {BTN_PLACEHOLDER, {}});
 					layout->layout[btn] = meta;
 				}
+				/*
 				errorstream << "[BAR CONTENT AFTER INSERTION]" << std::endl;
 				for (auto &lol : bar.content) {
 					errorstream << "    - " << touch_button_images[lol.first] << std::endl;
 				}
+				*/
 				return; // dropped
 			}
 		}
 	}
 
-	errorstream << "button not contained in bar, adding normally" << std::endl;
+	// errorstream << "button not contained in bar, adding normally" << std::endl;
 	layout->layout[btn] = meta;
 }
 
@@ -370,13 +374,20 @@ GUITouchscreenLayout::~GUITouchscreenLayout() {
 }
 
 void GUITouchscreenLayout::addButton(TouchButton btn, core::rect<s32> rect) {
+	IGUIImage *irrimg;
 	if (m_gui_buttons.count(btn) == 0) {
-		IGUIImage *irrimg = Environment->addImage(rect, this, ID_OFFSET + btn);
-		video::ITexture *tex = m_tsrc->getTexture(touch_button_images[btn]);
-		irrimg->setImage(tex);
-		irrimg->setScaleImage(true);
+		irrimg = Environment->addImage(rect, this, ID_OFFSET + btn);
 		m_gui_buttons[btn] = irrimg;
+	} else {
+		irrimg = m_gui_buttons.at(btn);
+		// size must be updated by us, but position should stay as is
+		core::rect<s32> pos = irrimg->getRelativePosition();
+		pos.LowerRightCorner = pos.UpperLeftCorner + rect.getSize();
+		irrimg->setRelativePosition(pos);
 	}
+	video::ITexture *tex = m_tsrc->getTexture(touch_button_images[btn]);
+	irrimg->setImage(tex);
+	irrimg->setScaleImage(true);
 }
 
 void GUITouchscreenLayout::regenerateGui(v2u32 screensize)
@@ -384,17 +395,17 @@ void GUITouchscreenLayout::regenerateGui(v2u32 screensize)
 	DesiredRect = core::rect<s32>(0, 0, screensize.X, screensize.Y);
 	recalculateAbsolutePosition(false);
 
-	button_layout clone = m_cur_layout;
+	m_last_render_layout = m_cur_layout;
 	if (m_dragged_button.has_value()) {
-		button_drop(&clone, m_dragged_button->first, m_dragged_button->second, m_tsrc, false);
+		button_drop(&m_last_render_layout, m_dragged_button->first, m_dragged_button->second, m_tsrc, false);
 	}
 
 	for (u8 i = 0; i < BTN_PLACEHOLDER + 1; i++) {
 		TouchButton btn = (TouchButton)i;
 		if (btn == TouchButton_END)
 			continue;
-		if (button_render_please(&clone, btn, m_expanded_bar)) {
-			core::rect<s32> rect = clone.getRect(btn, m_tsrc);
+		if (button_render_please(&m_last_render_layout, btn, m_expanded_bar)) {
+			core::rect<s32> rect = m_last_render_layout.getRect(btn, m_tsrc);
 			addButton(btn, rect);
 			m_tgt_pos[btn] = rect.UpperLeftCorner;
 		} else {
@@ -422,6 +433,38 @@ void GUITouchscreenLayout::regenerateGui(v2u32 screensize)
 	m_sel_movement = v2s32();
 }
 
+bool shouldInterpolate(const button_layout &layout, std::optional<TouchButton> selected, TouchButton btn) {
+	bool lof = btn == BTN_CHAT;
+	if (lof)
+		errorstream << "[shouldInterpolate] BTN_CHAT" << std::endl;
+	if (btn == selected) {
+		if (lof)
+			errorstream << "is selected, not interpolating" << std::endl;
+		return false;
+	}
+
+	for (auto &v : layout.layout) {
+		if (v.second.bar.has_value() && lof)
+			errorstream << "found a bar at least!!!" << std::endl;
+		if (v.first == selected && v.second.bar.has_value()) {
+			if (lof)
+				errorstream << "found selected bar " << touch_button_images[v.first] << std::endl;
+			for (auto &w : v.second.bar->content) {
+				if (w.first == btn) {
+					if (lof)
+						errorstream << "button is in selected bar, not interpolating" << std::endl;
+					return false;
+				}
+			}
+		}
+	}
+
+	if (lof)
+		errorstream << "nothing catched, interpolating as usual" << std::endl;
+	return true;
+}
+
+
 void GUITouchscreenLayout::drawMenu()
 {
 	gui::IGUISkin* skin = Environment->getSkin();
@@ -435,17 +478,28 @@ void GUITouchscreenLayout::drawMenu()
 	driver->draw2DRectangle(bgcolor, AbsoluteRect, &AbsoluteClippingRect);
 
 	for (auto &v: m_gui_buttons) {
-		errorstream << "moving" << std::endl;
-
 		v2f realp(v.second->getRelativePosition().UpperLeftCorner.X, v.second->getRelativePosition().UpperLeftCorner.Y);
 		v2f tgt_p(m_tgt_pos.at(v.first).X, m_tgt_pos.at(v.first).Y);
-		if (realp.getDistanceFrom(tgt_p) > 2.0f) {
-			errorstream << "distance > 2.0f" << std::endl;
-			v2f interpol = realp.getInterpolated(tgt_p, 0.9f);
-			v.second->setRelativePosition(v2s32(interpol.X, interpol.Y));
+		bool should_interp = shouldInterpolate(m_last_render_layout, m_dragged_button.has_value() ? std::make_optional(m_dragged_button->first) : std::nullopt, v.first);
+		if (realp.getDistanceFrom(tgt_p) > 2.0f && should_interp) {
+			v2f interpol = realp.getInterpolated(tgt_p, 0.667f);
+			// round needed to make the interpolation work even if the steps get very small
+			v.second->setRelativePosition(v2s32(core::round32(interpol.X), core::round32(interpol.Y)));
+			/*
+			if (v.first == BTN_CHAT) {
+				errorstream << "moving chat button interpolated, remaining distance " << realp.getDistanceFrom(tgt_p) << std::endl;
+				errorstream << "pos = " << realp.X << ", " << realp.Y << std::endl;
+				errorstream << "int = " << interpol.X << ", " << interpol.Y << std::endl;
+				errorstream << "tgt = " << tgt_p.X << ", " << tgt_p.Y << std::endl;
+			}
+			*/
 		} else {
-			errorstream << "distance <= 2.0f" << std::endl;
 			v.second->setRelativePosition(m_tgt_pos.at(v.first));
+			/*
+			if (v.first == BTN_CHAT) {
+				errorstream << "moving chat button absolute, remaining distance " << realp.getDistanceFrom(tgt_p) << std::endl;
+			}
+			*/
 		}
 	}
 
@@ -502,7 +556,7 @@ bool GUITouchscreenLayout::OnEvent(const SEvent& event)
 					}
 					button_remove(&m_cur_layout, m_sel_btn);
 				} else {
-					errorstream << "continuing to drag" << std::endl;
+					// errorstream << "continuing to drag" << std::endl;
 				}
 				m_dragged_button->second.pos += mouse_pos - m_last_mouse_pos;
 				m_last_mouse_pos = mouse_pos;

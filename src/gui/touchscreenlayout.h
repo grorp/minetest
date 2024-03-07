@@ -68,6 +68,7 @@ private:
 	gui::IGUIButton *m_gui_done_btn = nullptr;
 
 	button_layout m_cur_layout;
+	button_layout m_last_render_layout;
 	std::optional<std::string> m_old_fps_max_unfocused;
 	std::optional<TouchButton> m_expanded_bar;
 

@@ -285,7 +285,6 @@ static void button_remove(button_layout *layout, TouchButton btn) {
 }
 
 static void button_drop(button_layout *layout, TouchButton btn, button_meta meta, ISimpleTextureSource *tsrc, bool for_real) {
-	// errorstream << "[button_drop] called for " << touch_button_images[btn] << std::endl;
 	core::rect<s32> our_rect = get_rect_simple_meta(btn, meta, tsrc);
 	v2f32 our_center = core::rect<f32>(our_rect.UpperLeftCorner.X, our_rect.UpperLeftCorner.Y,
 			our_rect.LowerRightCorner.X, our_rect.LowerRightCorner.Y).getCenter();
@@ -321,11 +320,7 @@ static void button_drop(button_layout *layout, TouchButton btn, button_meta meta
 			}
 
 			if (full_rect.isPointInside(our_rect.getCenter())) {
-				/*
-				errorstream << "button is contained in bar launched by " << touch_button_images[v.first] << std::endl;
-				errorstream << "button is closest to " << touch_button_images[closest_button_in_bar] << std::endl;
-				errorstream << "inserting at index " << closest_index << std::endl;
-				*/
+
 				if (for_real) {
 					bar.content.insert(bar.content.begin() + closest_index, {btn, {}});
 				} else {
@@ -333,18 +328,12 @@ static void button_drop(button_layout *layout, TouchButton btn, button_meta meta
 					bar.content.insert(bar.content.begin() + closest_index, {BTN_PLACEHOLDER, {}});
 					layout->layout[btn] = meta;
 				}
-				/*
-				errorstream << "[BAR CONTENT AFTER INSERTION]" << std::endl;
-				for (auto &lol : bar.content) {
-					errorstream << "    - " << touch_button_images[lol.first] << std::endl;
-				}
-				*/
+
 				return; // dropped
 			}
 		}
 	}
 
-	// errorstream << "button not contained in bar, adding normally" << std::endl;
 	layout->layout[btn] = meta;
 }
 
@@ -362,7 +351,7 @@ GUITouchscreenLayout::GUITouchscreenLayout(gui::IGUIEnvironment* env,
 		m_old_fps_max_unfocused = g_settings->get("fps_max_unfocused");
 	else
 		m_old_fps_max_unfocused = std::nullopt;
-	// g_settings->set("fps_max_unfocused", g_settings->get("fps_max"));
+	g_settings->set("fps_max_unfocused", g_settings->get("fps_max"));
 }
 
 GUITouchscreenLayout::~GUITouchscreenLayout() {
@@ -434,33 +423,20 @@ void GUITouchscreenLayout::regenerateGui(v2u32 screensize)
 }
 
 bool shouldInterpolate(const button_layout &layout, std::optional<TouchButton> selected, TouchButton btn) {
-	bool lof = btn == BTN_CHAT;
-	if (lof)
-		errorstream << "[shouldInterpolate] BTN_CHAT" << std::endl;
 	if (btn == selected) {
-		if (lof)
-			errorstream << "is selected, not interpolating" << std::endl;
 		return false;
 	}
 
 	for (auto &v : layout.layout) {
-		if (v.second.bar.has_value() && lof)
-			errorstream << "found a bar at least!!!" << std::endl;
 		if (v.first == selected && v.second.bar.has_value()) {
-			if (lof)
-				errorstream << "found selected bar " << touch_button_images[v.first] << std::endl;
 			for (auto &w : v.second.bar->content) {
 				if (w.first == btn) {
-					if (lof)
-						errorstream << "button is in selected bar, not interpolating" << std::endl;
 					return false;
 				}
 			}
 		}
 	}
 
-	if (lof)
-		errorstream << "nothing catched, interpolating as usual" << std::endl;
 	return true;
 }
 
@@ -485,21 +461,8 @@ void GUITouchscreenLayout::drawMenu()
 			v2f interpol = realp.getInterpolated(tgt_p, 0.667f);
 			// round needed to make the interpolation work even if the steps get very small
 			v.second->setRelativePosition(v2s32(core::round32(interpol.X), core::round32(interpol.Y)));
-			/*
-			if (v.first == BTN_CHAT) {
-				errorstream << "moving chat button interpolated, remaining distance " << realp.getDistanceFrom(tgt_p) << std::endl;
-				errorstream << "pos = " << realp.X << ", " << realp.Y << std::endl;
-				errorstream << "int = " << interpol.X << ", " << interpol.Y << std::endl;
-				errorstream << "tgt = " << tgt_p.X << ", " << tgt_p.Y << std::endl;
-			}
-			*/
 		} else {
 			v.second->setRelativePosition(m_tgt_pos.at(v.first));
-			/*
-			if (v.first == BTN_CHAT) {
-				errorstream << "moving chat button absolute, remaining distance " << realp.getDistanceFrom(tgt_p) << std::endl;
-			}
-			*/
 		}
 	}
 
@@ -548,15 +511,12 @@ bool GUITouchscreenLayout::OnEvent(const SEvent& event)
 				v2s32 mouse_pos = v2s32(event.MouseInput.X, event.MouseInput.Y);
 
 				if (!m_dragged_button.has_value()) {
-					errorstream << "starting to drag" << std::endl;
 					core::rect<s32> sel_rect = m_cur_layout.getRect(m_sel_btn, m_tsrc);
 					m_dragged_button = {m_sel_btn, {.pos = sel_rect.UpperLeftCorner, .height = (u32)sel_rect.getHeight()}};
 					if (m_cur_layout.layout.count(m_sel_btn) == 1) { // is this a top-level button?
 						m_dragged_button->second.bar = m_cur_layout.layout[m_sel_btn].bar;
 					}
 					button_remove(&m_cur_layout, m_sel_btn);
-				} else {
-					// errorstream << "continuing to drag" << std::endl;
 				}
 				m_dragged_button->second.pos += mouse_pos - m_last_mouse_pos;
 				m_last_mouse_pos = mouse_pos;
@@ -567,7 +527,6 @@ bool GUITouchscreenLayout::OnEvent(const SEvent& event)
 		}
 		case EMIE_LMOUSE_LEFT_UP: {
 			if (m_dragged_button.has_value()) {
-				errorstream << "DROPPING BUTTON" << std::endl;
 				button_drop(&m_cur_layout, m_dragged_button->first, m_dragged_button->second, m_tsrc, true);
 				m_dragged_button = std::nullopt;
 				regenerateGui(Environment->getVideoDriver()->getScreenSize());

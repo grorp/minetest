@@ -30,6 +30,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "log.h"
 #include "rect.h"
 #include "serialization.h"
+#include <limits>
 #include <optional>
 #include <stdexcept>
 #include <string>
@@ -38,6 +39,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <IGUIStaticText.h>
 #include <IGUIFont.h>
 #include <unordered_map>
+#include <utility>
 #include "settings.h"
 #include "client/renderingengine.h"
 #include "touchscreengui.h"
@@ -187,15 +189,22 @@ v2u32 button_layout::getOrigSize(TouchButton btn, ISimpleTextureSource *tsrc) co
 	return tex->getOriginalSize();
 }
 
+static core::rect<s32> get_rect_simple_meta(TouchButton btn, const button_meta &btn_meta, ISimpleTextureSource *tsrc)
+{
+	video::ITexture *tex = tsrc->getTexture(touch_button_images[btn]);
+	v2u32 orig_size = tex->getOriginalSize();
+
+	return core::rect<s32>(
+		btn_meta.pos.X,
+		btn_meta.pos.Y,
+		btn_meta.pos.X + (f32)orig_size.X / (f32)orig_size.Y * btn_meta.height,
+		btn_meta.pos.Y + btn_meta.height);
+}
+
 core::rect<s32> button_layout::getRectSimple(TouchButton btn, ISimpleTextureSource *tsrc) const
 {
 	button_meta meta = layout.at(btn);
-	v2u32 orig_size = getOrigSize(btn, tsrc);
-	return core::rect<s32>(
-		meta.pos.X,
-		meta.pos.Y,
-		meta.pos.X + (f32)orig_size.X / (f32)orig_size.Y * meta.height,
-		meta.pos.Y + meta.height);
+	return get_rect_simple_meta(btn, meta, tsrc);
 }
 
 core::rect<s32> button_layout::getRect(TouchButton btn, ISimpleTextureSource *tsrc) const
@@ -231,7 +240,7 @@ core::rect<s32> button_layout::getRect(TouchButton btn, ISimpleTextureSource *ts
 		}
 	}
 
-	throw std::out_of_range("button doesn't exit in layout");
+	throw std::out_of_range("button doesn't exist in layout");
 }
 
 static bool button_render_please(const button_layout *layout, TouchButton btn, std::optional<TouchButton> expanded_bar) {
@@ -250,6 +259,82 @@ static bool button_render_please(const button_layout *layout, TouchButton btn, s
 	return false;
 }
 
+static void button_remove(button_layout *layout, TouchButton btn) {
+	if (layout->layout.count(btn) == 1) {
+		layout->layout.erase(btn);
+		return;
+	}
+
+	for (auto &v : layout->layout) {
+		if (v.second.bar.has_value()) {
+			button_meta::bar_props &bar = *v.second.bar;
+			std::vector<std::pair<TouchButton, bar_button_meta>> &content = bar.content;
+			auto it = std::find_if(content.begin(), content.end(), 
+                [&](std::pair<TouchButton, bar_button_meta> val) { return val.first == btn; });
+			if (it != content.end()) {
+				content.erase(it);
+				return;
+			}
+		}
+	}
+
+	throw std::out_of_range("button doesn't exist in layout");
+}
+
+static void button_drop(button_layout *layout, TouchButton btn, button_meta meta, ISimpleTextureSource *tsrc) {
+	errorstream << "[button_drop] called for " << touch_button_images[btn] << std::endl;
+	core::rect<s32> our_rect = get_rect_simple_meta(btn, meta, tsrc);
+	v2f32 our_center = core::rect<f32>(our_rect.UpperLeftCorner.X, our_rect.UpperLeftCorner.Y,
+			our_rect.LowerRightCorner.X, our_rect.LowerRightCorner.Y).getCenter();
+
+	for (auto &v : layout->layout) {
+		if (v.second.bar.has_value()) {
+			button_meta::bar_props &bar = *v.second.bar;
+			
+			core::rect<s32> full_rect = core::rect<s32>();
+			TouchButton closest_button_in_bar = TouchButton_END;
+			size_t closest_index = 0;
+			f32 closest_distance_sq = std::numeric_limits<f32>::max();
+
+			size_t i = 0;
+			for (auto &w : bar.content) {
+				TouchButton inner_btn = w.first;
+				core::rect<s32> rect = layout->getRect(inner_btn, tsrc);
+				if (full_rect.getArea() == 0) {
+					full_rect = rect;
+				} else {
+					full_rect.addInternalPoint(rect.UpperLeftCorner);
+					full_rect.addInternalPoint(rect.LowerRightCorner);
+				}
+				v2f32 inner_center = core::rect<f32>(rect.UpperLeftCorner.X, rect.UpperLeftCorner.Y,
+						rect.LowerRightCorner.X, rect.LowerRightCorner.Y).getCenter();
+				f32 distance_sq = our_center.getDistanceFromSQ(inner_center);
+				if (distance_sq < closest_distance_sq) {
+					closest_button_in_bar = inner_btn;
+					closest_index = i;
+					closest_distance_sq = distance_sq;
+				}
+				i++;
+			}
+
+			if (full_rect.isPointInside(our_rect.getCenter())) {
+				errorstream << "button is contained in bar launched by " << touch_button_images[v.first] << std::endl;
+				errorstream << "button is closest to " << touch_button_images[closest_button_in_bar] << std::endl;
+				errorstream << "inserting at index " << closest_index << std::endl;
+				bar.content.insert(bar.content.begin() + closest_index, {btn, {}});
+				errorstream << "[BAR CONTENT AFTER INSERTION]" << std::endl;
+				for (auto &lol : bar.content) {
+					errorstream << "    - " << touch_button_images[lol.first] << std::endl;
+				}
+				return; // dropped
+			}
+		}
+	}
+
+	errorstream << "button not contained in bar, adding normally" << std::endl;
+	layout->layout[btn] = meta;
+}
+
 GUITouchscreenLayout::GUITouchscreenLayout(gui::IGUIEnvironment* env,
 		gui::IGUIElement* parent, s32 id,
 		IMenuManager *menumgr, ISimpleTextureSource *tsrc
@@ -264,7 +349,7 @@ GUITouchscreenLayout::GUITouchscreenLayout(gui::IGUIEnvironment* env,
 		m_old_fps_max_unfocused = g_settings->get("fps_max_unfocused");
 	else
 		m_old_fps_max_unfocused = std::nullopt;
-	g_settings->set("fps_max_unfocused", g_settings->get("fps_max"));
+	// g_settings->set("fps_max_unfocused", g_settings->get("fps_max"));
 }
 
 GUITouchscreenLayout::~GUITouchscreenLayout() {
@@ -292,10 +377,15 @@ void GUITouchscreenLayout::regenerateGui(v2u32 screensize)
 	DesiredRect = core::rect<s32>(0, 0, screensize.X, screensize.Y);
 	recalculateAbsolutePosition(false);
 
+	button_layout clone = m_cur_layout;
+	if (m_dragged_button.has_value()) {
+		button_drop(&clone, m_dragged_button->first, m_dragged_button->second, m_tsrc);
+	}
+
 	for (u8 i = 0; i < TouchButton_END; i++) {
 		TouchButton btn = (TouchButton)i;
-		if (button_render_please(&m_cur_layout, btn, m_expanded_bar)) {
-			core::rect<s32> rect = m_cur_layout.getRect(btn, m_tsrc);
+		if (button_render_please(&clone, btn, m_expanded_bar)) {
+			core::rect<s32> rect = clone.getRect(btn, m_tsrc);
 			addButton(btn, rect);
 		}
 	}
@@ -371,8 +461,15 @@ bool GUITouchscreenLayout::OnEvent(const SEvent& event)
 			if (m_mouse_down && m_sel_btn != TouchButton_END) {
 				v2s32 mouse_pos = v2s32(event.MouseInput.X, event.MouseInput.Y);
 
-				m_dragged_button = {m_sel_btn, {}};
-				m_sel_movement = mouse_pos - m_last_mouse_pos;
+				if (!m_dragged_button.has_value()) {
+					errorstream << "starting to drag" << std::endl;
+					core::rect<s32> sel_rect = m_cur_layout.getRect(m_sel_btn, m_tsrc);
+					m_dragged_button = {m_sel_btn, {.pos = sel_rect.UpperLeftCorner, .height = (u32)sel_rect.getHeight()}};
+					button_remove(&m_cur_layout, m_sel_btn);
+				} else {
+					errorstream << "continuing to drag" << std::endl;
+				}
+				m_dragged_button->second.pos += mouse_pos - m_last_mouse_pos;
 				m_last_mouse_pos = mouse_pos;
 				regenerateGui(Environment->getVideoDriver()->getScreenSize());
 				return true;
@@ -380,8 +477,12 @@ bool GUITouchscreenLayout::OnEvent(const SEvent& event)
 			break;
 		}
 		case EMIE_LMOUSE_LEFT_UP: {
+			if (m_dragged_button.has_value()) {
+				errorstream << "DROPPING BUTTON" << std::endl;
+				button_drop(&m_cur_layout, m_dragged_button->first, m_dragged_button->second, m_tsrc);
+				m_dragged_button = std::nullopt;
+			}
 			m_mouse_down = false;
-			m_dragged_button = std::nullopt;
 			return true;
 		}
 		default:

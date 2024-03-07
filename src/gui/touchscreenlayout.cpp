@@ -370,19 +370,17 @@ GUITouchscreenLayout::~GUITouchscreenLayout() {
 }
 
 void GUITouchscreenLayout::addButton(TouchButton btn, core::rect<s32> rect) {
-	IGUIImage *irrimg = Environment->addImage(rect, this, ID_OFFSET + btn);
-	video::ITexture *tex = m_tsrc->getTexture(touch_button_images[btn]);
-	irrimg->setImage(tex);
-	irrimg->setScaleImage(true);
-	m_gui_buttons[btn] = irrimg;
+	if (m_gui_buttons.count(btn) == 0) {
+		IGUIImage *irrimg = Environment->addImage(rect, this, ID_OFFSET + btn);
+		video::ITexture *tex = m_tsrc->getTexture(touch_button_images[btn]);
+		irrimg->setImage(tex);
+		irrimg->setScaleImage(true);
+		m_gui_buttons[btn] = irrimg;
+	}
 }
 
 void GUITouchscreenLayout::regenerateGui(v2u32 screensize)
 {
-	m_gui_buttons.clear();
-	m_gui_done_btn = nullptr;
-	removeAllChildren();
-
 	DesiredRect = core::rect<s32>(0, 0, screensize.X, screensize.Y);
 	recalculateAbsolutePosition(false);
 
@@ -398,12 +396,20 @@ void GUITouchscreenLayout::regenerateGui(v2u32 screensize)
 		if (button_render_please(&clone, btn, m_expanded_bar)) {
 			core::rect<s32> rect = clone.getRect(btn, m_tsrc);
 			addButton(btn, rect);
+			m_tgt_pos[btn] = rect.UpperLeftCorner;
+		} else {
+			if (m_gui_buttons.count(btn) != 0) {
+				m_gui_buttons.at(btn)->remove();
+				m_gui_buttons.erase(btn);
+			}
 		}
 	}
 
 	const wchar_t *btn_text = L"Done";
+	if (!m_gui_done_btn) {
+		m_gui_done_btn = Environment->addButton(core::rect<s32>(), this, -1, btn_text);
+	}
 	s32 pad = RenderingEngine::getDisplayDensity() * 16;
-	m_gui_done_btn = Environment->addButton(core::rect<s32>(), this, -1, btn_text);
 	IGUIFont *font = m_gui_done_btn->getActiveFont();
 	dimension2du dim = font->getDimension(btn_text);
 	m_gui_done_btn->setRelativePosition(core::rect<s32>(
@@ -428,12 +434,27 @@ void GUITouchscreenLayout::drawMenu()
 
 	driver->draw2DRectangle(bgcolor, AbsoluteRect, &AbsoluteClippingRect);
 
+	for (auto &v: m_gui_buttons) {
+		errorstream << "moving" << std::endl;
+
+		v2f realp(v.second->getRelativePosition().UpperLeftCorner.X, v.second->getRelativePosition().UpperLeftCorner.Y);
+		v2f tgt_p(m_tgt_pos.at(v.first).X, m_tgt_pos.at(v.first).Y);
+		if (realp.getDistanceFrom(tgt_p) > 2.0f) {
+			errorstream << "distance > 2.0f" << std::endl;
+			v2f interpol = realp.getInterpolated(tgt_p, 0.9f);
+			v.second->setRelativePosition(v2s32(interpol.X, interpol.Y));
+		} else {
+			errorstream << "distance <= 2.0f" << std::endl;
+			v.second->setRelativePosition(m_tgt_pos.at(v.first));
+		}
+	}
+
 	bool valid_selection = m_sel_btn != TouchButton_END && m_gui_buttons.count(m_sel_btn) == 1;
 	if (valid_selection) {
 		driver->draw2DRectangle(highlight, m_gui_buttons[m_sel_btn]->getAbsolutePosition(), &AbsoluteClippingRect);
 	}
 	m_gui_done_btn->setVisible(!valid_selection);
-	
+
 	gui::IGUIElement::draw();
 }
 

@@ -65,9 +65,11 @@ private:
 	bool m_mouse_down = false;
 	std::optional<std::pair<TouchButton, button_meta>> m_dragged_button;
 	std::unordered_map<TouchButton, gui::IGUIImage *> m_gui_buttons;
-	gui::IGUIButton *m_gui_done_btn;
+	gui::IGUIButton *m_gui_done_btn = nullptr;
 
 	button_layout m_cur_layout;
 	std::optional<std::string> m_old_fps_max_unfocused;
 	std::optional<TouchButton> m_expanded_bar;
+
+	std::unordered_map<TouchButton, v2s32> m_tgt_pos;
 };

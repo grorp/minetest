@@ -139,6 +139,9 @@ enum TouchButton : u8 {
 
 	/* not a button btw */
 	TouchButton_END,
+
+	/* dummy placeholder */
+	BTN_PLACEHOLDER,
 };
 
 enum class BarDir {

@@ -84,6 +84,9 @@ const std::string touch_button_images[] =
 	"inventory_btn.png",
 	"drop_btn.png",
 	"exit_btn.png",
+
+	"",
+	"placeholder_btn.png",
 };
 
 button_layout get_default_layout(v2u32 screensize) {
@@ -281,7 +284,7 @@ static void button_remove(button_layout *layout, TouchButton btn) {
 	throw std::out_of_range("button doesn't exist in layout");
 }
 
-static void button_drop(button_layout *layout, TouchButton btn, button_meta meta, ISimpleTextureSource *tsrc) {
+static void button_drop(button_layout *layout, TouchButton btn, button_meta meta, ISimpleTextureSource *tsrc, bool for_real) {
 	errorstream << "[button_drop] called for " << touch_button_images[btn] << std::endl;
 	core::rect<s32> our_rect = get_rect_simple_meta(btn, meta, tsrc);
 	v2f32 our_center = core::rect<f32>(our_rect.UpperLeftCorner.X, our_rect.UpperLeftCorner.Y,
@@ -321,7 +324,13 @@ static void button_drop(button_layout *layout, TouchButton btn, button_meta meta
 				errorstream << "button is contained in bar launched by " << touch_button_images[v.first] << std::endl;
 				errorstream << "button is closest to " << touch_button_images[closest_button_in_bar] << std::endl;
 				errorstream << "inserting at index " << closest_index << std::endl;
-				bar.content.insert(bar.content.begin() + closest_index, {btn, {}});
+				if (for_real) {
+					bar.content.insert(bar.content.begin() + closest_index, {btn, {}});
+				} else {
+					// FIXME: Placeholder has wrong aspect ratio!!!
+					bar.content.insert(bar.content.begin() + closest_index, {BTN_PLACEHOLDER, {}});
+					layout->layout[btn] = meta;
+				}
 				errorstream << "[BAR CONTENT AFTER INSERTION]" << std::endl;
 				for (auto &lol : bar.content) {
 					errorstream << "    - " << touch_button_images[lol.first] << std::endl;
@@ -379,11 +388,13 @@ void GUITouchscreenLayout::regenerateGui(v2u32 screensize)
 
 	button_layout clone = m_cur_layout;
 	if (m_dragged_button.has_value()) {
-		button_drop(&clone, m_dragged_button->first, m_dragged_button->second, m_tsrc);
+		button_drop(&clone, m_dragged_button->first, m_dragged_button->second, m_tsrc, false);
 	}
 
-	for (u8 i = 0; i < TouchButton_END; i++) {
+	for (u8 i = 0; i < BTN_PLACEHOLDER + 1; i++) {
 		TouchButton btn = (TouchButton)i;
+		if (btn == TouchButton_END)
+			continue;
 		if (button_render_please(&clone, btn, m_expanded_bar)) {
 			core::rect<s32> rect = clone.getRect(btn, m_tsrc);
 			addButton(btn, rect);
@@ -465,6 +476,9 @@ bool GUITouchscreenLayout::OnEvent(const SEvent& event)
 					errorstream << "starting to drag" << std::endl;
 					core::rect<s32> sel_rect = m_cur_layout.getRect(m_sel_btn, m_tsrc);
 					m_dragged_button = {m_sel_btn, {.pos = sel_rect.UpperLeftCorner, .height = (u32)sel_rect.getHeight()}};
+					if (m_cur_layout.layout.count(m_sel_btn) == 1) { // is this a top-level button?
+						m_dragged_button->second.bar = m_cur_layout.layout[m_sel_btn].bar;
+					}
 					button_remove(&m_cur_layout, m_sel_btn);
 				} else {
 					errorstream << "continuing to drag" << std::endl;
@@ -479,8 +493,9 @@ bool GUITouchscreenLayout::OnEvent(const SEvent& event)
 		case EMIE_LMOUSE_LEFT_UP: {
 			if (m_dragged_button.has_value()) {
 				errorstream << "DROPPING BUTTON" << std::endl;
-				button_drop(&m_cur_layout, m_dragged_button->first, m_dragged_button->second, m_tsrc);
+				button_drop(&m_cur_layout, m_dragged_button->first, m_dragged_button->second, m_tsrc, true);
 				m_dragged_button = std::nullopt;
+				regenerateGui(Environment->getVideoDriver()->getScreenSize());
 			}
 			m_mouse_down = false;
 			return true;

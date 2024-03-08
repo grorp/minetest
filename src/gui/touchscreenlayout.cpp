@@ -245,8 +245,6 @@ void ButtonLayout::remove(TouchButton btn)
 
 void ButtonLayout::add(TouchButton btn, const ButtonMeta &meta, ISimpleTextureSource *tsrc, bool really)
 {
-	errorstream << "ButtonLayout::add called for " << getTexture(btn, tsrc)->getName().getPath().c_str() << std::endl;
-
 	core::rect<s32> our_rect = getRectSimple(btn, meta, tsrc);
 	v2f32 our_center = core::rect<f32>(our_rect.UpperLeftCorner.X, our_rect.UpperLeftCorner.Y,
 			our_rect.LowerRightCorner.X, our_rect.LowerRightCorner.Y).getCenter();
@@ -260,6 +258,8 @@ void ButtonLayout::add(TouchButton btn, const ButtonMeta &meta, ISimpleTextureSo
 			size_t closest_index = 0;
 			f32 closest_distance_sq = std::numeric_limits<f32>::max();
 
+			// pretend this button exists at the end of the buttonbar
+			// so that there is a drop slot at the end of the buttonbar as well
 			auto layout_clone = *this;
 			layout_clone.layout[v.first].bar->content.emplace_back(btn);
 
@@ -285,19 +285,12 @@ void ButtonLayout::add(TouchButton btn, const ButtonMeta &meta, ISimpleTextureSo
 			}
 
 			if (full_rect.isPointInside(our_rect.getCenter())) {
-				errorstream << "button is contained in bar launched by " << getTexture(v.first, tsrc)->getName().getPath().c_str() << std::endl;
-				errorstream << "button is closest to " << getTexture(closest_button_in_bar, tsrc)->getName().getPath().c_str() << std::endl;
-				errorstream << "inserting at index " << closest_index << std::endl;
 				if (really) {
 					bar.content.insert(bar.content.begin() + closest_index, btn);
 				} else {
 					// FIXME: Placeholder has wrong aspect ratio!!!
 					bar.content.insert(bar.content.begin() + closest_index, BTN_PLACEHOLDER);
 					layout[btn] = meta;
-				}
-				errorstream << "[BAR CONTENT AFTER INSERTION]" << std::endl;
-				for (auto &lol : bar.content) {
-					errorstream << "    - " << getTexture(lol, tsrc)->getName().getPath().c_str() << std::endl;
 				}
 				return; // dropped
 			}

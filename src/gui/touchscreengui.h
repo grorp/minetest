@@ -137,11 +137,11 @@ enum TouchButton : u8 {
 	BTN_DROP,
 	BTN_EXIT,
 
-	/* not a button btw */
-	TouchButton_END,
-
 	/* dummy placeholder */
 	BTN_PLACEHOLDER,
+
+	/* not a button btw */
+	TouchButton_END,
 };
 
 enum class BarDir {
@@ -151,26 +151,28 @@ enum class BarDir {
 	Down,
 };
 
-struct bar_button_meta {
-	std::optional<v2s32> real_pos;
+struct ButtonBar {
+	BarDir dir;
+	std::vector<TouchButton> content;
 };
 
-struct button_meta {
+struct ButtonMeta {
 	v2s32 pos;
 	u32 height;
-	struct bar_props {
-		BarDir dir;
-		std::vector<std::pair<TouchButton, bar_button_meta>> content;
-	};
-	std::optional<bar_props> bar;
+	std::optional<ButtonBar> bar;
 };
 
-struct button_layout {
-	std::unordered_map<TouchButton, button_meta> layout;
+struct ButtonLayout {
+	std::unordered_map<TouchButton, ButtonMeta> layout;
 
-	v2u32 getOrigSize(TouchButton btn, ISimpleTextureSource *tsrc) const;
+	static v2u32 getOrigSize(TouchButton btn, ISimpleTextureSource *tsrc);
+	static core::rect<s32> getRectSimple(TouchButton btn, const ButtonMeta &meta, ISimpleTextureSource *tsrc);
 	core::rect<s32> getRectSimple(TouchButton btn, ISimpleTextureSource *tsrc) const;
 	core::rect<s32> getRect(TouchButton btn, ISimpleTextureSource *tsrc) const;
+
+	bool shouldRenderButton(TouchButton btn, std::optional<TouchButton> expanded_bar) const;
+	void removeButton(TouchButton btn);
+	void dropButton(TouchButton btn, ButtonMeta meta, ISimpleTextureSource *tsrc, bool for_real);
 };
 
 /* END layout stuff*/
@@ -382,9 +384,9 @@ private:
 	bool m_place_pressed = false;
 	u64 m_place_pressed_until = 0;
 
-	button_layout m_layout;
+	ButtonLayout m_layout;
 
-	void createButtons(const button_layout &layout);
+	void createButtons(const ButtonLayout &layout);
 	void removeButtons();
 
 	friend class GUITouchscreenLayout;
@@ -395,4 +397,4 @@ extern TouchScreenGUI *g_touchscreengui;
 void load_button_texture(IGUIButton *btn, const std::string &path,
 		const rect<s32> &button_rect, ISimpleTextureSource *tsrc, video::IVideoDriver *driver);
 
-button_layout get_default_layout(v2u32 screensize);
+ButtonLayout get_default_layout(v2u32 screensize);

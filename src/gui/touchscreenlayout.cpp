@@ -85,15 +85,14 @@ const std::string touch_button_images[] =
 	"drop_btn.png",
 	"exit_btn.png",
 
-	"",
 	"placeholder_btn.png",
 };
 
-button_layout get_default_layout(v2u32 screensize) {
+ButtonLayout get_default_layout(v2u32 screensize) {
 	u32 button_size = MYMIN(screensize.Y / 4.5f,
 			RenderingEngine::getDisplayDensity() * 65.0f *
 					g_settings->getFloat("hud_scaling"));
-	button_layout l = {{
+	ButtonLayout l = {{
 		{BTN_RARE_CONTROLS_BAR, {
 			.pos = v2s32(0.25f * button_size, screensize.Y - (RARE_CONTROLS_BAR_Y_OFFSET + 1.0f) * button_size + 0.5f * button_size),
 			.height = button_size,
@@ -126,11 +125,11 @@ button_layout get_default_layout(v2u32 screensize) {
 
 	l.layout[BTN_SETTINGS_BAR].bar.emplace();
 	l.layout[BTN_SETTINGS_BAR].bar->dir = BarDir::Left;
-	l.layout[BTN_SETTINGS_BAR].bar->content = {{BTN_FLY, {}}, {BTN_NOCLIP, {}}, {BTN_FAST, {}}, {BTN_DEBUG, {}}, {BTN_CAMERA_MODE, {}}, {BTN_RANGESELET, {}}, {BTN_MINIMAP, {}}, {BTN_TOGGLE_CHAT, {}}};
+	l.layout[BTN_SETTINGS_BAR].bar->content = {BTN_FLY, BTN_NOCLIP, BTN_FAST, BTN_DEBUG, BTN_CAMERA_MODE, BTN_RANGESELET, BTN_MINIMAP, BTN_TOGGLE_CHAT};
 
 	l.layout[BTN_RARE_CONTROLS_BAR].bar.emplace();
 	l.layout[BTN_RARE_CONTROLS_BAR].bar->dir = BarDir::Right;
-	l.layout[BTN_RARE_CONTROLS_BAR].bar->content = {{BTN_CHAT, {}}, {BTN_INVENTORY, {}}, {BTN_DROP, {}}, {BTN_EXIT, {}}};
+	l.layout[BTN_RARE_CONTROLS_BAR].bar->content = {BTN_CHAT, BTN_INVENTORY, BTN_DROP, BTN_EXIT};
 
 	return l;
 }
@@ -186,48 +185,46 @@ static core::rect<s32> apply_offset(BarDir dir, core::rect<s32> rect) {
 	return rect;
 }
 
-v2u32 button_layout::getOrigSize(TouchButton btn, ISimpleTextureSource *tsrc) const
+v2u32 ButtonLayout::getOrigSize(TouchButton btn, ISimpleTextureSource *tsrc)
 {
 	video::ITexture *tex = tsrc->getTexture(touch_button_images[btn]);
 	return tex->getOriginalSize();
 }
 
-static core::rect<s32> get_rect_simple_meta(TouchButton btn, const button_meta &btn_meta, ISimpleTextureSource *tsrc)
+core::rect<s32> ButtonLayout::getRectSimple(TouchButton btn, const ButtonMeta &meta, ISimpleTextureSource *tsrc)
 {
-	video::ITexture *tex = tsrc->getTexture(touch_button_images[btn]);
-	v2u32 orig_size = tex->getOriginalSize();
-
+	v2u32 orig_size = getOrigSize(btn, tsrc);
 	return core::rect<s32>(
-		btn_meta.pos.X,
-		btn_meta.pos.Y,
-		btn_meta.pos.X + (f32)orig_size.X / (f32)orig_size.Y * btn_meta.height,
-		btn_meta.pos.Y + btn_meta.height);
+		meta.pos.X,
+		meta.pos.Y,
+		meta.pos.X + (f32)orig_size.X / (f32)orig_size.Y * meta.height,
+		meta.pos.Y + meta.height);
 }
 
-core::rect<s32> button_layout::getRectSimple(TouchButton btn, ISimpleTextureSource *tsrc) const
+core::rect<s32> ButtonLayout::getRectSimple(TouchButton btn, ISimpleTextureSource *tsrc) const
 {
-	button_meta meta = layout.at(btn);
-	return get_rect_simple_meta(btn, meta, tsrc);
+	ButtonMeta meta = layout.at(btn);
+	return getRectSimple(btn, meta, tsrc);
 }
 
-core::rect<s32> button_layout::getRect(TouchButton btn, ISimpleTextureSource *tsrc) const
+core::rect<s32> ButtonLayout::getRect(TouchButton btn, ISimpleTextureSource *tsrc) const
 {
 	if (layout.count(btn) == 1)
 		return getRectSimple(btn, tsrc);
 
 	for (auto &v : layout) {
 		TouchButton outer_btn = v.first;
-		const button_meta &outer_meta = v.second;
+		const ButtonMeta &outer_meta = v.second;
 
 		if (outer_meta.bar.has_value()) {
 			core::rect<s32> rect = getRectSimple(outer_btn, tsrc);
-			const button_meta::bar_props &bar = *outer_meta.bar;
+			const ButtonBar &bar = *outer_meta.bar;
 
 			if (bar.dir == BarDir::Right || bar.dir == BarDir::Down)
 				rect = apply_offset(bar.dir, rect);
 
 			for (auto &w : bar.content) {
-				TouchButton inner_btn = w.first;
+				TouchButton inner_btn = w;
 
 				v2u32 orig_size = getOrigSize(inner_btn, tsrc);
 				rect = resize_for_different_button(bar.dir, rect, orig_size);
@@ -246,14 +243,14 @@ core::rect<s32> button_layout::getRect(TouchButton btn, ISimpleTextureSource *ts
 	throw std::out_of_range("button doesn't exist in layout");
 }
 
-static bool button_render_please(const button_layout *layout, TouchButton btn, std::optional<TouchButton> expanded_bar) {
-	if (layout->layout.count(btn) == 1)
+bool ButtonLayout::shouldRenderButton(TouchButton btn, std::optional<TouchButton> expanded_bar) const {
+	if (layout.count(btn) == 1)
 		return true;
 
-	for (auto &v : layout->layout) {
+	for (auto &v : layout) {
 		if (v.first == expanded_bar && v.second.bar.has_value()) {
 			for (auto &w : v.second.bar->content) {
-				if (w.first == btn)
+				if (w == btn)
 					return true;
 			}
 		}
@@ -262,18 +259,16 @@ static bool button_render_please(const button_layout *layout, TouchButton btn, s
 	return false;
 }
 
-static void button_remove(button_layout *layout, TouchButton btn) {
-	if (layout->layout.count(btn) == 1) {
-		layout->layout.erase(btn);
+void ButtonLayout::removeButton(TouchButton btn) {
+	if (layout.count(btn) == 1) {
+		layout.erase(btn);
 		return;
 	}
 
-	for (auto &v : layout->layout) {
+	for (auto &v : layout) {
 		if (v.second.bar.has_value()) {
-			button_meta::bar_props &bar = *v.second.bar;
-			std::vector<std::pair<TouchButton, bar_button_meta>> &content = bar.content;
-			auto it = std::find_if(content.begin(), content.end(), 
-                [&](std::pair<TouchButton, bar_button_meta> val) { return val.first == btn; });
+			auto &content = v.second.bar->content;
+			auto it = std::find(content.begin(), content.end(), btn);
 			if (it != content.end()) {
 				content.erase(it);
 				return;
@@ -284,14 +279,14 @@ static void button_remove(button_layout *layout, TouchButton btn) {
 	throw std::out_of_range("button doesn't exist in layout");
 }
 
-static void button_drop(button_layout *layout, TouchButton btn, button_meta meta, ISimpleTextureSource *tsrc, bool for_real) {
-	core::rect<s32> our_rect = get_rect_simple_meta(btn, meta, tsrc);
+void ButtonLayout::dropButton(TouchButton btn, ButtonMeta meta, ISimpleTextureSource *tsrc, bool for_real) {
+	core::rect<s32> our_rect = getRectSimple(btn, meta, tsrc);
 	v2f32 our_center = core::rect<f32>(our_rect.UpperLeftCorner.X, our_rect.UpperLeftCorner.Y,
 			our_rect.LowerRightCorner.X, our_rect.LowerRightCorner.Y).getCenter();
 
-	for (auto &v : layout->layout) {
+	for (auto &v : layout) {
 		if (v.second.bar.has_value()) {
-			button_meta::bar_props &bar = *v.second.bar;
+			ButtonBar &bar = *v.second.bar;
 			
 			core::rect<s32> full_rect = core::rect<s32>();
 			TouchButton closest_button_in_bar = TouchButton_END;
@@ -300,8 +295,8 @@ static void button_drop(button_layout *layout, TouchButton btn, button_meta meta
 
 			size_t i = 0;
 			for (auto &w : bar.content) {
-				TouchButton inner_btn = w.first;
-				core::rect<s32> rect = layout->getRect(inner_btn, tsrc);
+				TouchButton inner_btn = w;
+				core::rect<s32> rect = getRect(inner_btn, tsrc);
 				if (full_rect.getArea() == 0) {
 					full_rect = rect;
 				} else {
@@ -322,11 +317,11 @@ static void button_drop(button_layout *layout, TouchButton btn, button_meta meta
 			if (full_rect.isPointInside(our_rect.getCenter())) {
 
 				if (for_real) {
-					bar.content.insert(bar.content.begin() + closest_index, {btn, {}});
+					bar.content.insert(bar.content.begin() + closest_index, btn);
 				} else {
 					// FIXME: Placeholder has wrong aspect ratio!!!
-					bar.content.insert(bar.content.begin() + closest_index, {BTN_PLACEHOLDER, {}});
-					layout->layout[btn] = meta;
+					bar.content.insert(bar.content.begin() + closest_index, BTN_PLACEHOLDER);
+					layout[btn] = meta;
 				}
 
 				return; // dropped
@@ -334,7 +329,7 @@ static void button_drop(button_layout *layout, TouchButton btn, button_meta meta
 		}
 	}
 
-	layout->layout[btn] = meta;
+	layout[btn] = meta;
 }
 
 GUITouchscreenLayout::GUITouchscreenLayout(gui::IGUIEnvironment* env,
@@ -386,14 +381,12 @@ void GUITouchscreenLayout::regenerateGui(v2u32 screensize)
 
 	m_last_render_layout = m_cur_layout;
 	if (m_dragged_button.has_value()) {
-		button_drop(&m_last_render_layout, m_dragged_button->first, m_dragged_button->second, m_tsrc, false);
+		m_last_render_layout.dropButton(m_dragged_button->first, m_dragged_button->second, m_tsrc, false);
 	}
 
-	for (u8 i = 0; i < BTN_PLACEHOLDER + 1; i++) {
+	for (u8 i = 0; i < TouchButton_END; i++) {
 		TouchButton btn = (TouchButton)i;
-		if (btn == TouchButton_END)
-			continue;
-		if (button_render_please(&m_last_render_layout, btn, m_expanded_bar)) {
+		if (m_last_render_layout.shouldRenderButton(btn, m_expanded_bar)) {
 			core::rect<s32> rect = m_last_render_layout.getRect(btn, m_tsrc);
 			addButton(btn, rect);
 			m_tgt_pos[btn] = rect.UpperLeftCorner;
@@ -422,7 +415,7 @@ void GUITouchscreenLayout::regenerateGui(v2u32 screensize)
 	m_sel_movement = v2s32();
 }
 
-bool shouldInterpolate(const button_layout &layout, std::optional<TouchButton> selected, TouchButton btn) {
+bool shouldInterpolate(const ButtonLayout &layout, std::optional<TouchButton> selected, TouchButton btn) {
 	if (btn == selected) {
 		return false;
 	}
@@ -430,7 +423,7 @@ bool shouldInterpolate(const button_layout &layout, std::optional<TouchButton> s
 	for (auto &v : layout.layout) {
 		if (v.first == selected && v.second.bar.has_value()) {
 			for (auto &w : v.second.bar->content) {
-				if (w.first == btn) {
+				if (w == btn) {
 					return false;
 				}
 			}
@@ -516,7 +509,7 @@ bool GUITouchscreenLayout::OnEvent(const SEvent& event)
 					if (m_cur_layout.layout.count(m_sel_btn) == 1) { // is this a top-level button?
 						m_dragged_button->second.bar = m_cur_layout.layout[m_sel_btn].bar;
 					}
-					button_remove(&m_cur_layout, m_sel_btn);
+					m_cur_layout.removeButton(m_sel_btn);
 				}
 				m_dragged_button->second.pos += mouse_pos - m_last_mouse_pos;
 				m_last_mouse_pos = mouse_pos;
@@ -527,7 +520,7 @@ bool GUITouchscreenLayout::OnEvent(const SEvent& event)
 		}
 		case EMIE_LMOUSE_LEFT_UP: {
 			if (m_dragged_button.has_value()) {
-				button_drop(&m_cur_layout, m_dragged_button->first, m_dragged_button->second, m_tsrc, true);
+				m_cur_layout.dropButton(m_dragged_button->first, m_dragged_button->second, m_tsrc, true);
 				m_dragged_button = std::nullopt;
 				regenerateGui(Environment->getVideoDriver()->getScreenSize());
 			}

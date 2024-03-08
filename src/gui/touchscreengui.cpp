@@ -467,7 +467,7 @@ void TouchScreenGUI::init(ISimpleTextureSource *tsrc)
 	createButtons(get_default_layout(m_device->getVideoDriver()->getScreenSize()));
 }
 
-void TouchScreenGUI::createButtons(const button_layout &layout) {
+void TouchScreenGUI::createButtons(const ButtonLayout &layout) {
 	m_layout = layout;
 
 	// Initialize joystick display "button".

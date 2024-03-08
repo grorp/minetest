@@ -63,12 +63,12 @@ private:
 	v2s32 m_sel_movement{};
 	v2s32 m_last_mouse_pos;
 	bool m_mouse_down = false;
-	std::optional<std::pair<TouchButton, button_meta>> m_dragged_button;
+	std::optional<std::pair<TouchButton, ButtonMeta>> m_dragged_button;
 	std::unordered_map<TouchButton, gui::IGUIImage *> m_gui_buttons;
 	gui::IGUIButton *m_gui_done_btn = nullptr;
 
-	button_layout m_cur_layout;
-	button_layout m_last_render_layout;
+	ButtonLayout m_cur_layout;
+	ButtonLayout m_last_render_layout;
 	std::optional<std::string> m_old_fps_max_unfocused;
 	std::optional<TouchButton> m_expanded_bar;
 

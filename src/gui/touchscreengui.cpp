@@ -24,6 +24,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "IGUIButton.h"
 #include "gettime.h"
+#include "gui/touchscreenlayout.h"
 #include "irr_v2d.h"
 #include "log.h"
 #include "porting.h"
@@ -464,7 +465,7 @@ void TouchScreenGUI::init(ISimpleTextureSource *tsrc)
 
 	m_visible       = true;
 	m_texturesource = tsrc;
-	createButtons(get_default_layout(m_device->getVideoDriver()->getScreenSize()));
+	createButtons(ButtonLayout::getDefault(m_device->getVideoDriver()->getScreenSize()));
 }
 
 void TouchScreenGUI::createButtons(const ButtonLayout &layout) {

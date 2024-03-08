@@ -1,76 +1,74 @@
-/*
-Copyright (C) 2024 grorp, Gregor Parzefall
-		<gregor.parzefall@posteo.de>
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
-
 #pragma once
 
-#include "IGUIButton.h"
-#include "IGUIImage.h"
-#include "common/c_types.h"
-#include "hud.h"
-#include "irrlichttypes_extrabloated.h"
-#include "modalMenu.h"
-#include "touchscreengui.h"
+#include <vector>
+#include <optional>
+#include <unordered_map>
+#include <map>
+#include "irrlichttypes_bloated.h"
+#include "client/texturesource.h"
 
-class ISimpleTextureSource;
+enum TouchButton : u8 {
+	BTN_RARE_CONTROLS_BAR,
+	BTN_SETTINGS_BAR,
+	BTN_JOYSTICK,
+	BTN_JUMP,
+	BTN_SNEAK,
+	BTN_ZOOM,
+	BTN_AUX1,
 
-extern const EnumString es_TouchButton[];
+	/* in the settings bar by default */
+	BTN_FLY,
+	BTN_NOCLIP,
+	BTN_FAST,
+	BTN_DEBUG,
+	BTN_CAMERA_MODE,
+	BTN_RANGESELET,
+	BTN_MINIMAP,
+	BTN_TOGGLE_CHAT,
 
-class GUITouchscreenLayout : public GUIModalMenu
-{
-public:
-	GUITouchscreenLayout(gui::IGUIEnvironment* env,
-            gui::IGUIElement* parent, s32 id,
-            IMenuManager *menumgr, ISimpleTextureSource *tsrc);
-	~GUITouchscreenLayout();
+	/* in the rare controls bar by default */
+	BTN_CHAT,
+	BTN_INVENTORY,
+	BTN_DROP,
+	BTN_EXIT,
 
+	/* dummy placeholder */
+	BTN_PLACEHOLDER,
 
-	void addButton(TouchButton btn, core::rect<s32> rect);
-	/*
-		Remove and re-add (or reposition) stuff
-	*/
-	void regenerateGui(v2u32 screensize);
+	/* not a button btw */
+	TouchButton_END,
+};
 
-	void drawMenu();
+enum class ButtonBarDir {
+	Left,
+	Up,
+	Right,
+	Down,
+};
 
-	bool OnEvent(const SEvent& event);
+struct ButtonBar {
+	ButtonBarDir dir;
+	std::vector<TouchButton> content;
+};
 
-	bool pausesGame() { return true; }
+struct ButtonMeta {
+	v2s32 pos;
+	u32 height;
+	std::optional<ButtonBar> bar;
+};
 
-protected:
-	std::wstring getLabelByID(s32 id) { return L""; }
-	std::string getNameByID(s32 id) { return ""; }
+struct ButtonLayout {
+	std::unordered_map<TouchButton, ButtonMeta> layout;
 
-private:
-	ISimpleTextureSource *m_tsrc;
+    static ButtonLayout getDefault(v2u32 screensize);
 
-	TouchButton m_sel_btn = TouchButton_END;
-	v2s32 m_sel_movement{};
-	v2s32 m_last_mouse_pos;
-	bool m_mouse_down = false;
-	std::optional<std::pair<TouchButton, ButtonMeta>> m_dragged_button;
-	std::unordered_map<TouchButton, gui::IGUIImage *> m_gui_buttons;
-	gui::IGUIButton *m_gui_done_btn = nullptr;
+    static video::ITexture *getTexture(TouchButton btn, ISimpleTextureSource *tsrc);
+	static core::rect<s32> getRectSimple(TouchButton btn, const ButtonMeta &meta, ISimpleTextureSource *tsrc);
+	core::rect<s32> getRectSimple(TouchButton btn, ISimpleTextureSource *tsrc) const;
+	core::rect<s32> getRect(TouchButton btn, ISimpleTextureSource *tsrc) const;
 
-	ButtonLayout m_cur_layout;
-	ButtonLayout m_last_render_layout;
-	std::optional<std::string> m_old_fps_max_unfocused;
-	std::optional<TouchButton> m_expanded_bar;
-
-	std::unordered_map<TouchButton, v2s32> m_tgt_pos;
+	bool shouldRender(TouchButton btn, std::optional<TouchButton> expanded_bar) const;
+    bool shouldInterpolate(TouchButton btn, std::optional<TouchButton> dragged_btn) const;
+	void remove(TouchButton btn);
+	void add(TouchButton btn, const ButtonMeta &meta, ISimpleTextureSource *tsrc, bool really);
 };

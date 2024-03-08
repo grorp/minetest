@@ -41,7 +41,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "client/event_manager.h"
 #include "fontengine.h"
 #include "gui/touchscreengui.h"
-#include "gui/touchscreenlayout.h"
+#include "gui/touchscreeneditor.h"
 #include "itemdef.h"
 #include "log.h"
 #include "filesys.h"

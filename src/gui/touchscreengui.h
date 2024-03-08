@@ -20,6 +20,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #pragma once
 
+#include "touchscreenlayout.h"
 #include "irrlichttypes.h"
 #include <IEventReceiver.h>
 #include <IGUIButton.h>
@@ -81,8 +82,6 @@ typedef enum
 
 #define MIN_DIG_TIME_MS 500
 #define BUTTON_REPEAT_DELAY 0.2f
-#define SETTINGS_BAR_Y_OFFSET 5
-#define RARE_CONTROLS_BAR_Y_OFFSET 5
 
 // Our simulated clicks last some milliseconds so that server-side mods have a
 // chance to detect them via l_get_player_control.
@@ -108,74 +107,6 @@ struct button_info
 	} toggleable = NOT_TOGGLEABLE;
 	std::vector<std::string> textures;
 };
-
-
-/* BEGIN layout stuff*/
-
-enum TouchButton : u8 {
-	BTN_RARE_CONTROLS_BAR,
-	BTN_SETTINGS_BAR,
-	BTN_JOYSTICK,
-	BTN_JUMP,
-	BTN_SNEAK,
-	BTN_ZOOM,
-	BTN_AUX1,
-
-	/* in the settings bar by default */
-	BTN_FLY,
-	BTN_NOCLIP,
-	BTN_FAST,
-	BTN_DEBUG,
-	BTN_CAMERA_MODE,
-	BTN_RANGESELET,
-	BTN_MINIMAP,
-	BTN_TOGGLE_CHAT,
-
-	/* in the rare controls bar by default */
-	BTN_CHAT,
-	BTN_INVENTORY,
-	BTN_DROP,
-	BTN_EXIT,
-
-	/* dummy placeholder */
-	BTN_PLACEHOLDER,
-
-	/* not a button btw */
-	TouchButton_END,
-};
-
-enum class BarDir {
-	Left,
-	Up,
-	Right,
-	Down,
-};
-
-struct ButtonBar {
-	BarDir dir;
-	std::vector<TouchButton> content;
-};
-
-struct ButtonMeta {
-	v2s32 pos;
-	u32 height;
-	std::optional<ButtonBar> bar;
-};
-
-struct ButtonLayout {
-	std::unordered_map<TouchButton, ButtonMeta> layout;
-
-	static v2u32 getOrigSize(TouchButton btn, ISimpleTextureSource *tsrc);
-	static core::rect<s32> getRectSimple(TouchButton btn, const ButtonMeta &meta, ISimpleTextureSource *tsrc);
-	core::rect<s32> getRectSimple(TouchButton btn, ISimpleTextureSource *tsrc) const;
-	core::rect<s32> getRect(TouchButton btn, ISimpleTextureSource *tsrc) const;
-
-	bool shouldRenderButton(TouchButton btn, std::optional<TouchButton> expanded_bar) const;
-	void removeButton(TouchButton btn);
-	void dropButton(TouchButton btn, ButtonMeta meta, ISimpleTextureSource *tsrc, bool for_real);
-};
-
-/* END layout stuff*/
 
 class AutoHideButtonBar
 {
@@ -396,5 +327,3 @@ extern TouchScreenGUI *g_touchscreengui;
 
 void load_button_texture(IGUIButton *btn, const std::string &path,
 		const rect<s32> &button_rect, ISimpleTextureSource *tsrc, video::IVideoDriver *driver);
-
-ButtonLayout get_default_layout(v2u32 screensize);

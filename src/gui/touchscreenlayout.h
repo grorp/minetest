@@ -65,7 +65,7 @@ struct ButtonLayout {
     static video::ITexture *getTexture(TouchButton btn, ISimpleTextureSource *tsrc);
 	static core::rect<s32> getRectSimple(TouchButton btn, const ButtonMeta &meta, ISimpleTextureSource *tsrc);
 	core::rect<s32> getRectSimple(TouchButton btn, ISimpleTextureSource *tsrc) const;
-	core::rect<s32> getRect(TouchButton btn, ISimpleTextureSource *tsrc) const;
+	core::rect<s32> getRect(TouchButton btn, ISimpleTextureSource *tsrc, std::optional<TouchButton> dragged_btn = std::nullopt) const;
 
 	bool shouldRender(TouchButton btn, std::optional<TouchButton> expanded_bar) const;
     bool shouldInterpolate(TouchButton btn, std::optional<TouchButton> dragged_btn) const;

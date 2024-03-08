@@ -1,8 +1,10 @@
 #include "touchscreenlayout.h"
 #include "ITexture.h"
 #include "client/texturesource.h"
+#include "log.h"
 #include "settings.h"
 #include "client/renderingengine.h"
+#include <optional>
 
 #define SETTINGS_BAR_Y_OFFSET 5
 #define RARE_CONTROLS_BAR_Y_OFFSET 5
@@ -150,7 +152,7 @@ static core::rect<s32> apply_offset(ButtonBarDir dir, core::rect<s32> rect) {
 	return rect;
 }
 
-core::rect<s32> ButtonLayout::getRect(TouchButton btn, ISimpleTextureSource *tsrc) const
+core::rect<s32> ButtonLayout::getRect(TouchButton btn, ISimpleTextureSource *tsrc, std::optional<TouchButton> dragged_btn) const
 {
 	if (layout.count(btn) == 1)
 		return getRectSimple(btn, tsrc);
@@ -169,7 +171,7 @@ core::rect<s32> ButtonLayout::getRect(TouchButton btn, ISimpleTextureSource *tsr
 			for (auto &w : bar.content) {
 				TouchButton inner_btn = w;
 
-				v2u32 orig_size = getTexture(inner_btn, tsrc)->getOriginalSize();
+				v2u32 orig_size = getTexture(inner_btn == BTN_PLACEHOLDER ? *dragged_btn : inner_btn, tsrc)->getOriginalSize();
 				rect = resize_for_different_button(bar.dir, rect, orig_size);
 				if (bar.dir == ButtonBarDir::Left || bar.dir == ButtonBarDir::Up)
 					rect = apply_offset(bar.dir, rect);
@@ -243,6 +245,8 @@ void ButtonLayout::remove(TouchButton btn)
 
 void ButtonLayout::add(TouchButton btn, const ButtonMeta &meta, ISimpleTextureSource *tsrc, bool really)
 {
+	errorstream << "ButtonLayout::add called for " << getTexture(btn, tsrc)->getName().getPath().c_str() << std::endl;
+
 	core::rect<s32> our_rect = getRectSimple(btn, meta, tsrc);
 	v2f32 our_center = core::rect<f32>(our_rect.UpperLeftCorner.X, our_rect.UpperLeftCorner.Y,
 			our_rect.LowerRightCorner.X, our_rect.LowerRightCorner.Y).getCenter();
@@ -256,10 +260,13 @@ void ButtonLayout::add(TouchButton btn, const ButtonMeta &meta, ISimpleTextureSo
 			size_t closest_index = 0;
 			f32 closest_distance_sq = std::numeric_limits<f32>::max();
 
+			auto layout_clone = *this;
+			layout_clone.layout[v.first].bar->content.emplace_back(btn);
+
 			size_t i = 0;
-			for (auto &w : bar.content) {
+			for (const auto &w : layout_clone.layout[v.first].bar->content) {
 				TouchButton inner_btn = w;
-				core::rect<s32> rect = getRect(inner_btn, tsrc);
+				core::rect<s32> rect = layout_clone.getRect(inner_btn, tsrc);
 				if (full_rect.getArea() == 0) {
 					full_rect = rect;
 				} else {
@@ -278,7 +285,9 @@ void ButtonLayout::add(TouchButton btn, const ButtonMeta &meta, ISimpleTextureSo
 			}
 
 			if (full_rect.isPointInside(our_rect.getCenter())) {
-
+				errorstream << "button is contained in bar launched by " << getTexture(v.first, tsrc)->getName().getPath().c_str() << std::endl;
+				errorstream << "button is closest to " << getTexture(closest_button_in_bar, tsrc)->getName().getPath().c_str() << std::endl;
+				errorstream << "inserting at index " << closest_index << std::endl;
 				if (really) {
 					bar.content.insert(bar.content.begin() + closest_index, btn);
 				} else {
@@ -286,7 +295,10 @@ void ButtonLayout::add(TouchButton btn, const ButtonMeta &meta, ISimpleTextureSo
 					bar.content.insert(bar.content.begin() + closest_index, BTN_PLACEHOLDER);
 					layout[btn] = meta;
 				}
-
+				errorstream << "[BAR CONTENT AFTER INSERTION]" << std::endl;
+				for (auto &lol : bar.content) {
+					errorstream << "    - " << getTexture(lol, tsrc)->getName().getPath().c_str() << std::endl;
+				}
 				return; // dropped
 			}
 		}

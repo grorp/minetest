@@ -116,7 +116,7 @@ void GUITouchscreenLayout::regenerateGui(v2u32 screensize)
 	for (u8 i = 0; i < TouchButton_END; i++) {
 		TouchButton btn = (TouchButton)i;
 		if (m_last_render_layout.shouldRender(btn, m_expanded_bar)) {
-			core::rect<s32> rect = m_last_render_layout.getRect(btn, m_tsrc);
+			core::rect<s32> rect = m_last_render_layout.getRect(btn, m_tsrc, m_dragged_button.has_value() ? std::make_optional(m_dragged_button->first) : std::nullopt);
 			addButton(btn, rect);
 			m_tgt_pos[btn] = rect.UpperLeftCorner;
 		} else {

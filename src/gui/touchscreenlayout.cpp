@@ -6,6 +6,7 @@
 #include "settings.h"
 #include "client/renderingengine.h"
 #include <optional>
+#include <unordered_map>
 
 #define SETTINGS_BAR_Y_OFFSET 5
 #define RARE_CONTROLS_BAR_Y_OFFSET 5
@@ -277,6 +278,11 @@ v2f32 getRectCenter(core::rect<s32> rect) {
 			rect.LowerRightCorner.X, rect.LowerRightCorner.Y).getCenter();
 }
 
+void addRect(core::rect<s32> &rect, const core::rect<s32> &other) {
+	rect.addInternalPoint(other.UpperLeftCorner);
+	rect.addInternalPoint(other.LowerRightCorner);
+}
+
 std::optional<core::rect<s32>> ButtonLayout::add(TouchButton btn, const ButtonMeta &meta, ISimpleTextureSource *tsrc, bool really, std::optional<TouchButton> expanded_bar)
 {
 	core::rect<s32> our_rect = getRectSimple(btn, meta, tsrc);
@@ -287,28 +293,38 @@ std::optional<core::rect<s32>> ButtonLayout::add(TouchButton btn, const ButtonMe
 	bool can_add_to_bar = btn != BTN_JOYSTICK && !meta.bar.has_value();
 
 	// Rectangles for collision detection in stage 2
-	std::vector<core::rect<s32>> other_rects;
-	std::vector<core::rect<s32>> other_full_rects;
+	std::unordered_map<TouchButton, core::rect<s32>> other_rects;
+	std::unordered_map<TouchButton, core::rect<s32>> other_full_rects;
 
 	/*
 		Stage 1: Try to add the button to a buttonbar
 		This also needs to run if !can_add_to_bar because it collects
 		other_rects and other_full_rects.
 	*/
-	for (auto &other : layout) {
-		TouchButton other_btn = other.first;
-		ButtonMeta &other_meta = other.second;
-
+	for (auto &[other_btn, other_meta] : layout) {
 		core::rect<s32> other_rect = getRectSimple(other_btn, other_meta, tsrc);
+		other_rects.emplace(other_btn, other_rect);
+	}
+
+	for (auto &[other_btn, other_meta] : layout) {
+		// The rectangle of (just) the button
+		core::rect<s32> other_rect = other_rects.at(other_btn);
+		// The rectangle of the button, including the contents of the attached
+		// buttonbar if there is one
 		core::rect<s32> other_full_rect = other_rect;
 
 		if (other_meta.bar.has_value()) {
 			size_t closest_index = 0;
 			f32 closest_distance_sq = std::numeric_limits<f32>::max();
 
+			// The new rectangle of the button + attached buttonbar if we would
+			// add our button to it
+			core::rect<s32> other_new_full_rect = other_rect;
+
 			// Pretend that the button we want to insert exists at the end of
 			// the buttonbar so that there is a drop slot at the end of the
 			// buttonbar as well.
+			// This is also useful for calculating other_new_full_rect.
 			auto meta_bar_extended = other_meta;
 			meta_bar_extended.bar->content.emplace_back(btn);
 
@@ -318,11 +334,10 @@ std::optional<core::rect<s32>> ButtonLayout::add(TouchButton btn, const ButtonMe
 					// Don't include the fake button at the end of the buttonbar
 					// in other_full_rect. This is necessary to allow adding a
 					// button outside the buttonbar just past the end of the
-					// buttonbar. Since the fake button is fake, it shouldn't
-					// block the addition of other buttons.
-					other_full_rect.addInternalPoint(inner_rect.UpperLeftCorner);
-					other_full_rect.addInternalPoint(inner_rect.LowerRightCorner);
+					// buttonbar.
+					addRect(other_full_rect, inner_rect);
 				}
+				addRect(other_new_full_rect, inner_rect);
 
 				v2f32 inner_center = getRectCenter(inner_rect);
 				f32 distance_sq = our_center.getDistanceFromSQ(inner_center);
@@ -335,6 +350,13 @@ std::optional<core::rect<s32>> ButtonLayout::add(TouchButton btn, const ButtonMe
 			}, tsrc);
 
 			if (can_add_to_bar && other_btn == expanded_bar && our_rect.isRectCollided(other_full_rect)) {
+				for (auto [other2_btn, other2_rect] : other_rects) {
+					if (other2_btn != other_btn && other2_rect.isRectCollided(other_new_full_rect))
+						// The buttonbar would start to intersect with another
+						// button if we added our button to it.
+						return other2_rect; // failure
+				}
+
 				auto &bar = other_meta.bar.value();
 				if (really) {
 					bar.content.insert(bar.content.begin() + closest_index, btn);
@@ -346,8 +368,7 @@ std::optional<core::rect<s32>> ButtonLayout::add(TouchButton btn, const ButtonMe
 			}
 		}
 
-		other_rects.emplace_back(other_rect);
-		other_full_rects.emplace_back(other_full_rect);
+		other_full_rects.emplace(other_btn, other_full_rect);
 	}
 
 	/*
@@ -363,12 +384,16 @@ std::optional<core::rect<s32>> ButtonLayout::add(TouchButton btn, const ButtonMe
 		}, tsrc);
 	}
 
-	for (auto &other_full_rect : other_full_rects) {
+	for (auto &[_, other_full_rect] : other_full_rects) {
 		if (other_full_rect.isRectCollided(our_rect))
+			// Our button would intersect with the contents of another buttonbar
+			// (or with another button) if we added it here.
 			return other_full_rect; // failure
 	}
-	for (auto &other_rect : other_rects) {
+	for (auto &[_, other_rect] : other_rects) {
 		if (other_rect.isRectCollided(our_full_rect))
+			// The contents of our buttonbar (or our button) would intersect
+			// with another button if we added it here.
 			return other_rect; // failure
 	}
 

@@ -273,7 +273,7 @@ void ButtonLayout::remove(TouchButton btn)
 	throw std::out_of_range("button doesn't exist in layout");
 }
 
-v2f32 getRectCenter(core::rect<s32> rect) {
+v2f32 getRectCenter(const core::rect<s32> &rect) {
 	return core::rect<f32>(rect.UpperLeftCorner.X, rect.UpperLeftCorner.Y,
 			rect.LowerRightCorner.X, rect.LowerRightCorner.Y).getCenter();
 }

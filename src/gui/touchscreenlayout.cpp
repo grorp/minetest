@@ -322,7 +322,7 @@ std::optional<core::rect<s32>> ButtonLayout::add(TouchButton btn, const ButtonMe
 					other_full_rect.addInternalPoint(inner_rect.LowerRightCorner);
 				}
 
-				v2f32 inner_center = getRectCenter(other_rect);
+				v2f32 inner_center = getRectCenter(inner_rect);
 				f32 distance_sq = our_center.getDistanceFromSQ(inner_center);
 				if (distance_sq < closest_distance_sq) {
 					closest_index = i;

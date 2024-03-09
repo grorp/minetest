@@ -275,36 +275,54 @@ std::optional<core::rect<s32>> ButtonLayout::add(TouchButton btn, const ButtonMe
 	core::rect<s32> our_rect = getRectSimple(btn, meta, tsrc);
 	v2f32 our_center = core::rect<f32>(our_rect.UpperLeftCorner.X, our_rect.UpperLeftCorner.Y,
 			our_rect.LowerRightCorner.X, our_rect.LowerRightCorner.Y).getCenter();
+	core::rect<s32> our_full_rect = our_rect;
+	if (meta.bar.has_value()) {
+		iterate_buttonbar(btn, meta, btn, [&](TouchButton inner_btn, core::rect<s32> inner_rect) {
+			our_full_rect.addInternalPoint(inner_rect.UpperLeftCorner);
+			our_full_rect.addInternalPoint(inner_rect.LowerRightCorner);
+		}, tsrc);
+	}
 
+	// We may not add the joystick to a buttonbar.
+	// We may not add a buttonbar to a buttonbar.
 	bool can_add_to_bar = btn != BTN_JOYSTICK && !meta.bar.has_value();
 
-	std::unordered_map<TouchButton, core::rect<s32>> notfull_rects;
-	std::unordered_map<TouchButton, core::rect<s32>> full_rects;
+	// Rectangles for collision detection in stage 2
+	std::vector<core::rect<s32>> other_rects;
+	std::vector<core::rect<s32>> other_full_rects;
 
-	for (auto &v : layout) {
-		core::rect<s32> notfull_rect = getRectSimple(v.first, v.second, tsrc);
-		core::rect<s32> full_rect = notfull_rect;
+	/*
+		Stage 1: Try to add the button to a buttonbar
+		This also needs to run if !can_add_to_bar because it collects
+		other_rects and other_full_rects.
+	*/
+	for (auto &other : layout) {
+		TouchButton other_btn = other.first;
+		ButtonMeta &other_meta = other.second;
 
-		if (v.second.bar.has_value()) {
+		core::rect<s32> other_rect = getRectSimple(other_btn, other_meta, tsrc);
+		core::rect<s32> other_full_rect = other_rect;
+
+		if (other_meta.bar.has_value()) {
 			size_t closest_index = 0;
 			f32 closest_distance_sq = std::numeric_limits<f32>::max();
 
 			// Pretend that the button we want to insert exists at the end of
 			// the buttonbar so that there is a drop slot at the end of the
 			// buttonbar as well.
-			auto meta_bar_extended = v.second;
+			auto meta_bar_extended = other_meta;
 			meta_bar_extended.bar->content.emplace_back(btn);
 
 			size_t i = 0;
-			iterate_buttonbar(v.first, meta_bar_extended, btn, [&](TouchButton inner_btn, core::rect<s32> inner_rect) {
+			iterate_buttonbar(other_btn, meta_bar_extended, btn, [&](TouchButton inner_btn, core::rect<s32> inner_rect) {
 				if (inner_btn != btn) {
 					// Don't include the fake button at the end of the buttonbar
-					// in full_rect. This is necessary to allow adding a button
-					// outside the buttonbar just past the end of the buttonbar.
-					// Since the fake button is fake, it shouldn't block the
-					// addition of other buttons.
-					full_rect.addInternalPoint(inner_rect.UpperLeftCorner);
-					full_rect.addInternalPoint(inner_rect.LowerRightCorner);
+					// in other_full_rect. This is necessary to allow adding a
+					// button outside the buttonbar just past the end of the
+					// buttonbar. Since the fake button is fake, it shouldn't
+					// block the addition of other buttons.
+					other_full_rect.addInternalPoint(inner_rect.UpperLeftCorner);
+					other_full_rect.addInternalPoint(inner_rect.LowerRightCorner);
 				}
 
 				v2f32 inner_center = core::rect<f32>(inner_rect.UpperLeftCorner.X, inner_rect.UpperLeftCorner.Y,
@@ -318,27 +336,36 @@ std::optional<core::rect<s32>> ButtonLayout::add(TouchButton btn, const ButtonMe
 				i++;
 			}, tsrc);
 
-			if (can_add_to_bar && v.first == expanded_bar && our_rect.isRectCollided(full_rect)) {
-				auto &bar = v.second.bar.value();
+			if (can_add_to_bar && other_btn == expanded_bar && our_rect.isRectCollided(other_full_rect)) {
+				auto &bar = other_meta.bar.value();
 				if (really) {
 					bar.content.insert(bar.content.begin() + closest_index, btn);
 				} else {
 					bar.content.insert(bar.content.begin() + closest_index, BTN_PLACEHOLDER);
 					layout[btn] = meta;
 				}
-				return std::nullopt; // dropped
+				return std::nullopt; // success
 			}
 		}
 
-		notfull_rects[v.first] = notfull_rect;
-		full_rects[v.first] = full_rect;
+		other_rects.emplace_back(other_rect);
+		other_full_rects.emplace_back(other_full_rect);
 	}
 
+	/*
+		The button can't be added to a buttonbar.
+		Stage 2: Try to add the button normally.
+	*/
 
-	for (auto &v : full_rects) {
-		if (v.second.isRectCollided(our_rect))
-			return v.second; // can't drop!!!
+	for (auto &other_full_rect : other_full_rects) {
+		if (other_full_rect.isRectCollided(our_rect))
+			return other_full_rect; // failure
 	}
+	for (auto &other_rect : other_rects) {
+		if (other_rect.isRectCollided(our_full_rect))
+			return other_rect; // failure
+	}
+
 	layout[btn] = meta;
-	return std::nullopt;
+	return std::nullopt; // success
 }

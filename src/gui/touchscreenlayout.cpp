@@ -189,7 +189,9 @@ core::rect<s32> ButtonLayout::getRect(TouchButton btn, ISimpleTextureSource *tsr
 	throw std::out_of_range("button doesn't exist in layout");
 }
 
-
+// dragged_btn is used for replacing occurrences of BTN_PLACEHOLDER. If no
+// occurrences of BTN_PLACEHOLDER are expected, dragged_btn should be
+// std::nullopt.
 static void iterate_buttonbar(TouchButton launcher_btn, const ButtonMeta& launcher_meta,
 		std::optional<TouchButton> dragged_btn,
 		const std::function<void(TouchButton, core::rect<s32>)>& cb, ISimpleTextureSource *tsrc)
@@ -311,7 +313,7 @@ std::optional<core::rect<s32>> ButtonLayout::add(TouchButton btn, const ButtonMe
 			meta_bar_extended.bar->content.emplace_back(btn);
 
 			size_t i = 0;
-			iterate_buttonbar(other_btn, meta_bar_extended, btn, [&](TouchButton inner_btn, core::rect<s32> inner_rect) {
+			iterate_buttonbar(other_btn, meta_bar_extended, std::nullopt, [&](TouchButton inner_btn, core::rect<s32> inner_rect) {
 				if (inner_btn != btn) {
 					// Don't include the fake button at the end of the buttonbar
 					// in other_full_rect. This is necessary to allow adding a
@@ -355,7 +357,7 @@ std::optional<core::rect<s32>> ButtonLayout::add(TouchButton btn, const ButtonMe
 
 	core::rect<s32> our_full_rect = our_rect;
 	if (meta.bar.has_value()) {
-		iterate_buttonbar(btn, meta, btn, [&](TouchButton inner_btn, core::rect<s32> inner_rect) {
+		iterate_buttonbar(btn, meta, std::nullopt, [&](TouchButton inner_btn, core::rect<s32> inner_rect) {
 			our_full_rect.addInternalPoint(inner_rect.UpperLeftCorner);
 			our_full_rect.addInternalPoint(inner_rect.LowerRightCorner);
 		}, tsrc);

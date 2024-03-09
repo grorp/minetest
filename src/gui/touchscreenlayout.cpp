@@ -270,18 +270,15 @@ void ButtonLayout::remove(TouchButton btn)
 	throw std::out_of_range("button doesn't exist in layout");
 }
 
+v2f32 getRectCenter(core::rect<s32> rect) {
+	return core::rect<f32>(rect.UpperLeftCorner.X, rect.UpperLeftCorner.Y,
+			rect.LowerRightCorner.X, rect.LowerRightCorner.Y).getCenter();
+}
+
 std::optional<core::rect<s32>> ButtonLayout::add(TouchButton btn, const ButtonMeta &meta, ISimpleTextureSource *tsrc, bool really, std::optional<TouchButton> expanded_bar)
 {
 	core::rect<s32> our_rect = getRectSimple(btn, meta, tsrc);
-	v2f32 our_center = core::rect<f32>(our_rect.UpperLeftCorner.X, our_rect.UpperLeftCorner.Y,
-			our_rect.LowerRightCorner.X, our_rect.LowerRightCorner.Y).getCenter();
-	core::rect<s32> our_full_rect = our_rect;
-	if (meta.bar.has_value()) {
-		iterate_buttonbar(btn, meta, btn, [&](TouchButton inner_btn, core::rect<s32> inner_rect) {
-			our_full_rect.addInternalPoint(inner_rect.UpperLeftCorner);
-			our_full_rect.addInternalPoint(inner_rect.LowerRightCorner);
-		}, tsrc);
-	}
+	v2f32 our_center = getRectCenter(our_rect);
 
 	// We may not add the joystick to a buttonbar.
 	// We may not add a buttonbar to a buttonbar.
@@ -325,8 +322,7 @@ std::optional<core::rect<s32>> ButtonLayout::add(TouchButton btn, const ButtonMe
 					other_full_rect.addInternalPoint(inner_rect.LowerRightCorner);
 				}
 
-				v2f32 inner_center = core::rect<f32>(inner_rect.UpperLeftCorner.X, inner_rect.UpperLeftCorner.Y,
-						inner_rect.LowerRightCorner.X, inner_rect.LowerRightCorner.Y).getCenter();
+				v2f32 inner_center = getRectCenter(other_rect);
 				f32 distance_sq = our_center.getDistanceFromSQ(inner_center);
 				if (distance_sq < closest_distance_sq) {
 					closest_index = i;
@@ -356,6 +352,14 @@ std::optional<core::rect<s32>> ButtonLayout::add(TouchButton btn, const ButtonMe
 		The button can't be added to a buttonbar.
 		Stage 2: Try to add the button normally.
 	*/
+
+	core::rect<s32> our_full_rect = our_rect;
+	if (meta.bar.has_value()) {
+		iterate_buttonbar(btn, meta, btn, [&](TouchButton inner_btn, core::rect<s32> inner_rect) {
+			our_full_rect.addInternalPoint(inner_rect.UpperLeftCorner);
+			our_full_rect.addInternalPoint(inner_rect.LowerRightCorner);
+		}, tsrc);
+	}
 
 	for (auto &other_full_rect : other_full_rects) {
 		if (other_full_rect.isRectCollided(our_rect))

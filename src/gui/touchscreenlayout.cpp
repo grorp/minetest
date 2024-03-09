@@ -351,7 +351,7 @@ std::optional<core::rect<s32>> ButtonLayout::add(TouchButton btn, const ButtonMe
 
 			if (can_add_to_bar && other_btn == expanded_bar && our_rect.isRectCollided(other_full_rect)) {
 				for (auto [other2_btn, other2_rect] : other_rects) {
-					if (other2_btn != other_btn && other2_rect.isRectCollided(other_new_full_rect))
+					if (other2_btn != other_btn && other_new_full_rect.isRectCollided(other2_rect))
 						// The buttonbar would start to intersect with another
 						// button if we added our button to it.
 						return other2_rect; // failure
@@ -385,13 +385,13 @@ std::optional<core::rect<s32>> ButtonLayout::add(TouchButton btn, const ButtonMe
 	}
 
 	for (auto &[_, other_full_rect] : other_full_rects) {
-		if (other_full_rect.isRectCollided(our_rect))
+		if (our_rect.isRectCollided(other_full_rect))
 			// Our button would intersect with the contents of another buttonbar
 			// (or with another button) if we added it here.
 			return other_full_rect; // failure
 	}
 	for (auto &[_, other_rect] : other_rects) {
-		if (other_rect.isRectCollided(our_full_rect))
+		if (our_full_rect.isRectCollided(other_rect))
 			// The contents of our buttonbar (or our button) would intersect
 			// with another button if we added it here.
 			return other_rect; // failure

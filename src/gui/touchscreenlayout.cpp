@@ -1,6 +1,7 @@
 #include "touchscreenlayout.h"
 #include "ITexture.h"
 #include "client/texturesource.h"
+#include "debug.h"
 #include "log.h"
 #include "settings.h"
 #include "client/renderingengine.h"
@@ -188,6 +189,32 @@ core::rect<s32> ButtonLayout::getRect(TouchButton btn, ISimpleTextureSource *tsr
 	throw std::out_of_range("button doesn't exist in layout");
 }
 
+
+static void iterate_buttonbar(TouchButton launcher_btn, const ButtonMeta& launcher_meta,
+		std::optional<TouchButton> dragged_btn,
+		const std::function<void(TouchButton, core::rect<s32>)>& cb, ISimpleTextureSource *tsrc)
+{
+	core::rect<s32> rect = ButtonLayout::getRectSimple(launcher_btn, launcher_meta, tsrc);
+	const ButtonBar &bar = launcher_meta.bar.value();
+
+	if (bar.dir == ButtonBarDir::Right || bar.dir == ButtonBarDir::Down)
+		rect = apply_offset(bar.dir, rect);
+
+	for (const auto &inner_btn : bar.content) {
+		TouchButton effective = inner_btn == BTN_PLACEHOLDER ? dragged_btn.value() : inner_btn;
+		v2u32 orig_size = ButtonLayout::getTexture(effective, tsrc)->getOriginalSize();
+
+		rect = resize_for_different_button(bar.dir, rect, orig_size);
+		if (bar.dir == ButtonBarDir::Left || bar.dir == ButtonBarDir::Up)
+			rect = apply_offset(bar.dir, rect);
+
+		cb(inner_btn, rect);
+
+		if (bar.dir == ButtonBarDir::Right || bar.dir == ButtonBarDir::Down)
+			rect = apply_offset(bar.dir, rect);
+	}
+}
+
 bool ButtonLayout::shouldRender(TouchButton btn, std::optional<TouchButton> expanded_bar) const
 {
 	if (layout.count(btn) == 1)
@@ -251,51 +278,51 @@ std::optional<core::rect<s32>> ButtonLayout::add(TouchButton btn, const ButtonMe
 
 	bool can_add_to_bar = btn != BTN_JOYSTICK && !meta.bar.has_value();
 
+	std::unordered_map<TouchButton, core::rect<s32>> notfull_rects;
 	std::unordered_map<TouchButton, core::rect<s32>> full_rects;
 
 	for (auto &v : layout) {
-		core::rect<s32> full_rect = getRectSimple(v.first, v.second, tsrc);
+		core::rect<s32> notfull_rect = getRectSimple(v.first, v.second, tsrc);
+		core::rect<s32> full_rect = notfull_rect;
 
 		if (v.second.bar.has_value()) {
-			ButtonBar &bar = *v.second.bar;
-
-			TouchButton closest_button_in_bar = TouchButton_END;
 			size_t closest_index = 0;
 			f32 closest_distance_sq = std::numeric_limits<f32>::max();
 
-			// Pretend this button exists at the end of the buttonbar
-			// so that there is a drop slot at the end of the buttonbar as well.
-			auto layout_extended = *this;
-			layout_extended.layout[v.first].bar->content.emplace_back(btn);
+			// Pretend that the button we want to insert exists at the end of
+			// the buttonbar so that there is a drop slot at the end of the
+			// buttonbar as well.
+			auto meta_bar_extended = v.second;
+			meta_bar_extended.bar->content.emplace_back(btn);
 
 			size_t i = 0;
-			for (const auto &w : layout_extended.layout[v.first].bar->content) {
-				TouchButton inner_btn = w;
-				core::rect<s32> rect = layout_extended.getRect(inner_btn, tsrc);
-				if (w != btn) {
-					// Don't include the fake button at the end of the buttonbar in full_rect.
-					// This is necessary to allow adding a button outside the buttonbar
-					// at the position of the fake button.
-					// Since the fake button is fake, it shouldn't block the addition of buttons.
-					full_rect.addInternalPoint(rect.UpperLeftCorner);
-					full_rect.addInternalPoint(rect.LowerRightCorner);
+			iterate_buttonbar(v.first, meta_bar_extended, btn, [&](TouchButton inner_btn, core::rect<s32> inner_rect) {
+				if (inner_btn != btn) {
+					// Don't include the fake button at the end of the buttonbar
+					// in full_rect. This is necessary to allow adding a button
+					// outside the buttonbar just past the end of the buttonbar.
+					// Since the fake button is fake, it shouldn't block the
+					// addition of other buttons.
+					full_rect.addInternalPoint(inner_rect.UpperLeftCorner);
+					full_rect.addInternalPoint(inner_rect.LowerRightCorner);
 				}
-				v2f32 inner_center = core::rect<f32>(rect.UpperLeftCorner.X, rect.UpperLeftCorner.Y,
-						rect.LowerRightCorner.X, rect.LowerRightCorner.Y).getCenter();
+
+				v2f32 inner_center = core::rect<f32>(inner_rect.UpperLeftCorner.X, inner_rect.UpperLeftCorner.Y,
+						inner_rect.LowerRightCorner.X, inner_rect.LowerRightCorner.Y).getCenter();
 				f32 distance_sq = our_center.getDistanceFromSQ(inner_center);
 				if (distance_sq < closest_distance_sq) {
-					closest_button_in_bar = inner_btn;
 					closest_index = i;
 					closest_distance_sq = distance_sq;
 				}
+
 				i++;
-			}
+			}, tsrc);
 
 			if (can_add_to_bar && v.first == expanded_bar && our_rect.isRectCollided(full_rect)) {
+				auto &bar = v.second.bar.value();
 				if (really) {
 					bar.content.insert(bar.content.begin() + closest_index, btn);
 				} else {
-					// FIXME: Placeholder has wrong aspect ratio!!!
 					bar.content.insert(bar.content.begin() + closest_index, BTN_PLACEHOLDER);
 					layout[btn] = meta;
 				}
@@ -303,6 +330,7 @@ std::optional<core::rect<s32>> ButtonLayout::add(TouchButton btn, const ButtonMe
 			}
 		}
 
+		notfull_rects[v.first] = notfull_rect;
 		full_rects[v.first] = full_rect;
 	}
 

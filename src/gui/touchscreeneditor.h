@@ -71,6 +71,7 @@ private:
 	ButtonLayout m_last_render_layout;
 	std::optional<std::string> m_old_fps_max_unfocused;
 	std::optional<TouchButton> m_expanded_bar;
+	std::optional<core::rect<s32>> m_failure_rect;
 
 	std::unordered_map<TouchButton, v2s32> m_tgt_pos;
 };

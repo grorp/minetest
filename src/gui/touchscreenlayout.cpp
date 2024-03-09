@@ -243,33 +243,40 @@ void ButtonLayout::remove(TouchButton btn)
 	throw std::out_of_range("button doesn't exist in layout");
 }
 
-void ButtonLayout::add(TouchButton btn, const ButtonMeta &meta, ISimpleTextureSource *tsrc, bool really)
+std::optional<core::rect<s32>> ButtonLayout::add(TouchButton btn, const ButtonMeta &meta, ISimpleTextureSource *tsrc, bool really, std::optional<TouchButton> expanded_bar)
 {
 	core::rect<s32> our_rect = getRectSimple(btn, meta, tsrc);
 	v2f32 our_center = core::rect<f32>(our_rect.UpperLeftCorner.X, our_rect.UpperLeftCorner.Y,
 			our_rect.LowerRightCorner.X, our_rect.LowerRightCorner.Y).getCenter();
 
+	bool can_add_to_bar = btn != BTN_JOYSTICK && !meta.bar.has_value();
+
+	std::unordered_map<TouchButton, core::rect<s32>> full_rects;
+
 	for (auto &v : layout) {
+		core::rect<s32> full_rect = getRectSimple(v.first, v.second, tsrc);
+
 		if (v.second.bar.has_value()) {
 			ButtonBar &bar = *v.second.bar;
-			
-			core::rect<s32> full_rect = core::rect<s32>();
+
 			TouchButton closest_button_in_bar = TouchButton_END;
 			size_t closest_index = 0;
 			f32 closest_distance_sq = std::numeric_limits<f32>::max();
 
-			// pretend this button exists at the end of the buttonbar
-			// so that there is a drop slot at the end of the buttonbar as well
-			auto layout_clone = *this;
-			layout_clone.layout[v.first].bar->content.emplace_back(btn);
+			// Pretend this button exists at the end of the buttonbar
+			// so that there is a drop slot at the end of the buttonbar as well.
+			auto layout_extended = *this;
+			layout_extended.layout[v.first].bar->content.emplace_back(btn);
 
 			size_t i = 0;
-			for (const auto &w : layout_clone.layout[v.first].bar->content) {
+			for (const auto &w : layout_extended.layout[v.first].bar->content) {
 				TouchButton inner_btn = w;
-				core::rect<s32> rect = layout_clone.getRect(inner_btn, tsrc);
-				if (full_rect.getArea() == 0) {
-					full_rect = rect;
-				} else {
+				core::rect<s32> rect = layout_extended.getRect(inner_btn, tsrc);
+				if (w != btn) {
+					// Don't include the fake button at the end of the buttonbar in full_rect.
+					// This is necessary to allow adding a button outside the buttonbar
+					// at the position of the fake button.
+					// Since the fake button is fake, it shouldn't block the addition of buttons.
 					full_rect.addInternalPoint(rect.UpperLeftCorner);
 					full_rect.addInternalPoint(rect.LowerRightCorner);
 				}
@@ -284,7 +291,7 @@ void ButtonLayout::add(TouchButton btn, const ButtonMeta &meta, ISimpleTextureSo
 				i++;
 			}
 
-			if (full_rect.isPointInside(our_rect.getCenter())) {
+			if (can_add_to_bar && v.first == expanded_bar && our_rect.isRectCollided(full_rect)) {
 				if (really) {
 					bar.content.insert(bar.content.begin() + closest_index, btn);
 				} else {
@@ -292,10 +299,18 @@ void ButtonLayout::add(TouchButton btn, const ButtonMeta &meta, ISimpleTextureSo
 					bar.content.insert(bar.content.begin() + closest_index, BTN_PLACEHOLDER);
 					layout[btn] = meta;
 				}
-				return; // dropped
+				return std::nullopt; // dropped
 			}
 		}
+
+		full_rects[v.first] = full_rect;
 	}
 
+
+	for (auto &v : full_rects) {
+		if (v.second.isRectCollided(our_rect))
+			return v.second; // can't drop!!!
+	}
 	layout[btn] = meta;
+	return std::nullopt;
 }

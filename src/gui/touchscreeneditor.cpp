@@ -108,10 +108,13 @@ void GUITouchscreenLayout::regenerateGui(v2u32 screensize)
 	DesiredRect = core::rect<s32>(0, 0, screensize.X, screensize.Y);
 	recalculateAbsolutePosition(false);
 
-	m_last_render_layout = m_cur_layout;
+	ButtonLayout clonelay = m_cur_layout;
 	if (m_dragged_button.has_value()) {
-		m_last_render_layout.add(m_dragged_button->first, m_dragged_button->second, m_tsrc, false);
+		m_failure_rect = clonelay.add(m_dragged_button->first, m_dragged_button->second, m_tsrc, false, m_expanded_bar);
+		if (m_failure_rect.has_value())
+			clonelay = m_last_render_layout;
 	}
+	m_last_render_layout = clonelay;
 
 	for (u8 i = 0; i < TouchButton_END; i++) {
 		TouchButton btn = (TouchButton)i;
@@ -154,6 +157,7 @@ void GUITouchscreenLayout::drawMenu()
 	video::IVideoDriver* driver = Environment->getVideoDriver();
 	video::SColor bgcolor(200, 0, 0, 0);
 	video::SColor highlight(255, 128, 128, 128);
+	video::SColor error(255, 255, 0, 0);
 
 	driver->draw2DRectangle(bgcolor, AbsoluteRect, &AbsoluteClippingRect);
 
@@ -175,6 +179,10 @@ void GUITouchscreenLayout::drawMenu()
 		driver->draw2DRectangle(highlight, m_gui_buttons[m_sel_btn]->getAbsolutePosition(), &AbsoluteClippingRect);
 	}
 	m_gui_done_btn->setVisible(!valid_selection);
+
+	if (m_failure_rect.has_value()) {
+		driver->draw2DRectangle(error, *m_failure_rect, &AbsoluteClippingRect);
+	}
 
 	gui::IGUIElement::draw();
 }
@@ -231,7 +239,7 @@ bool GUITouchscreenLayout::OnEvent(const SEvent& event)
 		}
 		case EMIE_LMOUSE_LEFT_UP: {
 			if (m_dragged_button.has_value()) {
-				m_cur_layout.add(m_dragged_button->first, m_dragged_button->second, m_tsrc, true);
+				m_cur_layout.add(m_dragged_button->first, m_dragged_button->second, m_tsrc, true, m_expanded_bar);
 				m_dragged_button = std::nullopt;
 				regenerateGui(Environment->getVideoDriver()->getScreenSize());
 			}

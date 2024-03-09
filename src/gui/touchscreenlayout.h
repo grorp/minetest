@@ -70,5 +70,6 @@ struct ButtonLayout {
 	bool shouldRender(TouchButton btn, std::optional<TouchButton> expanded_bar) const;
     bool shouldInterpolate(TouchButton btn, std::optional<TouchButton> dragged_btn) const;
 	void remove(TouchButton btn);
-	void add(TouchButton btn, const ButtonMeta &meta, ISimpleTextureSource *tsrc, bool really);
+	// returns std::nullopt on success, or the TouchButton that prevented the addition on failure
+	std::optional<core::rect<s32>> add(TouchButton btn, const ButtonMeta &meta, ISimpleTextureSource *tsrc, bool really, std::optional<TouchButton> expanded_bar);
 };

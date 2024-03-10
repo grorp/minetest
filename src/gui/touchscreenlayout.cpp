@@ -283,7 +283,7 @@ void addRect(core::rect<s32> &rect, const core::rect<s32> &other) {
 	rect.addInternalPoint(other.LowerRightCorner);
 }
 
-std::optional<core::rect<s32>> ButtonLayout::add(TouchButton btn, const ButtonMeta &meta, ISimpleTextureSource *tsrc, bool really, std::optional<TouchButton> expanded_bar)
+std::vector<core::rect<s32>> ButtonLayout::add(TouchButton btn, const ButtonMeta &meta, ISimpleTextureSource *tsrc, bool really, std::optional<TouchButton> expanded_bar)
 {
 	core::rect<s32> our_rect = getRectSimple(btn, meta, tsrc);
 	v2f32 our_center = getRectCenter(our_rect);
@@ -350,12 +350,15 @@ std::optional<core::rect<s32>> ButtonLayout::add(TouchButton btn, const ButtonMe
 			}, tsrc);
 
 			if (can_add_to_bar && other_btn == expanded_bar && our_rect.isRectCollided(other_full_rect)) {
+				std::vector<core::rect<s32>> bad_rects;
 				for (auto [other2_btn, other2_rect] : other_rects) {
 					if (other2_btn != other_btn && other_new_full_rect.isRectCollided(other2_rect))
 						// The buttonbar would start to intersect with another
 						// button if we added our button to it.
-						return other2_rect; // failure
+						bad_rects.emplace_back(other2_rect);
 				}
+				if (!bad_rects.empty())
+					return bad_rects; // failure
 
 				auto &bar = other_meta.bar.value();
 				if (really) {
@@ -363,7 +366,7 @@ std::optional<core::rect<s32>> ButtonLayout::add(TouchButton btn, const ButtonMe
 				} else {
 					bar.content.insert(bar.content.begin() + closest_index, BTN_PLACEHOLDER);
 				}
-				return std::nullopt; // success
+				return {}; // success
 			}
 		}
 
@@ -383,20 +386,28 @@ std::optional<core::rect<s32>> ButtonLayout::add(TouchButton btn, const ButtonMe
 		}, tsrc);
 	}
 
-	for (auto &[_, other_full_rect] : other_full_rects) {
+	std::vector<core::rect<s32>> bad_rects;
+	for (auto &[other_btn, other_full_rect] : other_full_rects) {
 		if (our_rect.isRectCollided(other_full_rect))
 			// Our button would intersect with the contents of another buttonbar
 			// (or with another button) if we added it here.
-			return other_full_rect; // failure
+			bad_rects.emplace_back(other_full_rect);
 	}
-	for (auto &[_, other_rect] : other_rects) {
-		if (our_full_rect.isRectCollided(other_rect))
+	for (auto &[other_btn, other_rect] : other_rects) {
+		if (our_full_rect.isRectCollided(other_rect)) {
 			// The contents of our buttonbar (or our button) would intersect
 			// with another button if we added it here.
-			return other_rect; // failure
+			auto it = std::find(bad_rects.begin(), bad_rects.end(),
+					other_full_rects.at(other_btn));
+			// No need to add other_rect if we've already added other_full_rect.
+			if (it == bad_rects.end())
+				bad_rects.emplace_back(other_rect);
+		}
 	}
+	if (!bad_rects.empty())
+		return bad_rects; // failure
 
 	if (really)
 		layout.emplace(btn, meta);
-	return std::nullopt; // success
+	return {}; // success
 }

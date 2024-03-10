@@ -110,10 +110,10 @@ void GUITouchscreenLayout::regenerateGui(v2u32 screensize)
 
 	m_last_render_layout = m_cur_layout;
 	if (m_drag.has_value()) {
-		m_failure_rect = m_last_render_layout.add(m_drag->btn, m_drag->meta, m_tsrc, false, m_expanded_bar);
+		m_bad_rects = m_last_render_layout.add(m_drag->btn, m_drag->meta, m_tsrc, false, m_expanded_bar);
 		m_last_render_layout.layout.emplace(m_drag->btn, m_drag->meta);
 	} else {
-		m_failure_rect = std::nullopt;
+		m_bad_rects.clear();
 	}
 
 	for (u8 i = 0; i < TouchButton_END; i++) {
@@ -180,8 +180,8 @@ void GUITouchscreenLayout::drawMenu()
 	}
 	m_gui_done_btn->setVisible(!valid_selection);
 
-	if (m_failure_rect.has_value()) {
-		driver->draw2DRectangle(error, *m_failure_rect, &AbsoluteClippingRect);
+	for (const core::rect<s32> &bad_rect : m_bad_rects) {
+		driver->draw2DRectangle(error, bad_rect, &AbsoluteClippingRect);
 	}
 
 	gui::IGUIElement::draw();
@@ -244,8 +244,8 @@ bool GUITouchscreenLayout::OnEvent(const SEvent& event)
 		}
 		case EMIE_LMOUSE_LEFT_UP: {
 			if (m_drag.has_value()) {
-				auto failure_rect = m_cur_layout.add(m_drag->btn, m_drag->meta, m_tsrc, true, m_expanded_bar);
-				if (failure_rect.has_value()) {
+				auto bad_rects = m_cur_layout.add(m_drag->btn, m_drag->meta, m_tsrc, true, m_expanded_bar);
+				if (!bad_rects.empty()) {
 					m_cur_layout = m_drag->prev_layout;
 				}
 				m_drag = std::nullopt;

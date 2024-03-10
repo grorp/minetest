@@ -157,33 +157,20 @@ static core::rect<s32> apply_offset(ButtonBarDir dir, core::rect<s32> rect) {
 core::rect<s32> ButtonLayout::getRect(TouchButton btn, ISimpleTextureSource *tsrc, std::optional<TouchButton> dragged_btn) const
 {
 	if (layout.count(btn) == 1)
-		return getRectSimple(btn, tsrc);
+		return getRectSimple(btn, layout.at(btn), tsrc);
 
-	for (auto &v : layout) {
-		TouchButton outer_btn = v.first;
-		const ButtonMeta &outer_meta = v.second;
-
-		if (outer_meta.bar.has_value()) {
-			core::rect<s32> rect = getRectSimple(outer_btn, tsrc);
-			const ButtonBar &bar = *outer_meta.bar;
-
-			if (bar.dir == ButtonBarDir::Right || bar.dir == ButtonBarDir::Down)
-				rect = apply_offset(bar.dir, rect);
-
-			for (auto &w : bar.content) {
-				TouchButton inner_btn = w;
-
-				v2u32 orig_size = getTexture(inner_btn == BTN_PLACEHOLDER ? *dragged_btn : inner_btn, tsrc)->getOriginalSize();
-				rect = resize_for_different_button(bar.dir, rect, orig_size);
-				if (bar.dir == ButtonBarDir::Left || bar.dir == ButtonBarDir::Up)
-					rect = apply_offset(bar.dir, rect);
-
-				if (inner_btn == btn)
-					return rect;
-
-				if (bar.dir == ButtonBarDir::Right || bar.dir == ButtonBarDir::Down)
-					rect = apply_offset(bar.dir, rect);
-			}
+	for (const auto &[launcher_btn, launcher_meta] : layout) {
+		if (launcher_meta.bar.has_value()) {
+			std::optional<core::rect<s32>> rect = std::nullopt;
+			iterate_buttonbar(launcher_btn, launcher_meta, dragged_btn, [&](TouchButton inner_btn, core::rect<s32> inner_rect) {
+				if (inner_btn == btn) {
+					rect = inner_rect;
+					return true;
+				}
+				return false;
+			}, tsrc);
+			if (rect.has_value())
+				return rect.value();
 		}
 	}
 
@@ -193,9 +180,9 @@ core::rect<s32> ButtonLayout::getRect(TouchButton btn, ISimpleTextureSource *tsr
 // dragged_btn is used for replacing occurrences of BTN_PLACEHOLDER. If no
 // occurrences of BTN_PLACEHOLDER are expected, dragged_btn should be
 // std::nullopt.
-static void iterate_buttonbar(TouchButton launcher_btn, const ButtonMeta& launcher_meta,
+void iterate_buttonbar(TouchButton launcher_btn, const ButtonMeta& launcher_meta,
 		std::optional<TouchButton> dragged_btn,
-		const std::function<void(TouchButton, core::rect<s32>)>& cb, ISimpleTextureSource *tsrc)
+		const std::function<bool(TouchButton, core::rect<s32>)>& cb, ISimpleTextureSource *tsrc)
 {
 	core::rect<s32> rect = ButtonLayout::getRectSimple(launcher_btn, launcher_meta, tsrc);
 	const ButtonBar &bar = launcher_meta.bar.value();
@@ -211,7 +198,8 @@ static void iterate_buttonbar(TouchButton launcher_btn, const ButtonMeta& launch
 		if (bar.dir == ButtonBarDir::Left || bar.dir == ButtonBarDir::Up)
 			rect = apply_offset(bar.dir, rect);
 
-		cb(inner_btn, rect);
+		if (cb(inner_btn, rect))
+			return;
 
 		if (bar.dir == ButtonBarDir::Right || bar.dir == ButtonBarDir::Down)
 			rect = apply_offset(bar.dir, rect);
@@ -347,6 +335,7 @@ std::vector<core::rect<s32>> ButtonLayout::add(TouchButton btn, const ButtonMeta
 				}
 
 				i++;
+				return false;
 			}, tsrc);
 
 			if (can_add_to_bar && other_btn == expanded_bar && our_rect.isRectCollided(other_full_rect)) {
@@ -383,6 +372,7 @@ std::vector<core::rect<s32>> ButtonLayout::add(TouchButton btn, const ButtonMeta
 		iterate_buttonbar(btn, meta, std::nullopt, [&](TouchButton inner_btn, core::rect<s32> inner_rect) {
 			our_full_rect.addInternalPoint(inner_rect.UpperLeftCorner);
 			our_full_rect.addInternalPoint(inner_rect.LowerRightCorner);
+			return false;
 		}, tsrc);
 	}
 

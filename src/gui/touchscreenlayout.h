@@ -73,3 +73,7 @@ struct ButtonLayout {
 	// returns std::nullopt on success, or the TouchButton that prevented the addition on failure
 	std::vector<core::rect<s32>> add(TouchButton btn, const ButtonMeta &meta, ISimpleTextureSource *tsrc, bool really, std::optional<TouchButton> expanded_bar);
 };
+
+void iterate_buttonbar(TouchButton launcher_btn, const ButtonMeta& launcher_meta,
+		std::optional<TouchButton> dragged_btn,
+		const std::function<bool(TouchButton, core::rect<s32>)>& cb, ISimpleTextureSource *tsrc);

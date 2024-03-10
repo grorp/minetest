@@ -109,9 +109,9 @@ void GUITouchscreenLayout::regenerateGui(v2u32 screensize)
 	recalculateAbsolutePosition(false);
 
 	m_last_render_layout = m_cur_layout;
-	if (m_dragged_button.has_value()) {
-		m_failure_rect = m_last_render_layout.add(m_dragged_button->first, m_dragged_button->second, m_tsrc, false, m_expanded_bar);
-		m_last_render_layout.layout.emplace(m_dragged_button->first, m_dragged_button->second);
+	if (m_drag.has_value()) {
+		m_failure_rect = m_last_render_layout.add(m_drag->btn, m_drag->meta, m_tsrc, false, m_expanded_bar);
+		m_last_render_layout.layout.emplace(m_drag->btn, m_drag->meta);
 	} else {
 		m_failure_rect = std::nullopt;
 	}
@@ -119,7 +119,7 @@ void GUITouchscreenLayout::regenerateGui(v2u32 screensize)
 	for (u8 i = 0; i < TouchButton_END; i++) {
 		TouchButton btn = (TouchButton)i;
 		if (m_last_render_layout.shouldRender(btn, m_expanded_bar)) {
-			core::rect<s32> rect = m_last_render_layout.getRect(btn, m_tsrc, m_dragged_button.has_value() ? std::make_optional(m_dragged_button->first) : std::nullopt);
+			core::rect<s32> rect = m_last_render_layout.getRect(btn, m_tsrc, m_drag.has_value() ? std::make_optional(m_drag->btn) : std::nullopt);
 			addButton(btn, rect);
 			m_tgt_pos[btn] = rect.UpperLeftCorner;
 		} else {
@@ -164,7 +164,7 @@ void GUITouchscreenLayout::drawMenu()
 	for (auto &v: m_gui_buttons) {
 		v2f realp(v.second->getRelativePosition().UpperLeftCorner.X, v.second->getRelativePosition().UpperLeftCorner.Y);
 		v2f tgt_p(m_tgt_pos.at(v.first).X, m_tgt_pos.at(v.first).Y);
-		bool should_interp = m_last_render_layout.shouldInterpolate(v.first, m_dragged_button.has_value() ? std::make_optional(m_dragged_button->first) : std::nullopt);
+		bool should_interp = m_last_render_layout.shouldInterpolate(v.first, m_drag.has_value() ? std::make_optional(m_drag->btn) : std::nullopt);
 		if (realp.getDistanceFrom(tgt_p) > 2.0f && should_interp) {
 			v2f interpol = realp.getInterpolated(tgt_p, 0.667f);
 			// round needed to make the interpolation work even if the steps get very small
@@ -222,18 +222,20 @@ bool GUITouchscreenLayout::OnEvent(const SEvent& event)
 			if (m_mouse_down && m_sel_btn != TouchButton_END) {
 				v2s32 mouse_pos = v2s32(event.MouseInput.X, event.MouseInput.Y);
 
-				if (!m_dragged_button.has_value()) {
-					m_layout_before_dragging = m_cur_layout;
+				if (!m_drag.has_value()) {
+					m_drag = std::make_optional<DragData>();
 					core::rect<s32> sel_rect = m_cur_layout.getRect(m_sel_btn, m_tsrc);
-					m_dragged_button = {m_sel_btn, {.pos = sel_rect.UpperLeftCorner, .height = (u32)sel_rect.getHeight()}};
+					m_drag->btn = m_sel_btn;
+					m_drag->meta = {.pos = sel_rect.UpperLeftCorner, .height = (u32)sel_rect.getHeight()};
+					m_drag->prev_layout = m_cur_layout;
 					if (m_cur_layout.layout.count(m_sel_btn) == 1) { // is this a top-level button?
-						m_dragged_button->second.bar = m_cur_layout.layout[m_sel_btn].bar;
-						if (m_dragged_button->second.bar.has_value())
-							m_expanded_bar = m_dragged_button->first; // always expand a buttonbar while it's being dragged
+						m_drag->meta.bar = m_cur_layout.layout[m_sel_btn].bar;
+						if (m_drag->meta.bar.has_value())
+							m_expanded_bar = m_drag->btn; // always expand a buttonbar while it's being dragged
 					}
 					m_cur_layout.remove(m_sel_btn);
 				}
-				m_dragged_button->second.pos += mouse_pos - m_last_mouse_pos;
+				m_drag->meta.pos += mouse_pos - m_last_mouse_pos;
 				m_last_mouse_pos = mouse_pos;
 				regenerateGui(Environment->getVideoDriver()->getScreenSize());
 				return true;
@@ -241,12 +243,12 @@ bool GUITouchscreenLayout::OnEvent(const SEvent& event)
 			break;
 		}
 		case EMIE_LMOUSE_LEFT_UP: {
-			if (m_dragged_button.has_value()) {
-				auto failure_rect = m_cur_layout.add(m_dragged_button->first, m_dragged_button->second, m_tsrc, true, m_expanded_bar);
+			if (m_drag.has_value()) {
+				auto failure_rect = m_cur_layout.add(m_drag->btn, m_drag->meta, m_tsrc, true, m_expanded_bar);
 				if (failure_rect.has_value()) {
-					m_cur_layout = m_layout_before_dragging;
+					m_cur_layout = m_drag->prev_layout;
 				}
-				m_dragged_button = std::nullopt;
+				m_drag = std::nullopt;
 				regenerateGui(Environment->getVideoDriver()->getScreenSize());
 			}
 			m_mouse_down = false;

@@ -63,13 +63,17 @@ private:
 	v2s32 m_sel_movement{};
 	v2s32 m_last_mouse_pos;
 	bool m_mouse_down = false;
-	std::optional<std::pair<TouchButton, ButtonMeta>> m_dragged_button;
+	struct DragData {
+		TouchButton btn;
+		ButtonMeta meta;
+		ButtonLayout prev_layout;
+	};
+	std::optional<DragData> m_drag;
 	std::unordered_map<TouchButton, gui::IGUIImage *> m_gui_buttons;
 	gui::IGUIButton *m_gui_done_btn = nullptr;
 
 	ButtonLayout m_cur_layout;
 	ButtonLayout m_last_render_layout;
-	ButtonLayout m_layout_before_dragging; // put this into some "m_dragging_data" with m_dragged_button?
 	std::optional<std::string> m_old_fps_max_unfocused;
 	std::optional<TouchButton> m_expanded_bar;
 	std::optional<core::rect<s32>> m_failure_rect;

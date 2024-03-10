@@ -108,13 +108,13 @@ void GUITouchscreenLayout::regenerateGui(v2u32 screensize)
 	DesiredRect = core::rect<s32>(0, 0, screensize.X, screensize.Y);
 	recalculateAbsolutePosition(false);
 
-	ButtonLayout clonelay = m_cur_layout;
+	m_last_render_layout = m_cur_layout;
 	if (m_dragged_button.has_value()) {
-		m_failure_rect = clonelay.add(m_dragged_button->first, m_dragged_button->second, m_tsrc, false, m_expanded_bar);
-		if (m_failure_rect.has_value())
-			clonelay = m_last_render_layout;
+		m_failure_rect = m_last_render_layout.add(m_dragged_button->first, m_dragged_button->second, m_tsrc, false, m_expanded_bar);
+		m_last_render_layout.layout.emplace(m_dragged_button->first, m_dragged_button->second);
+	} else {
+		m_failure_rect = std::nullopt;
 	}
-	m_last_render_layout = clonelay;
 
 	for (u8 i = 0; i < TouchButton_END; i++) {
 		TouchButton btn = (TouchButton)i;
@@ -223,10 +223,13 @@ bool GUITouchscreenLayout::OnEvent(const SEvent& event)
 				v2s32 mouse_pos = v2s32(event.MouseInput.X, event.MouseInput.Y);
 
 				if (!m_dragged_button.has_value()) {
+					m_layout_before_dragging = m_cur_layout;
 					core::rect<s32> sel_rect = m_cur_layout.getRect(m_sel_btn, m_tsrc);
 					m_dragged_button = {m_sel_btn, {.pos = sel_rect.UpperLeftCorner, .height = (u32)sel_rect.getHeight()}};
 					if (m_cur_layout.layout.count(m_sel_btn) == 1) { // is this a top-level button?
 						m_dragged_button->second.bar = m_cur_layout.layout[m_sel_btn].bar;
+						if (m_dragged_button->second.bar.has_value())
+							m_expanded_bar = m_dragged_button->first; // always expand a buttonbar while it's being dragged
 					}
 					m_cur_layout.remove(m_sel_btn);
 				}
@@ -239,7 +242,10 @@ bool GUITouchscreenLayout::OnEvent(const SEvent& event)
 		}
 		case EMIE_LMOUSE_LEFT_UP: {
 			if (m_dragged_button.has_value()) {
-				m_cur_layout.add(m_dragged_button->first, m_dragged_button->second, m_tsrc, true, m_expanded_bar);
+				auto failure_rect = m_cur_layout.add(m_dragged_button->first, m_dragged_button->second, m_tsrc, true, m_expanded_bar);
+				if (failure_rect.has_value()) {
+					m_cur_layout = m_layout_before_dragging;
+				}
 				m_dragged_button = std::nullopt;
 				regenerateGui(Environment->getVideoDriver()->getScreenSize());
 			}

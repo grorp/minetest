@@ -69,6 +69,7 @@ private:
 
 	ButtonLayout m_cur_layout;
 	ButtonLayout m_last_render_layout;
+	ButtonLayout m_layout_before_dragging; // put this into some "m_dragging_data" with m_dragged_button?
 	std::optional<std::string> m_old_fps_max_unfocused;
 	std::optional<TouchButton> m_expanded_bar;
 	std::optional<core::rect<s32>> m_failure_rect;

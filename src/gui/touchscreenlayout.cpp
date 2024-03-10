@@ -362,7 +362,6 @@ std::optional<core::rect<s32>> ButtonLayout::add(TouchButton btn, const ButtonMe
 					bar.content.insert(bar.content.begin() + closest_index, btn);
 				} else {
 					bar.content.insert(bar.content.begin() + closest_index, BTN_PLACEHOLDER);
-					layout[btn] = meta;
 				}
 				return std::nullopt; // success
 			}
@@ -397,6 +396,7 @@ std::optional<core::rect<s32>> ButtonLayout::add(TouchButton btn, const ButtonMe
 			return other_rect; // failure
 	}
 
-	layout[btn] = meta;
+	if (really)
+		layout.emplace(btn, meta);
 	return std::nullopt; // success
 }

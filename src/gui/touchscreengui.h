@@ -112,11 +112,9 @@ struct button_info
 class AutoHideButtonBar
 {
 public:
-	AutoHideButtonBar(IrrlichtDevice *device, IEventReceiver *receiver);
-
-	void init(ISimpleTextureSource *tsrc, const std::string &starter_img, int button_id,
-			const v2s32 &UpperLeft, const v2s32 &LowerRight,
-			autohide_button_bar_dir dir, float timeout);
+	AutoHideButtonBar(IrrlichtDevice *device, ISimpleTextureSource *tsrc,
+			const std::string &starter_img, touch_gui_button_id starter_id,
+			core::recti starter_rect, autohide_button_bar_dir dir, float timeout);
 
 	~AutoHideButtonBar();
 
@@ -149,10 +147,10 @@ public:
 	bool operator!=(const AutoHideButtonBar &other);
 
 private:
+	irr::video::IVideoDriver *m_driver = nullptr;
+	IGUIEnvironment *m_guienv = nullptr;
+	IEventReceiver *m_receiver = nullptr;
 	ISimpleTextureSource *m_texturesource = nullptr;
-	irr::video::IVideoDriver *m_driver;
-	IGUIEnvironment *m_guienv;
-	IEventReceiver *m_receiver;
 	button_info m_starter;
 	std::vector<button_info> m_buttons;
 
@@ -166,7 +164,6 @@ private:
 	// button bar timeout
 	float m_timeout = 0.0f;
 	float m_timeout_value = 3.0f;
-	bool m_initialized = false;
 	autohide_button_bar_dir m_dir = AHBB_Dir_Right_Left;
 };
 

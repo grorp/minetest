@@ -146,27 +146,19 @@ static void load_button_texture(button_info &btn, const std::string &path,
 	}
 }
 
-AutoHideButtonBar::AutoHideButtonBar(IrrlichtDevice *device,
-		IEventReceiver *receiver) :
+AutoHideButtonBar::AutoHideButtonBar(IrrlichtDevice *device, ISimpleTextureSource *tsrc,
+		const std::string &starter_img, touch_gui_button_id starter_id,
+		core::recti starter_rect, autohide_button_bar_dir dir, float timeout) :
 			m_driver(device->getVideoDriver()),
 			m_guienv(device->getGUIEnvironment()),
-			m_receiver(receiver)
+			m_receiver(device->getEventReceiver()),
+			m_texturesource(tsrc)
 {
-}
-
-void AutoHideButtonBar::init(ISimpleTextureSource *tsrc,
-		const std::string &starter_img, int button_id, const v2s32 &UpperLeft,
-		const v2s32 &LowerRight, autohide_button_bar_dir dir, float timeout)
-{
-	m_texturesource = tsrc;
-
-	m_upper_left = UpperLeft;
-	m_lower_right = LowerRight;
-
-	rect<int> starter_rect = rect<s32>(UpperLeft.X, UpperLeft.Y, LowerRight.X, LowerRight.Y);
+	m_upper_left = starter_rect.UpperLeftCorner;
+	m_lower_right = starter_rect.LowerRightCorner;
 
 	IGUIButton *starter_gui_button = m_guienv->addButton(starter_rect, nullptr,
-			button_id, L"", nullptr);
+			starter_id, L"", nullptr);
 
 	m_starter.gui_button        = starter_gui_button;
 	m_starter.gui_button->grab();
@@ -180,8 +172,6 @@ void AutoHideButtonBar::init(ISimpleTextureSource *tsrc,
 
 	m_dir = dir;
 	m_timeout_value = timeout;
-
-	m_initialized = true;
 }
 
 AutoHideButtonBar::~AutoHideButtonBar()
@@ -203,12 +193,6 @@ AutoHideButtonBar::~AutoHideButtonBar()
 void AutoHideButtonBar::addButton(touch_gui_button_id button_id, const wchar_t *caption,
 		const std::string &btn_image)
 {
-
-	if (!m_initialized) {
-		errorstream << "AutoHideButtonBar::addButton not yet initialized!" << std::endl;
-		return;
-	}
-
 	int button_size = 0;
 
 	if (m_dir == AHBB_Dir_Top_Bottom || m_dir == AHBB_Dir_Bottom_Top)
@@ -483,12 +467,12 @@ TouchScreenGUI::TouchScreenGUI(IrrlichtDevice *device, ISimpleTextureSource *tsr
 						m_screensize.Y - 1.5f * m_button_size),
 				L"spc1", false);
 
-	AutoHideButtonBar &settings_bar = m_buttonbars.emplace_back(m_device, m_receiver);
-	settings_bar.init(m_texturesource, "gear_icon.png", settings_starter_id,
-			v2s32(m_screensize.X - 1.25f * m_button_size,
+	AutoHideButtonBar &settings_bar = m_buttonbars.emplace_back(m_device, m_texturesource,
+			"gear_icon.png", settings_starter_id,
+			core::recti(m_screensize.X - 1.25f * m_button_size,
 					m_screensize.Y - (SETTINGS_BAR_Y_OFFSET + 1.0f) * m_button_size
-							+ 0.5f * m_button_size),
-			v2s32(m_screensize.X - 0.25f * m_button_size,
+							+ 0.5f * m_button_size,
+					m_screensize.X - 0.25f * m_button_size,
 					m_screensize.Y - SETTINGS_BAR_Y_OFFSET * m_button_size
 							+ 0.5f * m_button_size),
 			AHBB_Dir_Right_Left, 3.0f);
@@ -515,13 +499,12 @@ TouchScreenGUI::TouchScreenGUI(IrrlichtDevice *device, ISimpleTextureSource *tsr
 	settings_bar.addToggleButton(toggle_chat_id, L"togglechat",
 			"chat_hide_btn.png", "chat_show_btn.png");
 
-	AutoHideButtonBar &rare_controls_bar = m_buttonbars.emplace_back(m_device, m_receiver);
-	rare_controls_bar.init(m_texturesource, "rare_controls.png",
-			rare_controls_starter_id,
-			v2s32(0.25f * m_button_size,
+	AutoHideButtonBar &rare_controls_bar = m_buttonbars.emplace_back(m_device, m_texturesource,
+			"rare_controls.png", rare_controls_starter_id,
+			core::recti(0.25f * m_button_size,
 					m_screensize.Y - (RARE_CONTROLS_BAR_Y_OFFSET + 1.0f) * m_button_size
-							+ 0.5f * m_button_size),
-			v2s32(0.75f * m_button_size,
+							+ 0.5f * m_button_size,
+					0.75f * m_button_size,
 					m_screensize.Y - RARE_CONTROLS_BAR_Y_OFFSET * m_button_size
 							+ 0.5f * m_button_size),
 			AHBB_Dir_Left_Right, 2.0f);

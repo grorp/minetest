@@ -79,7 +79,7 @@ static EKEY_CODE id_to_keycode(touch_gui_button_id id)
 		case jump_id:
 			key = "jump";
 			break;
-		case crunch_id:
+		case sneak_id:
 			key = "sneak";
 			break;
 		case zoom_id:
@@ -492,7 +492,7 @@ TouchScreenGUI::TouchScreenGUI(IrrlichtDevice *device, ISimpleTextureSource *tsr
 			AHBB_Dir_Left_Right, 2.0f);
 
 	const static std::vector<touch_gui_button_id> rare_controls_bar_buttons {
-		chat_id, inventory_id, crunch_id, exit_id,
+		chat_id, inventory_id, sneak_id, exit_id,
 	};
 	for (auto id : rare_controls_bar_buttons) {
 		if (id_to_keycode(id) == KEY_UNKNOWN)

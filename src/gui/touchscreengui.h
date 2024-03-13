@@ -52,9 +52,10 @@ typedef enum
 	crunch_id,
 	zoom_id,
 	aux1_id,
-	after_last_element_id,
 	settings_starter_id,
 	rare_controls_starter_id,
+
+	// usually in the "settings bar"
 	fly_id,
 	noclip_id,
 	fast_id,
@@ -63,13 +64,20 @@ typedef enum
 	range_id,
 	minimap_id,
 	toggle_chat_id,
+
+	// usually in the "rare controls bar"
 	chat_id,
 	inventory_id,
 	drop_id,
 	exit_id,
+
+	// the joystick
 	joystick_off_id,
 	joystick_bg_id,
-	joystick_center_id
+	joystick_center_id,
+
+	// invalid value
+	touch_gui_button_invalid,
 } touch_gui_button_id;
 
 typedef enum
@@ -255,7 +263,7 @@ private:
 	button_info m_joystick_btn_bg;
 	button_info m_joystick_btn_center;
 
-	button_info m_buttons[after_last_element_id];
+	std::vector<button_info> m_buttons;
 
 	// gui button detection
 	touch_gui_button_id getButtonID(s32 x, s32 y);

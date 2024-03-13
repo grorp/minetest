@@ -173,13 +173,11 @@ private:
 class TouchScreenGUI
 {
 public:
-	TouchScreenGUI(IrrlichtDevice *device, IEventReceiver *receiver);
+	TouchScreenGUI(IrrlichtDevice *device, ISimpleTextureSource *tsrc);
 	~TouchScreenGUI();
 
 	void translateEvent(const SEvent &event);
 	void applyContextControls(const TouchInteractionMode &mode);
-
-	void init(ISimpleTextureSource *tsrc);
 
 	double getYawChange()
 	{
@@ -219,15 +217,14 @@ public:
 	std::optional<u16> getHotbarSelection();
 
 private:
-	bool m_initialized = false;
-	IrrlichtDevice *m_device;
-	IGUIEnvironment *m_guienv;
-	IEventReceiver *m_receiver;
-	ISimpleTextureSource *m_texturesource;
+	IrrlichtDevice *m_device = nullptr;
+	IGUIEnvironment *m_guienv = nullptr;
+	IEventReceiver *m_receiver = nullptr;
+	ISimpleTextureSource *m_texturesource = nullptr;
 	v2u32 m_screensize;
-	s32 button_size;
+	s32 m_button_size;
 	double m_touchscreen_threshold;
-	bool m_visible; // is the whole touch screen gui visible
+	bool m_visible = true; // is the whole touch screen gui visible
 
 	std::unordered_map<u16, rect<s32>> m_hotbar_rects;
 	std::optional<u16> m_hotbar_selection = std::nullopt;

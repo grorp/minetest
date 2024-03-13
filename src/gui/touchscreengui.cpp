@@ -404,10 +404,11 @@ bool AutoHideButtonBar::operator!=(const AutoHideButtonBar &other) {
 	return m_starter.gui_button != other.m_starter.gui_button;
 }
 
-TouchScreenGUI::TouchScreenGUI(IrrlichtDevice *device, IEventReceiver *receiver):
+TouchScreenGUI::TouchScreenGUI(IrrlichtDevice *device, ISimpleTextureSource *tsrc):
 		m_device(device),
 		m_guienv(device->getGUIEnvironment()),
-		m_receiver(receiver)
+		m_receiver(device->getEventReceiver()),
+		m_texturesource(tsrc)
 {
 	for (auto &button : m_buttons) {
 		button.gui_button     = nullptr;
@@ -419,9 +420,126 @@ TouchScreenGUI::TouchScreenGUI(IrrlichtDevice *device, IEventReceiver *receiver)
 	m_fixed_joystick = g_settings->getBool("fixed_virtual_joystick");
 	m_joystick_triggers_aux1 = g_settings->getBool("virtual_joystick_triggers_aux1");
 	m_screensize = m_device->getVideoDriver()->getScreenSize();
-	button_size = MYMIN(m_screensize.Y / 4.5f,
+	m_button_size = MYMIN(m_screensize.Y / 4.5f,
 			RenderingEngine::getDisplayDensity() * 65.0f *
 					g_settings->getFloat("hud_scaling"));
+
+	// Initialize joystick display "button".
+	// Joystick is placed on the bottom left of screen.
+	if (m_fixed_joystick) {
+		m_joystick_btn_off = initJoystickButton(joystick_off_id,
+				rect<s32>(m_button_size,
+						m_screensize.Y - m_button_size * 4,
+						m_button_size * 4,
+						m_screensize.Y - m_button_size), 0);
+	} else {
+		m_joystick_btn_off = initJoystickButton(joystick_off_id,
+				rect<s32>(m_button_size,
+						m_screensize.Y - m_button_size * 3,
+						m_button_size * 3,
+						m_screensize.Y - m_button_size), 0);
+	}
+
+	m_joystick_btn_bg = initJoystickButton(joystick_bg_id,
+			rect<s32>(m_button_size,
+					m_screensize.Y - m_button_size * 4,
+					m_button_size * 4,
+					m_screensize.Y - m_button_size),
+			1, false);
+
+	m_joystick_btn_center = initJoystickButton(joystick_center_id,
+			rect<s32>(0, 0, m_button_size, m_button_size), 2, false);
+
+	// init jump button
+	initButton(jump_id,
+			rect<s32>(m_screensize.X - 1.75f * m_button_size,
+					m_screensize.Y - m_button_size,
+					m_screensize.X - 0.25f * m_button_size,
+					m_screensize.Y),
+			L"x", false);
+
+	// init crunch button
+	initButton(crunch_id,
+			rect<s32>(m_screensize.X - 3.25f * m_button_size,
+					m_screensize.Y - m_button_size,
+					m_screensize.X - 1.75f * m_button_size,
+					m_screensize.Y),
+			L"H", false);
+
+	// init zoom button
+	initButton(zoom_id,
+			rect<s32>(m_screensize.X - 1.25f * m_button_size,
+					m_screensize.Y - 4 * m_button_size,
+					m_screensize.X - 0.25f * m_button_size,
+					m_screensize.Y - 3 * m_button_size),
+			L"z", false);
+
+	// init aux1 button
+	if (!m_joystick_triggers_aux1)
+		initButton(aux1_id,
+				rect<s32>(m_screensize.X - 1.25f * m_button_size,
+						m_screensize.Y - 2.5f * m_button_size,
+						m_screensize.X - 0.25f * m_button_size,
+						m_screensize.Y - 1.5f * m_button_size),
+				L"spc1", false);
+
+	AutoHideButtonBar &settings_bar = m_buttonbars.emplace_back(m_device, m_receiver);
+	settings_bar.init(m_texturesource, "gear_icon.png", settings_starter_id,
+			v2s32(m_screensize.X - 1.25f * m_button_size,
+					m_screensize.Y - (SETTINGS_BAR_Y_OFFSET + 1.0f) * m_button_size
+							+ 0.5f * m_button_size),
+			v2s32(m_screensize.X - 0.25f * m_button_size,
+					m_screensize.Y - SETTINGS_BAR_Y_OFFSET * m_button_size
+							+ 0.5f * m_button_size),
+			AHBB_Dir_Right_Left, 3.0f);
+
+	const static std::map<touch_gui_button_id, std::string> settings_bar_buttons {
+		{fly_id, "fly"},
+		{noclip_id, "noclip"},
+		{fast_id, "fast"},
+		{debug_id, "debug"},
+		{camera_id, "camera"},
+		{range_id, "rangeview"},
+		{minimap_id, "minimap"},
+	};
+	for (const auto &pair : settings_bar_buttons) {
+		if (id_to_keycode(pair.first) == KEY_UNKNOWN)
+			continue;
+
+		std::wstring wide = utf8_to_wide(pair.second);
+		settings_bar.addButton(pair.first, wide.c_str(),
+				pair.second + "_btn.png");
+	}
+
+	// Chat is shown by default, so chat_hide_btn.png is shown first.
+	settings_bar.addToggleButton(toggle_chat_id, L"togglechat",
+			"chat_hide_btn.png", "chat_show_btn.png");
+
+	AutoHideButtonBar &rare_controls_bar = m_buttonbars.emplace_back(m_device, m_receiver);
+	rare_controls_bar.init(m_texturesource, "rare_controls.png",
+			rare_controls_starter_id,
+			v2s32(0.25f * m_button_size,
+					m_screensize.Y - (RARE_CONTROLS_BAR_Y_OFFSET + 1.0f) * m_button_size
+							+ 0.5f * m_button_size),
+			v2s32(0.75f * m_button_size,
+					m_screensize.Y - RARE_CONTROLS_BAR_Y_OFFSET * m_button_size
+							+ 0.5f * m_button_size),
+			AHBB_Dir_Left_Right, 2.0f);
+
+	const static std::map<touch_gui_button_id, std::string> rare_controls_bar_buttons {
+		{chat_id, "chat"},
+		{inventory_id, "inventory"},
+		{drop_id, "drop"},
+		{exit_id, "exit"},
+	};
+	for (const auto &pair : rare_controls_bar_buttons) {
+		if (id_to_keycode(pair.first) == KEY_UNKNOWN)
+			continue;
+
+		std::wstring wide = utf8_to_wide(pair.second);
+		rare_controls_bar.addButton(pair.first, wide.c_str(),
+				pair.second + "_btn.png");
+	}
 }
 
 void TouchScreenGUI::initButton(touch_gui_button_id id, const rect<s32> &button_rect,
@@ -457,133 +575,6 @@ button_info TouchScreenGUI::initJoystickButton(touch_gui_button_id id,
 			m_texturesource, m_device->getVideoDriver());
 
 	return btn;
-}
-
-void TouchScreenGUI::init(ISimpleTextureSource *tsrc)
-{
-	assert(tsrc);
-
-	m_visible       = true;
-	m_texturesource = tsrc;
-
-	// Initialize joystick display "button".
-	// Joystick is placed on the bottom left of screen.
-	if (m_fixed_joystick) {
-		m_joystick_btn_off = initJoystickButton(joystick_off_id,
-				rect<s32>(button_size,
-						m_screensize.Y - button_size * 4,
-						button_size * 4,
-						m_screensize.Y - button_size), 0);
-	} else {
-		m_joystick_btn_off = initJoystickButton(joystick_off_id,
-				rect<s32>(button_size,
-						m_screensize.Y - button_size * 3,
-						button_size * 3,
-						m_screensize.Y - button_size), 0);
-	}
-
-	m_joystick_btn_bg = initJoystickButton(joystick_bg_id,
-			rect<s32>(button_size,
-					m_screensize.Y - button_size * 4,
-					button_size * 4,
-					m_screensize.Y - button_size),
-			1, false);
-
-	m_joystick_btn_center = initJoystickButton(joystick_center_id,
-			rect<s32>(0, 0, button_size, button_size), 2, false);
-
-	// init jump button
-	initButton(jump_id,
-			rect<s32>(m_screensize.X - 1.75f * button_size,
-					m_screensize.Y - button_size,
-					m_screensize.X - 0.25f * button_size,
-					m_screensize.Y),
-			L"x", false);
-
-	// init crunch button
-	initButton(crunch_id,
-			rect<s32>(m_screensize.X - 3.25f * button_size,
-					m_screensize.Y - button_size,
-					m_screensize.X - 1.75f * button_size,
-					m_screensize.Y),
-			L"H", false);
-
-	// init zoom button
-	initButton(zoom_id,
-			rect<s32>(m_screensize.X - 1.25f * button_size,
-					m_screensize.Y - 4 * button_size,
-					m_screensize.X - 0.25f * button_size,
-					m_screensize.Y - 3 * button_size),
-			L"z", false);
-
-	// init aux1 button
-	if (!m_joystick_triggers_aux1)
-		initButton(aux1_id,
-				rect<s32>(m_screensize.X - 1.25f * button_size,
-						m_screensize.Y - 2.5f * button_size,
-						m_screensize.X - 0.25f * button_size,
-						m_screensize.Y - 1.5f * button_size),
-				L"spc1", false);
-
-	AutoHideButtonBar &settings_bar = m_buttonbars.emplace_back(m_device, m_receiver);
-	settings_bar.init(m_texturesource, "gear_icon.png", settings_starter_id,
-			v2s32(m_screensize.X - 1.25f * button_size,
-					m_screensize.Y - (SETTINGS_BAR_Y_OFFSET + 1.0f) * button_size
-							+ 0.5f * button_size),
-			v2s32(m_screensize.X - 0.25f * button_size,
-					m_screensize.Y - SETTINGS_BAR_Y_OFFSET * button_size
-							+ 0.5f * button_size),
-			AHBB_Dir_Right_Left, 3.0f);
-
-	const static std::map<touch_gui_button_id, std::string> settings_bar_buttons {
-		{fly_id, "fly"},
-		{noclip_id, "noclip"},
-		{fast_id, "fast"},
-		{debug_id, "debug"},
-		{camera_id, "camera"},
-		{range_id, "rangeview"},
-		{minimap_id, "minimap"},
-	};
-	for (const auto &pair : settings_bar_buttons) {
-		if (id_to_keycode(pair.first) == KEY_UNKNOWN)
-			continue;
-
-		std::wstring wide = utf8_to_wide(pair.second);
-		settings_bar.addButton(pair.first, wide.c_str(),
-				pair.second + "_btn.png");
-	}
-
-	// Chat is shown by default, so chat_hide_btn.png is shown first.
-	settings_bar.addToggleButton(toggle_chat_id, L"togglechat",
-			"chat_hide_btn.png", "chat_show_btn.png");
-
-	AutoHideButtonBar &rare_controls_bar = m_buttonbars.emplace_back(m_device, m_receiver);
-	rare_controls_bar.init(m_texturesource, "rare_controls.png",
-			rare_controls_starter_id,
-			v2s32(0.25f * button_size,
-					m_screensize.Y - (RARE_CONTROLS_BAR_Y_OFFSET + 1.0f) * button_size
-							+ 0.5f * button_size),
-			v2s32(0.75f * button_size,
-					m_screensize.Y - RARE_CONTROLS_BAR_Y_OFFSET * button_size
-							+ 0.5f * button_size),
-			AHBB_Dir_Left_Right, 2.0f);
-
-	const static std::map<touch_gui_button_id, std::string> rare_controls_bar_buttons {
-		{chat_id, "chat"},
-		{inventory_id, "inventory"},
-		{drop_id, "drop"},
-		{exit_id, "exit"},
-	};
-	for (const auto &pair : rare_controls_bar_buttons) {
-		if (id_to_keycode(pair.first) == KEY_UNKNOWN)
-			continue;
-
-		std::wstring wide = utf8_to_wide(pair.second);
-		rare_controls_bar.addButton(pair.first, wide.c_str(),
-				pair.second + "_btn.png");
-	}
-
-	m_initialized = true;
 }
 
 touch_gui_button_id TouchScreenGUI::getButtonID(s32 x, s32 y)
@@ -728,9 +719,6 @@ void TouchScreenGUI::handleReleaseEvent(size_t evt_id)
 
 void TouchScreenGUI::translateEvent(const SEvent &event)
 {
-	if (!m_initialized)
-		return;
-
 	if (!m_visible) {
 		infostream << "TouchScreenGUI::translateEvent got event but is not visible!"
 				<< std::endl;
@@ -740,7 +728,7 @@ void TouchScreenGUI::translateEvent(const SEvent &event)
 	if (event.EventType != EET_TOUCH_INPUT_EVENT)
 		return;
 
-	const s32 half_button_size = button_size / 2.0f;
+	const s32 half_button_size = m_button_size / 2.0f;
 	const s32 fixed_joystick_range_sq = half_button_size * half_button_size * 3 * 3;
 	const s32 X = event.TouchInput.X;
 	const s32 Y = event.TouchInput.Y;
@@ -871,16 +859,16 @@ void TouchScreenGUI::translateEvent(const SEvent &event)
 				if (distance <= m_touchscreen_threshold) {
 					m_joystick_speed = 0.0f;
 				} else {
-					m_joystick_speed = distance / button_size;
+					m_joystick_speed = distance / m_button_size;
 					if (m_joystick_speed > 1.0f)
 						m_joystick_speed = 1.0f;
 				}
 
 				m_joystick_status_aux1 = distance > (half_button_size * 3);
 
-				if (distance > button_size) {
+				if (distance > m_button_size) {
 					// move joystick "button"
-					v2s32 new_offset = dir * button_size / distance - half_button_size;
+					v2s32 new_offset = dir * m_button_size / distance - half_button_size;
 					if (m_fixed_joystick)
 						m_joystick_btn_center.gui_button->setRelativePosition(
 								fixed_joystick_center + new_offset);
@@ -952,9 +940,6 @@ void TouchScreenGUI::applyJoystickStatus()
 
 TouchScreenGUI::~TouchScreenGUI()
 {
-	if (!m_initialized)
-		return;
-
 	for (auto &button : m_buttons) {
 		if (button.gui_button) {
 			button.gui_button->drop();
@@ -980,9 +965,6 @@ TouchScreenGUI::~TouchScreenGUI()
 
 void TouchScreenGUI::step(float dtime)
 {
-	if (!m_initialized)
-		return;
-
 	// simulate keyboard repeats
 	for (auto &button : m_buttons) {
 		if (!button.ids.empty()) {
@@ -1046,9 +1028,6 @@ void TouchScreenGUI::registerHotbarRect(u16 index, const rect<s32> &rect)
 
 void TouchScreenGUI::setVisible(bool visible)
 {
-	if (!m_initialized)
-		return;
-
 	m_visible = visible;
 	for (auto &button : m_buttons) {
 		if (button.gui_button)
@@ -1072,7 +1051,7 @@ void TouchScreenGUI::setVisible(bool visible)
 
 void TouchScreenGUI::hide()
 {
-	if (!m_visible)
+if (!m_visible)
 		return;
 
 	setVisible(false);
@@ -1080,7 +1059,7 @@ void TouchScreenGUI::hide()
 
 void TouchScreenGUI::show()
 {
-	if (m_visible)
+	if (m_visible) 
 		return;
 
 	setVisible(true);

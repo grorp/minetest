@@ -198,14 +198,7 @@ public:
 		keyWasReleased.clear();
 	}
 
-	MyEventReceiver()
-	{
-		m_touchscreengui = NULL;
-	}
-
 	JoystickController *joystick = nullptr;
-
-	TouchScreenGUI *m_touchscreengui;
 
 private:
 	s32 mouse_wheel = 0;
@@ -325,8 +318,8 @@ public:
 				return 0.0f;
 			return 1.0f; // If there is a keyboard event, assume maximum speed
 		}
-		if (m_receiver->m_touchscreengui && m_receiver->m_touchscreengui->getMovementSpeed())
-			return m_receiver->m_touchscreengui->getMovementSpeed();
+		if (g_touchscreengui && g_touchscreengui->getMovementSpeed())
+			return g_touchscreengui->getMovementSpeed();
 		return joystick.getMovementSpeed();
 	}
 
@@ -346,8 +339,8 @@ public:
 
 		if (x != 0 || z != 0) /* If there is a keyboard event, it takes priority */
 			return atan2(x, z);
-		else if (m_receiver->m_touchscreengui && m_receiver->m_touchscreengui->getMovementDirection())
-			return m_receiver->m_touchscreengui->getMovementDirection();
+		else if (g_touchscreengui && g_touchscreengui->getMovementDirection())
+			return g_touchscreengui->getMovementDirection();
 		return joystick.getMovementDirection();
 	}
 

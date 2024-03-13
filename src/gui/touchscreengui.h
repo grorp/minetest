@@ -20,6 +20,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #pragma once
 
+#include "irr_ptr.h"
 #include "irrlichttypes.h"
 #include <IEventReceiver.h>
 #include <IGUIButton.h>
@@ -98,7 +99,7 @@ struct button_info
 	float repeat_delay;
 	EKEY_CODE keycode;
 	std::vector<size_t> ids;
-	IGUIButton *gui_button = nullptr;
+	irr_ptr<IGUIButton> gui_button = nullptr;
 	bool immediate_release;
 
 	enum {
@@ -115,8 +116,6 @@ public:
 	AutoHideButtonBar(IrrlichtDevice *device, ISimpleTextureSource *tsrc,
 			const std::string &starter_img, touch_gui_button_id starter_id,
 			core::recti starter_rect, autohide_button_bar_dir dir, float timeout);
-
-	~AutoHideButtonBar();
 
 	// add button to be shown
 	void addButton(touch_gui_button_id id, const wchar_t *caption,
@@ -171,7 +170,6 @@ class TouchScreenGUI
 {
 public:
 	TouchScreenGUI(IrrlichtDevice *device, ISimpleTextureSource *tsrc);
-	~TouchScreenGUI();
 
 	void translateEvent(const SEvent &event);
 	void applyContextControls(const TouchInteractionMode &mode);

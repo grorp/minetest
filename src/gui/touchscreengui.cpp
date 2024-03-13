@@ -425,7 +425,7 @@ TouchScreenGUI::TouchScreenGUI(IrrlichtDevice *device, ISimpleTextureSource *tsr
 			L"x", false);
 
 	// init crunch button
-	initButton(crunch_id,
+	initButton(drop_id,
 			rect<s32>(m_screensize.X - 3.25f * m_button_size,
 					m_screensize.Y - m_button_size,
 					m_screensize.X - 1.75f * m_button_size,
@@ -433,7 +433,7 @@ TouchScreenGUI::TouchScreenGUI(IrrlichtDevice *device, ISimpleTextureSource *tsr
 			L"H", false);
 
 	// init zoom button
-	initButton(zoom_id,
+	initButton(camera_id,
 			rect<s32>(m_screensize.X - 1.25f * m_button_size,
 					m_screensize.Y - 4 * m_button_size,
 					m_screensize.X - 0.25f * m_button_size,
@@ -464,7 +464,7 @@ TouchScreenGUI::TouchScreenGUI(IrrlichtDevice *device, ISimpleTextureSource *tsr
 		{noclip_id, "noclip"},
 		{fast_id, "fast"},
 		{debug_id, "debug"},
-		{camera_id, "camera"},
+		{zoom_id, "zoom"},
 		{range_id, "rangeview"},
 		{minimap_id, "minimap"},
 	};
@@ -494,7 +494,7 @@ TouchScreenGUI::TouchScreenGUI(IrrlichtDevice *device, ISimpleTextureSource *tsr
 	const static std::map<touch_gui_button_id, std::string> rare_controls_bar_buttons {
 		{chat_id, "chat"},
 		{inventory_id, "inventory"},
-		{drop_id, "drop"},
+		{crunch_id, "crunch"},
 		{exit_id, "exit"},
 	};
 	for (const auto &pair : rare_controls_bar_buttons) {

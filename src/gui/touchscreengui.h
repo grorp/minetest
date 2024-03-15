@@ -75,9 +75,6 @@ typedef enum
 	joystick_off_id,
 	joystick_bg_id,
 	joystick_center_id,
-
-	// invalid value
-	touch_gui_button_invalid,
 } touch_gui_button_id;
 
 typedef enum

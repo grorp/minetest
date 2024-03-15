@@ -22,12 +22,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "touchscreengui.h"
 
-#include "IEventReceiver.h"
-#include "IGUIElement.h"
-#include "IGUIEnvironment.h"
-#include "Keycodes.h"
-#include "activeobject.h"
-#include "client/texturesource.h"
 #include "gettime.h"
 #include "irr_v2d.h"
 #include "log.h"
@@ -65,7 +59,6 @@ static void load_button_texture(IGUIButton *gui_button, const std::string &path,
 			gui_button->setScaleImage(true);
 		}
 		gui_button->setDrawBorder(false);
-		gui_button->setText(L"");
 	}
 }
 
@@ -276,7 +269,7 @@ AutoHideButtonBar::AutoHideButtonBar(IrrlichtDevice *device, ISimpleTextureSourc
 	m_lower_right = starter_rect.LowerRightCorner;
 
 	IGUIButton *starter_gui_button = m_guienv->addButton(starter_rect, nullptr,
-			starter_id, L"", nullptr);
+			starter_id);
 	load_button_texture(starter_gui_button, starter_img, starter_rect,
 			m_texturesource, m_driver);
 
@@ -863,6 +856,8 @@ void TouchScreenGUI::step(float dtime)
 {
 	// simulate keyboard repeats
 	buttons_step(m_buttons, dtime, m_device->getVideoDriver(), m_receiver, m_texturesource);
+	for (AutoHideButtonBar &bar : m_buttonbars)
+		bar.step(dtime);
 
 	// joystick
 	applyJoystickStatus();
@@ -890,9 +885,6 @@ void TouchScreenGUI::step(float dtime)
 				->getSceneCollisionManager()
 				->getRayFromScreenCoordinates(pointer_pos);
 	}
-
-	for (AutoHideButtonBar &bar : m_buttonbars)
-		bar.step(dtime);
 }
 
 void TouchScreenGUI::resetHotbarRects()

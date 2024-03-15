@@ -369,10 +369,12 @@ bool AutoHideButtonBar::handleRelease(size_t pointer_id)
 
 void AutoHideButtonBar::step(float dtime)
 {
-	if (m_active) {
-		bool has_pointers = buttons_step(m_buttons, dtime, m_driver,
-				m_receiver, m_texturesource);
+	// Since buttons can stay pressed after the buttonbar is deactivated,
+	// we call the step function even if the buttonbar is inactive.
+	bool has_pointers = buttons_step(m_buttons, dtime, m_driver, m_receiver,
+			m_texturesource);
 
+	if (m_active) {
 		if (!has_pointers) {
 			m_timeout += dtime;
 			if (m_timeout > BUTTONBAR_HIDE_DELAY)
@@ -583,17 +585,15 @@ std::optional<u16> TouchScreenGUI::getHotbarSelection()
 
 void TouchScreenGUI::handleReleaseEvent(size_t pointer_id)
 {
+	// handle buttons
 	if (buttons_handleRelease(m_buttons, pointer_id, m_device->getVideoDriver(),
 			m_receiver, m_texturesource))
 		return;
 
+	// handle buttonbars
 	for (AutoHideButtonBar &bar : m_buttonbars) {
-		if (bar.handleRelease(pointer_id)) {
-			for (AutoHideButtonBar &other : m_buttonbars)
-				if (other != bar)
-					other.deactivate();
+		if (bar.handleRelease(pointer_id))
 			return;
-		}
 	}
 
 	if (m_has_move_id && pointer_id == m_move_id) {
@@ -661,7 +661,7 @@ void TouchScreenGUI::translateEvent(const SEvent &event)
 
 		IGUIElement *element = m_guienv->getRootGUIElement()->getElementFromPoint(touch_pos);
 
-		// handle button events
+		// handle buttons
 		if (buttons_handlePress(m_buttons, pointer_id, element,
 				m_device->getVideoDriver(), m_receiver, m_texturesource)) {
 			for (AutoHideButtonBar &bar : m_buttonbars)
@@ -669,6 +669,7 @@ void TouchScreenGUI::translateEvent(const SEvent &event)
 			return;
 		}
 
+		// handle hotbar
 		if (isHotbarButton(event)) {
 			// already handled in isHotbarButton()
 			for (AutoHideButtonBar &bar : m_buttonbars)
@@ -676,9 +677,9 @@ void TouchScreenGUI::translateEvent(const SEvent &event)
 			return;
 		}
 
+		// handle buttonbars
 		for (AutoHideButtonBar &bar : m_buttonbars) {
 			if (bar.handlePress(pointer_id, element)) {
-				// already handled in bar.isButton()
 				for (AutoHideButtonBar &other : m_buttonbars)
 					if (other != bar)
 						other.deactivate();
@@ -929,7 +930,7 @@ void TouchScreenGUI::setVisible(bool visible)
 
 void TouchScreenGUI::hide()
 {
-if (!m_visible)
+	if (!m_visible)
 		return;
 
 	setVisible(false);

@@ -89,7 +89,8 @@ typedef enum
 } autohide_button_bar_dir;
 
 #define MIN_DIG_TIME_MS 500
-#define BUTTON_REPEAT_DELAY 0.2f
+#define BUTTON_REPEAT_DELAY 0.5f
+#define BUTTON_REPEAT_INTERVAL 0.333f
 #define SETTINGS_BAR_Y_OFFSET 5
 #define RARE_CONTROLS_BAR_Y_OFFSET 5
 
@@ -114,6 +115,9 @@ struct button_info
 		SECOND_TEXTURE
 	} toggleable = NOT_TOGGLEABLE;
 	std::string toggle_textures[2];
+
+	void emitAction(bool action, video::IVideoDriver *driver,
+			IEventReceiver *receiver, ISimpleTextureSource *tsrc);
 };
 
 class AutoHideButtonBar
@@ -131,8 +135,8 @@ public:
 	void addToggleButton(touch_gui_button_id id, const wchar_t *caption,
 			const std::string &btn_image_1, const std::string &btn_image_2);
 
-	// detect button bar button events
-	bool isButton(const SEvent &event);
+	bool handlePress(size_t pointer_id, IGUIElement *element);
+	bool handleRelease(size_t pointer_id);
 
 	// step handler
 	void step(float dtime);
@@ -260,12 +264,6 @@ private:
 
 	std::vector<button_info> m_buttons;
 
-	// gui button detection
-	touch_gui_button_id getButtonID(s32 x, s32 y);
-
-	// gui button by pointer ID
-	touch_gui_button_id getButtonID(size_t pointer_id);
-
 	// check if a button has changed
 	void handleChangedButton(const SEvent &event);
 
@@ -277,9 +275,6 @@ private:
 	// initialize a joystick button
 	IGUIButton *initJoystickButton(touch_gui_button_id id,
 			const rect<s32> &button_rect, bool visible);
-
-	// handle a button event
-	void handleButtonEvent(touch_gui_button_id id, size_t pointer_id, bool action);
 
 	// handle pressing hotbar items
 	bool isHotbarButton(const SEvent &event);

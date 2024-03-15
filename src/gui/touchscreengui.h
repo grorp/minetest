@@ -104,18 +104,16 @@ extern const std::string joystick_image_names[];
 struct button_info
 {
 	float repeat_counter;
-	float repeat_delay;
 	EKEY_CODE keycode;
 	std::vector<size_t> pointer_ids;
 	irr_ptr<IGUIButton> gui_button = nullptr;
-	bool immediate_release;
 
 	enum {
 		NOT_TOGGLEABLE,
 		FIRST_TEXTURE,
 		SECOND_TEXTURE
 	} toggleable = NOT_TOGGLEABLE;
-	std::vector<std::string> textures;
+	std::string toggle_textures[2];
 };
 
 class AutoHideButtonBar
@@ -139,17 +137,12 @@ public:
 	// step handler
 	void step(float dtime);
 
-	// return whether the button bar is active
-	bool active() { return m_active; }
-
-	// deactivate the button bar
+	void activate();
 	void deactivate();
+	bool isActive() { return m_active; }
 
-	// hide the whole button bar
-	void hide();
-
-	// unhide the button bar
 	void show();
+	void hide();
 
 	bool operator!=(const AutoHideButtonBar &other);
 
@@ -172,6 +165,8 @@ private:
 	float m_timeout = 0.0f;
 	float m_timeout_value = 3.0f;
 	autohide_button_bar_dir m_dir = AHBB_Dir_Right_Left;
+
+	void updateVisibility();
 };
 
 class TouchScreenGUI

@@ -1,0 +1,4 @@
+#!/usr/bin/bash -e
+ANDROID_HOME=~/Android/Sdk ./gradlew assemblerelease
+~/Android/Sdk/build-tools/34.0.0/apksigner sign --ks-pass pass:android --ks ~/.android/debug.keystore ./app/build/outputs/apk/release/app-arm64-v8a-release-unsigned.apk
+~/Android/Sdk/platform-tools/adb install -r -d ./app/build/outputs/apk/release/app-arm64-v8a-release-unsigned.apk

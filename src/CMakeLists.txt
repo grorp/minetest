@@ -306,14 +306,6 @@ else()
 	if (HAIKU)
 		set(PLATFORM_LIBS ${PLATFORM_LIBS} network)
 	endif()
-
-	if (ANDROID)
-		include_directories(${ANDROID_NDK}/sources/android/native_app_glue)
-		add_library(native_app_glue OBJECT ${ANDROID_NDK}/sources/android/native_app_glue/android_native_app_glue.c)
-		set(PLATFORM_LIBS ${PLATFORM_LIBS} native_app_glue)
-
-		set(PLATFORM_LIBS ${PLATFORM_LIBS} android log)
-	endif()
 endif()
 
 # On clang and gcc, some functionalities of std::atomic require -latomic.

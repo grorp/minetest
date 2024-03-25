@@ -20,6 +20,9 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 package net.minetest.minetest;
 
+import org.libsdl.app.SDLActivity;
+
+
 import android.app.NativeActivity;
 import android.content.Intent;
 import android.net.Uri;
@@ -45,10 +48,27 @@ import java.util.Objects;
 // This annotation prevents the minifier/Proguard from mangling them.
 @Keep
 @SuppressWarnings("unused")
-public class GameActivity extends NativeActivity {
-	static {
-		System.loadLibrary("c++_shared");
-		System.loadLibrary("minetest");
+public class GameActivity extends SDLActivity {
+	@Override
+    protected String getMainSharedObject() {
+        return getContext().getApplicationInfo().nativeLibraryDir + "/libminetest.so";
+    }
+
+	@Override
+    protected String getMainFunction() {
+        return "whatever_main";
+    }
+
+	@Override
+    protected String[] getLibraries() {
+        return new String[] {
+            //"SDL2",
+            // "SDL2_image",
+            // "SDL2_mixer",
+            // "SDL2_net",
+            // "SDL2_ttf",
+            "minetest"
+        };
 	}
 
 	enum DialogType { TEXT_INPUT, SELECTION_INPUT }

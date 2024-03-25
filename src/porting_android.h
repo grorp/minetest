@@ -24,17 +24,14 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #endif
 
 #include <jni.h>
-#include <android_native_app_glue.h>
 #include <android/log.h>
 
 #include "irrlichttypes_bloated.h"
 
 #include <string>
 
-namespace porting {
-// Java app
-extern android_app *app_global;
 
+namespace porting {
 // Java <-> C++ interaction interface
 extern JNIEnv *jnienv;
 

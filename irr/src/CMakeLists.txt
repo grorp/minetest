@@ -257,12 +257,23 @@ if(USE_SDL2)
 	find_package(SDL REQUIRED)
 	message(STATUS "Found SDL: ${SDL_LIBRARIES}")
 
+	# unfortunately older SDL does not provide its version to cmake, so check header.
+	set(CMAKE_REQUIRED_INCLUDES ${SDL_INCLUDE_DIRS})
+	unset(CHECK_SDL_VERSION CACHE)
+	check_cxx_source_compiles("#include <SDL_version.h>\n\
+#if !SDL_VERSION_ATLEAST(2, 0, 10)\n\
+#error\n\
+#endif\n\
+int main() {}" CHECK_SDL_VERSION)
+	if(NOT CHECK_SDL_VERSION)
+		message(FATAL_ERROR "SDL2 is too old, required is at least 2.0.10!")
+	endif()
 
 	# ...no target either.
 	if(NOT TARGET SDL::SDL)
 		add_library(SDL::SDL SHARED IMPORTED)
 		set_target_properties(SDL::SDL PROPERTIES
-			IMPORTED_LOCATION "${SDL2_LIBRARIES}")
+			IMPORTED_LOCATION "${SDL_LIBRARIES}")
 	endif()
 endif()
 
@@ -272,9 +283,9 @@ if(ENABLE_OPENGL AND DEVICE STREQUAL "SDL")
 	# The legacy GL driver requires some symbols from GL 4.5 to compile,
 	# which SDL only provides since 2.26.0 (Nov 2022).
 	# We have a fallback in case this isn't satisfied so test for it.
-	set(CMAKE_REQUIRED_INCLUDES ${SDL2_INCLUDE_DIRS})
+	set(CMAKE_REQUIRED_INCLUDES ${SDL_INCLUDE_DIRS})
 	unset(CHECK_GL_VERSION_4_5 CACHE)
-	check_cxx_source_compiles("#include <SDL2/SDL_opengl.h>\n\
+	check_cxx_source_compiles("#include <SDL_opengl.h>\n\
 #ifndef GL_VERSION_4_5\n\
 #error\n\
 #endif\n\

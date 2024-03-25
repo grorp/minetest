@@ -306,10 +306,6 @@ else()
 	if (HAIKU)
 		set(PLATFORM_LIBS ${PLATFORM_LIBS} network)
 	endif()
-
-	if (ANDROID)
-		set(PLATFORM_LIBS ${PLATFORM_LIBS} GLESv2 EGL)
-	endif()
 endif()
 
 # On clang and gcc, some functionalities of std::atomic require -latomic.

@@ -32,9 +32,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 
 namespace porting {
-// Java <-> C++ interaction interface
-extern JNIEnv *jnienv;
-
 /**
  * Show a text input dialog in Java
  * @param hint Hint to be shown

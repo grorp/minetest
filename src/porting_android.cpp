@@ -74,33 +74,13 @@ extern "C" int whatever_main(int _argc, char *_argv[])
 namespace porting {
 JNIEnv      *jnienv = nullptr;
 jclass       activityClass;
-jobject activityObject;
-
-/*
-jclass findClass(const std::string &classname)
-{
-	if (jnienv == nullptr)
-		return nullptr;
-
-	jclass activityClass = jnienv->FindClass("android/app/Activity");
-	jmethodID getClassLoader = jnienv->GetMethodID(
-			activityClass, "getClassLoader", "()Ljava/lang/ClassLoader;");
-	jobject cls = jnienv->CallObjectMethod(
-						activityObject, getClassLoader);
-	jclass classLoader = jnienv->FindClass("java/lang/ClassLoader");
-	jmethodID findClass = jnienv->GetMethodID(classLoader, "loadClass",
-					"(Ljava/lang/String;)Ljava/lang/Class;");
-	jstring strClassName = jnienv->NewStringUTF(classname.c_str());
-	return (jclass) jnienv->CallObjectMethod(cls, findClass, strClassName);
-}
-*/
+jobject      activityObject;
 
 void osSpecificInit()
 {
 	jnienv = (JNIEnv*)SDL_AndroidGetJNIEnv();
 	activityObject = (jobject)SDL_AndroidGetActivity();
-
-	activityClass = jnienv->FindClass("net/minetest/minetest/GameActivity");
+	activityClass = jnienv->GetObjectClass(activityObject);
 
 	// Set default language
 	auto lang = getLanguageAndroid();

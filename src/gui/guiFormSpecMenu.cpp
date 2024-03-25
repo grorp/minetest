@@ -3631,9 +3631,8 @@ void GUIFormSpecMenu::drawMenu()
 	/*
 		Draw rect_mode tooltip
 	*/
-	// m_tooltip_element->setVisible(false);
+	m_tooltip_element->setVisible(false);
 
-	/*
 	for (const auto &pair : m_tooltip_rects) {
 		const core::rect<s32> &rect = pair.first->getAbsoluteClippingRect();
 		if (rect.getArea() > 0 && rect.isPointInside(m_pointer)) {
@@ -3644,7 +3643,6 @@ void GUIFormSpecMenu::drawMenu()
 			}
 		}
 	}
-	*/
 
 	// Some elements are only visible while being drawn
 	for (gui::IGUIElement *e : m_clickthrough_elements)
@@ -3664,7 +3662,8 @@ void GUIFormSpecMenu::drawMenu()
 
 
 	/*
-	// Draw hovered item tooltips
+		Draw hovered item tooltips
+	*/
 	for (const std::string &tooltip : m_hovered_item_tooltips) {
 		showTooltip(utf8_to_wide(tooltip), m_default_tooltip_color,
 				m_default_tooltip_bgcolor);
@@ -3679,6 +3678,7 @@ void GUIFormSpecMenu::drawMenu()
 
 	/*
 		Draw fields/buttons tooltips and update the mouse cursor
+	*/
 	gui::IGUIElement *hovered =
 			Environment->getRootGUIElement()->getElementFromPoint(m_pointer);
 
@@ -3751,6 +3751,7 @@ void GUIFormSpecMenu::drawMenu()
 
 	m_tooltip_element->draw();
 
+	/*
 		Draw dragged item stack
 	*/
 	drawSelectedItem();

@@ -167,7 +167,7 @@ int main(int argc, char *argv[])
 #ifndef SERVER
 	SDL_version ver;
 	SDL_GetVersion(&ver);
-	errorstream << "SDL version: " << ver.major << "." << ver.minor << "." << ver.patch << std::endl;
+	errorstream << "SDL version: " << (int)ver.major << "." << (int)ver.minor << "." << (int)ver.patch << std::endl;
 #endif
 
 	// Debug handler

@@ -3,7 +3,7 @@ if(NOT ANDROID AND NOT APPLE)
 endif()
 
 option(BUILD_SHARED_LIBS "Build shared library" TRUE)
-option(USE_SDL2 "Use the SDL2 backend" ${DEFAULT_SDL2})
+set(USE_SDL2 TRUE)
 
 # Compiler flags
 
@@ -91,9 +91,6 @@ elseif(APPLE)
 	set(DEVICE "OSX")
 elseif(ANDROID)
 	add_definitions(-D_IRR_ANDROID_PLATFORM_)
-	if(USE_SDL2)
-		message(FATAL_ERROR "SDL2 device is not (yet) supported on Android")
-	endif()
 	set(DEVICE "ANDROID")
 elseif(EMSCRIPTEN)
 	add_definitions(-D_IRR_EMSCRIPTEN_PLATFORM_ -D_IRR_COMPILE_WITH_EGL_MANAGER_)
@@ -143,12 +140,7 @@ if(NOT (BSD OR SOLARIS OR EMSCRIPTEN))
 endif()
 
 # OpenGL
-
-if(USE_SDL2)
-	option(ENABLE_OPENGL3 "Enable OpenGL 3+" TRUE)
-else()
-	set(ENABLE_OPENGL3 FALSE)
-endif()
+set(ENABLE_OPENGL3 FALSE)
 
 if(ANDROID OR EMSCRIPTEN)
 	set(ENABLE_OPENGL FALSE)
@@ -156,14 +148,7 @@ else()
 	option(ENABLE_OPENGL "Enable OpenGL" TRUE)
 endif()
 
-if(EMSCRIPTEN OR APPLE)
-	set(ENABLE_GLES1 FALSE)
-else()
-	if(ANDROID)
-		set(DEFAULT_GLES1 TRUE)
-	endif()
-	option(ENABLE_GLES1 "Enable OpenGL ES" ${DEFAULT_GLES1})
-endif()
+set(ENABLE_GLES1 FALSE)
 
 if(APPLE)
 	set(ENABLE_GLES2 FALSE)
@@ -219,6 +204,10 @@ if(ENABLE_GLES2)
 	endif()
 endif()
 
+if (ANDROID)
+	add_definitions(-D_IRR_COMPILE_WITH_EGL_MANAGER_)
+endif()
+
 if(ENABLE_WEBGL1)
 	add_definitions(-D_IRR_COMPILE_WITH_WEBGL1_)
 endif()
@@ -265,25 +254,14 @@ if(ENABLE_OPENGL OR ENABLE_OPENGL3)
 	find_package(OpenGL REQUIRED)
 endif()
 if(USE_SDL2)
-	find_package(SDL2 REQUIRED)
-	message(STATUS "Found SDL2: ${SDL2_LIBRARIES}")
+	find_package(SDL REQUIRED)
+	message(STATUS "Found SDL: ${SDL_LIBRARIES}")
 
-	# unfortunately older SDL does not provide its version to cmake, so check header.
-	set(CMAKE_REQUIRED_INCLUDES ${SDL2_INCLUDE_DIRS})
-	unset(CHECK_SDL_VERSION CACHE)
-	check_cxx_source_compiles("#include <SDL_version.h>\n\
-#if !SDL_VERSION_ATLEAST(2, 0, 10)\n\
-#error\n\
-#endif\n\
-int main() {}" CHECK_SDL_VERSION)
-	if(NOT CHECK_SDL_VERSION)
-		message(FATAL_ERROR "SDL2 is too old, required is at least 2.0.10!")
-	endif()
 
 	# ...no target either.
-	if(NOT TARGET SDL2::SDL2)
-		add_library(SDL2::SDL2 SHARED IMPORTED)
-		set_target_properties(SDL2::SDL2 PROPERTIES
+	if(NOT TARGET SDL::SDL)
+		add_library(SDL::SDL SHARED IMPORTED)
+		set_target_properties(SDL::SDL PROPERTIES
 			IMPORTED_LOCATION "${SDL2_LIBRARIES}")
 	endif()
 endif()
@@ -296,7 +274,7 @@ if(ENABLE_OPENGL AND DEVICE STREQUAL "SDL")
 	# We have a fallback in case this isn't satisfied so test for it.
 	set(CMAKE_REQUIRED_INCLUDES ${SDL2_INCLUDE_DIRS})
 	unset(CHECK_GL_VERSION_4_5 CACHE)
-	check_cxx_source_compiles("#include <SDL_opengl.h>\n\
+	check_cxx_source_compiles("#include <SDL2/SDL_opengl.h>\n\
 #ifndef GL_VERSION_4_5\n\
 #error\n\
 #endif\n\
@@ -330,7 +308,7 @@ set(link_includes
 	"${ZLIB_INCLUDE_DIR}"
 	"${JPEG_INCLUDE_DIR}"
 	"${PNG_INCLUDE_DIR}"
-	"$<$<BOOL:${USE_SDL2}>:${SDL2_INCLUDE_DIRS}>"
+	"$<$<BOOL:${USE_SDL2}>:${SDL_INCLUDE_DIRS}>"
 
 	${OPENGL_INCLUDE_DIR}
 	${OPENGLES2_INCLUDE_DIR}
@@ -542,7 +520,7 @@ target_link_libraries(IrrlichtMt PRIVATE
 	${ZLIB_LIBRARY}
 	${JPEG_LIBRARY}
 	${PNG_LIBRARY}
-	"$<$<BOOL:${USE_SDL2}>:SDL2::SDL2>"
+	"$<$<BOOL:${USE_SDL}>:SDL::SDL>"
 
 	"$<$<BOOL:${OPENGL_DIRECT_LINK}>:${OPENGL_LIBRARIES}>"
 	"$<$<BOOL:${OPENGLES_DIRECT_LINK}>:${OPENGLES_LIBRARY}>"

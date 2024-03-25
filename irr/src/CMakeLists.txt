@@ -526,7 +526,7 @@ target_link_libraries(IrrlichtMt PRIVATE
 	"$<$<BOOL:${OPENGLES_DIRECT_LINK}>:${OPENGLES_LIBRARY}>"
 	${EGL_LIBRARY}
 
-	"$<$<PLATFORM_ID:Android>:-landroid -llog>"
+	"$<$<PLATFORM_ID:Android>:-landroid -llog -lEGL -lGLESv2 -lGLESv1_CM>"
 	${COCOA_LIB}
 	${IOKIT_LIB}
 	"$<$<PLATFORM_ID:Windows>:gdi32>"

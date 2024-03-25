@@ -258,6 +258,14 @@ CIrrDeviceSDL::CIrrDeviceSDL(const SIrrlichtCreationParameters &param) :
 	setDebugName("CIrrDeviceSDL");
 #endif
 
+	SDL_SetHint(SDL_HINT_ANDROID_BLOCK_ON_PAUSE, "0");
+	SDL_SetHint(SDL_HINT_ANDROID_BLOCK_ON_PAUSE_PAUSEAUDIO, "0");
+	SDL_SetHint(SDL_HINT_ANDROID_TRAP_BACK_BUTTON, "1");
+	// Minetest has its own code to synthesize mouse events from touch events,
+	// so we prevent SDL from doing it.
+	SDL_SetHint(SDL_HINT_TOUCH_MOUSE_EVENTS, "0");
+	SDL_SetHint(SDL_HINT_MOUSE_TOUCH_EVENTS, "0");
+
 	if (++SDLDeviceInstances == 1) {
 		u32 flags = SDL_INIT_TIMER | SDL_INIT_EVENTS;
 		if (CreationParams.DriverType != video::EDT_NULL)
@@ -272,11 +280,6 @@ CIrrDeviceSDL::CIrrDeviceSDL(const SIrrlichtCreationParameters &param) :
 			os::Printer::log("SDL initialized", ELL_INFORMATION);
 		}
 	}
-
-	// Minetest has its own code to synthesize mouse events from touch events,
-	// so we prevent SDL from doing it.
-	SDL_SetHint(SDL_HINT_TOUCH_MOUSE_EVENTS, "0");
-	SDL_SetHint(SDL_HINT_MOUSE_TOUCH_EVENTS, "0");
 
 	// create keymap
 	createKeyMap();

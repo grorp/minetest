@@ -116,11 +116,6 @@ public class GameActivity extends SDLActivity {
 		saveSettings();
 	}
 
-	@Override
-	public void onBackPressed() {
-		// Ignore the back press so Minetest can handle it
-	}
-
 	public void showTextInputDialog(String hint, String current, int editType) {
 		runOnUiThread(() -> showTextInputDialogUI(hint, current, editType));
 	}

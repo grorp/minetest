@@ -18,7 +18,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include "SIrrCreationParameters.h"
-#include <SDL2/SDL_video.h>
+#include <SDL_video.h>
 
 #ifdef _IRR_EMSCRIPTEN_PLATFORM_
 #include <emscripten.h>
@@ -202,7 +202,7 @@ int CIrrDeviceSDL::findCharToPassToIrrlicht(int assumedChar, EKEY_CODE key)
 	}
 
 	// SDL in-place ORs values with no character representation with 1<<30
-	// https://wiki.libsdl.org/SDL2/SDLKeycodeLookup
+	// https://wiki.libsdl.org/SDLKeycodeLookup
 	if (assumedChar & (1 << 30))
 		return 0;
 

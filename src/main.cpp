@@ -49,7 +49,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "client/clientlauncher.h"
 #include "gui/guiEngine.h"
 #include "gui/mainmenumanager.h"
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #endif
 
 // for version information only

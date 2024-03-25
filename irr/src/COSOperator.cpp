@@ -18,8 +18,8 @@
 #endif
 
 #if defined(_IRR_COMPILE_WITH_SDL_DEVICE_)
-#include <SDL2/SDL_clipboard.h>
-#include <SDL2/SDL_version.h>
+#include <SDL_clipboard.h>
+#include <SDL_version.h>
 #elif defined(_IRR_COMPILE_WITH_X11_DEVICE_)
 #include "CIrrDeviceLinux.h"
 #endif

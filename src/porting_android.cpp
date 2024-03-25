@@ -21,7 +21,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #error This file may only be compiled for android!
 #endif
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 #undef main
 

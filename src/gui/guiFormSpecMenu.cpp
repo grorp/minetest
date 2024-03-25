@@ -3660,10 +3660,7 @@ void GUIFormSpecMenu::drawMenu()
 	for (gui::IGUIElement *e : m_clickthrough_elements)
 		e->setVisible(false);
 
-
-	/*
-		Draw hovered item tooltips
-	*/
+	// Draw hovered item tooltips
 	for (const std::string &tooltip : m_hovered_item_tooltips) {
 		showTooltip(utf8_to_wide(tooltip), m_default_tooltip_color,
 				m_default_tooltip_bgcolor);

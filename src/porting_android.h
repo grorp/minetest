@@ -99,6 +99,9 @@ std::string getInputDialogMessage();
  */
 int getInputDialogSelection();
 
+
+bool hasPhysicalKeyboardAndroid();
+
 #ifndef SERVER
 float getDisplayDensity();
 v2u32 getDisplaySize();

@@ -35,6 +35,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.content.res.Configuration;
 
 import androidx.annotation.Keep;
 import androidx.appcompat.app.AlertDialog;
@@ -274,5 +275,9 @@ public class GameActivity extends SDLActivity {
 		}
 
 		return langCode;
+	}
+
+	public boolean hasPhysicalKeyboard() {
+		return getContext().getResources().getConfiguration().keyboard != Configuration.KEYBOARD_NOKEYS;
 	}
 }

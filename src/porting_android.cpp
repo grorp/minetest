@@ -311,5 +311,18 @@ std::string getLanguageAndroid()
 	return readJavaString((jstring) result);
 }
 
+bool hasPhysicalKeyboardAndroid()
+{
+	jmethodID hasPhysicalKeyboard = jnienv->GetMethodID(activityClass,
+			"hasPhysicalKeyboard", "()Z");
+
+	FATAL_ERROR_IF(hasPhysicalKeyboard == nullptr,
+		"porting::hasPhysicalKeyboardAndroid unable to find Java hasPhysicalKeyboard method");
+
+	jboolean result = jnienv->CallBooleanMethod(activityObject,
+			hasPhysicalKeyboard);
+	return result;
+}
+
 #endif // ndef SERVER
 }

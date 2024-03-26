@@ -22,8 +22,6 @@ package net.minetest.minetest;
 
 import org.libsdl.app.SDLActivity;
 
-
-import android.app.NativeActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -51,20 +49,20 @@ import java.util.Objects;
 @SuppressWarnings("unused")
 public class GameActivity extends SDLActivity {
 	@Override
-    protected String getMainSharedObject() {
-        return getContext().getApplicationInfo().nativeLibraryDir + "/libminetest.so";
-    }
+	protected String getMainSharedObject() {
+		return getContext().getApplicationInfo().nativeLibraryDir + "/libminetest.so";
+	}
 
 	@Override
-    protected String getMainFunction() {
-        return "SDL_Main";
-    }
+	protected String getMainFunction() {
+		return "SDL_Main";
+	}
 
 	@Override
-    protected String[] getLibraries() {
-        return new String[] {
-            "minetest"
-        };
+	protected String[] getLibraries() {
+		return new String[] {
+			"minetest"
+		};
 	}
 
 	enum DialogType { TEXT_INPUT, SELECTION_INPUT }

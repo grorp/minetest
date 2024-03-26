@@ -630,7 +630,17 @@ bool CIrrDeviceSDL::run()
 			}
 #endif
 
-			switch (SDL_event.button.button) {
+			u8 button = SDL_event.button.button;
+#ifdef __ANDROID__
+			// Android likes to send the right mouse button as the back button.
+			// According to some web searches I did, this is probably
+			// vendor/device-specific.
+			// Since a working right mouse button is very important for
+			// Minetest, we have this little hack.
+			if (button == SDL_BUTTON_X2)
+				button = SDL_BUTTON_RIGHT;
+#endif
+			switch (button) {
 			case SDL_BUTTON_LEFT:
 				if (SDL_event.type == SDL_MOUSEBUTTONDOWN) {
 					irrevent.MouseInput.Event = irr::EMIE_LMOUSE_PRESSED_DOWN;

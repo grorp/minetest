@@ -192,20 +192,16 @@ if(ENABLE_GLES1)
 	endif()
 	add_definitions(-D_IRR_COMPILE_WITH_OGLES1_)
 	set(OPENGLES_DIRECT_LINK TRUE)
-	if(DEVICE MATCHES "^(WINDOWS|X11|ANDROID)$")
+	if(DEVICE MATCHES "^(WINDOWS|X11)$")
 		add_definitions(-D_IRR_COMPILE_WITH_EGL_MANAGER_)
 	endif()
 endif()
 
 if(ENABLE_GLES2)
 	add_definitions(-D_IRR_COMPILE_WITH_OGLES2_)
-	if(DEVICE MATCHES "^(WINDOWS|X11|ANDROID)$" OR EMSCRIPTEN)
+	if(DEVICE MATCHES "^(WINDOWS|X11)$" OR EMSCRIPTEN)
 		add_definitions(-D_IRR_COMPILE_WITH_EGL_MANAGER_)
 	endif()
-endif()
-
-if (ANDROID)
-	add_definitions(-D_IRR_COMPILE_WITH_EGL_MANAGER_)
 endif()
 
 if(ENABLE_WEBGL1)
@@ -455,8 +451,7 @@ if(ENABLE_OPENGL3)
 	target_compile_definitions(IRROTHEROBJ PRIVATE ENABLE_OPENGL3)
 endif()
 
-if(ANDROID)
-elseif(APPLE)
+if(APPLE)
 	# Build all IRROTHEROBJ sources as objc++, including the .cpp's
 	set_target_properties(IRROTHEROBJ PROPERTIES COMPILE_OPTIONS "-xobjective-c++")
 	target_sources(IRROTHEROBJ PRIVATE
@@ -531,7 +526,7 @@ target_link_libraries(IrrlichtMt PRIVATE
 	"$<$<BOOL:${OPENGLES_DIRECT_LINK}>:${OPENGLES_LIBRARY}>"
 	${EGL_LIBRARY}
 
-	"$<$<PLATFORM_ID:Android>:-landroid -llog -lEGL -lGLESv2 -lGLESv1_CM>"
+	"$<$<PLATFORM_ID:Android>:-landroid -llog -lGLESv2 -lGLESv1_CM>"
 	${COCOA_LIB}
 	${IOKIT_LIB}
 	"$<$<PLATFORM_ID:Windows>:gdi32>"

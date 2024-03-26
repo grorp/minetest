@@ -1,9 +1,9 @@
-if(NOT ANDROID AND NOT APPLE)
+if(NOT APPLE)
 	set(DEFAULT_SDL2 ON)
 endif()
 
 option(BUILD_SHARED_LIBS "Build shared library" TRUE)
-set(USE_SDL2 TRUE)
+option(USE_SDL2 "Use the SDL2 backend" ${DEFAULT_SDL2})
 
 # Compiler flags
 
@@ -91,7 +91,11 @@ elseif(APPLE)
 	set(DEVICE "OSX")
 elseif(ANDROID)
 	add_definitions(-D_IRR_ANDROID_PLATFORM_)
-	set(DEVICE "ANDROID")
+	# set(DEVICE "ANDROID")
+	# doesn't exist anymore
+	if(NOT USE_SDL2)
+		message(FATAL_ERROR "The Android build requires SDL2")
+	endif()
 elseif(EMSCRIPTEN)
 	add_definitions(-D_IRR_EMSCRIPTEN_PLATFORM_ -D_IRR_COMPILE_WITH_EGL_MANAGER_)
 	set(LINUX_PLATFORM TRUE)

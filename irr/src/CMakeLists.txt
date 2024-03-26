@@ -259,7 +259,11 @@ if(ENABLE_OPENGL OR ENABLE_OPENGL3)
 	find_package(OpenGL REQUIRED)
 endif()
 if(USE_SDL2)
-	find_package(SDL2 REQUIRED)
+	if(NOT ANDROID)
+		find_package(SDL2 REQUIRED)
+	else()
+		# provided by MinetestAndroidLibs.cmake
+	endif()
 	message(STATUS "Found SDL2: ${SDL2_LIBRARIES}")
 
 	# unfortunately older SDL does not provide its version to cmake, so check header.

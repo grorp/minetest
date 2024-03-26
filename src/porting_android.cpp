@@ -21,9 +21,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #error This file may only be compiled for android!
 #endif
 
+#define SDL_MAIN_HANDLED 1
 #include <SDL.h>
-
-#undef main
 
 #include "util/numeric.h"
 #include "porting.h"
@@ -57,7 +56,7 @@ namespace porting {
 	bool setSystemPaths(); // used in porting.cpp
 }
 
-extern "C" int whatever_main(int _argc, char *_argv[])
+extern "C" int SDL_Main(int _argc, char *_argv[])
 {
 	Thread::setName("Main");
 

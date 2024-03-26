@@ -17,8 +17,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#define SDL_MAIN_HANDLED 1
-
 #include "irrlichttypes_bloated.h"
 #include "irrlicht.h" // createDevice
 #include "irrlicht_changes/printing.h"
@@ -49,7 +47,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "client/clientlauncher.h"
 #include "gui/guiEngine.h"
 #include "gui/mainmenumanager.h"
-#include <SDL.h>
 #endif
 
 // for version information only
@@ -163,12 +160,6 @@ int main(int argc, char *argv[])
 		print_version(std::cout);
 		return 0;
 	}
-
-#ifndef SERVER
-	SDL_version ver;
-	SDL_GetVersion(&ver);
-	errorstream << "SDL version: " << (int)ver.major << "." << (int)ver.minor << "." << (int)ver.patch << std::endl;
-#endif
 
 	// Debug handler
 	BEGIN_DEBUG_EXCEPTION_HANDLER

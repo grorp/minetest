@@ -56,17 +56,12 @@ public class GameActivity extends SDLActivity {
 
 	@Override
     protected String getMainFunction() {
-        return "whatever_main";
+        return "SDL_Main";
     }
 
 	@Override
     protected String[] getLibraries() {
         return new String[] {
-            //"SDL2",
-            // "SDL2_image",
-            // "SDL2_mixer",
-            // "SDL2_net",
-            // "SDL2_ttf",
             "minetest"
         };
 	}

@@ -202,7 +202,7 @@ int CIrrDeviceSDL::findCharToPassToIrrlicht(int assumedChar, EKEY_CODE key)
 	}
 
 	// SDL in-place ORs values with no character representation with 1<<30
-	// https://wiki.libsdl.org/SDLKeycodeLookup
+	// https://wiki.libsdl.org/SDL2/SDLKeycodeLookup
 	if (assumedChar & (1 << 30))
 		return 0;
 

@@ -65,6 +65,11 @@ public class GameActivity extends SDLActivity {
 		};
 	}
 
+	// Prevent SDL from changing orientation settings since we already set the
+	// correct orientation in our AndroidManifest.xml
+	@Override
+	public void setOrientationBis(int w, int h, boolean resizable, String hint) {}
+
 	enum DialogType { TEXT_INPUT, SELECTION_INPUT }
 	enum DialogState { DIALOG_SHOWN, DIALOG_INPUTTED, DIALOG_CANCELED }
 
@@ -72,32 +77,6 @@ public class GameActivity extends SDLActivity {
 	private DialogState inputDialogState = DialogState.DIALOG_CANCELED;
 	private String messageReturnValue = "";
 	private int selectionReturnValue = 0;
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-	}
-
-	private void makeFullScreen() {
-		this.getWindow().getDecorView().setSystemUiVisibility(
-				View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
-				View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
-				View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-	}
-
-	@Override
-	public void onWindowFocusChanged(boolean hasFocus) {
-		super.onWindowFocusChanged(hasFocus);
-		if (hasFocus)
-			makeFullScreen();
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		makeFullScreen();
-	}
 
 	private native void saveSettings();
 

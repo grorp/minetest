@@ -258,23 +258,23 @@ CIrrDeviceSDL::CIrrDeviceSDL(const SIrrlichtCreationParameters &param) :
 	setDebugName("CIrrDeviceSDL");
 #endif
 
+	if (++SDLDeviceInstances == 1) {
 #ifdef __ANDROID__
-	// Blocking on pause causes problems with multiplayer.
-	SDL_SetHint(SDL_HINT_ANDROID_BLOCK_ON_PAUSE, "0");
-	SDL_SetHint(SDL_HINT_ANDROID_BLOCK_ON_PAUSE_PAUSEAUDIO, "0");
+		// Blocking on pause causes problems with multiplayer.
+		SDL_SetHint(SDL_HINT_ANDROID_BLOCK_ON_PAUSE, "0");
+		SDL_SetHint(SDL_HINT_ANDROID_BLOCK_ON_PAUSE_PAUSEAUDIO, "0");
 
-	SDL_SetHint(SDL_HINT_ANDROID_TRAP_BACK_BUTTON, "1");
+		SDL_SetHint(SDL_HINT_ANDROID_TRAP_BACK_BUTTON, "1");
 
-	// Minetest does its own screen keyboard handling.
-	SDL_SetHint(SDL_HINT_ENABLE_SCREEN_KEYBOARD, "0");
+		// Minetest does its own screen keyboard handling.
+		SDL_SetHint(SDL_HINT_ENABLE_SCREEN_KEYBOARD, "0");
 #endif
 
-	// Minetest has its own code to synthesize mouse events from touch events,
-	// so we prevent SDL from doing it.
-	SDL_SetHint(SDL_HINT_TOUCH_MOUSE_EVENTS, "0");
-	SDL_SetHint(SDL_HINT_MOUSE_TOUCH_EVENTS, "0");
+		// Minetest has its own code to synthesize mouse events from touch events,
+		// so we prevent SDL from doing it.
+		SDL_SetHint(SDL_HINT_TOUCH_MOUSE_EVENTS, "0");
+		SDL_SetHint(SDL_HINT_MOUSE_TOUCH_EVENTS, "0");
 
-	if (++SDLDeviceInstances == 1) {
 		u32 flags = SDL_INIT_TIMER | SDL_INIT_EVENTS;
 		if (CreationParams.DriverType != video::EDT_NULL)
 			flags |= SDL_INIT_VIDEO;

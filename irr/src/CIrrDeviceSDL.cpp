@@ -519,6 +519,15 @@ bool CIrrDeviceSDL::createWindow()
 		return false;
 	}
 
+	// Update Width and Height to match the actual window size.
+	// In fullscreen mode, the window size specified in SIrrlichtCreationParameters
+	// is ignored, so we cannot rely on it.
+	int w = 0;
+	int h = 0;
+	SDL_GetWindowSize(Window, &w, &h);
+	Width = w;
+	Height = h;
+
 	return true;
 #endif // !_IRR_EMSCRIPTEN_PLATFORM_
 }

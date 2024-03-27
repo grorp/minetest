@@ -262,6 +262,7 @@ CIrrDeviceSDL::CIrrDeviceSDL(const SIrrlichtCreationParameters &param) :
 	if (++SDLDeviceInstances == 1) {
 #ifdef __ANDROID__
 		// Blocking on pause causes problems with multiplayer.
+		// See https://github.com/minetest/minetest/issues/10842.
 		SDL_SetHint(SDL_HINT_ANDROID_BLOCK_ON_PAUSE, "0");
 		SDL_SetHint(SDL_HINT_ANDROID_BLOCK_ON_PAUSE_PAUSEAUDIO, "0");
 
@@ -801,10 +802,11 @@ bool CIrrDeviceSDL::run()
 			postEventFromUser(irrevent);
 			break;
 
-		// Contrary to what the documentation says, SDL_APP_WILLENTERBACKGROUND
+		// Contrary to what the SDL documentation says, SDL_APP_WILLENTERBACKGROUND
 		// and SDL_APP_WILLENTERFOREGROUND are actually sent in onStop/onStart,
 		// not onPause/onResume, on recent Android versions. This can be verified
 		// by testing or by looking at the org.libsdl.app.SDLActivity Java code.
+		// -> This means we can use them to implement isWindowVisible().
 
 		case SDL_APP_WILLENTERBACKGROUND:
 			IsInBackground = true;

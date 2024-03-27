@@ -180,6 +180,7 @@ public:
 	virtual bool isFullscreen() const = 0;
 
 	//! Checks if the window could possibly be visible.
+	/** If this returns false, you should not do any rendering. */
 	virtual bool isWindowVisible() const { return true; };
 
 	//! Get the current color format of the window

@@ -252,7 +252,8 @@ CIrrDeviceSDL::CIrrDeviceSDL(const SIrrlichtCreationParameters &param) :
 		Window((SDL_Window *)param.WindowId), SDL_Flags(0),
 		MouseX(0), MouseY(0), MouseXRel(0), MouseYRel(0), MouseButtonStates(0),
 		Width(param.WindowSize.Width), Height(param.WindowSize.Height),
-		Resizable(param.WindowResizable == 1 ? true : false), CurrentTouchCount(0)
+		Resizable(param.WindowResizable == 1 ? true : false), CurrentTouchCount(0),
+		IsInBackground(false)
 {
 #ifdef _DEBUG
 	setDebugName("CIrrDeviceSDL");
@@ -800,6 +801,19 @@ bool CIrrDeviceSDL::run()
 			postEventFromUser(irrevent);
 			break;
 
+		// Contrary to what the documentation says, SDL_APP_WILLENTERBACKGROUND
+		// and SDL_APP_WILLENTERFOREGROUND are actually sent in onStop/onStart,
+		// not onPause/onResume, on recent Android versions. This can be verified
+		// by testing or by looking at the org.libsdl.app.SDLActivity Java code.
+
+		case SDL_APP_WILLENTERBACKGROUND:
+			IsInBackground = true;
+			break;
+
+		case SDL_APP_WILLENTERFOREGROUND:
+			IsInBackground = false;
+			break;
+
 		default:
 			break;
 		} // end switch
@@ -1079,6 +1093,11 @@ bool CIrrDeviceSDL::isFullscreen() const
 
 	return CIrrDeviceStub::isFullscreen();
 #endif
+}
+
+bool CIrrDeviceSDL::isWindowVisible() const
+{
+	return !IsInBackground;
 }
 
 //! returns if window is active. if not, nothing need to be drawn

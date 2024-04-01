@@ -1381,6 +1381,8 @@ bool Game::createSingleplayerServer(const std::string &map_dir,
 			false, nullptr, error_message);
 	server->start();
 
+	input->clear();
+
 	FpsControl fps_control;
 	f32 dtime;
 	fps_control.reset();

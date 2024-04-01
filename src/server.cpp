@@ -103,6 +103,8 @@ void *ServerThread::run()
 {
 	BEGIN_DEBUG_EXCEPTION_HANDLER
 
+	m_server->initialize();
+
 	/*
 	 * The real business of the server happens on the ServerThread.
 	 * How this works:
@@ -417,8 +419,10 @@ Server::~Server()
 	}
 }
 
-void Server::init()
+void Server::initialize()
 {
+	sanity_check(!m_initialized);
+
 	infostream << "Server created for gameid \"" << m_gamespec.id << "\"";
 	if (m_simple_singleplayer_mode)
 		infostream << " in simple singleplayer mode" << std::endl;
@@ -542,24 +546,6 @@ void Server::init()
 	m_max_chatmessage_length = g_settings->getU16("chat_message_max_size");
 	m_csm_restriction_flags = g_settings->getU64("csm_restriction_flags");
 	m_csm_restriction_noderange = g_settings->getU32("csm_restriction_noderange");
-}
-
-void Server::start()
-{
-	init();
-
-	infostream << "Starting server on " << m_bind_addr.serializeString()
-			<< "..." << std::endl;
-
-	// Stop thread if already running
-	m_thread->stop();
-
-	// Initialize connection
-	m_con->SetTimeoutMs(30);
-	m_con->Serve(m_bind_addr);
-
-	// Start thread
-	m_thread->start();
 
 	// ASCII art for the win!
 	const char *art[] = {
@@ -583,6 +569,24 @@ void Server::start()
 			<< "\" listening on ";
 	m_bind_addr.print(actionstream);
 	actionstream << "." << std::endl;
+
+	m_initialized = true;
+}
+
+void Server::start()
+{
+	infostream << "Starting server on " << m_bind_addr.serializeString()
+			<< "..." << std::endl;
+
+	// Stop thread if already running
+	m_thread->stop();
+
+	// Initialize connection
+	m_con->SetTimeoutMs(30);
+	m_con->Serve(m_bind_addr);
+
+	// Start thread
+	m_thread->start();
 }
 
 void Server::stop()
@@ -612,6 +616,8 @@ void Server::step()
 
 void Server::AsyncRunStep(float dtime, bool initial_step)
 {
+	sanity_check(m_initialized);
+
 	{
 		// Send blocks to clients
 		SendBlocks(dtime);

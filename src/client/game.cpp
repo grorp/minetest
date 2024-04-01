@@ -1381,6 +1381,21 @@ bool Game::createSingleplayerServer(const std::string &map_dir,
 			false, nullptr, error_message);
 	server->start();
 
+	FpsControl fps_control;
+	f32 dtime;
+	fps_control.reset();
+
+	while (!server->isInitialized()) {
+		if (!m_rendering_engine->run())
+			return false;
+		if (input->cancelPressed())
+			return false;
+
+		fps_control.limit(device, &dtime);
+		showOverlayMessage(N_("Creating server..."), dtime, 5);
+	}
+
+	// TODO: This is IO on the main thread, can we move it to the server thread?
 	copyServerClientCache();
 
 	return true;

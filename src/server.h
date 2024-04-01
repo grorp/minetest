@@ -166,6 +166,9 @@ public:
 	// Actual processing is done in another thread.
 	// This just checks if there was an error in that thread.
 	void step();
+	// This is run by ServerThread
+	void initialize();
+	bool isInitialized() const { return m_initialized; }
 	// This is run by ServerThread and does the actual processing
 	void AsyncRunStep(float dtime, bool initial_step = false);
 	void Receive(float timeout);
@@ -482,8 +485,6 @@ private:
 
 	typedef std::unordered_map<std::pair<v3s16, u16>, std::string, SBCHash> SerializedBlockCache;
 
-	void init();
-
 	void SendMovement(session_t peer_id);
 	void SendHP(session_t peer_id, u16 hp, bool effect);
 	void SendBreath(session_t peer_id, u16 breath);
@@ -665,6 +666,7 @@ private:
 	/*
 		Threads
 	*/
+	std::atomic<bool> m_initialized = false;
 	// Set by Game
 	std::atomic<StepSettings> m_step_settings{{0.1f, false}};
 

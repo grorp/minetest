@@ -111,11 +111,11 @@ public:
 	}
 
 	bool isStarted() const override {
-		return m_initial_step_done;
+		return m_setup_done;
 	}
 
 	bool isDone() const override {
-		return m_initial_step_done &&
+		return m_setup_done && m_initial_step_done &&
 			m_uncached_received_count == m_uncached_count;
 	}
 
@@ -147,7 +147,8 @@ private:
 		s32 active_count;
 	};
 
-	void initialStep(Client *client);
+	void setup();
+	bool initialStep(Client *client);
 	void remoteHashSetReceived(const HTTPFetchResult &fetch_result);
 	void remoteMediaReceived(const HTTPFetchResult &fetch_result,
 			Client *client);
@@ -160,13 +161,16 @@ private:
 	std::string serializeRequiredHashSet();
 
 	// Maps filename to file status
-	std::map<std::string, FileStatus*> m_files;
+	using FileStatusMap = std::map<std::string, FileStatus*>;
+	FileStatusMap m_files;
 
 	// Array of remote media servers
 	std::vector<RemoteServerStatus*> m_remotes;
 
 	// Has an attempt been made to load media files from the file cache?
 	// Have hash sets been requested from remote servers?
+	bool m_setup_done = false;
+	FileStatusMap::iterator m_file_iterator;
 	bool m_initial_step_done = false;
 
 	// Total number of media files to load

@@ -1020,12 +1020,6 @@ Game::Game() :
 
 Game::~Game()
 {
-	delete client;
-	delete soundmaker;
-	sound_manager.reset();
-
-	delete server; // deleted first to stop all server threads
-
 	delete hud;
 	delete camera;
 	delete quicktune;
@@ -1274,6 +1268,26 @@ void Game::shutdown()
 			sleep_ms(100);
 		}
 	}
+
+	delete client;
+	delete soundmaker;
+	sound_manager.reset();
+
+	server->stop(); // stop all server threads
+
+	FpsControl fps_control;
+	float dtime = 0.0f;
+	fps_control.reset();
+
+	while (!server->isFinished()) {
+		m_rendering_engine->run();
+		fps_control.limit(device, &dtime);
+
+		showOverlayMessage(N_("Shutting down..."), dtime, 0, false);
+	}
+	delete server;
+
+	// continuation in Game::~Game
 }
 
 
@@ -1384,10 +1398,10 @@ bool Game::createSingleplayerServer(const std::string &map_dir,
 	input->clear();
 
 	FpsControl fps_control;
-	f32 dtime;
+	f32 dtime = 0.0f;
 	fps_control.reset();
 
-	while (!server->isInitialized()) {
+	while (!server->isReady()) {
 		if (!m_rendering_engine->run())
 			return false;
 		if (input->cancelPressed())

@@ -149,6 +149,9 @@ void *ServerThread::run()
 		dtime = 1e-6f * (porting::getTimeUs() - t0);
 	}
 
+	// FIXME: make sure this is always called, no matter what exception is thrown
+	m_server->deinitialize();
+
 	END_DEBUG_EXCEPTION_HANDLER
 
 	return nullptr;
@@ -327,95 +330,9 @@ Server::Server(
 
 Server::~Server()
 {
-	// Send shutdown message
-	SendChatMessage(PEER_ID_INEXISTENT, ChatMessage(CHATMESSAGE_TYPE_ANNOUNCE,
-			L"*** Server shutting down"));
-
-	if (m_env) {
-		MutexAutoLock envlock(m_env_mutex);
-
-		infostream << "Server: Saving players" << std::endl;
-		m_env->saveLoadedPlayers();
-
-		infostream << "Server: Kicking players" << std::endl;
-		std::string kick_msg;
-		bool reconnect = false;
-		if (isShutdownRequested()) {
-			reconnect = m_shutdown_state.should_reconnect;
-			kick_msg = m_shutdown_state.message;
-		}
-		if (kick_msg.empty()) {
-			kick_msg = g_settings->get("kick_msg_shutdown");
-		}
-		m_env->saveLoadedPlayers(true);
-		kickAllPlayers(SERVER_ACCESSDENIED_SHUTDOWN,
-			kick_msg, reconnect);
-	}
-
-	actionstream << "Server: Shutting down" << std::endl;
-
-	// Stop server step from happening
-	if (m_thread) {
-		stop();
-		delete m_thread;
-	}
-
-	// Stop all emerge activity and finish off mapgen callbacks. Do this before
-	// shutdown callbacks since there may be state that is finalized in a
-	// callback.
-	// Note: The emerge manager is not deleted yet because further code can
-	//       still interact with map loading.
-	if (m_emerge)
-		m_emerge->stopThreads();
-
-	if (m_env) {
-		MutexAutoLock envlock(m_env_mutex);
-
-		try {
-			// Empty out the environment, this can also invoke callbacks.
-			m_env->deactivateBlocksAndObjects();
-		} catch (ModError &e) {
-			addShutdownError(e);
-		}
-
-		infostream << "Server: Executing shutdown hooks" << std::endl;
-		try {
-			m_script->on_shutdown();
-		} catch (ModError &e) {
-			addShutdownError(e);
-		}
-
-		infostream << "Server: Saving environment metadata" << std::endl;
-		m_env->saveMeta();
-
-		// Note that this also deletes and saves the map.
-		delete m_env;
-		m_env = nullptr;
-	}
-
-	// Write any changes before deletion.
-	if (m_mod_storage_database)
-		m_mod_storage_database->endSave();
-
-	// Clean up files
-	for (auto &it : m_media) {
-		if (it.second.delete_at_shutdown) {
-			fs::DeleteSingleFileOrEmptyDirectory(it.second.path);
-		}
-	}
-
-	// Delete the rest in the reverse order of creation
-	delete m_game_settings;
-	delete m_banmanager;
-	delete m_mod_storage_database;
-	delete m_rollback;
-	delete m_itemdef;
-	delete m_nodedef;
-	delete m_craftdef;
-
-	while (!m_unsent_map_edit_queue.empty()) {
-		delete m_unsent_map_edit_queue.front();
-		m_unsent_map_edit_queue.pop();
+	if (!isFinished()) {
+		m_thread->stop();
+		m_thread->wait();
 	}
 }
 
@@ -547,6 +464,10 @@ void Server::initialize()
 	m_csm_restriction_flags = g_settings->getU64("csm_restriction_flags");
 	m_csm_restriction_noderange = g_settings->getU32("csm_restriction_noderange");
 
+	// Initialize connection
+	m_con->SetTimeoutMs(30);
+	m_con->Serve(m_bind_addr);
+
 	// ASCII art for the win!
 	const char *art[] = {
 		"         __.               __.                 __.  ",
@@ -573,17 +494,105 @@ void Server::initialize()
 	m_initialized = true;
 }
 
+void Server::deinitialize() {
+	sanity_check(m_initialized);
+
+	// Send shutdown message
+	SendChatMessage(PEER_ID_INEXISTENT, ChatMessage(CHATMESSAGE_TYPE_ANNOUNCE,
+			L"*** Server shutting down"));
+
+	if (m_env) {
+		MutexAutoLock envlock(m_env_mutex);
+
+		infostream << "Server: Saving players" << std::endl;
+		m_env->saveLoadedPlayers();
+
+		infostream << "Server: Kicking players" << std::endl;
+		std::string kick_msg;
+		bool reconnect = false;
+		if (isShutdownRequested()) {
+			reconnect = m_shutdown_state.should_reconnect;
+			kick_msg = m_shutdown_state.message;
+		}
+		if (kick_msg.empty()) {
+			kick_msg = g_settings->get("kick_msg_shutdown");
+		}
+		m_env->saveLoadedPlayers(true);
+		kickAllPlayers(SERVER_ACCESSDENIED_SHUTDOWN,
+			kick_msg, reconnect);
+	}
+
+	actionstream << "Server: Shutting down" << std::endl;
+
+	// Stop all emerge activity and finish off mapgen callbacks. Do this before
+	// shutdown callbacks since there may be state that is finalized in a
+	// callback.
+	// Note: The emerge manager is not deleted yet because further code can
+	//       still interact with map loading.
+	if (m_emerge)
+		m_emerge->stopThreads();
+
+	if (m_env) {
+		MutexAutoLock envlock(m_env_mutex);
+
+		try {
+			// Empty out the environment, this can also invoke callbacks.
+			m_env->deactivateBlocksAndObjects();
+		} catch (ModError &e) {
+			addShutdownError(e);
+		}
+
+		infostream << "Server: Executing shutdown hooks" << std::endl;
+		try {
+			m_script->on_shutdown();
+		} catch (ModError &e) {
+			addShutdownError(e);
+		}
+
+		infostream << "Server: Saving environment metadata" << std::endl;
+		m_env->saveMeta();
+
+		// Note that this also deletes and saves the map.
+		delete m_env;
+		m_env = nullptr;
+	}
+
+	// Write any changes before deletion.
+	if (m_mod_storage_database)
+		m_mod_storage_database->endSave();
+
+	// Clean up files
+	for (auto &it : m_media) {
+		if (it.second.delete_at_shutdown) {
+			fs::DeleteSingleFileOrEmptyDirectory(it.second.path);
+		}
+	}
+
+	// Delete the rest in the reverse order of creation
+	delete m_game_settings;
+	delete m_banmanager;
+	delete m_mod_storage_database;
+	delete m_rollback;
+	delete m_itemdef;
+	delete m_nodedef;
+	delete m_craftdef;
+
+	while (!m_unsent_map_edit_queue.empty()) {
+		delete m_unsent_map_edit_queue.front();
+		m_unsent_map_edit_queue.pop();
+	}
+
+	m_initialized = false;
+}
+
 void Server::start()
 {
 	infostream << "Starting server on " << m_bind_addr.serializeString()
 			<< "..." << std::endl;
 
 	// Stop thread if already running
+	// FIXME: why doesn't this wait for the thread to actually stop?
 	m_thread->stop();
-
-	// Initialize connection
-	m_con->SetTimeoutMs(30);
-	m_con->Serve(m_bind_addr);
 
 	// Start thread
 	m_thread->start();
@@ -595,9 +604,18 @@ void Server::stop()
 
 	// Stop threads (set run=false first so both start stopping)
 	m_thread->stop();
-	m_thread->wait();
 
 	infostream<<"Server: Threads stopped"<<std::endl;
+}
+
+bool Server::isReady() const
+{
+	return m_thread->isRunning() && m_initialized;
+}
+
+bool Server::isFinished() const
+{
+	return !m_initialized && !m_thread->isRunning();
 }
 
 void Server::step()

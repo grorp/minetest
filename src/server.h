@@ -163,12 +163,14 @@ public:
 
 	void start();
 	void stop();
+	bool isReady() const;
+	bool isFinished() const;
 	// Actual processing is done in another thread.
 	// This just checks if there was an error in that thread.
 	void step();
-	// This is run by ServerThread
+	// These are run by ServerThread
 	void initialize();
-	bool isInitialized() const { return m_initialized; }
+	void deinitialize();
 	// This is run by ServerThread and does the actual processing
 	void AsyncRunStep(float dtime, bool initial_step = false);
 	void Receive(float timeout);

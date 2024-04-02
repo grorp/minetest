@@ -83,7 +83,7 @@ bool ClientMediaDownloader::loadMedia(Client *client, const std::string &data,
 
 void ClientMediaDownloader::addFile(const std::string &name, const std::string &sha1)
 {
-	assert(!m_setup_done); // pre-condition
+	assert(!m_initial_step_done); // pre-condition
 
 	// if name was already announced, ignore the new announcement
 	if (m_files.count(name) != 0) {
@@ -118,7 +118,7 @@ void ClientMediaDownloader::addFile(const std::string &name, const std::string &
 
 void ClientMediaDownloader::addRemoteServer(const std::string &baseurl)
 {
-	assert(!m_setup_done);	// pre-condition
+	assert(!m_initial_step_done);	// pre-condition
 
 #ifdef USE_CURL
 
@@ -144,8 +144,8 @@ void ClientMediaDownloader::addRemoteServer(const std::string &baseurl)
 void ClientMediaDownloader::step(Client *client)
 {
 	if (!m_initial_step_done) {
-		m_initial_step_done = initialStep(client);
-		return;
+		initialStep(client);
+		m_initial_step_done = true;
 	}
 
 	// Remote media: check for completion of fetches
@@ -182,40 +182,18 @@ void ClientMediaDownloader::step(Client *client)
 	}
 }
 
-// Returns true if the initial step was completed, false if initialStep should
-// be called again next time.
-bool ClientMediaDownloader::initialStep(Client *client)
+void ClientMediaDownloader::initialStep(Client *client)
 {
-	u64 start_time = porting::getTimeMs();
-
 	// Check media cache
-	FileStatusMap::iterator it;
-	if (!m_setup_done) {
-		m_uncached_count = m_files.size();
-		it = m_files.begin();
-		m_setup_done = true;
-	} else {
-		it = m_file_iterator;
-	}
-
-	for (; it != m_files.end(); ++it) {
-		const std::string &name = it->first;
-		FileStatus *filestatus = it->second;
+	m_uncached_count = m_files.size();
+	for (auto &file_it : m_files) {
+		const std::string &name = file_it.first;
+		FileStatus *filestatus = file_it.second;
 		const std::string &sha1 = filestatus->sha1;
 
 		if (tryLoadFromCache(name, sha1, client)) {
 			filestatus->received = true;
 			m_uncached_count--;
-		}
-
-		// We load cached media in chunks to avoid freezing the window.
-		// However, this can actually make loading of cached media slower.
-		// The chunk_time_ms value has been chosen as a tradeoff between keeping
-		// the window somewhat responsive and avoiding a slowdown in media loading.
-		const u64 chunk_time_ms = 66;
-		if (porting::getDeltaMs(start_time, porting::getTimeMs()) >= chunk_time_ms) {
-			m_file_iterator = ++it;
-			return false;
 		}
 	}
 
@@ -296,8 +274,6 @@ bool ClientMediaDownloader::initialStep(Client *client)
 			m_outstanding_hash_sets++;
 		}
 	}
-
-	return true;
 }
 
 void ClientMediaDownloader::remoteHashSetReceived(

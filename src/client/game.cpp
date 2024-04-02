@@ -66,6 +66,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "settings.h"
 #include "shader.h"
 #include "sky.h"
+#include "threading/helper_thread.h"
 #include "translation.h"
 #include "util/basic_macros.h"
 #include "util/directiontables.h"
@@ -822,9 +823,6 @@ protected:
 #endif
 
 private:
-	friend class ServerStartThread;
-	friend class ServerStopThread;
-
 	struct Flags {
 		bool force_fog_off = false;
 		bool disable_camera_update = false;
@@ -1226,24 +1224,6 @@ void Game::run()
 }
 
 
-class ServerStopThread : public Thread
-{
-public:
-	ServerStopThread(Game *game) :
-		Thread("ServerStop"),
-		m_game(game)
-	{}
-
-private:
-	Game *m_game;
-
-	void *run() {
-		delete m_game->server;
-		return nullptr;
-	};
-};
-
-
 void Game::shutdown()
 {
 	auto formspec = m_game_ui->getFormspecGUI();
@@ -1294,7 +1274,9 @@ void Game::shutdown()
 	delete soundmaker;
 	sound_manager.reset();
 
-	ServerStopThread stop_thread(this);
+	HelperThread stop_thread("ServerStop", [=] {
+		delete server;
+	});
 	stop_thread.start();
 
 	FpsControl fps_control;
@@ -1306,6 +1288,8 @@ void Game::shutdown()
 		fps_control.limit(device, &dtime);
 		showOverlayMessage(N_("Shutting down..."), dtime, 0, false);
 	}
+
+	stop_thread.rethrowException();
 
 	// to be continued in Game::~Game
 }
@@ -1379,24 +1363,6 @@ bool Game::initSound()
 	return true;
 }
 
-class ServerStartThread : public Thread
-{
-public:
-	ServerStartThread(Game *game) :
-		Thread("ServerStart"),
-		m_game(game)
-	{}
-
-private:
-	Game *m_game;
-
-	void *run() {
-		m_game->server->start();
-		m_game->copyServerClientCache();
-		return nullptr;
-	};
-};
-
 bool Game::createSingleplayerServer(const std::string &map_dir,
 		const SubgameSpec &gamespec, u16 port)
 {
@@ -1432,7 +1398,10 @@ bool Game::createSingleplayerServer(const std::string &map_dir,
 	server = new Server(map_dir, gamespec, simple_singleplayer_mode, bind_addr,
 			false, nullptr, error_message);
 
-	ServerStartThread start_thread(this);
+	HelperThread start_thread("ServerStart", [=] {
+		server->start();
+		copyServerClientCache();
+	});
 	start_thread.start();
 
 	input->clear();
@@ -1452,6 +1421,8 @@ bool Game::createSingleplayerServer(const std::string &map_dir,
 		else
 			showOverlayMessage(N_("Shutting down..."), dtime, 0, false);
 	}
+
+	start_thread.rethrowException();
 
 	return success;
 }

@@ -547,10 +547,6 @@ void Server::initialize()
 	m_csm_restriction_flags = g_settings->getU64("csm_restriction_flags");
 	m_csm_restriction_noderange = g_settings->getU32("csm_restriction_noderange");
 
-	// Initialize connection
-	m_con->SetTimeoutMs(30);
-	m_con->Serve(m_bind_addr);
-
 	// ASCII art for the win!
 	const char *art[] = {
 		"         __.               __.                 __.  ",
@@ -584,6 +580,10 @@ void Server::start()
 
 	// Stop thread if already running
 	m_thread->stop();
+
+	// Initialize connection
+	m_con->SetTimeoutMs(30);
+	m_con->Serve(m_bind_addr);
 
 	// Start thread
 	m_thread->start();

@@ -23,7 +23,8 @@ private:
 	std::function<void()> m_fn;
 	std::exception_ptr m_exptr;
 
-	void *run() {
+	void *run()
+	{
 		try {
 			m_fn();
 		} catch(...) {

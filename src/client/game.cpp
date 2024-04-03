@@ -66,7 +66,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "settings.h"
 #include "shader.h"
 #include "sky.h"
-#include "threading/helper_thread.h"
+#include "threading/lambda.h"
 #include "translation.h"
 #include "util/basic_macros.h"
 #include "util/directiontables.h"
@@ -1274,22 +1274,21 @@ void Game::shutdown()
 	delete soundmaker;
 	sound_manager.reset();
 
-	HelperThread stop_thread("ServerStop", [=] {
+	auto stop_thread = runInThread([=] {
 		delete server;
-	});
-	stop_thread.start();
+	}, "ServerStop");
 
 	FpsControl fps_control;
-	f32 dtime = 0.0f;
 	fps_control.reset();
 
-	while (stop_thread.isRunning()) {
+	while (stop_thread->isRunning()) {
 		m_rendering_engine->run();
+		f32 dtime;
 		fps_control.limit(device, &dtime);
 		showOverlayMessage(N_("Shutting down..."), dtime, 0, false);
 	}
 
-	stop_thread.rethrowException();
+	stop_thread->rethrow();
 
 	// to be continued in Game::~Game
 }
@@ -1398,22 +1397,21 @@ bool Game::createSingleplayerServer(const std::string &map_dir,
 	server = new Server(map_dir, gamespec, simple_singleplayer_mode, bind_addr,
 			false, nullptr, error_message);
 
-	HelperThread start_thread("ServerStart", [=] {
+	auto start_thread = runInThread([=] {
 		server->start();
 		copyServerClientCache();
-	});
-	start_thread.start();
+	}, "ServerStart");
 
 	input->clear();
 	bool success = true;
 
 	FpsControl fps_control;
-	f32 dtime;
 	fps_control.reset();
 
-	while (start_thread.isRunning()) {
+	while (start_thread->isRunning()) {
 		if (!m_rendering_engine->run() || input->cancelPressed())
 			success = false;
+		f32 dtime;
 		fps_control.limit(device, &dtime);
 
 		if (success)
@@ -1422,7 +1420,7 @@ bool Game::createSingleplayerServer(const std::string &map_dir,
 			showOverlayMessage(N_("Shutting down..."), dtime, 0, false);
 	}
 
-	start_thread.rethrowException();
+	start_thread->rethrow();
 
 	return success;
 }

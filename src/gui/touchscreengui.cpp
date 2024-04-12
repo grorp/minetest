@@ -38,33 +38,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 TouchScreenGUI *g_touchscreengui;
 
-const std::string button_image_names[] = {
-	"jump_btn.png",
-	"down.png",
-	"zoom.png",
-	"aux1_btn.png",
-	"gear_icon.png",
-	"rare_controls.png",
-
-	"fly_btn.png",
-	"noclip_btn.png",
-	"fast_btn.png",
-	"debug_btn.png",
-	"camera_btn.png",
-	"rangeview_btn.png",
-	"minimap_btn.png",
-	"",
-
-	"chat_btn.png",
-	"inventory_btn.png",
-	"drop_btn.png",
-	"exit_btn.png",
-
-	"joystick_off.png",
-	"joystick_bg.png",
-	"joystick_center.png",
-};
-
 static void load_button_texture(IGUIButton *gui_button, const std::string &path,
 		const recti &button_rect, ISimpleTextureSource *tsrc, video::IVideoDriver *driver)
 {
@@ -434,6 +407,13 @@ TouchScreenGUI::TouchScreenGUI(IrrlichtDevice *device, ISimpleTextureSource *tsr
 			RenderingEngine::getDisplayDensity() * 65.0f *
 					g_settings->getFloat("hud_scaling"));
 
+	createButtons(ButtonLayout::getDefault(m_device->getVideoDriver()->getScreenSize()));
+}
+
+void TouchScreenGUI::createButtons(const ButtonLayout &layout)
+{
+	m_layout = layout;
+
 	// Initialize joystick display "button".
 	// Joystick is placed on the bottom left of screen.
 	if (m_fixed_joystick) {
@@ -459,75 +439,8 @@ TouchScreenGUI::TouchScreenGUI(IrrlichtDevice *device, ISimpleTextureSource *tsr
 	m_joystick_btn_center.grab(makeJoystickButton(joystick_center_id,
 			recti(0, 0, m_button_size, m_button_size), false));
 
-	// init jump button
-	addButton(jump_id, button_image_names[jump_id],
-			recti(m_screensize.X - 1.75f * m_button_size,
-					m_screensize.Y - m_button_size,
-					m_screensize.X - 0.25f * m_button_size,
-					m_screensize.Y));
-
-	// init sneak button
-	addButton(sneak_id, button_image_names[sneak_id],
-			recti(m_screensize.X - 3.25f * m_button_size,
-					m_screensize.Y - m_button_size,
-					m_screensize.X - 1.75f * m_button_size,
-					m_screensize.Y));
-
-	// init zoom button
-	addButton(zoom_id, button_image_names[zoom_id],
-			recti(m_screensize.X - 1.25f * m_button_size,
-					m_screensize.Y - 4 * m_button_size,
-					m_screensize.X - 0.25f * m_button_size,
-					m_screensize.Y - 3 * m_button_size));
-
-	// init aux1 button
-	if (!m_joystick_triggers_aux1)
-		addButton(aux1_id, button_image_names[aux1_id],
-				recti(m_screensize.X - 1.25f * m_button_size,
-						m_screensize.Y - 2.5f * m_button_size,
-						m_screensize.X - 0.25f * m_button_size,
-						m_screensize.Y - 1.5f * m_button_size));
-
-	AutoHideButtonBar &settings_bar = m_buttonbars.emplace_back(m_device, m_texturesource,
-			settings_starter_id, button_image_names[settings_starter_id],
-			recti(m_screensize.X - 1.25f * m_button_size,
-					m_screensize.Y - (SETTINGS_BAR_Y_OFFSET + 1.0f) * m_button_size
-							+ 0.5f * m_button_size,
-					m_screensize.X - 0.25f * m_button_size,
-					m_screensize.Y - SETTINGS_BAR_Y_OFFSET * m_button_size
-							+ 0.5f * m_button_size),
-			AHBB_Dir_Right_Left);
-
-	const static std::vector<touch_gui_button_id> settings_bar_buttons {
-		fly_id, noclip_id, fast_id, debug_id, camera_id, range_id, minimap_id,
-	};
-	for (auto id : settings_bar_buttons) {
-		if (id_to_keycode(id) == KEY_UNKNOWN)
-			continue;
-		settings_bar.addButton(id, button_image_names[id]);
-	}
-
-	// Chat is shown by default, so chat_hide_btn.png is shown first.
-	settings_bar.addToggleButton(toggle_chat_id,
-			"chat_hide_btn.png", "chat_show_btn.png");
-
-	AutoHideButtonBar &rare_controls_bar = m_buttonbars.emplace_back(m_device, m_texturesource,
-			rare_controls_starter_id, button_image_names[rare_controls_starter_id],
-			recti(0.25f * m_button_size,
-					m_screensize.Y - (RARE_CONTROLS_BAR_Y_OFFSET + 1.0f) * m_button_size
-							+ 0.5f * m_button_size,
-					0.75f * m_button_size,
-					m_screensize.Y - RARE_CONTROLS_BAR_Y_OFFSET * m_button_size
-							+ 0.5f * m_button_size),
-			AHBB_Dir_Left_Right);
-
-	const static std::vector<touch_gui_button_id> rare_controls_bar_buttons {
-		chat_id, inventory_id, drop_id, exit_id,
-	};
-	for (auto id : rare_controls_bar_buttons) {
-		if (id_to_keycode(id) == KEY_UNKNOWN)
-			continue;
-		rare_controls_bar.addButton(id, button_image_names[id]);
+	for (const auto &[btn, meta] : layout.layout) {
+		addButton(touch_gui_button_id id, const std::string &image, const recti &rect)
 	}
 }
 

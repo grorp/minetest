@@ -52,13 +52,13 @@ constexpr s32 ID_OFFSET = 737;
 
 const struct EnumString es_TouchButton[] =
 {
-	{BTN_RARE_CONTROLS_BAR, "rare_controls_bar"},
-	{BTN_SETTINGS_BAR, "settings_bar"},
-	{BTN_JOYSTICK, "joystick"},
-	{BTN_JUMP, "jump"},
-	{BTN_SNEAK, "sneak"},
-	{BTN_ZOOM, "zoom"},
-	{BTN_AUX1, "aux1"},
+	{rare_controls_starter_id, "rare_controls_bar"},
+	{settings_starter_id, "settings_bar"},
+	{joystick_off_id, "joystick"},
+	{jump_id, "jump"},
+	{sneak_id, "sneak"},
+	{zoom_id, "zoom"},
+	{aux1_id, "aux1"},
 	{0, NULL},
 };
 
@@ -87,7 +87,7 @@ GUITouchscreenLayout::~GUITouchscreenLayout() {
 
 }
 
-void GUITouchscreenLayout::addButton(TouchButton btn, core::rect<s32> rect) {
+void GUITouchscreenLayout::addButton(touch_gui_button_id btn, core::rect<s32> rect) {
 	IGUIImage *irrimg;
 	if (m_gui_buttons.count(btn) == 0) {
 		irrimg = Environment->addImage(rect, this, ID_OFFSET + btn);
@@ -116,8 +116,8 @@ void GUITouchscreenLayout::regenerateGui(v2u32 screensize)
 		m_bad_rects.clear();
 	}
 
-	for (u8 i = 0; i < TouchButton_END; i++) {
-		TouchButton btn = (TouchButton)i;
+	for (u8 i = 0; i < touch_gui_button_id_END; i++) {
+		touch_gui_button_id btn = (touch_gui_button_id)i;
 		if (m_last_render_layout.shouldRender(btn, m_expanded_bar)) {
 			core::rect<s32> rect = m_last_render_layout.getRect(btn, m_tsrc, m_drag.has_value() ? std::make_optional(m_drag->btn) : std::nullopt);
 			addButton(btn, rect);
@@ -174,7 +174,7 @@ void GUITouchscreenLayout::drawMenu()
 		}
 	}
 
-	bool valid_selection = m_sel_btn != TouchButton_END && m_gui_buttons.count(m_sel_btn) == 1;
+	bool valid_selection = m_sel_btn != touch_gui_button_id_END && m_gui_buttons.count(m_sel_btn) == 1;
 	if (valid_selection) {
 		driver->draw2DRectangle(highlight, m_gui_buttons[m_sel_btn]->getAbsolutePosition(), &AbsoluteClippingRect);
 	}
@@ -200,8 +200,8 @@ bool GUITouchscreenLayout::OnEvent(const SEvent& event)
 			v2s32 mouse_pos = v2s32(event.MouseInput.X, event.MouseInput.Y);
 			IGUIElement *el = Environment->getRootGUIElement()->getElementFromPoint(mouse_pos);
 			s32 id = el->getID();
-			if (id >= ID_OFFSET && id < ID_OFFSET + TouchButton_END) {
-				m_sel_btn = (TouchButton)(id - ID_OFFSET);
+			if (id >= ID_OFFSET && id < ID_OFFSET + touch_gui_button_id_END) {
+				m_sel_btn = (touch_gui_button_id)(id - ID_OFFSET);
 				m_last_mouse_pos = mouse_pos;
 				m_mouse_down = true;
 
@@ -214,12 +214,12 @@ bool GUITouchscreenLayout::OnEvent(const SEvent& event)
 					regenerateGui(Environment->getVideoDriver()->getScreenSize());
 				}
 			} else {
-				m_sel_btn = TouchButton_END;
+				m_sel_btn = touch_gui_button_id_END;
 			}
 			return true;
 		}
 		case EMIE_MOUSE_MOVED: {
-			if (m_mouse_down && m_sel_btn != TouchButton_END) {
+			if (m_mouse_down && m_sel_btn != touch_gui_button_id_END) {
 				v2s32 mouse_pos = v2s32(event.MouseInput.X, event.MouseInput.Y);
 
 				if (!m_drag.has_value()) {

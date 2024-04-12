@@ -26,6 +26,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <IGUIButton.h>
 #include <IGUIEnvironment.h>
 #include <IrrlichtDevice.h>
+#include "touchscreenlayout.h"
 
 #include <memory>
 #include <optional>
@@ -45,37 +46,6 @@ enum class TapState
 	ShortTap,
 	LongTap,
 };
-
-typedef enum
-{
-	jump_id = 0,
-	sneak_id,
-	zoom_id,
-	aux1_id,
-	settings_starter_id,
-	rare_controls_starter_id,
-
-	// usually in the "settings bar"
-	fly_id,
-	noclip_id,
-	fast_id,
-	debug_id,
-	camera_id,
-	range_id,
-	minimap_id,
-	toggle_chat_id,
-
-	// usually in the "rare controls bar"
-	chat_id,
-	inventory_id,
-	drop_id,
-	exit_id,
-
-	// the joystick
-	joystick_off_id,
-	joystick_bg_id,
-	joystick_center_id,
-} touch_gui_button_id;
 
 typedef enum
 {
@@ -284,6 +254,12 @@ private:
 
 	bool m_place_pressed = false;
 	u64 m_place_pressed_until = 0;
+
+	ButtonLayout m_layout;
+	void createButtons(const ButtonLayout &layout);
+	void removeButtons();
+
+	friend class GUITouchscreenLayout;
 };
 
 extern TouchScreenGUI *g_touchscreengui;

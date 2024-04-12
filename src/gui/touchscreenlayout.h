@@ -7,36 +7,65 @@
 #include "irrlichttypes_bloated.h"
 #include "client/texturesource.h"
 
-enum TouchButton : u8 {
-	BTN_RARE_CONTROLS_BAR,
-	BTN_SETTINGS_BAR,
-	BTN_JOYSTICK,
-	BTN_JUMP,
-	BTN_SNEAK,
-	BTN_ZOOM,
-	BTN_AUX1,
+typedef enum
+{
+	jump_id = 0,
+	sneak_id,
+	zoom_id,
+	aux1_id,
+	settings_starter_id,
+	rare_controls_starter_id,
 
-	/* in the settings bar by default */
-	BTN_FLY,
-	BTN_NOCLIP,
-	BTN_FAST,
-	BTN_DEBUG,
-	BTN_CAMERA_MODE,
-	BTN_RANGESELET,
-	BTN_MINIMAP,
-	BTN_TOGGLE_CHAT,
+	// usually in the "settings bar"
+	fly_id,
+	noclip_id,
+	fast_id,
+	debug_id,
+	camera_id,
+	range_id,
+	minimap_id,
+	toggle_chat_id,
 
-	/* in the rare controls bar by default */
-	BTN_CHAT,
-	BTN_INVENTORY,
-	BTN_DROP,
-	BTN_EXIT,
+	// usually in the "rare controls bar"
+	chat_id,
+	inventory_id,
+	drop_id,
+	exit_id,
 
-	/* dummy placeholder */
-	BTN_PLACEHOLDER,
+	// the joystick
+	joystick_off_id,
+	joystick_bg_id,
+	joystick_center_id,
 
-	/* not a button btw */
-	TouchButton_END,
+	placeholder_id,
+	touch_gui_button_id_END,
+} touch_gui_button_id;
+
+const std::string button_image_names[] = {
+	"jump_btn.png",
+	"down.png",
+	"zoom.png",
+	"aux1_btn.png",
+	"gear_icon.png",
+	"rare_controls.png",
+
+	"fly_btn.png",
+	"noclip_btn.png",
+	"fast_btn.png",
+	"debug_btn.png",
+	"camera_btn.png",
+	"rangeview_btn.png",
+	"minimap_btn.png",
+	"",
+
+	"chat_btn.png",
+	"inventory_btn.png",
+	"drop_btn.png",
+	"exit_btn.png",
+
+	"joystick_off.png",
+	"joystick_bg.png",
+	"joystick_center.png",
 };
 
 enum class ButtonBarDir {
@@ -48,7 +77,7 @@ enum class ButtonBarDir {
 
 struct ButtonBar {
 	ButtonBarDir dir;
-	std::vector<TouchButton> content;
+	std::vector<touch_gui_button_id> content;
 };
 
 struct ButtonMeta {
@@ -58,22 +87,22 @@ struct ButtonMeta {
 };
 
 struct ButtonLayout {
-	std::unordered_map<TouchButton, ButtonMeta> layout;
+	std::unordered_map<touch_gui_button_id, ButtonMeta> layout;
 
     static ButtonLayout getDefault(v2u32 screensize);
 
-    static video::ITexture *getTexture(TouchButton btn, ISimpleTextureSource *tsrc);
-	static core::rect<s32> getRectSimple(TouchButton btn, const ButtonMeta &meta, ISimpleTextureSource *tsrc);
-	core::rect<s32> getRectSimple(TouchButton btn, ISimpleTextureSource *tsrc) const;
-	core::rect<s32> getRect(TouchButton btn, ISimpleTextureSource *tsrc, std::optional<TouchButton> dragged_btn = std::nullopt) const;
+    static video::ITexture *getTexture(touch_gui_button_id btn, ISimpleTextureSource *tsrc);
+	static core::rect<s32> getRectSimple(touch_gui_button_id btn, const ButtonMeta &meta, ISimpleTextureSource *tsrc);
+	core::rect<s32> getRectSimple(touch_gui_button_id btn, ISimpleTextureSource *tsrc) const;
+	core::rect<s32> getRect(touch_gui_button_id btn, ISimpleTextureSource *tsrc, std::optional<touch_gui_button_id> dragged_btn = std::nullopt) const;
 
-	bool shouldRender(TouchButton btn, std::optional<TouchButton> expanded_bar) const;
-    bool shouldInterpolate(TouchButton btn, std::optional<TouchButton> dragged_btn) const;
-	void remove(TouchButton btn);
-	// returns std::nullopt on success, or the TouchButton that prevented the addition on failure
-	std::vector<core::rect<s32>> add(TouchButton btn, const ButtonMeta &meta, ISimpleTextureSource *tsrc, bool really, std::optional<TouchButton> expanded_bar);
+	bool shouldRender(touch_gui_button_id btn, std::optional<touch_gui_button_id> expanded_bar) const;
+    bool shouldInterpolate(touch_gui_button_id btn, std::optional<touch_gui_button_id> dragged_btn) const;
+	void remove(touch_gui_button_id btn);
+	// returns std::nullopt on success, or the touch_gui_button_id that prevented the addition on failure
+	std::vector<core::rect<s32>> add(touch_gui_button_id btn, const ButtonMeta &meta, ISimpleTextureSource *tsrc, bool really, std::optional<touch_gui_button_id> expanded_bar);
 };
 
-void iterate_buttonbar(TouchButton launcher_btn, const ButtonMeta& launcher_meta,
-		std::optional<TouchButton> dragged_btn,
-		const std::function<bool(TouchButton, core::rect<s32>)>& cb, ISimpleTextureSource *tsrc);
+void iterate_buttonbar(touch_gui_button_id launcher_btn, const ButtonMeta& launcher_meta,
+		std::optional<touch_gui_button_id> dragged_btn,
+		const std::function<bool(touch_gui_button_id, core::rect<s32>)>& cb, ISimpleTextureSource *tsrc);

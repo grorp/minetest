@@ -40,7 +40,7 @@ public:
 	~GUITouchscreenLayout();
 
 
-	void addButton(TouchButton btn, core::rect<s32> rect);
+	void addButton(touch_gui_button_id btn, core::rect<s32> rect);
 	/*
 		Remove and re-add (or reposition) stuff
 	*/
@@ -59,24 +59,24 @@ protected:
 private:
 	ISimpleTextureSource *m_tsrc;
 
-	TouchButton m_sel_btn = TouchButton_END;
+	touch_gui_button_id m_sel_btn = touch_gui_button_id_END;
 	v2s32 m_sel_movement{};
 	v2s32 m_last_mouse_pos;
 	bool m_mouse_down = false;
 	struct DragData {
-		TouchButton btn;
+		touch_gui_button_id btn;
 		ButtonMeta meta;
 		ButtonLayout prev_layout;
 	};
 	std::optional<DragData> m_drag;
-	std::unordered_map<TouchButton, gui::IGUIImage *> m_gui_buttons;
+	std::unordered_map<touch_gui_button_id, gui::IGUIImage *> m_gui_buttons;
 	gui::IGUIButton *m_gui_done_btn = nullptr;
 
 	ButtonLayout m_cur_layout;
 	ButtonLayout m_last_render_layout;
 	std::optional<std::string> m_old_fps_max_unfocused;
-	std::optional<TouchButton> m_expanded_bar;
+	std::optional<touch_gui_button_id> m_expanded_bar;
 	std::vector<core::rect<s32>> m_bad_rects;
 
-	std::unordered_map<TouchButton, v2s32> m_tgt_pos;
+	std::unordered_map<touch_gui_button_id, v2s32> m_tgt_pos;
 };

@@ -47,14 +47,6 @@ enum class TapState
 	LongTap,
 };
 
-typedef enum
-{
-	AHBB_Dir_Top_Bottom,
-	AHBB_Dir_Bottom_Top,
-	AHBB_Dir_Left_Right,
-	AHBB_Dir_Right_Left
-} autohide_button_bar_dir;
-
 #define BUTTON_REPEAT_DELAY 0.5f
 #define BUTTON_REPEAT_INTERVAL 0.333f
 #define BUTTONBAR_HIDE_DELAY 3.0f

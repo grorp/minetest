@@ -23,6 +23,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "touchscreengui.h"
 
 #include "gettime.h"
+#include "gui/touchscreenlayout.h"
 #include "irr_v2d.h"
 #include "log.h"
 #include "porting.h"
@@ -440,9 +441,23 @@ void TouchScreenGUI::createButtons(const ButtonLayout &layout)
 			recti(0, 0, m_button_size, m_button_size), false));
 
 	for (const auto &[btn, meta] : layout.layout) {
-		addButton(touch_gui_button_id id, const std::string &image, const recti &rect)
+		if (btn == joystick_off_id || btn == placeholder_id || btn == touch_gui_button_id_END)
+			continue;
+		if (!meta.bar.has_value()) {
+			addButton(btn, button_image_names[btn], layout.getRectSimple(btn, meta, m_texturesource));
+		} else {
+			AutoHideButtonBar &bar = m_buttonbars.emplace_back(m_device, m_texturesource, btn, button_image_names[btn], layout.getRectSimple(btn, meta, m_texturesource), meta.bar->dir);
+			for (auto btn : meta.bar->content)
+				bar.addButton(btn, button_image_names[btn]);
+		}
 	}
 }
+
+void TouchScreenGUI::removeButtons() {
+	m_buttons.clear();
+	m_buttonbars.clear();
+}
+
 
 void TouchScreenGUI::addButton(touch_gui_button_id id, const std::string &image, const recti &rect)
 {

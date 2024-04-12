@@ -56,7 +56,7 @@ const std::string button_image_names[] = {
 	"camera_btn.png",
 	"rangeview_btn.png",
 	"minimap_btn.png",
-	"",
+	"chat_hide_btn.png", // FIXME
 
 	"chat_btn.png",
 	"inventory_btn.png",
@@ -68,15 +68,17 @@ const std::string button_image_names[] = {
 	"joystick_center.png",
 };
 
-enum class ButtonBarDir {
-	Left,
-	Up,
-	Right,
-	Down,
-};
+typedef enum
+{
+	AHBB_Dir_Top_Bottom,
+	AHBB_Dir_Bottom_Top,
+	AHBB_Dir_Left_Right,
+	AHBB_Dir_Right_Left
+} autohide_button_bar_dir;
+
 
 struct ButtonBar {
-	ButtonBarDir dir;
+	autohide_button_bar_dir dir;
 	std::vector<touch_gui_button_id> content;
 };
 

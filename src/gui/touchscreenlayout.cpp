@@ -46,11 +46,11 @@ ButtonLayout ButtonLayout::getDefault(v2u32 screensize) {
 	}};
 
 	l.layout[settings_starter_id].bar.emplace();
-	l.layout[settings_starter_id].bar->dir = ButtonBarDir::Left;
+	l.layout[settings_starter_id].bar->dir = AHBB_Dir_Right_Left;
 	l.layout[settings_starter_id].bar->content = {fly_id, noclip_id, fast_id, debug_id, camera_id, range_id, minimap_id, toggle_chat_id};
 
 	l.layout[rare_controls_starter_id].bar.emplace();
-	l.layout[rare_controls_starter_id].bar->dir = ButtonBarDir::Right;
+	l.layout[rare_controls_starter_id].bar->dir = AHBB_Dir_Left_Right;
 	l.layout[rare_controls_starter_id].bar->content = {chat_id, inventory_id, drop_id, exit_id};
 
 	return l;
@@ -78,16 +78,16 @@ core::rect<s32> ButtonLayout::getRectSimple(touch_gui_button_id btn, ISimpleText
 	return getRectSimple(btn, meta, tsrc);
 }
 
-static core::rect<s32> resize_for_different_button(ButtonBarDir dir, core::rect<s32> rect, v2u32 orig_size) {
+static core::rect<s32> resize_for_different_button(autohide_button_bar_dir dir, core::rect<s32> rect, v2u32 orig_size) {
 	switch (dir) {
-	case ButtonBarDir::Left:
-	case ButtonBarDir::Right: {
+	case AHBB_Dir_Right_Left:
+	case AHBB_Dir_Left_Right: {
 		rect.LowerRightCorner.X = rect.UpperLeftCorner.X +
 				(f32)orig_size.X / (f32)orig_size.Y * rect.getHeight();
 		break;
 	}
-	case ButtonBarDir::Down:
-	case ButtonBarDir::Up:
+	case AHBB_Dir_Top_Bottom:
+	case AHBB_Dir_Bottom_Top:
 		rect.LowerRightCorner.Y = rect.UpperLeftCorner.Y +
 				(f32)orig_size.Y / (f32)orig_size.X * rect.getWidth();
 		break;
@@ -95,33 +95,33 @@ static core::rect<s32> resize_for_different_button(ButtonBarDir dir, core::rect<
 	return rect;
 }
 
-static core::rect<s32> apply_offset(ButtonBarDir dir, core::rect<s32> rect) {
+static core::rect<s32> apply_offset(autohide_button_bar_dir dir, core::rect<s32> rect) {
 	s32 offset;
 	switch (dir) {
-	case ButtonBarDir::Left:
-	case ButtonBarDir::Right:
+	case AHBB_Dir_Right_Left:
+	case AHBB_Dir_Left_Right:
 		offset = rect.getWidth();
 		break;
-	case ButtonBarDir::Down:
-	case ButtonBarDir::Up:
+	case AHBB_Dir_Top_Bottom:
+	case AHBB_Dir_Bottom_Top:
 		offset = rect.getHeight();
 		break;
 	}
 
 	switch (dir) {
-	case ButtonBarDir::Left:
+	case AHBB_Dir_Right_Left:
 		rect.UpperLeftCorner.X  -= offset;
 		rect.LowerRightCorner.X -= offset;
 		break;
-	case ButtonBarDir::Right:
+	case AHBB_Dir_Left_Right:
 		rect.UpperLeftCorner.X  += offset;
 		rect.LowerRightCorner.X += offset;
 		break;
-	case ButtonBarDir::Down:
+	case AHBB_Dir_Top_Bottom:
 		rect.UpperLeftCorner.Y  += offset;
 		rect.LowerRightCorner.Y += offset;
 		break;
-	case ButtonBarDir::Up:
+	case AHBB_Dir_Bottom_Top:
 		rect.UpperLeftCorner.Y  -= offset;
 		rect.LowerRightCorner.Y -= offset;
 		break;
@@ -162,7 +162,7 @@ void iterate_buttonbar(touch_gui_button_id launcher_btn, const ButtonMeta& launc
 	core::rect<s32> rect = ButtonLayout::getRectSimple(launcher_btn, launcher_meta, tsrc);
 	const ButtonBar &bar = launcher_meta.bar.value();
 
-	if (bar.dir == ButtonBarDir::Right || bar.dir == ButtonBarDir::Down)
+	if (bar.dir == AHBB_Dir_Left_Right || bar.dir == AHBB_Dir_Top_Bottom)
 		rect = apply_offset(bar.dir, rect);
 
 	for (const auto &inner_btn : bar.content) {
@@ -170,13 +170,13 @@ void iterate_buttonbar(touch_gui_button_id launcher_btn, const ButtonMeta& launc
 		v2u32 orig_size = ButtonLayout::getTexture(effective, tsrc)->getOriginalSize();
 
 		rect = resize_for_different_button(bar.dir, rect, orig_size);
-		if (bar.dir == ButtonBarDir::Left || bar.dir == ButtonBarDir::Up)
+		if (bar.dir == AHBB_Dir_Right_Left || bar.dir == AHBB_Dir_Bottom_Top)
 			rect = apply_offset(bar.dir, rect);
 
 		if (cb(inner_btn, rect))
 			return;
 
-		if (bar.dir == ButtonBarDir::Right || bar.dir == ButtonBarDir::Down)
+		if (bar.dir == AHBB_Dir_Left_Right || bar.dir == AHBB_Dir_Top_Bottom)
 			rect = apply_offset(bar.dir, rect);
 	}
 }

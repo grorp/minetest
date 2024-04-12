@@ -20,6 +20,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #pragma once
 
+#include "touchscreenlayout.h"
 #include "irrlichttypes.h"
 #include <IEventReceiver.h>
 #include <IGUIButton.h>
@@ -80,8 +81,6 @@ typedef enum
 } autohide_button_bar_dir;
 
 #define BUTTON_REPEAT_DELAY 0.2f
-#define SETTINGS_BAR_Y_OFFSET 5
-#define RARE_CONTROLS_BAR_Y_OFFSET 5
 
 // Our simulated clicks last some milliseconds so that server-side mods have a
 // chance to detect them via l_get_player_control.
@@ -315,6 +314,16 @@ private:
 
 	bool m_place_pressed = false;
 	u64 m_place_pressed_until = 0;
+
+	ButtonLayout m_layout;
+
+	void createButtons(const ButtonLayout &layout);
+	void removeButtons();
+
+	friend class GUITouchscreenLayout;
 };
 
 extern TouchScreenGUI *g_touchscreengui;
+
+void load_button_texture(IGUIButton *btn, const std::string &path,
+		const rect<s32> &button_rect, ISimpleTextureSource *tsrc, video::IVideoDriver *driver);

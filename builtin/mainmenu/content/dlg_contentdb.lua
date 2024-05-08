@@ -200,7 +200,7 @@ end
 
 -- Determines how to fit `num_per_page` into `size` space
 local function fit_cells(num_per_page, size)
-	local cell_spacing = 0.25
+	local cell_spacing = 0.5
 	local desired_size = 4.5
 	local row_cells = math.min(5, math.floor(size.x / desired_size))
 	local cell_w, cell_h
@@ -384,10 +384,10 @@ local function get_formspec(dlgdata)
 
 			--"style[title_", i, ";border=false]",
 			-- The 0.01 here fixes a single line of image pixels appearing below the box
-			"box[0,", cell_h - 0.5 + 0.01, ";", cell_w, ",0.5;", color_backdrop, "]",
+			"box[0,", cell_h - 0.75 + 0.01, ";", cell_w, ",0.75;", color_backdrop, "]",
 
 			"style_type[button;font_size=*1.1;border=false]",
-			"button[0.25,", cell_h - 0.5, ";", cell_w - 0.5, ",0.5;title_", i ,";",
+			"button[0.25,", cell_h - 0.75, ";", cell_w - 0.5, ",0.75;title_", i ,";",
 				core.formspec_escape(core.colorize(textcolor, package.title)), "]",
 			"style_type[button;font_size=;border=;textcolor=]",
 		})
@@ -400,7 +400,7 @@ local function get_formspec(dlgdata)
 		end
 
 		table.insert_all(formspec, {
-			"container[", cell_w - 0.5,",", cell_h - 0.5, "]",
+			"container[", cell_w - 0.625,",", cell_h - 0.625, "]",
 		})
 
 		if package.downloading then

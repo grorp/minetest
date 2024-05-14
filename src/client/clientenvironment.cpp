@@ -188,13 +188,13 @@ void ClientEnvironment::step(float dtime)
 				speed += d;
 
 				lplayer->setSpeed(speed);
-		}
+			}
 
-		if (lplayer->in_liquid_stable || lplayer->in_liquid) {
-			v3f speed = lplayer->getSpeed();
-			speed += lplayer->liquid_drift;
-			lplayer->setSpeed(speed);
-		}
+			if (lplayer->in_liquid_stable || lplayer->in_liquid) {
+				v3f speed = lplayer->getSpeed();
+				speed += lplayer->liquid_drift;
+				lplayer->setSpeed(speed);
+			}
 		}
 
 		/*

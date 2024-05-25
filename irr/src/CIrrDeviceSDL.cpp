@@ -272,6 +272,9 @@ CIrrDeviceSDL::CIrrDeviceSDL(const SIrrlichtCreationParameters &param) :
 		SDL_SetHint(SDL_HINT_ENABLE_SCREEN_KEYBOARD, "0");
 #endif
 
+		// highdpi support on Windows
+		SDL_SetHint(SDL_HINT_WINDOWS_DPI_SCALING, "1");
+
 		// Minetest has its own code to synthesize mouse events from touch events,
 		// so we prevent SDL from doing it.
 		SDL_SetHint(SDL_HINT_TOUCH_MOUSE_EVENTS, "0");
@@ -462,6 +465,7 @@ bool CIrrDeviceSDL::createWindow()
 bool CIrrDeviceSDL::createWindowWithContext()
 {
 	u32 SDL_Flags = 0;
+	SDL_Flags |= SDL_WINDOW_ALLOW_HIGHDPI;
 
 	if (CreationParams.Fullscreen) {
 #ifdef _IRR_EMSCRIPTEN_PLATFORM_
@@ -582,13 +586,7 @@ bool CIrrDeviceSDL::createWindowWithContext()
 		return false;
 	}
 
-	// Update Width and Height to match the actual window size.
-	// In fullscreen mode, the window size specified in SIrrlichtCreationParameters
-	// is ignored, so we cannot rely on it.
-	int w = 0, h = 0;
-	SDL_GetWindowSize(Window, &w, &h);
-	Width = w;
-	Height = h;
+	updateSizeAndScale();
 
 	return true;
 #endif // !_IRR_EMSCRIPTEN_PLATFORM_
@@ -652,10 +650,10 @@ bool CIrrDeviceSDL::run()
 
 			irrevent.EventType = irr::EET_MOUSE_INPUT_EVENT;
 			irrevent.MouseInput.Event = irr::EMIE_MOUSE_MOVED;
-			MouseX = irrevent.MouseInput.X = SDL_event.motion.x;
-			MouseY = irrevent.MouseInput.Y = SDL_event.motion.y;
-			MouseXRel = SDL_event.motion.xrel;
-			MouseYRel = SDL_event.motion.yrel;
+			MouseX = irrevent.MouseInput.X = SDL_event.motion.x * ScaleX;
+			MouseY = irrevent.MouseInput.Y = SDL_event.motion.y * ScaleY;
+			MouseXRel = SDL_event.motion.xrel * ScaleX;
+			MouseYRel = SDL_event.motion.yrel * ScaleY;
 			irrevent.MouseInput.ButtonStates = MouseButtonStates;
 			irrevent.MouseInput.Shift = (keymod & KMOD_SHIFT) != 0;
 			irrevent.MouseInput.Control = (keymod & KMOD_CTRL) != 0;
@@ -686,8 +684,8 @@ bool CIrrDeviceSDL::run()
 			SDL_Keymod keymod = SDL_GetModState();
 
 			irrevent.EventType = irr::EET_MOUSE_INPUT_EVENT;
-			irrevent.MouseInput.X = SDL_event.button.x;
-			irrevent.MouseInput.Y = SDL_event.button.y;
+			irrevent.MouseInput.X = SDL_event.button.x * ScaleX;
+			irrevent.MouseInput.Y = SDL_event.button.y * ScaleY;
 			irrevent.MouseInput.Shift = (keymod & KMOD_SHIFT) != 0;
 			irrevent.MouseInput.Control = (keymod & KMOD_CTRL) != 0;
 
@@ -819,9 +817,12 @@ bool CIrrDeviceSDL::run()
 		case SDL_WINDOWEVENT:
 			switch (SDL_event.window.event) {
 			case SDL_WINDOWEVENT_RESIZED:
-				if ((SDL_event.window.data1 != (int)Width) || (SDL_event.window.data2 != (int)Height)) {
-					Width = SDL_event.window.data1;
-					Height = SDL_event.window.data2;
+			case SDL_WINDOWEVENT_SIZE_CHANGED:
+				u32 old_w = Width, old_h = Height;
+				f32 old_scale_x = ScaleX, old_scale_y = ScaleY;
+				updateSizeAndScale();
+				if (old_w != Width || old_h != Height ||
+						old_scale_x != ScaleX || old_scale_y != ScaleY) {
 					if (VideoDriver)
 						VideoDriver->OnResize(core::dimension2d<u32>(Width, Height));
 				}
@@ -1014,25 +1015,26 @@ bool CIrrDeviceSDL::activateJoysticks(core::array<SJoystickInfo> &joystickInfo)
 	return false;
 }
 
+void CIrrDeviceSDL::updateSizeAndScale()
+{
+	int window_w, window_h;
+	SDL_GetWindowSize(Window, &window_w, &window_h);
+
+	int drawable_w, drawable_h;
+	SDL_GL_GetDrawableSize(Window, &drawable_w, &drawable_h);
+
+	ScaleX = (float)drawable_w / (float)window_w;
+	ScaleY = (float)drawable_h / (float)window_h;
+
+	Width = drawable_w;
+	Height = drawable_h;
+}
+
 //! Get the display density in dots per inch.
 float CIrrDeviceSDL::getDisplayDensity() const
 {
-	if (!Window)
-		return 0.0f;
-
-	int window_w;
-	int window_h;
-	SDL_GetWindowSize(Window, &window_w, &window_h);
-
-	int drawable_w;
-	int drawable_h;
-	SDL_GL_GetDrawableSize(Window, &drawable_w, &drawable_h);
-
 	// assume 96 dpi
-	float dpi_w = (float)drawable_w / (float)window_w * 96.0f;
-	float dpi_h = (float)drawable_h / (float)window_h * 96.0f;
-
-	return std::max(dpi_w, dpi_h);
+	return std::max(ScaleX * 96.0f, ScaleY * 96.0f);
 }
 
 void CIrrDeviceSDL::SwapWindow()

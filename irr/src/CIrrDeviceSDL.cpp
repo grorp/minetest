@@ -587,6 +587,14 @@ bool CIrrDeviceSDL::createWindowWithContext()
 	}
 
 	updateSizeAndScale();
+	if (ScaleX != 1.0f || ScaleY != 1.0f) {
+		// The given window size is in pixels, not in screen coordinates.
+		// We can only do the conversion now since we didn't know the scale before.
+		int window_w, window_h;
+		SDL_GetWindowSize(Window, &window_w, &window_h);
+		SDL_SetWindowSize(Window, window_w / ScaleX, window_h / ScaleY);
+		updateSizeAndScale();
+	}
 
 	return true;
 #endif // !_IRR_EMSCRIPTEN_PLATFORM_

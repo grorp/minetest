@@ -166,6 +166,7 @@ protected:
 		video::SColor color;
 		bool color_defined;
 		s32 reported_column;
+		f32 image_scale; // only for "image" type columns
 	};
 
 	struct Row {
@@ -206,6 +207,7 @@ protected:
 	s32 m_rowheight = 1;
 	gui::IGUIFont *m_font = nullptr;
 	GUIScrollBar *m_scrollbar = nullptr;
+	s32 m_vertical_image_padding = 4;
 
 	// Allocated strings and images
 	std::vector<core::stringw> m_strings;

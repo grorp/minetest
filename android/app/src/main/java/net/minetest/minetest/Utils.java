@@ -36,10 +36,6 @@ public class Utils {
 	}
 
 	public static boolean isInstallValid(@NonNull Context context) {
-		File userDataDirectory = getUserDataDirectory(context);
-		return userDataDirectory.isDirectory() &&
-			new File(userDataDirectory, "builtin").isDirectory() &&
-			new File(userDataDirectory, "client").isDirectory() &&
-			new File(userDataDirectory, "textures").isDirectory();
+		return false;
 	}
 }

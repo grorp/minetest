@@ -56,6 +56,13 @@ local function get_sorted_servers()
 end
 
 local function get_formspec(tabview, name, tabdata)
+	local winfo = core.get_window_info()
+	local w = math.max(15.5, winfo.max_formspec_size.x)
+	local box_w = 5.75
+	local box_pos = w - box_w
+	local table_w = w - box_w - 2*0.25
+	local search_w = table_w - 3*0.75
+
 	-- Update the cached supported proto info,
 	-- it may have changed after a change by the settings menu.
 	common_update_cached_supp_proto()
@@ -66,9 +73,9 @@ local function get_formspec(tabview, name, tabdata)
 
 	local retval =
 		-- Search
-		"field[0.25,0.25;7,0.75;te_search;;" .. core.formspec_escape(tabdata.search_for) .. "]" ..
+		"field[0.25,0.25;" .. search_w .. ",0.75;te_search;;" .. core.formspec_escape(tabdata.search_for) .. "]" ..
 		"field_enter_after_edit[te_search;true]" ..
-		"container[7.25,0.25]" ..
+		"container[" .. 0.25 + search_w .. ",0.25]" ..
 		"image_button[0,0;0.75,0.75;" .. core.formspec_escape(defaulttexturedir .. "search.png") .. ";btn_mp_search;]" ..
 		"image_button[0.75,0;0.75,0.75;" .. core.formspec_escape(defaulttexturedir .. "clear.png") .. ";btn_mp_clear;]" ..
 		"image_button[1.5,0;0.75,0.75;" .. core.formspec_escape(defaulttexturedir .. "refresh.png") .. ";btn_mp_refresh;]" ..
@@ -77,7 +84,7 @@ local function get_formspec(tabview, name, tabdata)
 		"tooltip[btn_mp_refresh;" .. fgettext("Refresh") .. "]" ..
 		"container_end[]" ..
 
-		"container[9.75,0]" ..
+		"container[" .. box_pos .. ",0]" ..
 		"box[0,0;5.75,7.1;#666666]" ..
 
 		-- Address / Port
@@ -128,7 +135,7 @@ local function get_formspec(tabview, name, tabdata)
 		"0=" .. core.formspec_escape(defaulttexturedir .. "blank.png") .. "," ..
 		"1=" .. core.formspec_escape(defaulttexturedir .. "server_ping_4.png") .. "," ..
 		"2=" .. core.formspec_escape(defaulttexturedir .. "server_ping_3.png") .. "," ..
-		"3=" .. core.formspec_escape(defaulttexturedir .. "server_ping_2.png") .. "," ..
+		"3=" .. core.formspec_escape(defaulttexturedir .. "logo.png") .. "," ..
 		"4=" .. core.formspec_escape(defaulttexturedir .. "server_ping_1.png") .. "," ..
 		"5=" .. core.formspec_escape(defaulttexturedir .. "server_favorite.png") .. "," ..
 		"6=" .. core.formspec_escape(defaulttexturedir .. "server_public.png") .. "," ..
@@ -149,7 +156,7 @@ local function get_formspec(tabview, name, tabdata)
 		"align=inline,padding=0.25,width=1.5;" ..
 		"color,align=inline,span=1;" ..
 		"text,align=inline,padding=1]" ..
-		"table[0.25,1;9.25,5.8;servers;"
+		"table[0.25,1;" .. table_w .. ",5.8;servers;"
 
 	local servers = get_sorted_servers()
 
@@ -181,7 +188,7 @@ local function get_formspec(tabview, name, tabdata)
 		retval = retval .. ";0]"
 	end
 
-	return retval
+	return retval, "formspec_version[7]size[" .. w .. ",7.1]padding[0.01,0.01]"
 end
 
 --------------------------------------------------------------------------------

@@ -279,7 +279,7 @@ v2u32 getDisplaySize()
 				"getDisplayWidth", "()I");
 
 		FATAL_ERROR_IF(getDisplayWidth == nullptr,
-			"porting::getDisplayWidth unable to find Java getDisplayWidth method");
+			"porting::getDisplaySize unable to find Java getDisplayWidth method");
 
 		retval.X = jnienv->CallIntMethod(activity,
 				getDisplayWidth);
@@ -288,10 +288,46 @@ v2u32 getDisplaySize()
 				"getDisplayHeight", "()I");
 
 		FATAL_ERROR_IF(getDisplayHeight == nullptr,
-			"porting::getDisplayHeight unable to find Java getDisplayHeight method");
+			"porting::getDisplaySize unable to find Java getDisplayHeight method");
 
 		retval.Y = jnienv->CallIntMethod(activity,
 				getDisplayHeight);
+
+		firstrun = false;
+	}
+
+	return retval;
+}
+
+core::rect<s32> getDisplayInsets()
+{
+	static bool firstrun = true;
+	static core::rect<s32> retval;
+
+	if (firstrun) {
+		jmethodID getInsetBottom = jnienv->GetMethodID(
+				activityClass, "getInsetBottom", "()I");
+		FATAL_ERROR_IF(getInsetBottom == nullptr,
+				"porting::getDisplayInsets unable to find Java getInsetBottom method");
+		retval.LowerRightCorner.Y = jnienv->CallIntMethod(activity, getInsetBottom);
+
+		jmethodID getInsetLeft = jnienv->GetMethodID(
+				activityClass, "getInsetLeft", "()I");
+		FATAL_ERROR_IF(getInsetLeft == nullptr,
+				"porting::getDisplayInsets unable to find Java getInsetLeft method");
+		retval.UpperLeftCorner.X = jnienv->CallIntMethod(activity, getInsetLeft);
+
+		jmethodID getInsetRight = jnienv->GetMethodID(
+				activityClass, "getInsetRight", "()I");
+		FATAL_ERROR_IF(getInsetRight == nullptr,
+				"porting::getDisplayInsets unable to find Java getInsetRight method");
+		retval.LowerRightCorner.X = jnienv->CallIntMethod(activity, getInsetRight);
+
+		jmethodID getInsetTop = jnienv->GetMethodID(
+				activityClass, "getInsetTop", "()I");
+		FATAL_ERROR_IF(getInsetTop == nullptr,
+				"porting::getDisplayInsets unable to find Java getInsetTop method");
+		retval.UpperLeftCorner.Y = jnienv->CallIntMethod(activity, getInsetTop);
 
 		firstrun = false;
 	}

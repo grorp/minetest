@@ -40,6 +40,8 @@ import android.content.res.Configuration;
 import androidx.annotation.Keep;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.FileProvider;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import java.io.File;
 import java.util.Locale;
@@ -50,6 +52,36 @@ import java.util.Objects;
 @Keep
 @SuppressWarnings("unused")
 public class GameActivity extends SDLActivity {
+	public int getInsetBottom() {
+		WindowInsetsCompat insets = ViewCompat.getRootWindowInsets(getWindow().getDecorView());
+		if (insets == null)
+			return 0;
+		return insets.getInsets(WindowInsetsCompat.Type.displayCutout()).bottom;
+	}
+
+	public int getInsetLeft() {
+		WindowInsetsCompat insets = ViewCompat.getRootWindowInsets(getWindow().getDecorView());
+		if (insets == null)
+			return 0;
+		return insets.getInsets(WindowInsetsCompat.Type.displayCutout()).left;
+	}
+
+	public int getInsetRight() {
+		WindowInsetsCompat insets = ViewCompat.getRootWindowInsets(getWindow().getDecorView());
+		if (insets == null)
+			return 0;
+		return insets.getInsets(WindowInsetsCompat.Type.displayCutout()).right;
+	}
+
+	public int getInsetTop() {
+		WindowInsetsCompat insets = ViewCompat.getRootWindowInsets(getWindow().getDecorView());
+		if (insets == null)
+			return 0;
+		return insets.getInsets(WindowInsetsCompat.Type.displayCutout()).top;
+	}
+
+
+
 	@Override
 	protected String getMainSharedObject() {
 		return getContext().getApplicationInfo().nativeLibraryDir + "/libminetest.so";

@@ -3291,10 +3291,16 @@ void GUIFormSpecMenu::regenerateGui(v2u32 screensize)
 				// Desktop computers have more space, so try to fit 15 coordinates.
 				prefer_imgsize = min_screen_dim / 15 * gui_scaling;
 			}
+			errorstream << "[imgsize calculation]" << std::endl;
+			errorstream << "prefer_imgsize = " << prefer_imgsize << std::endl;
+			errorstream << "fitx_imgsize = " << fitx_imgsize << std::endl;
+			errorstream << "fity_imgsize = " << fity_imgsize << std::endl;
+			errorstream << "fit_imgsize = " << fity_imgsize << std::endl;
 			// Try to use the preferred imgsize, but if that's bigger than the maximum
 			// size, use the maximum size.
 			use_imgsize = std::min(prefer_imgsize,
 					std::min(fitx_imgsize, fity_imgsize));
+			errorstream << "use_imgsize = " << use_imgsize << std::endl;
 		}
 
 		// Everything else is scaled in proportion to the

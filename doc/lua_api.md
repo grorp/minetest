@@ -5491,6 +5491,7 @@ Utilities
   --
   -- Note that none of these things are constant, they are likely to change during a client
   -- connection as the player resizes the window and moves it between monitors
+  -- or rotates the phone screen.
   --
   -- real_gui_scaling and real_hud_scaling can be used instead of DPI.
   -- OSes don't necessarily give the physical DPI, as they may allow user configuration.
@@ -5505,9 +5506,37 @@ Utilities
           y = 577,
       },
 
+      -- Window insets that can be used to avoid display cutouts on Android (pixels).
+      --
+      -- When creating a fullscreen formspec using `max_formspec_size` (see below),
+      -- you shouldn't place any content in the area occupied by these insets.
+      -- In this case, you can convert each inset value into formspec coordinates
+      -- using `inset.[side] / size.[axis] * max_formspec_size.[axis]`.
+      insets = {
+          bottom = 0,
+          left = 110,
+          right = 0,
+          top = 0,
+      },
+
       -- Estimated maximum formspec size before Minetest will start shrinking the
-      -- formspec to fit. For a fullscreen formspec, use a size 10-20% larger than
-      -- this and `padding[-0.01,-0.01]`.
+      -- formspec to fit. For a fullscreen formspec, use this formspec size and
+      -- `padding[0,0]`. Remember to take window insets (see above) into account
+      -- for the layout of your fullscreen formspec.
+      --
+      -- A formspec that is exactly `max_formspec_size` large might still be
+      -- shrunk due to rendering inaccuracies, resulting in transparent borders
+      -- at the edges of the window. This is particularly common with a small
+      -- window size and a low display density.
+      --
+      -- To avoid these transparent borders, you can enable a fullscreen
+      -- background using the `bgcolor[]` element: `bgcolor[;true]`.
+      --
+      -- If you need to place content exactly at the edge of the window, you
+      -- can use a size 10-20% larger than `max_formspec_size` and
+      -- `padding[-0.01,-0.01]`.
+      -- However, this may result in some content extending past the edge of
+      -- the window and makes it difficult to apply window insets correctly.
       max_formspec_size = {
           x = 20,
           y = 11.25

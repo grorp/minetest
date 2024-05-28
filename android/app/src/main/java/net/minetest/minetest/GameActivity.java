@@ -40,6 +40,8 @@ import android.content.res.Configuration;
 import androidx.annotation.Keep;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.FileProvider;
+import androidx.core.graphics.Insets;
+import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
@@ -51,37 +53,7 @@ import java.util.Objects;
 // This annotation prevents the minifier/Proguard from mangling them.
 @Keep
 @SuppressWarnings("unused")
-public class GameActivity extends SDLActivity {
-	public int getInsetBottom() {
-		WindowInsetsCompat insets = ViewCompat.getRootWindowInsets(getWindow().getDecorView());
-		if (insets == null)
-			return 0;
-		return insets.getInsets(WindowInsetsCompat.Type.displayCutout()).bottom;
-	}
-
-	public int getInsetLeft() {
-		WindowInsetsCompat insets = ViewCompat.getRootWindowInsets(getWindow().getDecorView());
-		if (insets == null)
-			return 0;
-		return insets.getInsets(WindowInsetsCompat.Type.displayCutout()).left;
-	}
-
-	public int getInsetRight() {
-		WindowInsetsCompat insets = ViewCompat.getRootWindowInsets(getWindow().getDecorView());
-		if (insets == null)
-			return 0;
-		return insets.getInsets(WindowInsetsCompat.Type.displayCutout()).right;
-	}
-
-	public int getInsetTop() {
-		WindowInsetsCompat insets = ViewCompat.getRootWindowInsets(getWindow().getDecorView());
-		if (insets == null)
-			return 0;
-		return insets.getInsets(WindowInsetsCompat.Type.displayCutout()).top;
-	}
-
-
-
+public class GameActivity extends SDLActivity implements OnApplyWindowInsetsListener {
 	@Override
 	protected String getMainSharedObject() {
 		return getContext().getApplicationInfo().nativeLibraryDir + "/libminetest.so";
@@ -111,6 +83,12 @@ public class GameActivity extends SDLActivity {
 	private DialogState inputDialogState = DialogState.DIALOG_CANCELED;
 	private String messageReturnValue = "";
 	private int selectionReturnValue = 0;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+		ViewCompat.setOnApplyWindowInsetsListener(getWindow().getDecorView(), this);
+	}
 
 	private native void saveSettings();
 
@@ -231,6 +209,18 @@ public class GameActivity extends SDLActivity {
 
 	public int getDisplayWidth() {
 		return getResources().getDisplayMetrics().widthPixels;
+	}
+
+	private Insets lastInsets = null;
+	private native void updateInsets(int bottom, int left, int right, int top);
+
+	public WindowInsetsCompat onApplyWindowInsets(View view, WindowInsetsCompat windowInsets) {
+		Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.displayCutout());
+		if (!insets.equals(lastInsets)) {
+			updateInsets(insets.bottom, insets.left, insets.right, insets.top);
+			lastInsets = insets;
+		}
+		return ViewCompat.onApplyWindowInsets(view, windowInsets);
 	}
 
 	public void openURI(String uri) {

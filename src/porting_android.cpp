@@ -51,6 +51,16 @@ Java_net_minetest_minetest_GameActivity_saveSettings(JNIEnv* env, jobject /* thi
 }
 
 namespace porting {
+	static core::rect<s32> display_insets;
+};
+
+extern "C" JNIEXPORT void JNICALL
+Java_net_minetest_minetest_GameActivity_updateInsets(JNIEnv* env, jobject /* this */,
+		jint bottom, jint left, jint right, jint top) {
+	porting::display_insets = core::rect<s32>(left, top, right, bottom);
+}
+
+namespace porting {
 	// used here:
 	void cleanupAndroid();
 	std::string getLanguageAndroid();
@@ -299,40 +309,11 @@ v2u32 getDisplaySize()
 	return retval;
 }
 
+// This works via a Java -> C++ callback instead of the other way around so that
+// we can react to changes without having to poll.
 core::rect<s32> getDisplayInsets()
 {
-	static bool firstrun = true;
-	static core::rect<s32> retval;
-
-	if (firstrun) {
-		jmethodID getInsetBottom = jnienv->GetMethodID(
-				activityClass, "getInsetBottom", "()I");
-		FATAL_ERROR_IF(getInsetBottom == nullptr,
-				"porting::getDisplayInsets unable to find Java getInsetBottom method");
-		retval.LowerRightCorner.Y = jnienv->CallIntMethod(activity, getInsetBottom);
-
-		jmethodID getInsetLeft = jnienv->GetMethodID(
-				activityClass, "getInsetLeft", "()I");
-		FATAL_ERROR_IF(getInsetLeft == nullptr,
-				"porting::getDisplayInsets unable to find Java getInsetLeft method");
-		retval.UpperLeftCorner.X = jnienv->CallIntMethod(activity, getInsetLeft);
-
-		jmethodID getInsetRight = jnienv->GetMethodID(
-				activityClass, "getInsetRight", "()I");
-		FATAL_ERROR_IF(getInsetRight == nullptr,
-				"porting::getDisplayInsets unable to find Java getInsetRight method");
-		retval.LowerRightCorner.X = jnienv->CallIntMethod(activity, getInsetRight);
-
-		jmethodID getInsetTop = jnienv->GetMethodID(
-				activityClass, "getInsetTop", "()I");
-		FATAL_ERROR_IF(getInsetTop == nullptr,
-				"porting::getDisplayInsets unable to find Java getInsetTop method");
-		retval.UpperLeftCorner.Y = jnienv->CallIntMethod(activity, getInsetTop);
-
-		firstrun = false;
-	}
-
-	return retval;
+	return display_insets;
 }
 
 std::string getLanguageAndroid()

@@ -21,10 +21,7 @@ local fullscren_fs_players = {}
 local function show_fullscreen_fs(name, window)
 	print(dump(window))
 
-	local full_size = {
-		x = window.max_formspec_size.x * 1.1,
-		y = window.max_formspec_size.y * 1.1,
-	}
+	local full_size = window.max_formspec_size
 
 	local factor_x = full_size.x / window.size.x
 	local factor_y = full_size.y / window.size.y

@@ -440,15 +440,7 @@ float RenderingEngine::getDisplayDensity()
 	// fall back to manually specified dpi
 	if (dpi == 0.0f)
 		dpi = g_settings->getFloat("screen_dpi");
-	dpi = std::max(dpi / 96.0f * g_settings->getFloat("display_density_factor"), 0.5f);
-
-	static float last_dpi = dpi;
-	if (last_dpi != dpi) {
-		last_dpi = dpi; // no infinite loop :)
-		g_settings->setU16("dpi_change_notifier", g_settings->getU16("dpi_change_notifier") + 1);
-	}
-
-	return dpi;
+	return std::max(dpi / 96.0f * g_settings->getFloat("display_density_factor"), 0.5f);
 #else // __ANDROID__
 	return porting::getDisplayDensity();
 #endif // __ANDROID__

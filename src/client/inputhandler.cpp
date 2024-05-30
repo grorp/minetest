@@ -18,6 +18,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
+#include "settings.h"
 #include "util/numeric.h"
 #include "inputhandler.h"
 #include "gui/mainmenumanager.h"
@@ -110,6 +111,14 @@ bool MyEventReceiver::OnEvent(const SEvent &event)
 		assert(event.LogEvent.Level < ARRLEN(irr_loglev_conv));
 		g_logger.log(irr_loglev_conv[event.LogEvent.Level],
 				std::string("Irrlicht: ") + event.LogEvent.Text);
+		return true;
+	}
+
+	if (event.EventType == irr::EET_APPLICATION_EVENT &&
+			event.ApplicationEvent.EventType == irr::EAET_DPI_CHANGED) {
+		// This is a fake setting so that we can use (de)registerChangedCallback
+		// not only to listen for gui/hud_scaling changes, but also for DPI changes.
+		g_settings->setU16("dpi_change_notifier", g_settings->getU16("dpi_change_notifier") + 1);
 		return true;
 	}
 

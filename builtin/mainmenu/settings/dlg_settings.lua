@@ -316,7 +316,7 @@ local function check_requirements(name, requires)
 	local special = {
 		android = PLATFORM == "Android",
 		desktop = PLATFORM ~= "Android",
-		touchscreen_gui = core.settings:get_bool("enable_touch"),
+		touchscreen_gui = core.settings:get_bool("touch_ui"),
 		keyboard_mouse = not core.settings:get_bool("enable_touch"),
 		shaders_support = shaders_support,
 		shaders = core.settings:get_bool("enable_shaders") and shaders_support,
@@ -449,13 +449,13 @@ local function get_formspec(dialogdata)
 
 	local extra_h = 1 -- not included in tabsize.height
 	local tabsize = {
-		width = core.settings:get_bool("enable_touch") and 16.5 or 15.5,
-		height = core.settings:get_bool("enable_touch") and (10 - extra_h) or 12,
+		width = core.settings:get_bool("touch_ui") and 16.5 or 15.5,
+		height = core.settings:get_bool("touch_ui") and (10 - extra_h) or 12,
 	}
 
-	local scrollbar_w = core.settings:get_bool("enable_touch") and 0.6 or 0.4
+	local scrollbar_w = core.settings:get_bool("touch_ui") and 0.6 or 0.4
 
-	local left_pane_width = core.settings:get_bool("enable_touch") and 4.5 or 4.25
+	local left_pane_width = core.settings:get_bool("touch_ui") and 4.5 or 4.25
 	local left_pane_padding = 0.25
 	local search_width = left_pane_width + scrollbar_w - (0.75 * 2)
 
@@ -469,7 +469,7 @@ local function get_formspec(dialogdata)
 	local fs = {
 		"formspec_version[6]",
 		"size[", tostring(tabsize.width), ",", tostring(tabsize.height + extra_h), "]",
-		core.settings:get_bool("enable_touch") and "padding[0.01,0.01]" or "",
+		core.settings:get_bool("touch_ui") and "padding[0.01,0.01]" or "",
 		"bgcolor[#0000]",
 
 		-- HACK: this is needed to allow resubmitting the same formspec

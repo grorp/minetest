@@ -317,7 +317,7 @@ local function check_requirements(name, requires)
 		android = PLATFORM == "Android",
 		desktop = PLATFORM ~= "Android",
 		touchscreen_gui = core.settings:get_bool("touch_ui"),
-		keyboard_mouse = not core.settings:get_bool("enable_touch"),
+		keyboard_mouse = not core.settings:get_bool("touch_controls"),
 		shaders_support = shaders_support,
 		shaders = core.settings:get_bool("enable_shaders") and shaders_support,
 		opengl = video_driver == "opengl",
@@ -644,15 +644,15 @@ local function buttonhandler(this, fields)
 		write_settings_early()
 	end
 
-	-- enable_touch is a checkbox in a setting component. We handle this
+	-- touch_controls is a checkbox in a setting component. We handle this
 	-- setting differently so we can hide/show pages using the next if-statement
-	if fields.enable_touch ~= nil then
-		local value = core.is_yes(fields.enable_touch)
-		core.settings:set_bool("enable_touch", value)
+	if fields.touch_controls ~= nil then
+		local value = core.is_yes(fields.touch_controls)
+		core.settings:set_bool("touch_controls", value)
 		write_settings_early()
 	end
 
-	if fields.show_advanced ~= nil or fields.enable_touch ~= nil then
+	if fields.show_advanced ~= nil or fields.touch_controls ~= nil then
 		local suggested_page_id = update_filtered_pages(dialogdata.query)
 
 		dialogdata.components = nil

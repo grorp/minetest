@@ -156,36 +156,24 @@ invert_hotbar_mouse_wheel (Hotbar: Invert mouse wheel direction) bool false
 touch_controls (Enable touchscreen) bool true
 
 #    Touchscreen sensitivity multiplier.
-#
-#    Requires: touchscreen_gui
 touchscreen_sensitivity (Touchscreen sensitivity) float 0.2 0.001 10.0
 
 #    The length in pixels after which a touch interaction is considered movement.
-#
-#    Requires: touchscreen_gui
 touchscreen_threshold (Movement threshold) int 20 0 100
 
 #    The delay in milliseconds after which a touch interaction is considered a long tap.
-#
-#    Requires: touchscreen_gui
 touch_long_tap_delay (Threshold for long taps) int 400 100 1000
 
 #    Use crosshair to select object instead of whole screen.
 #    If enabled, a crosshair will be shown and will be used for selecting object.
-#
-#    Requires: touchscreen_gui
 touch_use_crosshair (Use crosshair for touch screen) bool false
 
 #    Fixes the position of virtual joystick.
 #    If disabled, virtual joystick will center to first-touch's position.
-#
-#    Requires: touchscreen_gui
 fixed_virtual_joystick (Fixed virtual joystick) bool false
 
 #    Use virtual joystick to trigger "Aux1" button.
 #    If enabled, virtual joystick will also tap "Aux1" button when out of main circle.
-#
-#    Requires: touchscreen_gui
 virtual_joystick_triggers_aux1 (Virtual joystick triggers Aux1 button) bool false
 
 #    The gesture for for punching players/entities.
@@ -197,8 +185,6 @@ virtual_joystick_triggers_aux1 (Virtual joystick triggers Aux1 button) bool fals
 #    * long_tap
 #      Known from the classic Minetest mobile controls.
 #      Combat is more or less impossible.
-#
-#    Requires: touchscreen_gui
 touch_punch_gesture (Punch gesture) enum short_tap short_tap,long_tap
 
 

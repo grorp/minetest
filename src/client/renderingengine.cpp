@@ -463,15 +463,11 @@ const VideoDriverInfo &RenderingEngine::getVideoDriverInfo(irr::video::E_DRIVER_
 float RenderingEngine::getDisplayDensity()
 {
 #ifndef __ANDROID__
-	static float cached_display_density = [&] {
-		float dpi = get_raw_device()->getDisplayDensity();
-		// fall back to manually specified dpi
-		if (dpi == 0.0f)
-			dpi = g_settings->getFloat("screen_dpi");
-		return dpi / 96.0f;
-	}();
-	return std::max(cached_display_density * g_settings->getFloat("display_density_factor"), 0.5f);
-
+	float dpi = get_raw_device()->getDisplayDensity();
+	// fall back to manually specified dpi
+	if (dpi == 0.0f)
+		dpi = g_settings->getFloat("screen_dpi");
+	return std::max(dpi / 96.0f * g_settings->getFloat("display_density_factor"), 0.5f);
 #else // __ANDROID__
 	return porting::getDisplayDensity();
 #endif // __ANDROID__

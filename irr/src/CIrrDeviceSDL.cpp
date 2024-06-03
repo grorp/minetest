@@ -822,11 +822,20 @@ bool CIrrDeviceSDL::run()
 			switch (SDL_event.window.event) {
 			case SDL_WINDOWEVENT_RESIZED:
 			case SDL_WINDOWEVENT_SIZE_CHANGED:
+#if SDL_VERSION_ATLEAST(2, 0, 18)
+			case SDL_WINDOWEVENT_DISPLAY_CHANGED:
+#endif
 				u32 old_w = Width, old_h = Height;
+				f32 old_scale_x = ScaleX, old_scale_y = ScaleY;
 				updateSizeAndScale();
 				if (old_w != Width || old_h != Height) {
 					if (VideoDriver)
 						VideoDriver->OnResize(core::dimension2d<u32>(Width, Height));
+				}
+				if (old_scale_x != ScaleX || old_scale_y != ScaleY) {
+					irrevent.EventType = EET_APPLICATION_EVENT;
+					irrevent.ApplicationEvent.EventType = EAET_DPI_CHANGED;
+					postEventFromUser(irrevent);
 				}
 				break;
 			}

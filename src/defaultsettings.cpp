@@ -536,6 +536,7 @@ void set_default_settings()
 	settings->setDefault("server_description", "");
 
 	settings->setDefault("enable_console", "false");
+	settings->setDefault("dpi_change_notifier", "0");
 	settings->setDefault("screen_dpi", "72");
 	settings->setDefault("display_density_factor", "1");
 

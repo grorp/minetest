@@ -2314,6 +2314,9 @@ show_advanced (Show advanced settings) bool false
 #    Changing this setting requires a restart.
 enable_sound (Sound) bool true
 
+#    Fake setting used to handle DPI changes at runtime.
+dpi_change_notifier (DPI change notifier) int 0
+
 #    Key for moving the player forward.
 keymap_forward (Forward key) key KEY_KEY_W
 

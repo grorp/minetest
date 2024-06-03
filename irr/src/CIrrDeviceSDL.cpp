@@ -586,9 +586,10 @@ bool CIrrDeviceSDL::createWindowWithContext()
 	if (ScaleX != 1.0f || ScaleY != 1.0f) {
 		// The given window size is in pixels, not in screen coordinates.
 		// We can only do the conversion now since we didn't know the scale before.
-		int window_w, window_h;
-		SDL_GetWindowSize(Window, &window_w, &window_h);
-		SDL_SetWindowSize(Window, window_w / ScaleX, window_h / ScaleY);
+		SDL_SetWindowSize(Window, CreationParams.WindowSize.Width / ScaleX,
+				CreationParams.WindowSize.Height / ScaleY);
+		// Re-center, otherwise large, non-maximized windows go offscreen.
+		SDL_SetWindowPosition(Window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 		updateSizeAndScale();
 	}
 

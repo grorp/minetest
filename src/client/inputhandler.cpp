@@ -118,7 +118,8 @@ bool MyEventReceiver::OnEvent(const SEvent &event)
 			event.ApplicationEvent.EventType == EAET_DPI_CHANGED) {
 		// This is a fake setting so that we can use (de)registerChangedCallback
 		// not only to listen for gui/hud_scaling changes, but also for DPI changes.
-		g_settings->setU16("dpi_change_notifier", g_settings->getU16("dpi_change_notifier") + 1);
+		g_settings->setU16("dpi_change_notifier",
+				g_settings->getU16("dpi_change_notifier") + 1);
 		return true;
 	}
 

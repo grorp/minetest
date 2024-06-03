@@ -462,7 +462,7 @@ const VideoDriverInfo &RenderingEngine::getVideoDriverInfo(irr::video::E_DRIVER_
 
 float RenderingEngine::getDisplayDensity()
 {
-	float user_factor = g_settings->getFloat("display_density_factor");
+	float user_factor = g_settings->getFloat("display_density_factor", 0.5f, 5.0f);
 #ifndef __ANDROID__
 	float dpi = get_raw_device()->getDisplayDensity();
 	return std::max(dpi / 96.0f * user_factor, 0.5f);

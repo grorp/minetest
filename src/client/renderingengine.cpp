@@ -257,8 +257,6 @@ RenderingEngine::RenderingEngine(IEventReceiver *receiver)
 
 	g_settings->registerChangedCallback("fullscreen", settingChangedCallback, this);
 	g_settings->registerChangedCallback("window_maximized", settingChangedCallback, this);
-	g_settings->registerChangedCallback("screen_dpi", settingChangedCallback, this);
-	g_settings->registerChangedCallback("display_density_factor", settingChangedCallback, this);
 }
 
 RenderingEngine::~RenderingEngine()
@@ -267,8 +265,6 @@ RenderingEngine::~RenderingEngine()
 
 	g_settings->deregisterChangedCallback("fullscreen", settingChangedCallback, this);
 	g_settings->deregisterChangedCallback("window_maximized", settingChangedCallback, this);
-	g_settings->deregisterChangedCallback("screen_dpi", settingChangedCallback, this);
-	g_settings->deregisterChangedCallback("display_density_factor", settingChangedCallback, this);
 
 	core.reset();
 	m_device->closeDevice();
@@ -289,10 +285,6 @@ void RenderingEngine::settingChangedCallback(const std::string &name, void *data
 			else
 				device->restoreWindow();
 		}
-
-	} else if (name == "screen_dpi" || name == "display_density_factor") {
-		g_settings->setU16("dpi_change_notifier",
-				g_settings->getU16("dpi_change_notifier") + 1);
 	}
 }
 
@@ -470,14 +462,12 @@ const VideoDriverInfo &RenderingEngine::getVideoDriverInfo(irr::video::E_DRIVER_
 
 float RenderingEngine::getDisplayDensity()
 {
+	float user_factor = g_settings->getFloat("display_density_factor");
 #ifndef __ANDROID__
 	float dpi = get_raw_device()->getDisplayDensity();
-	// fall back to manually specified dpi
-	if (dpi == 0.0f)
-		dpi = g_settings->getFloat("screen_dpi");
-	return std::max(dpi / 96.0f * g_settings->getFloat("display_density_factor"), 0.5f);
+	return std::max(dpi / 96.0f * user_factor, 0.5f);
 #else // __ANDROID__
-	return porting::getDisplayDensity();
+	return porting::getDisplayDensity() * user_factor;
 #endif // __ANDROID__
 }
 

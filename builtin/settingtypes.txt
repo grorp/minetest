@@ -2187,9 +2187,6 @@ curl_file_download_timeout (cURL file download timeout) int 300000 5000 21474836
 
 [**Miscellaneous]
 
-#    Adjust dpi configuration to your screen (non X11/Android only) e.g. for 4k screens.
-screen_dpi (DPI) int 72 1
-
 #    Adjust the detected display density, used for scaling UI elements.
 display_density_factor (Display Density Scaling Factor) float 1 0.5 5.0
 
@@ -2313,9 +2310,6 @@ show_advanced (Show advanced settings) bool false
 #    sound controls will be non-functional.
 #    Changing this setting requires a restart.
 enable_sound (Sound) bool true
-
-#    Fake setting used to handle DPI changes at runtime.
-dpi_change_notifier (DPI change notifier) int 0
 
 #    Key for moving the player forward.
 keymap_forward (Forward key) key KEY_KEY_W

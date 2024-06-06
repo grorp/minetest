@@ -2702,7 +2702,7 @@ Elements
 ### `size[<W>,<H>,<fixed_size>]`
 
 * Define the size of the menu in inventory slots
-* `fixed_size`: `true`/`false` (optional)
+* `fixed_size`: `true`/`false` (optional) (default: `false`)
 * deprecated: `invsize[<W>,<H>;]`
 
 ### `position[<X>,<Y>]`
@@ -5511,7 +5511,7 @@ Utilities
       -- When creating a fullscreen formspec using `max_formspec_size` (see below),
       -- you shouldn't place any content in the area occupied by these insets.
       -- In this case, you can convert each inset value into formspec coordinates
-      -- using `inset.[side] / size.[axis] * max_formspec_size.[axis]`.
+      -- using `inset.<side> / size.<axis> * max_formspec_size.<axis>`.
       insets = {
           bottom = 0,
           left = 110,
@@ -5520,23 +5520,23 @@ Utilities
       },
 
       -- Estimated maximum formspec size before Minetest will start shrinking the
-      -- formspec to fit. For a fullscreen formspec, use this formspec size and
-      -- `padding[0,0]`. Remember to take window insets (see above) into account
-      -- for the layout of your fullscreen formspec.
+      -- formspec to fit. Only correct for formspecs that do not have `fixed_size`
+      -- enabled in their `size[]` element.
+      -- For a fullscreen formspec, use this formspec size and `padding[0,0]`.
+      -- Remember to take window insets (see above) into account for the layout
+      -- of your fullscreen formspec.
       --
       -- A formspec that is exactly `max_formspec_size` large might still be
       -- shrunk due to rendering inaccuracies, resulting in transparent borders
-      -- at the edges of the window. This is particularly common with a small
-      -- window size and a low display density.
-      --
+      -- at the edges of the window.
       -- To avoid these transparent borders, you can enable a fullscreen
-      -- background using the `bgcolor[]` element: `bgcolor[;true]`.
+      -- background using the `bgcolor[]` element: `bgcolor[;true]`
       --
-      -- If you need to place content exactly at the edge of the window, you
-      -- can use a size 10-20% larger than `max_formspec_size` and
-      -- `padding[-0.01,-0.01]`.
-      -- However, this may result in some content extending past the edge of
-      -- the window and makes it difficult to apply window insets correctly.
+      -- If you need to place content at the edge of the window, you can use a
+      -- size 10-20% larger than `max_formspec_size` and `padding[-0.01,-0.01]`
+      -- instead. However, this is discouraged as it may result in some content
+      -- being outside the window (depending on resolution) and will make it
+      -- difficult to apply window insets correctly.
       max_formspec_size = {
           x = 20,
           y = 11.25

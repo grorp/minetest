@@ -4,6 +4,8 @@
 
 #ifdef _IRR_COMPILE_WITH_SDL_DEVICE_
 
+#include <iostream>
+
 #include "CIrrDeviceSDL.h"
 #include "IEventReceiver.h"
 #include "IGUIElement.h"
@@ -1049,11 +1051,26 @@ void CIrrDeviceSDL::updateSizeAndScale()
 
 	Width = drawable_w;
 	Height = drawable_h;
+
+	float hdpi, vdpi;
+	SDL_GetDisplayDPI(SDL_GetWindowDisplayIndex(Window), nullptr, &hdpi, &vdpi);
+
+	std::cerr << "[updateSizeAndScale]\n" <<
+		"window size = " << window_w << "x" << window_h << "\n" <<
+		"drawable size = " << drawable_w << "x" << drawable_h << "\n" <<
+		"scale = " << ScaleX << "; " << ScaleY << "\n" <<
+		"SDL_GetDisplayDPI() scale = " << (hdpi / 96.0f) << ";" << (vdpi / 96.0f) << std::endl;
 }
 
 //! Get the display density in dots per inch.
 float CIrrDeviceSDL::getDisplayDensity() const
 {
+	/*
+	SDL recommends not to use this, see https://wiki.libsdl.org/SDL2/SDL_GetDisplayDPI#remarks.
+	float hdpi, vdpi;
+ 	SDL_GetDisplayDPI(SDL_GetWindowDisplayIndex(Window), nullptr, &hdpi, &vdpi);
+	return std::max(hdpi, vdpi);
+	*/
 	// assume 96 dpi
 	return std::max(ScaleX * 96.0f, ScaleY * 96.0f);
 }

@@ -465,6 +465,8 @@ float RenderingEngine::getDisplayDensity()
 	float user_factor = g_settings->getFloat("display_density_factor", 0.5f, 5.0f);
 #ifndef __ANDROID__
 	float dpi = get_raw_device()->getDisplayDensity();
+	if (dpi == 0.0f)
+		dpi = 96.0f;
 	return std::max(dpi / 96.0f * user_factor, 0.5f);
 #else // __ANDROID__
 	return porting::getDisplayDensity() * user_factor;

@@ -49,7 +49,7 @@ end
 local change_keys = {
 	query_text = "Controls",
 	requires = {
-		keyboard_mouse = true,
+		touch_controls = false,
 	},
 	get_formspec = function(self, avail_w)
 		local btn_w = math.min(avail_w, 3)
@@ -316,8 +316,6 @@ local function check_requirements(name, requires)
 	local special = {
 		android = PLATFORM == "Android",
 		desktop = PLATFORM ~= "Android",
-		touchscreen_gui = core.settings:get_bool("touch_gui"),
-		keyboard_mouse = not core.settings:get_bool("touch_controls"),
 		shaders_support = shaders_support,
 		shaders = core.settings:get_bool("enable_shaders") and shaders_support,
 		opengl = video_driver == "opengl",

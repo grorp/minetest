@@ -673,7 +673,7 @@ language (Language) enum   ,be,bg,ca,cs,da,de,el,en,eo,es,et,eu,fi,fr,gd,gl,hu,i
 
 #    When enabled, the GUI is optimized to be more usable on touchscreens.
 #    Whether this is enabled by default depends on your hardware form-factor.
-touch_ui (Optimize GUI for touchscreens) bool false
+touch_gui (Optimize GUI for touchscreens) bool false
 
 #    Scale GUI by a user specified value.
 #    Use a nearest-neighbor-anti-alias filter to scale the GUI.

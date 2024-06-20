@@ -67,6 +67,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "guiScrollContainer.h"
 #include "guiHyperText.h"
 #include "guiScene.h"
+#include "guiBruh.h"
 
 #define MY_CHECKPOS(a,b)													\
 	if (v_pos.size() != 2) {												\
@@ -3244,58 +3245,8 @@ void GUIFormSpecMenu::regenerateGui(v2u32 screensize)
 			offset = v2s32(0,0);
 		}
 
-		const double gui_scaling = g_settings->getFloat("gui_scaling", 0.5f, 42.0f);
-		const double screen_dpi = RenderingEngine::getDisplayDensity() * 96;
-
-		double use_imgsize;
-		if (m_lock) {
-			// In fixed-size mode, inventory image size
-			// is 0.53 inch multiplied by the gui_scaling
-			// config parameter.  This magic size is chosen
-			// to make the main menu (15.5 inventory images
-			// wide, including border) just fit into the
-			// default window (800 pixels wide) at 96 DPI
-			// and default scaling (1.00).
-			use_imgsize = 0.5555 * screen_dpi * gui_scaling;
-		} else {
-			// Variables for the maximum imgsize that can fit in the screen.
-			double fitx_imgsize;
-			double fity_imgsize;
-
-			v2f padded_screensize(
-				mydata.screensize.X * (1.0f - mydata.padding.X * 2.0f),
-				mydata.screensize.Y * (1.0f - mydata.padding.Y * 2.0f)
-			);
-
-			if (mydata.real_coordinates) {
-				fitx_imgsize = padded_screensize.X / mydata.invsize.X;
-				fity_imgsize = padded_screensize.Y / mydata.invsize.Y;
-			} else {
-				// The maximum imgsize in the old coordinate system also needs to
-				// factor in padding and spacing along with 0.1 inventory slot spare
-				// and help text space, hence the magic numbers.
-				fitx_imgsize = padded_screensize.X /
-						((5.0 / 4.0) * (0.5 + mydata.invsize.X));
-				fity_imgsize = padded_screensize.Y /
-						((15.0 / 13.0) * (0.85 + mydata.invsize.Y));
-			}
-
-			s32 min_screen_dim = std::min(padded_screensize.X, padded_screensize.Y);
-
-			double prefer_imgsize;
-			if (g_settings->getBool("enable_touch")) {
-				// The preferred imgsize should be larger to accommodate the
-				// smaller screensize.
-				prefer_imgsize = min_screen_dim / 10 * gui_scaling;
-			} else {
-				// Desktop computers have more space, so try to fit 15 coordinates.
-				prefer_imgsize = min_screen_dim / 15 * gui_scaling;
-			}
-			// Try to use the preferred imgsize, but if that's bigger than the maximum
-			// size, use the maximum size.
-			use_imgsize = std::min(prefer_imgsize,
-					std::min(fitx_imgsize, fity_imgsize));
-		}
+		double use_imgsize = calcImgsize(m_lock, mydata.real_coordinates,
+				mydata.screensize, mydata.invsize, mydata.padding);
 
 		// Everything else is scaled in proportion to the
 		// inventory image size.  The inventory slot spacing

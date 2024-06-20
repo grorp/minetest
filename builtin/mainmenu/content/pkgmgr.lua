@@ -809,24 +809,6 @@ end
 
 --------------------------------------------------------------------------------
 function pkgmgr.update_translations(list)
-	for _, item in ipairs(list) do
-		local info = core.get_content_info(item.path)
-		assert(info.path)
-		assert(info.textdomain)
-
-		assert(not item.is_translated)
-		item.is_translated = true
-
-		if info.title and info.title ~= "" then
-			item.title = core.get_content_translation(info.path, info.textdomain,
-				core.translate(info.textdomain, info.title))
-		end
-
-		if info.description and info.description ~= "" then
-			item.description = core.get_content_translation(info.path, info.textdomain,
-				core.translate(info.textdomain, info.description))
-		end
-	end
 end
 
 --------------------------------------------------------------------------------

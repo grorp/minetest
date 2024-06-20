@@ -40,6 +40,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "content/mod_configuration.h"
 #include "threading/mutex_auto_lock.h"
 #include "common/c_converter.h"
+#include "gui/guiBruh.h"
 
 /******************************************************************************/
 std::string ModApiMainMenu::getTextData(lua_State *L, const std::string &name)
@@ -1018,6 +1019,20 @@ int ModApiMainMenu::l_get_active_irrlicht_device(lua_State *L)
 }
 
 /******************************************************************************/
+int ModApiMainMenu::l_get_formspec_imgsize(lua_State *L)
+{
+	bool fixed_size = lua_toboolean(L, 1);
+	bool real_coordinates = lua_toboolean(L, 2);
+	v2s32 scrensize = read_v2s32(L, 3);
+	v2f formspec_size = read_v2f(L, 4);
+	v2f padding = read_v2f(L, 5);
+	double imgsize = calcImgsize(fixed_size, real_coordinates,
+			v2u32(scrensize.X, scrensize.Y), formspec_size, padding);
+	lua_pushnumber(L, imgsize);
+	return 1;
+}
+
+/******************************************************************************/
 int ModApiMainMenu::l_get_min_supp_proto(lua_State *L)
 {
 	lua_pushinteger(L, CLIENT_PROTOCOL_VERSION_MIN);
@@ -1126,6 +1141,7 @@ void ModApiMainMenu::Initialize(lua_State *L, int top)
 	API_FCT(get_active_driver);
 	API_FCT(get_active_renderer);
 	API_FCT(get_active_irrlicht_device);
+	API_FCT(get_formspec_imgsize);
 	API_FCT(get_min_supp_proto);
 	API_FCT(get_max_supp_proto);
 	API_FCT(open_url);

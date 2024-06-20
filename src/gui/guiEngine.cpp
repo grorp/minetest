@@ -40,6 +40,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <ICameraSceneNode.h>
 #include <IGUIStaticText.h>
 #include "client/imagefilters.h"
+#include "clientdynamicinfo.h"
 
 #if USE_SOUND
 	#include "client/sound/sound_openal.h"
@@ -329,6 +330,8 @@ void GUIEngine::run()
 
 	fps_control.reset();
 
+	auto info = ClientDynamicInfo::getCurrent();
+
 	while (m_rendering_engine->run() && !m_startgame && !m_kill) {
 
 		fps_control.limit(device, &dtime);
@@ -363,6 +366,11 @@ void GUIEngine::run()
 		}
 
 		m_script->step();
+		auto newInfo = ClientDynamicInfo::getCurrent();
+		if (!newInfo.equal(info)) {
+			info = newInfo;
+			m_script->handleMainMenuEvent("WindowInfoChange");
+		}
 
 		sound_volume_control(m_sound_manager.get(), device->isWindowActive());
 		m_sound_manager->step(dtime);

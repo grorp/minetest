@@ -66,10 +66,22 @@ local function get_formspec(self)
 
 	local content, prepend = tab.get_formspec(self, tab.name, tab.tabdata, tab.tabsize)
 
-	local tsize = tab.tabsize or { width = self.width, height = self.height }
+	local orig_tsize = tab.tabsize or { width = self.width, height = self.height }
+	local tsize = { width = orig_tsize.width, height = orig_tsize.height + 0.85 + 1.4}
+
+	local winfo = core.get_window_info()
+	local imgsize = core.get_formspec_imgsize(false, false, winfo.size, {x = tsize.width, y = tsize.height}, {x = 0.05, y = 0.05})
+	print("imgsize = " .. imgsize)
+
 	if self.parent == nil and not prepend then
 		prepend = string.format("size[%f,%f,%s]", tsize.width, tsize.height,
 				dump(self.fixed_size))
+		
+		local header_space = (winfo.size.y - (tsize.height * imgsize)) /2
+		if  header_space < 128 * winfo.real_gui_scaling then
+			prepend = prepend .. "position[0.5,1]anchor[0.5,1]"
+			print("attaching to bottom")
+		end
 
 		if tab.formspec_version then
 			prepend = ("formspec_version[%d]"):format(tab.formspec_version) .. prepend
@@ -83,7 +95,10 @@ local function get_formspec(self)
 		tab_header_size.width = tab_header_size.width - end_button_size - 0.1
 	end
 
-	local formspec = (prepend or "") .. self:tab_header(tab_header_size) .. content
+	local formspec = (prepend or "") ..
+			"bgcolor[;neither]container[0,0.85]" ..
+			self:tab_header(tab_header_size) ..
+			"box[0,0;".. orig_tsize.width..","..orig_tsize.height..";#0000008C]" .. content
 
 	if self.end_button then
 		formspec = formspec ..
@@ -97,6 +112,8 @@ local function get_formspec(self)
 						core.formspec_escape(self.end_button.icon),
 						self.end_button.name)
 	end
+
+	formspec = formspec .. "container_end[]"
 
 	return formspec
 end
@@ -134,6 +151,11 @@ local function handle_events(self,event)
 
 	if self.hidden then
 		return false
+	end
+
+	if event == "WindowInfoChange" then
+		ui.update()
+		return true
 	end
 
 	if self.glb_evt_handler ~= nil and

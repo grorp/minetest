@@ -3,6 +3,7 @@
 // For conditions of distribution and use, see copyright notice in irrlicht.h
 
 #include <iostream>
+#include "CIrrDeviceSDLPrinter.hpp"
 
 #ifdef _IRR_COMPILE_WITH_SDL_DEVICE_
 
@@ -821,9 +822,9 @@ bool CIrrDeviceSDL::run()
 			irrevent.KeyInput.Char = findCharToPassToIrrlicht(SDL_event.key.key, key);
 
 			std::cerr << "got " << (SDL_event.type == SDL_EVENT_KEY_DOWN ? "SDL_EVENT_KEY_DOWN" : "SDL_EVENT_KEY_UP") << "\n" <<
-				"	SDL_event.key.key                       = " << (unsigned char)SDL_event.key.key << " / " << (int)SDL_event.key.key << "\n" <<
-				"	SDL_GetKeyFromScancode w/ SDL_KMOD_NONE = " << (unsigned char)mp.SDLKey         << " / " << (int)mp.SDLKey         << "\n" <<
-				"	Irrlicht key  = " << (unsigned char)irrevent.KeyInput.Key << " / " << (int)irrevent.KeyInput.Key  << "\n" <<
+				"	SDL_event.key.key                       = " << sdl_key_to_string(SDL_event.key.key) << "\n" <<
+				"	SDL_GetKeyFromScancode w/ SDL_KMOD_NONE = " << sdl_key_to_string(mp.SDLKey) << "\n" <<
+				"	Irrlicht key  = " << irr_key_to_string(irrevent.KeyInput.Key) << "\n" <<
 				"	Irrlicht char = " << wide_to_utf8(std::wstring(1, irrevent.KeyInput.Char)) << " / " << (int)irrevent.KeyInput.Char << "\n";
 
 			postEventFromUser(irrevent);

@@ -2,6 +2,8 @@
 // This file is part of the "Irrlicht Engine".
 // For conditions of distribution and use, see copyright notice in irrlicht.h
 
+#include <iostream>
+
 #ifdef _IRR_COMPILE_WITH_SDL_DEVICE_
 
 #include "CIrrDeviceSDL.h"
@@ -789,8 +791,11 @@ bool CIrrDeviceSDL::run()
 
 		case SDL_EVENT_KEY_DOWN:
 		case SDL_EVENT_KEY_UP: {
+			// Since we don't set SDL_HINT_KEYCODE_OPTIONS, SDL_event.key.key takes
+			// modifiers into account and we have to get the unmodified keycode
+			// manually so that we can determine KeyInput.Key.
 			SKeyMap mp;
-			mp.SDLKey = SDL_event.key.key;
+			mp.SDLKey = SDL_GetKeyFromScancode(SDL_event.key.scancode, SDL_KMOD_NONE);
 			s32 idx = KeyMap.binary_search(mp);
 
 			EKEY_CODE key;
@@ -811,7 +816,16 @@ bool CIrrDeviceSDL::run()
 			irrevent.KeyInput.PressedDown = (SDL_event.type == SDL_EVENT_KEY_DOWN);
 			irrevent.KeyInput.Shift = (SDL_event.key.mod & SDL_KMOD_SHIFT) != 0;
 			irrevent.KeyInput.Control = (SDL_event.key.mod & SDL_KMOD_CTRL) != 0;
-			irrevent.KeyInput.Char = findCharToPassToIrrlicht(mp.SDLKey, key);
+			// Since we don't set SDL_HINT_KEYCODE_OPTIONS, SDL_event.key.key takes
+			// modifiers into account and we can use it for determining KeyInput.Char.
+			irrevent.KeyInput.Char = findCharToPassToIrrlicht(SDL_event.key.key, key);
+
+			std::cerr << "got " << (SDL_event.type == SDL_EVENT_KEY_DOWN ? "SDL_EVENT_KEY_DOWN" : "SDL_EVENT_KEY_UP") << "\n" <<
+				"	SDL_event.key.key                       = " << (unsigned char)SDL_event.key.key << " / " << (int)SDL_event.key.key << "\n" <<
+				"	SDL_GetKeyFromScancode w/ SDL_KMOD_NONE = " << (unsigned char)mp.SDLKey         << " / " << (int)mp.SDLKey         << "\n" <<
+				"	Irrlicht key  = " << (unsigned char)irrevent.KeyInput.Key << " / " << (int)irrevent.KeyInput.Key  << "\n" <<
+				"	Irrlicht char = " << wide_to_utf8(std::wstring(1, irrevent.KeyInput.Char)) << " / " << (int)irrevent.KeyInput.Char << "\n";
+
 			postEventFromUser(irrevent);
 		} break;
 
@@ -1317,6 +1331,8 @@ void CIrrDeviceSDL::createKeyMap()
 	KeyMap.push_back(SKeyMap(SDLK_8, KEY_KEY_8));
 	KeyMap.push_back(SKeyMap(SDLK_9, KEY_KEY_9));
 
+	// This is used to map SDL keys without modifiers taken into account,
+	// so uppercase letters are not needed.
 	KeyMap.push_back(SKeyMap(SDLK_a, KEY_KEY_A));
 	KeyMap.push_back(SKeyMap(SDLK_b, KEY_KEY_B));
 	KeyMap.push_back(SKeyMap(SDLK_c, KEY_KEY_C));

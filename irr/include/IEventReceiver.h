@@ -353,9 +353,11 @@ struct SEvent
 	struct SKeyInput
 	{
 		//! Character corresponding to the key (0, if not a character, value undefined in key releases)
+		// Takes key modifiers into account.
 		wchar_t Char;
 
 		//! Key which has been pressed or released
+		// Does not key take modifiers into account.
 		EKEY_CODE Key;
 
 		//! System dependent code. Only set for systems which are described below, otherwise undefined.

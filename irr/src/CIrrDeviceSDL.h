@@ -120,9 +120,9 @@ public:
 		{
 			IsVisible = visible;
 			if (visible)
-				SDL_ShowCursor(SDL_ENABLE);
+				SDL_ShowCursor();
 			else {
-				SDL_ShowCursor(SDL_DISABLE);
+				SDL_HideCursor();
 			}
 		}
 

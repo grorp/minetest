@@ -231,18 +231,18 @@ void CIrrDeviceSDL::resetReceiveTextInputEvents()
 		// sent as text input events instead of the result) when
 		// SDL_StartTextInput() is called on the same input box.
 		core::rect<s32> pos = elem->getAbsolutePosition();
-		if (!SDL_TextInputActive() || lastElemPos != pos) {
+		if (!SDL_TextInputActive(Window) || lastElemPos != pos) {
 			lastElemPos = pos;
 			SDL_Rect rect;
 			rect.x = pos.UpperLeftCorner.X;
 			rect.y = pos.UpperLeftCorner.Y;
 			rect.w = pos.getWidth();
 			rect.h = pos.getHeight();
-			SDL_SetTextInputRect(&rect);
-			SDL_StartTextInput();
+			SDL_SetTextInputRect(Window, &rect);
+			SDL_StartTextInput(Window);
 		}
 	} else {
-		SDL_StopTextInput();
+		SDL_StopTextInput(Window);
 	}
 }
 
@@ -281,13 +281,7 @@ CIrrDeviceSDL::CIrrDeviceSDL(const SIrrlichtCreationParameters &param) :
 
 #if defined(_IRR_COMPILE_WITH_JOYSTICK_EVENTS_)
 		// These are not interesting for our use
-		SDL_SetHint(SDL_HINT_ACCELEROMETER_AS_JOYSTICK, "0");
 		SDL_SetHint(SDL_HINT_TV_REMOTE_AS_JOYSTICK, "0");
-#endif
-
-#if SDL_VERSION_ATLEAST(2, 24, 0)
-		// highdpi support on Windows
-		SDL_SetHint(SDL_HINT_WINDOWS_DPI_SCALING, "1");
 #endif
 
 		// Minetest has its own code to synthesize mouse events from touch events,
@@ -320,17 +314,13 @@ CIrrDeviceSDL::CIrrDeviceSDL(const SIrrlichtCreationParameters &param) :
 		}
 	}
 
-	SDL_VERSION(&Info.version);
-
-#ifndef _IRR_EMSCRIPTEN_PLATFORM_
-	SDL_GetWindowWMInfo(Window, &Info);
-#endif //_IRR_EMSCRIPTEN_PLATFORM_
+	int version = SDL_GetVersion();
 	core::stringc sdlversion = "SDL Version ";
-	sdlversion += Info.version.major;
+	sdlversion += SDL_VERSIONNUM_MAJOR(version);
 	sdlversion += ".";
-	sdlversion += Info.version.minor;
+	sdlversion += SDL_VERSIONNUM_MINOR(version);
 	sdlversion += ".";
-	sdlversion += Info.version.patch;
+	sdlversion += SDL_VERSIONNUM_MICRO(version);
 
 	Operator = new COSOperator(sdlversion);
 	if (SDLDeviceInstances == 1) {
@@ -581,7 +571,7 @@ bool CIrrDeviceSDL::createWindowWithContext()
 		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 0);
 	}
 
-	Window = SDL_CreateWindow("", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, Width, Height, SDL_Flags);
+	Window = SDL_CreateWindow("", Width, Height, SDL_Flags);
 	if (!Window) {
 		os::Printer::log("Could not create window", SDL_GetError(), ELL_WARNING);
 		return false;
@@ -684,11 +674,7 @@ bool CIrrDeviceSDL::run()
 
 			irrevent.EventType = irr::EET_MOUSE_INPUT_EVENT;
 			irrevent.MouseInput.Event = irr::EMIE_MOUSE_WHEEL;
-#if SDL_VERSION_ATLEAST(2, 0, 18)
-			irrevent.MouseInput.Wheel = SDL_event.wheel.preciseY;
-#else
 			irrevent.MouseInput.Wheel = SDL_event.wheel.y;
-#endif
 			irrevent.MouseInput.ButtonStates = MouseButtonStates;
 			irrevent.MouseInput.Shift = (keymod & SDL_KMOD_SHIFT) != 0;
 			irrevent.MouseInput.Control = (keymod & SDL_KMOD_CTRL) != 0;
@@ -804,7 +790,7 @@ bool CIrrDeviceSDL::run()
 		case SDL_EVENT_KEY_DOWN:
 		case SDL_EVENT_KEY_UP: {
 			SKeyMap mp;
-			mp.SDLKey = SDL_event.key.keysym.sym;
+			mp.SDLKey = SDL_event.key.key;
 			s32 idx = KeyMap.binary_search(mp);
 
 			EKEY_CODE key;
@@ -817,14 +803,14 @@ bool CIrrDeviceSDL::run()
 				os::Printer::log("keycode not mapped", core::stringc(mp.SDLKey), ELL_DEBUG);
 
 			// Make sure to only input special characters if something is in focus, as SDL_EVENT_TEXT_INPUT handles normal unicode already
-			if (SDL_TextInputActive() && !keyIsKnownSpecial(key) && (SDL_event.key.keysym.mod & SDL_KMOD_CTRL) == 0)
+			if (SDL_TextInputActive(Window) && !keyIsKnownSpecial(key) && (SDL_event.key.mod & SDL_KMOD_CTRL) == 0)
 				break;
 
 			irrevent.EventType = irr::EET_KEY_INPUT_EVENT;
 			irrevent.KeyInput.Key = key;
 			irrevent.KeyInput.PressedDown = (SDL_event.type == SDL_EVENT_KEY_DOWN);
-			irrevent.KeyInput.Shift = (SDL_event.key.keysym.mod & SDL_KMOD_SHIFT) != 0;
-			irrevent.KeyInput.Control = (SDL_event.key.keysym.mod & SDL_KMOD_CTRL) != 0;
+			irrevent.KeyInput.Shift = (SDL_event.key.mod & SDL_KMOD_SHIFT) != 0;
+			irrevent.KeyInput.Control = (SDL_event.key.mod & SDL_KMOD_CTRL) != 0;
 			irrevent.KeyInput.Char = findCharToPassToIrrlicht(mp.SDLKey, key);
 			postEventFromUser(irrevent);
 		} break;
@@ -833,28 +819,24 @@ bool CIrrDeviceSDL::run()
 			Close = true;
 			break;
 
-		case SDL_WINDOWEVENT:
-			switch (SDL_event.window.event) {
-			case SDL_EVENT_WINDOW_RESIZED:
-			case SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED:
-#if SDL_VERSION_ATLEAST(2, 0, 18)
-			case SDL_EVENT_WINDOW_DISPLAY_CHANGED:
-#endif
-				u32 old_w = Width, old_h = Height;
-				f32 old_scale_x = ScaleX, old_scale_y = ScaleY;
-				updateSizeAndScale();
-				if (old_w != Width || old_h != Height) {
-					if (VideoDriver)
-						VideoDriver->OnResize(core::dimension2d<u32>(Width, Height));
-				}
-				if (old_scale_x != ScaleX || old_scale_y != ScaleY) {
-					irrevent.EventType = EET_APPLICATION_EVENT;
-					irrevent.ApplicationEvent.EventType = EAET_DPI_CHANGED;
-					postEventFromUser(irrevent);
-				}
-				break;
+		case SDL_EVENT_WINDOW_RESIZED:
+		case SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED:
+		case SDL_EVENT_WINDOW_DISPLAY_CHANGED:
+		case SDL_EVENT_WINDOW_DISPLAY_SCALE_CHANGED: {
+			u32 old_w = Width, old_h = Height;
+			f32 old_scale_x = ScaleX, old_scale_y = ScaleY;
+			updateSizeAndScale();
+			if (old_w != Width || old_h != Height) {
+				if (VideoDriver)
+					VideoDriver->OnResize(core::dimension2d<u32>(Width, Height));
+			}
+			if (old_scale_x != ScaleX || old_scale_y != ScaleY) {
+				irrevent.EventType = EET_APPLICATION_EVENT;
+				irrevent.ApplicationEvent.EventType = EAET_DPI_CHANGED;
+				postEventFromUser(irrevent);
 			}
 			break;
+		}
 
 		case SDL_EVENT_USER:
 			irrevent.EventType = irr::EET_USER_EVENT;
@@ -867,7 +849,7 @@ bool CIrrDeviceSDL::run()
 		case SDL_EVENT_FINGER_DOWN:
 			irrevent.EventType = EET_TOUCH_INPUT_EVENT;
 			irrevent.TouchInput.Event = ETIE_PRESSED_DOWN;
-			irrevent.TouchInput.ID = SDL_event.tfinger.fingerId;
+			irrevent.TouchInput.ID = SDL_event.tfinger.fingerID;
 			irrevent.TouchInput.X = SDL_event.tfinger.x * Width;
 			irrevent.TouchInput.Y = SDL_event.tfinger.y * Height;
 			CurrentTouchCount++;
@@ -879,7 +861,7 @@ bool CIrrDeviceSDL::run()
 		case SDL_EVENT_FINGER_MOTION:
 			irrevent.EventType = EET_TOUCH_INPUT_EVENT;
 			irrevent.TouchInput.Event = ETIE_MOVED;
-			irrevent.TouchInput.ID = SDL_event.tfinger.fingerId;
+			irrevent.TouchInput.ID = SDL_event.tfinger.fingerID;
 			irrevent.TouchInput.X = SDL_event.tfinger.x * Width;
 			irrevent.TouchInput.Y = SDL_event.tfinger.y * Height;
 			irrevent.TouchInput.touchedCount = CurrentTouchCount;
@@ -890,7 +872,7 @@ bool CIrrDeviceSDL::run()
 		case SDL_EVENT_FINGER_UP:
 			irrevent.EventType = EET_TOUCH_INPUT_EVENT;
 			irrevent.TouchInput.Event = ETIE_LEFT_UP;
-			irrevent.TouchInput.ID = SDL_event.tfinger.fingerId;
+			irrevent.TouchInput.ID = SDL_event.tfinger.fingerID;
 			irrevent.TouchInput.X = SDL_event.tfinger.x * Width;
 			irrevent.TouchInput.Y = SDL_event.tfinger.y * Height;
 			// To match Android behavior, still count the pointer that was
@@ -1015,7 +997,9 @@ bool CIrrDeviceSDL::activateJoysticks(core::array<SJoystickInfo> &joystickInfo)
 	joystickInfo.clear();
 
 	// we can name up to 256 different joysticks
-	const int numJoysticks = core::min_(SDL_NumJoysticks(), 256);
+	int numJoysticks;
+	SDL_GetJoysticks(&numJoysticks);
+	numJoysticks = core::min_(numJoysticks, 256);
 	Joysticks.reallocate(numJoysticks);
 	joystickInfo.reallocate(numJoysticks);
 
@@ -1056,7 +1040,7 @@ void CIrrDeviceSDL::updateSizeAndScale()
 	SDL_GetWindowSize(Window, &window_w, &window_h);
 
 	int drawable_w, drawable_h;
-	SDL_GL_GetDrawableSize(Window, &drawable_w, &drawable_h);
+	SDL_GetWindowSizeInPixels(Window, &drawable_w, &drawable_h);
 
 	ScaleX = (float)drawable_w / (float)window_w;
 	ScaleY = (float)drawable_h / (float)window_h;
@@ -1113,8 +1097,8 @@ bool CIrrDeviceSDL::setWindowIcon(const video::IImage *img)
 	u32 height = img->getDimension().Height;
 	u32 width = img->getDimension().Width;
 
-	SDL_Surface *surface = SDL_CreateRGBSurface(0, width, height, 32,
-			0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+	SDL_Surface *surface = SDL_CreateSurface(width, height, SDL_GetPixelFormatEnumForMasks(
+			32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000));
 
 	if (!surface) {
 		os::Printer::log("Failed to create SDL suface", ELL_ERROR);
@@ -1197,19 +1181,14 @@ bool CIrrDeviceSDL::isFullscreen() const
 	if (!Window)
 		return false;
 	u32 flags = SDL_GetWindowFlags(Window);
-	return (flags & SDL_WINDOW_FULLSCREEN) != 0 ||
-			(flags & SDL_WINDOW_FULLSCREEN_DESKTOP) != 0;
+	return (flags & SDL_WINDOW_FULLSCREEN) != 0;
 }
 
 u32 CIrrDeviceSDL::getFullscreenFlag(bool fullscreen)
 {
 	if (!fullscreen)
 		return 0;
-#ifdef _IRR_EMSCRIPTEN_PLATFORM_
 	return SDL_WINDOW_FULLSCREEN;
-#else
-	return SDL_WINDOW_FULLSCREEN_DESKTOP;
-#endif
 }
 
 bool CIrrDeviceSDL::setFullscreen(bool fullscreen)
@@ -1243,7 +1222,8 @@ bool CIrrDeviceSDL::isWindowActive() const
 	}
 #endif
 	const u32 windowFlags = SDL_GetWindowFlags(Window);
-	return windowFlags & SDL_WINDOW_SHOWN && windowFlags & SDL_WINDOW_INPUT_FOCUS;
+	return (windowFlags & SDL_WINDOW_HIDDEN) == 0 &&
+			(windowFlags & SDL_WINDOW_INPUT_FOCUS) != 0;
 }
 
 //! returns if window has focus.
@@ -1263,7 +1243,7 @@ video::ECOLOR_FORMAT CIrrDeviceSDL::getColorFormat() const
 {
 	if (Window) {
 		SDL_Surface *surface = SDL_GetWindowSurface(Window);
-		if (surface->format->BitsPerPixel == 16) {
+		if (surface->format->bits_per_pixel == 16) {
 			if (surface->format->Amask != 0)
 				return video::ECF_A1R5G5B5;
 			else

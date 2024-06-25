@@ -234,49 +234,8 @@ if(ENABLE_OPENGL)
 	find_package(OpenGL REQUIRED)
 endif()
 if(USE_SDL2)
-	if(NOT ANDROID)
-		find_package(SDL2 REQUIRED)
-	else()
-		# provided by MinetestAndroidLibs.cmake
-	endif()
-	message(STATUS "Found SDL2: ${SDL2_LIBRARIES}")
-
-	# unfortunately older SDL does not provide its version to cmake, so check header.
-	set(CMAKE_REQUIRED_INCLUDES ${SDL2_INCLUDE_DIRS})
-	unset(CHECK_SDL_VERSION CACHE)
-	check_cxx_source_compiles("#include <SDL_version.h>\n\
-#if !SDL_VERSION_ATLEAST(2, 0, 10)\n\
-#error\n\
-#endif\n\
-int main() {}" CHECK_SDL_VERSION)
-	if(NOT CHECK_SDL_VERSION)
-		message(FATAL_ERROR "SDL2 is too old, required is at least 2.0.10!")
-	endif()
-
-	# ...no target either.
-	if(NOT TARGET SDL2::SDL2)
-		add_library(SDL2::SDL2 SHARED IMPORTED)
-		set_target_properties(SDL2::SDL2 PROPERTIES
-			IMPORTED_LOCATION "${SDL2_LIBRARIES}")
-	endif()
-endif()
-
-# More special config
-
-if(ENABLE_OPENGL AND DEVICE STREQUAL "SDL")
-	# The legacy GL driver requires some symbols from GL 4.5 to compile,
-	# which SDL only provides since 2.26.0 (Nov 2022).
-	# We have a fallback in case this isn't satisfied so test for it.
-	set(CMAKE_REQUIRED_INCLUDES ${SDL2_INCLUDE_DIRS})
-	unset(CHECK_GL_VERSION_4_5 CACHE)
-	check_cxx_source_compiles("#include <SDL_opengl.h>\n\
-#ifndef GL_VERSION_4_5\n\
-#error\n\
-#endif\n\
-int main() {}" CHECK_GL_VERSION_4_5)
-	if(CHECK_GL_VERSION_4_5)
-		add_definitions(-DIRR_PREFER_SDL_GL_HEADER)
-	endif()
+	find_package(SDL3 REQUIRED CONFIG REQUIRED COMPONENTS SDL3)
+	message(STATUS "Found SDL3: ${SDL3_LIBRARIES}")
 endif()
 
 # Platform-specific libs
@@ -303,7 +262,6 @@ set(link_includes
 	"${ZLIB_INCLUDE_DIR}"
 	"${JPEG_INCLUDE_DIR}"
 	"${PNG_INCLUDE_DIR}"
-	"$<$<BOOL:${USE_SDL2}>:${SDL2_INCLUDE_DIRS}>"
 
 	${OPENGL_INCLUDE_DIR}
 	${OPENGLES2_INCLUDE_DIR}
@@ -484,7 +442,12 @@ foreach(object_lib
 	IRRMESHOBJ IRROBJ IRRVIDEOOBJ
 	IRRIOOBJ IRROTHEROBJ IRRGUIOBJ)
 	# Set include directories for object library compilation
-	target_include_directories(${object_lib} PRIVATE ${link_includes})
+	target_include_directories(${object_lib} PRIVATE
+		${link_includes}
+		# it just didn't work otherwise
+		/home/gregor/Downloads/SDL3/include
+		/home/gregor/Downloads/SDL3/build/incldue
+	)
 	# Add objects from object library to main library
 	target_sources(IrrlichtMt PRIVATE $<TARGET_OBJECTS:${object_lib}>)
 endforeach()
@@ -498,6 +461,9 @@ target_include_directories(IrrlichtMt
 		"$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>"
 	PRIVATE
 		${link_includes}
+		# it just didn't work otherwise
+		/home/gregor/Downloads/SDL3/include
+		/home/gregor/Downloads/SDL3/build/incldue
 )
 
 # this needs to be here and not in a variable (like link_includes) due to issues
@@ -506,7 +472,7 @@ target_link_libraries(IrrlichtMt PRIVATE
 	${ZLIB_LIBRARY}
 	${JPEG_LIBRARY}
 	${PNG_LIBRARY}
-	"$<$<BOOL:${USE_SDL2}>:SDL2::SDL2>"
+	"$<$<BOOL:${USE_SDL2}>:SDL3::SDL3>"
 
 	"$<$<BOOL:${OPENGL_DIRECT_LINK}>:${OPENGL_LIBRARIES}>"
 	"$<$<BOOL:${OPENGLES_DIRECT_LINK}>:${OPENGLES_LIBRARY}>"

@@ -16,12 +16,7 @@
 #include <emscripten/html5.h>
 #endif
 
-#include <SDL.h>
-// DirectFB is removed in SDL3, thou distribution as Alpine currently ships SDL2
-// with enabled DirectFB, but requiring another fix at a top of SDL2.
-// We don't need DirectFB in Irrlicht/Minetest, so simply disable it here to prevent issues.
-#undef SDL_VIDEO_DRIVER_DIRECTFB
-#include <SDL_syswm.h>
+#include <SDL3/SDL.h>
 
 #include <memory>
 
@@ -258,7 +253,7 @@ public:
 			void operator()(SDL_Cursor *ptr)
 			{
 				if (ptr)
-					SDL_FreeCursor(ptr);
+					SDL_DestroyCursor(ptr);
 			}
 		};
 		std::vector<std::unique_ptr<SDL_Cursor, CursorDeleter>> Cursors;
@@ -278,7 +273,7 @@ private:
 	// Return the Char that should be sent to Irrlicht for the given key (either the one passed in or 0).
 	static int findCharToPassToIrrlicht(int assumedChar, EKEY_CODE key);
 
-	// Check if a text box is in focus. Enable or disable SDL_TEXTINPUT events only if in focus.
+	// Check if a text box is in focus. Enable or disable SDL_EVENT_TEXT_INPUT events only if in focus.
 	void resetReceiveTextInputEvents();
 
 	//! create the driver
@@ -328,7 +323,6 @@ private:
 	};
 
 	core::array<SKeyMap> KeyMap;
-	SDL_SysWMinfo Info;
 
 	s32 CurrentTouchCount;
 	bool IsInBackground;

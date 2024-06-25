@@ -7,8 +7,8 @@
 #ifdef _IRR_COMPILE_WITH_OPENGL_
 
 #if defined(_IRR_COMPILE_WITH_SDL_DEVICE_) && defined(IRR_PREFER_SDL_GL_HEADER)
-#include <SDL_video.h>
-#include <SDL_opengl.h>
+#include <SDL3/SDL_video.h>
+#include <SDL3/SDL_opengl.h>
 #else
 #include "vendor/gl.h"
 #endif

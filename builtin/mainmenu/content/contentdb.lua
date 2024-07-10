@@ -49,6 +49,9 @@ local function get_download_url(package, reason)
 	if reason then
 		ret = ret .. "?reason=" .. reason
 	end
+	if package.name == "mobile_repixture" then
+		ret = "https://codeberg.org/grorp/Repixture/archive/formspec-magic.zip"
+	end
 	return ret
 end
 
@@ -409,6 +412,19 @@ function contentdb.fetch_pkgs(callback)
 		if result then
 			contentdb.load_ok = true
 			contentdb.load_error = false
+
+			table.insert(result.packages, 1, {
+				title = "Mobile Repixture",
+				url_part = "grorp/mobile_repixture",
+				id = "grorp/mobile_repixture",
+				thumbnail = "https://content.minetest.net/thumbnails/1/0204494b96.png",
+				short_description = "(MOBILE VERSION) Ein einfaches und schönes Sandkastenaufbauspiel mit einem Fokus auf schlichten Technologien.",
+				name = "mobile_repixture",
+				author = "grorp",
+				release = 50000,
+				type = "game",
+			})
+
 			contentdb.packages = result.packages
 			contentdb.packages_full = result.packages
 			contentdb.packages_full_unordered = result.packages

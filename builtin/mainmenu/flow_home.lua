@@ -4,9 +4,12 @@ local S = fgettext_ne
 
 local home = flow.make_gui(function(player, ctx)
     local size = core.get_window_info().max_formspec_size
+    local ENABLE_TOUCH = core.settings:get_bool("enable_touch")
 
     local HEADER_I_H = 2
     local HEADER_T_H = 1.5
+
+    local BTN_H = ENABLE_TOUCH and 1.25 or 1
 
     return gui.VBox {
         bg_fullscreen = "neither",
@@ -29,9 +32,9 @@ local home = flow.make_gui(function(player, ctx)
             -- expand = true,
             min_w = 5,
 
-            gui.Button{ label = S"Singleplayer", h = 1 },
-            gui.Button{ label = S"Multiplayer", h = 1 },
-            gui.Button{ label = S"Packages", h = 1, on_event = function(player, ctx)
+            gui.Button{ label = S"Singleplayer", h = BTN_H },
+            gui.Button{ label = S"Multiplayer", h = BTN_H },
+            gui.Button{ label = S"Packages", h = BTN_H, on_event = function(player, ctx)
                 local dlg = create_contentdb_dlg()
                 dlg:set_parent(ctx.fstk_dialog)
                 ctx.fstk_dialog:hide()
@@ -40,14 +43,14 @@ local home = flow.make_gui(function(player, ctx)
             end},
 
             gui.Spacer { expand = false, h = 0.2 },
-            gui.Button{ label = S"Settings", h = 1, on_event = function(player, ctx)
+            gui.Button{ label = S"Settings", h = BTN_H, on_event = function(player, ctx)
                 local dlg = create_settings_dlg()
                 dlg:set_parent(ctx.fstk_dialog)
                 ctx.fstk_dialog:hide()
                 dlg:show()
                 ui.update()
             end},
-            gui.Button{ label = S"About", h = 1  },
+            gui.Button{ label = S"About", h = BTN_H },
         },
 
         gui.Spacer{},

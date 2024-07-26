@@ -24,5 +24,8 @@ function flow_dialog_create(name, flow_gui, flow_ctx)
         return false
     end
 
-    return dialog_create(name, get_formspec, buttonhandler, eventhandler)
+    local fstk_dialog = dialog_create(name, get_formspec, buttonhandler, eventhandler)
+    flow_ctx.fstk_dialog = fstk_dialog
+
+    return fstk_dialog
 end

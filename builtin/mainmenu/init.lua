@@ -157,6 +157,7 @@ end
 local home_gui = dofile(menupath .. "/flow_home.lua")
 
 local dlg = flow_dialog_create("first_test", home_gui, {})
+dlg:set_global_event_handler(main_event_handler)
 
 ui.set_default("first_test")
 dlg:show()

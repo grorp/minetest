@@ -35,8 +35,17 @@ local dialog_metatable = {
 	handle_buttons = function(self,fields)
 				if not self.hidden then return self.buttonhandler(self,fields) end
 			end,
-	handle_events  = function(self,event)
-				if not self.hidden then return self.eventhandler(self,event) end
+	set_global_event_handler =
+			function(self,handler) self.glb_evt_handler = handler end,
+	handle_events = function(self,event)
+				if not self.hidden then
+					-- need to prefer over regular eventhandler to make MenuQuit pass through
+					if self.glb_evt_handler and
+							self.glb_evt_handler(self,event) then
+						return true
+					end
+					return self.eventhandler(self,event)
+				end
 			end,
 	hide = function(self)
 		if not self.hidden then

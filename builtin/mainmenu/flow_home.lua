@@ -29,10 +29,11 @@ local home = flow.make_gui(function(player, ctx)
             min_w = 5,
 
             gui.Button{ label = S"Singleplayer", h = 1 },
-            gui.Button{ label = S"Multiplayer", h = 1  },
-            gui.Button{ label = S"Packages", h = 1  },
+            gui.Button{ label = S"Multiplayer", h = 1 },
+            gui.Button{ label = S"Packages", h = 1 },
 
-            gui.Button{ label = S"Settings", h = 1  },
+            gui.Spacer { expand = false, h = 0.2 },
+            gui.Button{ label = S"Settings", h = 1 },
             gui.Button{ label = S"About", h = 1  },
         },
 

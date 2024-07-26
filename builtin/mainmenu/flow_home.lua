@@ -17,6 +17,7 @@ local home = flow.make_gui(function(player, ctx)
         gui.HBox {
             align_h = "center",
             gui.Image { w = HEADER_I_H, h = HEADER_I_H, texture_name = defaulttexturedir .. "/logo.png" },
+            gui.Spacer { expand = false, w = 0.1 },
             gui.Image { w = 127 / 16 * HEADER_T_H, h = HEADER_T_H, texture_name = defaulttexturedir .. "/menu_header.png" },
         },
         gui.Spacer{},

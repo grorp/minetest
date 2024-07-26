@@ -22,7 +22,12 @@ function flow_dialog_create(name, flow_gui, flow_ctx)
         end
         return false
     end
-    local function eventhandler(self, event)
+    local function eventhandler(event)
+        -- TODO: can probably be removed when adding automatic refreshing on window info changes
+        if event == "DialogShow" then
+            formspec, process_events, info = flow_gui:render_to_formspec_string(fake_player, flow_ctx)
+            return true
+        end
         return false
     end
 

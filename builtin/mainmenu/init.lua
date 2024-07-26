@@ -154,8 +154,9 @@ local function init_globals()
 	check_new_version()
 end
 
-local example_gui = dofile(flow_path .. DIR_DELIM .. "example.lua")
-local dlg = flow_dialog_create("first_test", example_gui, {})
+local home_gui = dofile(menupath .. "/flow_home.lua")
+
+local dlg = flow_dialog_create("first_test", home_gui, {})
 
 ui.set_default("first_test")
 dlg:show()

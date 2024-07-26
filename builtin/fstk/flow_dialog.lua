@@ -8,14 +8,16 @@ core.get_player_by_name = function(name)
 end
 
 function flow_dialog_create(name, flow_gui, flow_ctx)
-    local formspec, process_events = flow_gui:render_to_formspec_string(fake_player, flow_ctx, true)
+    local formspec, process_events, info = flow_gui:render_to_formspec_string(fake_player, flow_ctx)
 
     local function get_formspec()
-        return formspec
+        local prepend = ("formspec_version[%d]size[%f,%f]padding[0,0]"):format(
+                info.formspec_version, info.w, info.h)
+        return prepend .. formspec
     end
     local function buttonhandler(self, fields)
         if process_events(fields) then
-            formspec, process_events = flow_gui:render_to_formspec_string(fake_player, flow_ctx, true)
+            formspec, process_events, info = flow_gui:render_to_formspec_string(fake_player, flow_ctx)
             return true
         end
         return false

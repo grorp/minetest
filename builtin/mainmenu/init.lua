@@ -33,6 +33,7 @@ dofile(basepath .. "fstk" .. DIR_DELIM .. "buttonbar.lua")
 dofile(basepath .. "fstk" .. DIR_DELIM .. "dialog.lua")
 dofile(basepath .. "fstk" .. DIR_DELIM .. "tabview.lua")
 dofile(basepath .. "fstk" .. DIR_DELIM .. "ui.lua")
+dofile(basepath .. "fstk" .. DIR_DELIM .. "flow_dialog.lua")
 dofile(menupath .. DIR_DELIM .. "async_event.lua")
 dofile(menupath .. DIR_DELIM .. "common.lua")
 dofile(menupath .. DIR_DELIM .. "serverlistmgr.lua")
@@ -48,6 +49,33 @@ dofile(menupath .. DIR_DELIM .. "dlg_register.lua")
 dofile(menupath .. DIR_DELIM .. "dlg_rename_modpack.lua")
 dofile(menupath .. DIR_DELIM .. "dlg_version_info.lua")
 dofile(menupath .. DIR_DELIM .. "dlg_reinstall_mtg.lua")
+
+local formspec_ast_path = menupath .. DIR_DELIM .. "formspec_ast"
+local flow_path = menupath .. DIR_DELIM .. "flow"
+
+local old_get_modpath = core.get_modpath
+core.get_modpath = function(name)
+	if name == "formspec_ast" then
+		return formspec_ast_path
+	end
+	if name == "flow" then
+		return flow_path
+	end
+	assert(name == nil)
+	old_get_modpath()
+end
+
+-- whatever, if it makes them happy
+core.get_current_modname = function() return "formspec_ast" end
+
+core.register_on_player_receive_fields = function() end
+core.register_on_leaveplayer = function() end
+-- we don't want the example formspec chatcommand
+core.is_singleplayer = function() return false end
+core.get_player_information = function() return {} end
+
+dofile(formspec_ast_path .. DIR_DELIM .. "init.lua")
+dofile(flow_path .. DIR_DELIM .. "init.lua")
 
 local tabs = {
 	content  = dofile(menupath .. DIR_DELIM .. "tab_content.lua"),
@@ -126,4 +154,9 @@ local function init_globals()
 	check_new_version()
 end
 
-init_globals()
+local example_gui = dofile(flow_path .. DIR_DELIM .. "example.lua")
+local dlg = flow_dialog_create("first_test", example_gui, {})
+
+ui.set_default("first_test")
+dlg:show()
+ui.update()

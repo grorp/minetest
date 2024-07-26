@@ -30,7 +30,13 @@ local home = flow.make_gui(function(player, ctx)
 
             gui.Button{ label = S"Singleplayer", h = 1 },
             gui.Button{ label = S"Multiplayer", h = 1 },
-            gui.Button{ label = S"Packages", h = 1 },
+            gui.Button{ label = S"Packages", h = 1, on_event = function(player, ctx)
+                local dlg = create_contentdb_dlg()
+                dlg:set_parent(ctx.fstk_dialog)
+                ctx.fstk_dialog:hide()
+                dlg:show()
+                ui.update()
+            end},
 
             gui.Spacer { expand = false, h = 0.2 },
             gui.Button{ label = S"Settings", h = 1, on_event = function(player, ctx)

@@ -25,7 +25,8 @@ local gamelist = flow.make_gui(function(player, ctx)
             end
         end
 
-        table.insert(cells, gui.Stack {
+        table.insert(cells, gui.VBox {
+            spacing = 0,
             gui.Image { w = TILE_W, h = TILE_H, texture_name = game.screenshot_path },
             gui.Label { label = game.title, lbl_noclip = true, align_h = "center", h = 0.5 },
         })
@@ -49,7 +50,7 @@ local gamelist = flow.make_gui(function(player, ctx)
     finished_rows.h = size.y - BTN_H - 1
 
     return gui.VBox {
-        -- bg_fullscreen = "neither",
+        bg_fullscreen = "both",
         min_w = size.x,
         min_h = size.y,
 

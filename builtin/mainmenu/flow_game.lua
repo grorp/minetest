@@ -9,6 +9,7 @@ local game = flow.make_gui(function(player, ctx)
 
     local BTN_H = 1
 
+    core.settings:set("menu_last_game", ctx.game.id)
 	menudata.worldlist:set_filtercriteria(ctx.game.id)
 
     return gui.VBox {
@@ -24,12 +25,32 @@ local game = flow.make_gui(function(player, ctx)
             gui.Label { label = ctx.game.title, align_h = "center", expand = true, h = BTN_H },
             gui.Button { label = "<", h = BTN_H, visible = false}, -- make the stupid title cebntered
         },
+
         gui.HBox {
+            min_w = 15,
+            min_h = 8,
+            align_h = "center",
+            align_v = "center",
             expand = true,
-            gui.Textlist{
+
+            gui.VBox {
                 expand = true,
-                name = "worldlist", listelems = string.split(menu_render_worldlist(), ","),
-                selected_idx = 2
+                gui.Textlist{
+                    expand = true,
+                    name = "worldlist", listelems = string.split(menu_render_worldlist(), ","),
+                    selected_idx = 2
+                },
+                gui.HBox {
+                    gui.Button {label = "Delete", expand = true},
+                    gui.Button{label = "Settings", expand = true},
+                    gui.Button{label = "New world", expand = true, on_event = function()
+                        local create_world_dlg = create_create_world_dlg()
+                        create_world_dlg:set_parent(ctx.fstk_dialog)
+                        ctx.fstk_dialog:hide()
+                        create_world_dlg:show()
+                        ui.update()
+                    end},
+                },
             },
             gui.VBox {
                 w = 5,
@@ -38,10 +59,6 @@ local game = flow.make_gui(function(player, ctx)
                 gui.Field{ name = "password", label = "Password"},
                 gui.Field{name = "port", label = "Port"},
                 gui.Button {label = "Play", h = BTN_H},
-                gui.HBox {
-                    gui.Button{label = "Settings", expand = true},
-                    gui.Button {label = "Delete", expand = true},
-                }
             },
         }
     }

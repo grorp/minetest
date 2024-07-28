@@ -27,7 +27,13 @@ local gamelist = flow.make_gui(function(player, ctx)
 
         table.insert(cells, gui.VBox {
             spacing = 0,
-            gui.Image { w = TILE_W, h = TILE_H, texture_name = game.screenshot_path },
+            gui.ImageButton { w = TILE_W, h = TILE_H, texture_name = game.screenshot_path, on_event = function()
+                local dlg = flow_dialog_create("flow_game", game_gui, {game = game})
+                dlg:set_parent(ctx.fstk_dialog)
+                ctx.fstk_dialog:hide()
+                dlg:show()
+                ui.update()
+            end},
             gui.Label { label = game.title, lbl_noclip = true, align_h = "center", h = 0.5 },
         })
         row_w = row_w + TILE_W

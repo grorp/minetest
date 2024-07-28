@@ -156,6 +156,7 @@ end
 
 home_gui = dofile(menupath .. "/flow_home.lua")
 gamelist_gui = dofile(menupath .. "/flow_gamelist.lua")
+game_gui = dofile(menupath .. "/flow_game.lua")
 
 local dlg = flow_dialog_create("first_test", home_gui, {})
 dlg:set_global_event_handler(main_event_handler)

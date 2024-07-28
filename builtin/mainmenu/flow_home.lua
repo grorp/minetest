@@ -32,7 +32,13 @@ local home = flow.make_gui(function(player, ctx)
             -- expand = true,
             min_w = 5,
 
-            gui.Button{ label = S"Singleplayer", h = BTN_H },
+            gui.Button{ label = S"Singleplayer", h = BTN_H, on_event = function(player, ctx)
+                local dlg = flow_dialog_create("flow_gamelist", gamelist_gui, {})
+                dlg:set_parent(ctx.fstk_dialog)
+                ctx.fstk_dialog:hide()
+                dlg:show()
+                ui.update()
+            end},
             gui.Button{ label = S"Multiplayer", h = BTN_H },
             gui.Button{ label = S"Packages", h = BTN_H, on_event = function(player, ctx)
                 local dlg = create_contentdb_dlg()

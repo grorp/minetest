@@ -3,6 +3,7 @@ local S = fgettext_ne
 
 local gamelist = flow.make_gui(function(player, ctx)
     local size = core.get_window_info().max_formspec_size
+    -- size.y = size.y + 1.5 -- don't ask, just remove this
     local ENABLE_TOUCH = core.settings:get_bool("enable_touch")
 
     local BTN_H = 1
@@ -24,6 +25,7 @@ local gamelist = flow.make_gui(function(player, ctx)
 
         table.insert(cells, gui.Stack {
             gui.Image { w = TILE_W, h = TILE_H, texture_name = image },
+            gui.Label { label = game.title, lbl_noclip = true, align_h = "center", h = 0.5 },
         })
         row_w = row_w + TILE_W
         if row_w > size.x - 1 then -- TODO: figure out actual padding to subtract
@@ -40,7 +42,7 @@ local gamelist = flow.make_gui(function(player, ctx)
     end
 
     return gui.VBox {
-        bg_fullscreen = "neither",
+        -- bg_fullscreen = "neither",
         min_w = size.x,
         min_h = size.y,
 
@@ -49,7 +51,7 @@ local gamelist = flow.make_gui(function(player, ctx)
                 ctx.fstk_dialog:delete()
                 ui.update()
             end},
-            gui.Label { label = "Games", align_h = "center", expand = true, h = BTN_H, style = { font_size = "*3" } },
+            gui.Label { label = "Games", align_h = "center", expand = true, h = BTN_H },
             gui.Button { label = "<", h = BTN_H, visible = false}, -- make the stupid title cebntered
         },
         gui.VBox(finished_rows),

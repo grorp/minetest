@@ -141,6 +141,9 @@ size_getters.scroll_container = size_getters.container
 
 function size_getters.label(node)
     local w, h = get_label_size(node.label)
+    if node.lbl_noclip then
+        return 0, 0
+    end
     return w, LABEL_HEIGHT + (h - LABEL_HEIGHT) * 1.25
 end
 

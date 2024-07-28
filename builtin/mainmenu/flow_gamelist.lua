@@ -50,7 +50,7 @@ local gamelist = flow.make_gui(function(player, ctx)
     finished_rows.h = size.y - BTN_H - 1
 
     return gui.VBox {
-        bg_fullscreen = "both",
+        bg_fullscreen = "true",
         min_w = size.x,
         min_h = size.y,
 

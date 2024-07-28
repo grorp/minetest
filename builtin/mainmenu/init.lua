@@ -92,26 +92,28 @@ local function main_event_handler(tabview, event)
 	return true
 end
 
+menudata.worldlist = filterlist.create(
+	core.get_worlds,
+	compare_worlds,
+	-- Unique id comparison function
+	function(element, uid)
+		return element.name == uid
+	end,
+	-- Filter function
+	function(element, gameid)
+		return element.gameid == gameid
+	end
+)
+
+menudata.worldlist:add_sort_mechanism("alphabetic", sort_worlds_alphabetic)
+menudata.worldlist:set_sortmode("alphabetic")
+
 --------------------------------------------------------------------------------
 local function init_globals()
 	-- Init gamedata
 	gamedata.worldindex = 0
 
-	menudata.worldlist = filterlist.create(
-		core.get_worlds,
-		compare_worlds,
-		-- Unique id comparison function
-		function(element, uid)
-			return element.name == uid
-		end,
-		-- Filter function
-		function(element, gameid)
-			return element.gameid == gameid
-		end
-	)
-
-	menudata.worldlist:add_sort_mechanism("alphabetic", sort_worlds_alphabetic)
-	menudata.worldlist:set_sortmode("alphabetic")
+	-- worldlist initialization was here, moved above
 
 	mm_game_theme.init()
 	mm_game_theme.set_engine() -- This is just a fallback.

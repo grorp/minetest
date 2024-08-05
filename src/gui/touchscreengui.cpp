@@ -232,10 +232,10 @@ TouchScreenGUI::TouchScreenGUI(IrrlichtDevice *device, ISimpleTextureSource *tsr
 	m_long_tap_delay = g_settings->getU16("touch_long_tap_delay");
 	m_fixed_joystick = g_settings->getBool("fixed_virtual_joystick");
 	m_joystick_triggers_aux1 = g_settings->getBool("virtual_joystick_triggers_aux1");
-	m_screensize = m_device->getVideoDriver()->getScreenSize();
 
+	m_screensize = m_device->getVideoDriver()->getScreenSize();
 	m_button_size = ButtonLayout::getButtonSize(m_screensize);
-	applyLayout(ButtonLayout::loadFromSettings(m_screensize));
+	applyLayout(ButtonLayout::loadFromSettings());
 }
 
 void TouchScreenGUI::applyLayout(const ButtonLayout &layout)
@@ -280,7 +280,7 @@ void TouchScreenGUI::applyLayout(const ButtonLayout &layout)
 		if (id == aux1_id && m_joystick_triggers_aux1)
 			continue;
 
-		recti rect = ButtonLayout::getRect(id, meta, m_texturesource);
+		recti rect = m_layout.getRect(id, m_screensize, m_button_size, m_texturesource);
 		if (id == toggle_chat_id)
 			// Chat is shown by default, so chat_hide_btn.png is shown first.
 			addToggleButton(m_buttons, id, "chat_hide_btn.png",
@@ -318,6 +318,10 @@ void TouchScreenGUI::applyLayout(const ButtonLayout &layout)
 		rect.addInternalPoint(text->getRelativePosition().LowerRightCorner);
 		m_overflow_button_rects.push_back(rect);
 	});
+
+	// applyLayout can be called at any time, also e.g. while the overflow menu
+	// is open, so this is necessary to restore correct visibility.
+	updateVisibility();
 }
 
 void TouchScreenGUI::addButton(std::vector<button_info> &buttons, touch_gui_button_id id,
@@ -627,6 +631,15 @@ void TouchScreenGUI::applyJoystickStatus()
 
 void TouchScreenGUI::step(float dtime)
 {
+	v2u32 screensize = m_device->getVideoDriver()->getScreenSize();
+	s32 button_size = ButtonLayout::getButtonSize(screensize);
+
+	if (m_screensize != screensize || m_button_size != button_size) {
+		m_screensize = screensize;
+		m_button_size = button_size;
+		applyLayout(m_layout);
+	}
+
 	if (m_overflow_open) {
 		buttons_step(m_overflow_buttons, dtime, m_device->getVideoDriver(), m_receiver, m_texturesource);
 		return;

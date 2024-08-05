@@ -32,6 +32,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "client/renderingengine.h"
 #include "util/numeric.h"
 #include "gettext.h"
+#include "irr_gui_ptr.h"
 #include "IGUIStaticText.h"
 #include "IGUIFont.h"
 #include <ISceneCollisionManager.h>

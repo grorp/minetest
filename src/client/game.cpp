@@ -4501,12 +4501,13 @@ void Game::showPauseMenu()
 			<< strgettext("Sound Volume") << "]";
 	}
 #endif
-	os		<< "button_exit[4," << (ypos++) << ";3,0.5;btn_key_config;"
-		<< strgettext("Controls")  << "]";
 #endif
 	if (g_touchscreengui) {
 		os << "button_exit[4," << (ypos++) << ";3,0.5;btn_touchscreen_layout;"
 			<< strgettext("Touchscreen Layout")  << "]";
+	} else {
+		os << "button_exit[4," << (ypos++) << ";3,0.5;btn_key_config;"
+			<< strgettext("Controls")  << "]";
 	}
 	os		<< "button_exit[4," << (ypos++) << ";3,0.5;btn_exit_menu;"
 		<< strgettext("Exit to Menu") << "]";

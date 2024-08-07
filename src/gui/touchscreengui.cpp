@@ -294,12 +294,17 @@ void TouchScreenGUI::applyLayout(const ButtonLayout &layout)
 	background->setVisible(false);
 	m_overflow_bg = grab_gui_element<IGUIStaticText>(background);
 
-	layout_button_grid(m_screensize, m_texturesource, m_layout.getMissingButtons(), [&] (touch_gui_button_id id, v2s32 pos, recti rect) {
-		// There's no sense in adding the overflow button to the overflow menu
-		// (also, it's impossible since it doesn't have a keycode).
-		if (!mayAddButton(id) || id == overflow_id)
-			return;
+	auto overflow_buttons = m_layout.getMissingButtons();
+	overflow_buttons.erase(std::remove_if(
+			overflow_buttons.begin(), overflow_buttons.end(),
+			[&](touch_gui_button_id id) {
+				// There's no sense in adding the overflow button to the overflow
+				// menu (also, it's impossible since it doesn't have a keycode).
+				return !mayAddButton(id) || id == overflow_id;
+			}), overflow_buttons.end());
 
+	layout_button_grid(m_screensize, m_texturesource, overflow_buttons,
+			[&] (touch_gui_button_id id, v2s32 pos, recti rect) {
 		if (id == toggle_chat_id)
 			// Chat is shown by default, so chat_hide_btn.png is shown first.
 			addToggleButton(m_overflow_buttons, id, "chat_hide_btn.png",

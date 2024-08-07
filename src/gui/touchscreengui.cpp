@@ -156,8 +156,6 @@ static EKEY_CODE id_to_keycode(touch_gui_button_id id)
 	// ESC isn't part of the keymap.
 	if (id == exit_id)
 		return KEY_ESCAPE;
-	if (id == overflow_id)
-		return KEY_UNKNOWN;
 
 	std::string key = "";
 	switch (id) {
@@ -275,9 +273,7 @@ void TouchScreenGUI::applyLayout(const ButtonLayout &layout)
 			recti(0, 0, m_button_size, m_button_size), false));
 
 	for (const auto &[id, meta] : m_layout.layout) {
-		if (!ButtonLayout::isButtonAllowed(id))
-			continue;
-		if (id == aux1_id && m_joystick_triggers_aux1)
+		if (!mayAddButton(id))
 			continue;
 
 		recti rect = m_layout.getRect(id, m_screensize, m_button_size, m_texturesource);
@@ -299,7 +295,9 @@ void TouchScreenGUI::applyLayout(const ButtonLayout &layout)
 	m_overflow_bg = grab_gui_element<IGUIStaticText>(background);
 
 	layout_button_grid(m_screensize, m_texturesource, m_layout.getMissingButtons(), [&] (touch_gui_button_id id, v2s32 pos, recti rect) {
-		if (id_to_keycode(id) == KEY_UNKNOWN)
+		// There's no sense in adding the overflow button to the overflow menu
+		// (also, it's impossible since it doesn't have a keycode).
+		if (!mayAddButton(id) || id == overflow_id)
 			return;
 
 		if (id == toggle_chat_id)
@@ -322,6 +320,17 @@ void TouchScreenGUI::applyLayout(const ButtonLayout &layout)
 	// applyLayout can be called at any time, also e.g. while the overflow menu
 	// is open, so this is necessary to restore correct visibility.
 	updateVisibility();
+}
+
+bool TouchScreenGUI::mayAddButton(touch_gui_button_id id)
+{
+	if (!ButtonLayout::isButtonAllowed(id))
+		return false;
+	if (id == aux1_id && m_joystick_triggers_aux1)
+		return false;
+	if (id != overflow_id && id_to_keycode(id) == KEY_UNKNOWN)
+		return false;
+	return true;
 }
 
 void TouchScreenGUI::addButton(std::vector<button_info> &buttons, touch_gui_button_id id,

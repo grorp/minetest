@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: minetest\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-07-11 15:14+0200\n"
-"PO-Revision-Date: 2024-08-12 16:09+0000\n"
+"PO-Revision-Date: 2024-08-14 04:09+0000\n"
 "Last-Translator: 109247019824 <stoyan@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/minetest/"
 "minetest/bg/>\n"
@@ -328,11 +328,13 @@ msgstr "Грешка при инсталиране на $1 в $2"
 
 #: builtin/mainmenu/content/pkgmgr.lua
 msgid "Install: Unable to find suitable folder name for $1"
-msgstr ""
+msgstr "Инсталиране: не може да бъде намерено подходящо име на папка за $1"
 
 #: builtin/mainmenu/content/pkgmgr.lua
 msgid "Unable to find a valid mod, modpack, or game"
 msgstr ""
+"Не може да бъде намерена дейстителна модификация, пакет с модификации или "
+"игра"
 
 #: builtin/mainmenu/content/pkgmgr.lua
 msgid "Unable to install a $1 as a $2"
@@ -462,7 +464,7 @@ msgstr "Декорации"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Desert temples"
-msgstr ""
+msgstr "Пустинни храмове"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Development Test is meant for developers."
@@ -473,6 +475,8 @@ msgid ""
 "Different dungeon variant generated in desert biomes (only if dungeons "
 "enabled)"
 msgstr ""
+"Различни подземни варианти, разположени в пустинни биоми (само при включени "
+"подземия)"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Dungeons"
@@ -769,7 +773,7 @@ msgstr "Избор на файл"
 
 #: builtin/mainmenu/settings/components.lua
 msgid "Set"
-msgstr ""
+msgstr "Задаване"
 
 #: builtin/mainmenu/settings/dlg_change_mapgen_flags.lua
 msgid "(No description of setting given)"
@@ -834,15 +838,15 @@ msgstr "подразбирани"
 #. the settings menu.
 #: builtin/mainmenu/settings/dlg_change_mapgen_flags.lua
 msgid "eased"
-msgstr ""
+msgstr "загладено"
 
 #: builtin/mainmenu/settings/dlg_settings.lua
 msgid "(Use system language)"
-msgstr ""
+msgstr "(Системен език)"
 
 #: builtin/mainmenu/settings/dlg_settings.lua
 msgid "Accessibility"
-msgstr ""
+msgstr "Достъпност"
 
 #: builtin/mainmenu/settings/dlg_settings.lua
 msgid "Back"
@@ -860,11 +864,11 @@ msgstr "Изчистване"
 #: builtin/mainmenu/settings/dlg_settings.lua src/client/game.cpp
 #: src/settings_translation_file.cpp
 msgid "Controls"
-msgstr ""
+msgstr "Управление"
 
 #: builtin/mainmenu/settings/dlg_settings.lua src/settings_translation_file.cpp
 msgid "General"
-msgstr ""
+msgstr "Общи"
 
 #: builtin/mainmenu/settings/dlg_settings.lua
 msgid "Movement"
@@ -876,7 +880,7 @@ msgstr "Подразбирани настройки"
 
 #: builtin/mainmenu/settings/dlg_settings.lua
 msgid "Reset setting to default ($1)"
-msgstr ""
+msgstr "Нулиране до подразбирана стойност ($1)"
 
 #: builtin/mainmenu/settings/dlg_settings.lua builtin/mainmenu/tab_online.lua
 msgid "Search"
@@ -884,7 +888,7 @@ msgstr "Търсене"
 
 #: builtin/mainmenu/settings/dlg_settings.lua
 msgid "Show advanced settings"
-msgstr ""
+msgstr "Разширени настройки"
 
 #: builtin/mainmenu/settings/dlg_settings.lua
 msgid "Show technical names"
@@ -957,11 +961,11 @@ msgstr "Основни разработчици"
 
 #: builtin/mainmenu/tab_about.lua
 msgid "Core Team"
-msgstr ""
+msgstr "Основен екип"
 
 #: builtin/mainmenu/tab_about.lua
 msgid "Irrlicht device:"
-msgstr ""
+msgstr "Устройство на Irrlicht:"
 
 #: builtin/mainmenu/tab_about.lua
 msgid "Open User Data Directory"
@@ -985,7 +989,7 @@ msgstr "Предишни основни разработчици"
 
 #: builtin/mainmenu/tab_about.lua
 msgid "Share debug log"
-msgstr ""
+msgstr "Споделяне на дневник за отстраняване на дефекти"
 
 #: builtin/mainmenu/tab_content.lua
 msgid "Browse online content"
@@ -1136,7 +1140,7 @@ msgstr "Включване към игра"
 
 #: builtin/mainmenu/tab_online.lua
 msgid "Login"
-msgstr ""
+msgstr "Вход"
 
 #: builtin/mainmenu/tab_online.lua
 msgid "Ping"
@@ -1237,7 +1241,7 @@ msgstr "- Обществен: "
 #. ~ PvP = Player versus Player
 #: src/client/game.cpp
 msgid "- PvP: "
-msgstr ""
+msgstr "- PvP: "
 
 #: src/client/game.cpp
 msgid "- Server Name: "
@@ -1341,7 +1345,7 @@ msgstr ""
 #: src/client/game.cpp
 #, c-format
 msgid "Couldn't resolve address: %s"
-msgstr ""
+msgstr "Адресът не може да бъде открит: %s"
 
 #: src/client/game.cpp
 msgid "Creating client..."
@@ -1430,11 +1434,11 @@ msgstr "Дефиниции на предмети…"
 
 #: src/client/game.cpp
 msgid "KiB/s"
-msgstr ""
+msgstr "КиБ/с"
 
 #: src/client/game.cpp
 msgid "MiB/s"
-msgstr ""
+msgstr "МиБ/с"
 
 #: src/client/game.cpp
 msgid "Minimap currently disabled by game or mod"
@@ -2029,7 +2033,7 @@ msgstr "Клавишът вече се ползва"
 
 #: src/gui/guiKeyChangeMenu.cpp
 msgid "Keybindings."
-msgstr ""
+msgstr "Клавишни комбинации."
 
 #: src/gui/guiKeyChangeMenu.cpp
 msgid "Left"
@@ -2113,7 +2117,7 @@ msgstr ""
 
 #: src/gui/guiOpenURL.cpp
 msgid "Open URL?"
-msgstr ""
+msgstr "Посещаване на адреса?"
 
 #: src/gui/guiOpenURL.cpp
 msgid "Unable to open URL"
@@ -2160,6 +2164,8 @@ msgstr "bg"
 msgid ""
 "Name is not registered. To create an account on this server, click 'Register'"
 msgstr ""
+"Името не е регистрирано. За да направите профил на сървъра използвайте "
+"бутона „Регистриране“"
 
 #: src/network/clientpackethandler.cpp
 msgid "Name is taken. Please choose another name"
@@ -2362,7 +2368,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Allows liquids to be translucent."
-msgstr ""
+msgstr "Дава възможност за полупрозрачност на течностите."
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -3763,11 +3769,11 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "IPv6"
-msgstr ""
+msgstr "IPv6"
 
 #: src/settings_translation_file.cpp
 msgid "IPv6 server"
-msgstr ""
+msgstr "Сървър на IPv6"
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -4009,19 +4015,19 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Julia w"
-msgstr ""
+msgstr "Жулия w"
 
 #: src/settings_translation_file.cpp
 msgid "Julia x"
-msgstr ""
+msgstr "Жулия x"
 
 #: src/settings_translation_file.cpp
 msgid "Julia y"
-msgstr ""
+msgstr "Жулия y"
 
 #: src/settings_translation_file.cpp
 msgid "Julia z"
-msgstr ""
+msgstr "Жулия z"
 
 #: src/settings_translation_file.cpp
 msgid "Jumping speed"
@@ -4033,39 +4039,39 @@ msgstr "Клавиатура и мишка"
 
 #: src/settings_translation_file.cpp
 msgid "Kick players who sent more than X messages per 10 seconds."
-msgstr ""
+msgstr "Изгонване на играча, изпратил повече от Х съобщения за 10 секунди."
 
 #: src/settings_translation_file.cpp
 msgid "Lake steepness"
-msgstr ""
+msgstr "Стръмност на езетата"
 
 #: src/settings_translation_file.cpp
 msgid "Lake threshold"
-msgstr ""
+msgstr "Праг на езерата"
 
 #: src/settings_translation_file.cpp
 msgid "Language"
-msgstr ""
+msgstr "Език"
 
 #: src/settings_translation_file.cpp
 msgid "Large cave depth"
-msgstr ""
+msgstr "Дълбочина на големите пещери"
 
 #: src/settings_translation_file.cpp
 msgid "Large cave maximum number"
-msgstr ""
+msgstr "Максимален брой на големите пещери"
 
 #: src/settings_translation_file.cpp
 msgid "Large cave minimum number"
-msgstr ""
+msgstr "Минимален брой на големите пещери"
 
 #: src/settings_translation_file.cpp
 msgid "Large cave proportion flooded"
-msgstr "Голяма част от пещерите са наводнени"
+msgstr "Съотношение на заводненост на големите пещери"
 
 #: src/settings_translation_file.cpp
 msgid "Leaves style"
-msgstr ""
+msgstr "Стил на листата"
 
 #: src/settings_translation_file.cpp
 msgid ""

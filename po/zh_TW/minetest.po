@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Chinese (Traditional) (Minetest)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-07-11 15:14+0200\n"
-"PO-Revision-Date: 2024-08-18 05:09+0000\n"
+"PO-Revision-Date: 2024-08-19 07:09+0000\n"
 "Last-Translator: hugoalh <hugoalh@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "minetest/minetest/zh_Hant/>\n"
@@ -348,7 +348,7 @@ msgstr "(未啓用)"
 
 #: builtin/mainmenu/dlg_config_world.lua
 msgid "Disable all"
-msgstr "全部停用"
+msgstr "停用全部"
 
 #: builtin/mainmenu/dlg_config_world.lua
 msgid "Disable modpack"
@@ -6095,7 +6095,7 @@ msgstr ""
 msgid ""
 "The delay in milliseconds after which a touch interaction is considered a "
 "long tap."
-msgstr ""
+msgstr "觸控互動被視為長按之前的延遲（以毫秒為單位）。"
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -6261,7 +6261,7 @@ msgstr "四之三 一同定義山丘範圍高度的 2D 雜訊。"
 
 #: src/settings_translation_file.cpp
 msgid "Threshold for long taps"
-msgstr ""
+msgstr "長按閾值"
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -6580,7 +6580,7 @@ msgstr "音量"
 
 #: src/settings_translation_file.cpp
 msgid "Volume multiplier when the window is unfocused."
-msgstr ""
+msgstr "當視窗未聚焦時的音量倍增。"
 
 #: src/settings_translation_file.cpp
 msgid ""

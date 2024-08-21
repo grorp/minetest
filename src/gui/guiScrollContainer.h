@@ -22,8 +22,9 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "irrlichttypes_extrabloated.h"
 #include "util/string.h"
 #include "guiScrollBar.h"
+#include "guiScroller.h"
 
-class GUIScrollContainer : public gui::IGUIElement
+class GUIScrollContainer : public GUIScroller
 {
 public:
 	GUIScrollContainer(gui::IGUIEnvironment *env, gui::IGUIElement *parent, s32 id,
@@ -57,10 +58,6 @@ private:
 	GUIScrollBar *m_scrollbar;
 	OrientationEnum m_orientation;
 	f32 m_scrollfactor;
-
-	bool m_swipe_started;
-	int m_swipe_start_y;
-	float m_swipe_pos;
 
 	void updateScrolling();
 };

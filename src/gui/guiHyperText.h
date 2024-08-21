@@ -24,6 +24,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <unordered_map>
 #include <string>
 #include "irrlichttypes_extrabloated.h"
+#include "guiScroller.h"
 
 using namespace irr;
 
@@ -196,7 +197,7 @@ protected:
 	std::vector<RectWithMargin> m_floating;
 };
 
-class GUIHyperText : public gui::IGUIElement
+class GUIHyperText : public GUIScroller
 {
 public:
 	//! constructor
@@ -228,8 +229,4 @@ protected:
 
 	ParsedText::Element *getElementAt(s32 X, s32 Y);
 	void checkHover(s32 X, s32 Y);
-
-	bool m_swipe_started;
-	int m_swipe_start_y;
-	float m_swipe_pos;
 };

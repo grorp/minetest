@@ -137,7 +137,10 @@ const c8 *const GUIElementTypeNames[] = {
 		"window",
 		"element",
 		"root",
-		"profiler",
+		"scrollContainer",
+		"guiTable",
+		"customScrollBar",
+		"hyperText",
 		0,
 	};
 

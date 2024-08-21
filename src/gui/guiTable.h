@@ -25,6 +25,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <vector>
 #include <iostream>
 
+#include "gui/guiScroller.h"
 #include "irrlichttypes_extrabloated.h"
 #include "guiScrollBar.h"
 
@@ -42,7 +43,7 @@ class ISimpleTextureSource;
 	CGUITable and CGUIListBox are licensed under the Irrlicht license;
 	they are Copyright (C) 2002-2012 Nikolaus Gebhardt
 */
-class GUITable : public gui::IGUIElement
+class GUITable : public GUIScroller
 {
 public:
 	/*
@@ -261,9 +262,4 @@ protected:
 	// align = 0: left aligned, 1: centered, 2: right aligned, 3: inline
 	static void alignContent(Cell *cell, s32 xmax, s32 content_width,
 			s32 align);
-
-private:
-	bool m_swipe_started;
-	int m_swipe_start_y;
-	float m_swipe_pos;
 };

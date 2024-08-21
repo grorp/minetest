@@ -47,7 +47,7 @@ GUITable::GUITable(gui::IGUIEnvironment *env,
 		core::rect<s32> rectangle,
 		ISimpleTextureSource *tsrc
 ):
-	gui::IGUIElement(gui::EGUIET_CUSTOM_GUITABLE, env, parent, id, rectangle),
+	GUIScroller(gui::EGUIET_CUSTOM_GUITABLE, env, parent, id, rectangle),
 	m_tsrc(tsrc)
 {
 	assert(tsrc != NULL);
@@ -78,10 +78,6 @@ GUITable::GUITable(gui::IGUIEnvironment *env,
 	setTabStop(true);
 	setTabOrder(-1);
 	updateAbsolutePosition();
-
-	m_swipe_started = false;
-	m_swipe_start_y = -1;
-	m_swipe_pos = 0;
 }
 
 GUITable::~GUITable()
@@ -928,39 +924,8 @@ bool GUITable::OnEvent(const SEvent &event)
 				return false;
 		}
 
-		// Handle swipe gesture
-		if (event.MouseInput.Event == EMIE_LMOUSE_PRESSED_DOWN) {
-			if (isPointInside(core::position2d<s32>(event.MouseInput.X, event.MouseInput.Y))) {
-				s32 totalheight = m_rowheight * m_visible_rows.size();
-				float scale = (float)(totalheight - AbsoluteRect.getHeight()) /
-						(m_scrollbar->getMax() - m_scrollbar->getMin());
-				m_swipe_start_y = event.MouseInput.Y + m_scrollbar->getPos() / scale;
-			}
-		} else if (event.MouseInput.Event == EMIE_LMOUSE_LEFT_UP) {
-			m_swipe_start_y = -1;
-			if (m_swipe_started) {
-				m_swipe_started = false;
-				return true;
-			}
-		} else if (event.MouseInput.Event == EMIE_MOUSE_MOVED) {
-			double screen_dpi = RenderingEngine::getDisplayDensity() * 96;
-			s32 totalheight = m_rowheight * m_visible_rows.size();
-			float scale = (float)(totalheight - AbsoluteRect.getHeight()) /
-					(m_scrollbar->getMax() - m_scrollbar->getMin());
-
-			if (!m_swipe_started && m_swipe_start_y != -1 &&
-					std::abs(m_swipe_start_y - event.MouseInput.Y - m_scrollbar->getPos() / scale) > 0.1 * screen_dpi) {
-				m_swipe_started = true;
-				Environment->setFocus(this);
-			}
-
-			if (m_swipe_started) {
-				m_swipe_pos = (float)(m_swipe_start_y - event.MouseInput.Y) * scale;
-				m_scrollbar->setPos((int)m_swipe_pos);
-
-				return true;
-			}
-		}
+		if (handleSwipeEvent(m_scrollbar, -1.0f, event))
+			return true;
 
 		if (isPointInside(p) && (event.MouseInput.Event == EMIE_LMOUSE_LEFT_UP ||
 				event.MouseInput.Event == EMIE_LMOUSE_DOUBLE_CLICK ||

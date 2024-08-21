@@ -13,17 +13,18 @@ bool GUIScroller::handleSwipeEvent(GUIScrollBar *scrollbar, f32 scrollfactor, co
 			break;
 		}
 		case EMIE_MOUSE_MOVED: {
-			double screen_dpi = RenderingEngine::getDisplayDensity() * 96;
+			f32 min_movement = RenderingEngine::getDisplayDensity() * 10.0f;
 
 			if (!m_swipe_started && m_swipe_start_y != -1 &&
 					std::abs(m_swipe_start_y - pos.Y + scrollbar->getPos() * scrollfactor) >
-							0.1 * screen_dpi) {
+							min_movement) {
 				m_swipe_started = true;
 				Environment->setFocus(this);
 			}
 
 			if (m_swipe_started) {
-				scrollbar->setPosAndSend((float)(pos.Y - m_swipe_start_y) / scrollfactor);
+				// interpolated since the initial jump is quite ... jumpy otherwise
+				scrollbar->setPosInterpolated((float)(pos.Y - m_swipe_start_y) / scrollfactor);
 				return true;
 			}
 			break;

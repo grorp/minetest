@@ -23,7 +23,7 @@ bool GUIScroller::handleSwipeEvent(GUIScrollBar *scrollbar, f32 scrollfactor, co
 			}
 
 			if (m_swipe_started) {
-				// interpolated since the initial jump is quite ... jumpy otherwise
+				// Interpolated since the initial jump is quite ... jumpy otherwise.
 				scrollbar->setPosInterpolated((float)(pos.Y - m_swipe_start_y) / scrollfactor);
 				return true;
 			}
@@ -31,10 +31,19 @@ bool GUIScroller::handleSwipeEvent(GUIScrollBar *scrollbar, f32 scrollfactor, co
 		}
 		case EMIE_LMOUSE_LEFT_UP: {
 			m_swipe_start_y = -1;
+			m_last_lmouse_up_was_swipe = m_swipe_started;
 			if (m_swipe_started) {
 				m_swipe_started = false;
 				return true;
 			}
+			break;
+		}
+		case EMIE_LMOUSE_DOUBLE_CLICK:
+		case EMIE_LMOUSE_TRIPLE_CLICK: {
+			// Prevent accidentally double-clicking on a GUITable entry
+			// (e.g. joining a server from the serverlist) when scrolling fast.
+			if (m_last_lmouse_up_was_swipe)
+				return true;
 			break;
 		}
 		default:

@@ -18,4 +18,5 @@ public:
 private:
 	bool m_swipe_started = false;
 	s32 m_swipe_start_y = -1;
+	bool m_last_lmouse_up_was_swipe = false;
 };

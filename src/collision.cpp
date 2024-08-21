@@ -301,12 +301,14 @@ static void add_object_boxes(Environment *env,
 
 		// add collision with local player
 		LocalPlayer *lplayer = c_env->getLocalPlayer();
-		auto *obj = (ActiveObject*) lplayer->getCAO();
-		if (self != obj && !lplayer->getParent()) {
+		// When calculating collisions for LocalPlayer itself, self is null.
+		// Don't let LocalPlayer collide with itself.
+		if (self && !lplayer->getParent()) {
 			aabb3f lplayer_collisionbox = lplayer->getCollisionbox();
 			v3f lplayer_pos = lplayer->getPosition();
 			lplayer_collisionbox.MinEdge += lplayer_pos;
 			lplayer_collisionbox.MaxEdge += lplayer_pos;
+			auto *obj = (ActiveObject*) lplayer->getCAO();
 			cinfo.emplace_back(obj, 0, lplayer_collisionbox);
 		}
 	}

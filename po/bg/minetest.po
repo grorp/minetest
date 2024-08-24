@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: minetest\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-07-11 15:14+0200\n"
-"PO-Revision-Date: 2024-08-14 04:09+0000\n"
+"PO-Revision-Date: 2024-08-25 05:09+0000\n"
 "Last-Translator: 109247019824 <stoyan@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/minetest/"
 "minetest/bg/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.7-dev\n"
+"X-Generator: Weblate 5.7.1-dev\n"
 
 #: builtin/client/chatcommands.lua
 msgid "Clear the out chat queue"
@@ -689,10 +689,12 @@ msgid ""
 "If you want to continue playing in your Minetest Game worlds, you need to "
 "reinstall Minetest Game."
 msgstr ""
+"Ако искате да продължите да играете в своите светове на Minetest Game, "
+"трябва да инсталирате играта Minetest Game."
 
 #: builtin/mainmenu/dlg_reinstall_mtg.lua
 msgid "Minetest Game is no longer installed by default"
-msgstr ""
+msgstr "Играта Minetest Game не е инсталирана по подразбиране"
 
 #: builtin/mainmenu/dlg_reinstall_mtg.lua
 msgid "Reinstall Minetest Game"
@@ -908,11 +910,11 @@ msgstr "Съдържание: Модификации"
 
 #: builtin/mainmenu/settings/shadows_component.lua
 msgid "(The game will need to enable shadows as well)"
-msgstr ""
+msgstr "(Също, трябва да влючите сенките в играта)"
 
 #: builtin/mainmenu/settings/shadows_component.lua
 msgid "Custom"
-msgstr ""
+msgstr "По избор"
 
 #: builtin/mainmenu/settings/shadows_component.lua
 msgid "Disabled"
@@ -1144,7 +1146,7 @@ msgstr "Вход"
 
 #: builtin/mainmenu/tab_online.lua
 msgid "Ping"
-msgstr ""
+msgstr "Забавяне"
 
 #: builtin/mainmenu/tab_online.lua
 msgid "Public Servers"
@@ -1361,7 +1363,7 @@ msgstr ""
 
 #: src/client/game.cpp
 msgid "Debug info shown"
-msgstr ""
+msgstr "Показана е информацията за отстраняване на дефекти"
 
 #: src/client/game.cpp
 msgid "Debug info, profiler graph, and wireframe hidden"

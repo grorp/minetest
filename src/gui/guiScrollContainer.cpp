@@ -21,9 +21,9 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 GUIScrollContainer::GUIScrollContainer(gui::IGUIEnvironment *env,
 		gui::IGUIElement *parent, s32 id, const core::rect<s32> &rectangle,
-		const std::string &orientation, f32 scrollfactor) :
+		const std::string &orientation, f32 scrollfactor, f32 step_multiplier) :
 		gui::IGUIElement(gui::EGUIET_ELEMENT, env, parent, id, rectangle),
-		m_scrollbar(nullptr), m_scrollfactor(scrollfactor)
+		m_scrollbar(nullptr), m_scrollfactor(scrollfactor), m_step_multiplier(step_multiplier)
 {
 	if (orientation == "vertical")
 		m_orientation = VERTICAL;
@@ -67,7 +67,7 @@ void GUIScrollContainer::draw()
 	}
 }
 
-void GUIScrollContainer::autoSetupScrollbar()
+void GUIScrollContainer::autoSetupScrollbar(v2s32 imgsize)
 {
 	if (!m_scrollbar || !m_auto_setup)
 		return;
@@ -92,6 +92,9 @@ void GUIScrollContainer::autoSetupScrollbar()
 	// and viewport height are equal.
 	// Now the question is, is this implementation corect or was the old Lua one correct?
 	m_scrollbar->setPageSize(content_size);
+
+	m_scrollbar->setSmallStep(m_scrollbar->getSmallStep() * m_step_multiplier);
+	m_scrollbar->setLargeStep(m_scrollbar->getLargeStep() * m_step_multiplier);
 }
 
 void GUIScrollContainer::updateScrolling()

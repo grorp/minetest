@@ -28,7 +28,7 @@ class GUIScrollContainer : public gui::IGUIElement
 public:
 	GUIScrollContainer(gui::IGUIEnvironment *env, gui::IGUIElement *parent, s32 id,
 			const core::rect<s32> &rectangle, const std::string &orientation,
-			f32 scrollfactor);
+			f32 scrollfactor, f32 step_multiplier = 1.0f);
 
 	virtual bool OnEvent(const SEvent &event) override;
 
@@ -41,7 +41,7 @@ public:
 
 	/// Automatically sets up the scrollbar
 	/// Call once after the scrollbar has been added and stylized.
-	void autoSetupScrollbar();
+	void autoSetupScrollbar(v2s32 imgsize);
 
 	inline void onScrollEvent(gui::IGUIElement *caller)
 	{
@@ -66,6 +66,7 @@ private:
 	GUIScrollBar *m_scrollbar;
 	OrientationEnum m_orientation;
 	f32 m_scrollfactor;
+	f32 m_step_multiplier;
 	bool m_auto_setup = false;
 
 	void updateScrolling();

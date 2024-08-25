@@ -462,7 +462,7 @@ local function get_formspec(dialogdata)
 	formspec_show_hack = not formspec_show_hack
 
 	local fs = {
-		"formspec_version[6]",
+		"formspec_version[8]",
 		"size[", tostring(tabsize.width), ",", tostring(tabsize.height + extra_h), "]",
 		core.settings:get_bool("enable_touch") and "padding[0.01,0.01]" or "",
 		"bgcolor[#0000]",
@@ -497,7 +497,7 @@ local function get_formspec(dialogdata)
 			"tooltip[search_clear;", fgettext("Clear"), "]",
 		"container_end[]",
 		"scroll_container[0.25,1.25;", tostring(left_pane_width), ",",
-				tostring(tabsize.height - 1.5), ";leftscroll;vertical;0.1;true]",
+				tostring(tabsize.height - 1.5), ";leftscroll;vertical;;true]",
 		"style_type[button;border=false;bgcolor=#3333]",
 		"style_type[button:hover;border=false;bgcolor=#6663]",
 	}
@@ -538,7 +538,7 @@ local function get_formspec(dialogdata)
 	end
 
 	local right_pane_width = tabsize.width - left_pane_width - 0.375 - 2*scrollbar_w - 0.25
-	fs[#fs + 1] = ("scroll_container[%f,0;%f,%f;rightscroll;vertical;0.1;true]"):format(
+	fs[#fs + 1] = ("scroll_container[%f,0;%f,%f;rightscroll;vertical;;true]"):format(
 			tabsize.width - right_pane_width - scrollbar_w, right_pane_width, tabsize.height)
 
 	y = 0.25

@@ -23,6 +23,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <algorithm>
 #include <iterator>
 #include <limits>
+#include <optional>
 #include <sstream>
 #include "guiFormSpecMenu.h"
 #include "constants.h"
@@ -362,9 +363,13 @@ void GUIFormSpecMenu::parseScrollContainer(parserData *data, const std::string &
 	std::vector<std::string> v_geom = split(parts[1], ',');
 	std::string scrollbar_name = parts[2];
 	std::string orientation = parts[3];
-	f32 scroll_factor = 0.1f;
+	std::optional<f32> input_scroll_factor = std::nullopt;
+	// formspec_version < 8 defaults to 0.1 formspec coordinates
+	// formspec_version >= 8 defaults to 1 physical pixel
+	if (m_formspec_version < 8)
+		input_scroll_factor = 0.1f;
 	if (parts.size() >= 5 && !parts[4].empty())
-		scroll_factor = stof(parts[4]);
+		input_scroll_factor = stof(parts[4]);
 	bool auto_setup = false;
 	if (parts.size() >= 6 && !parts[5].empty())
 		auto_setup = is_yes(parts[5]);
@@ -375,14 +380,19 @@ void GUIFormSpecMenu::parseScrollContainer(parserData *data, const std::string &
 	v2s32 pos = getRealCoordinateBasePos(v_pos);
 	v2s32 geom = getRealCoordinateGeometry(v_geom);
 
-	if (orientation == "vertical")
-		scroll_factor *= -imgsize.Y;
-	else if (orientation == "horizontal")
-		scroll_factor *= -imgsize.X;
+
+	s32 one_imgsize = orientation == "horizontal" ? imgsize.X : imgsize.Y;
+	f32 scroll_factor;
+	if (input_scroll_factor.has_value())
+		scroll_factor = *input_scroll_factor * -one_imgsize;
 	else
-		warningstream << "GUIFormSpecMenu::parseScrollContainer(): "
-				<< "Invalid scroll_container orientation: " << orientation
-				<< std::endl;
+		scroll_factor = -1.0f;
+
+	f32 step_multiplier = 1.0f;
+	if (!input_scroll_factor.has_value()) {
+		f32 base_scroll_factor = 0.1f * -one_imgsize;
+		step_multiplier = base_scroll_factor / scroll_factor;
+	}
 
 	// old parent (at first: this)
 	// ^ is parent of clipper
@@ -406,7 +416,8 @@ void GUIFormSpecMenu::parseScrollContainer(parserData *data, const std::string &
 	core::rect<s32> rect_mover = core::rect<s32>(0, 0, geom.X, geom.Y);
 
 	GUIScrollContainer *mover = new GUIScrollContainer(Environment,
-			clipper, spec_mover.fid, rect_mover, orientation, scroll_factor);
+			clipper, spec_mover.fid, rect_mover, orientation, scroll_factor,
+			step_multiplier);
 	mover->setAutoSetup(auto_setup);
 
 	data->current_parent = mover;
@@ -3292,7 +3303,7 @@ void GUIFormSpecMenu::regenerateGui(v2u32 screensize)
 		for (const std::pair<FieldSpec, GUIScrollBar *> &b : m_scrollbars) {
 			if (c.first == b.first.fname) {
 				c.second->setScrollBar(b.second);
-				c.second->autoSetupScrollbar();
+				c.second->autoSetupScrollbar(imgsize);
 				break;
 			}
 		}

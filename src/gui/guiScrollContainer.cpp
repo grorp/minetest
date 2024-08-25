@@ -67,9 +67,9 @@ void GUIScrollContainer::draw()
 	}
 }
 
-void GUIScrollContainer::calculateAutoScrollFactor()
+void GUIScrollContainer::autoSetupScrollbar()
 {
-	if (!m_scrollbar || !m_auto_scrollfactor)
+	if (!m_scrollbar || !m_auto_setup)
 		return;
 
 	core::rect<s32> size;
@@ -78,19 +78,20 @@ void GUIScrollContainer::calculateAutoScrollFactor()
 		size.addInternalPoint(abs_rect.UpperLeftCorner);
 		size.addInternalPoint(abs_rect.LowerRightCorner);
 	}
+	s32 content_size = m_orientation == HORIZONTAL ? size.getWidth() : size.getHeight();
 
 	// Cannot use RelativeRect because it is moved upwards as we scroll down
-	size.LowerRightCorner.X -= AbsoluteClippingRect.getWidth();
-	size.LowerRightCorner.Y -= AbsoluteClippingRect.getHeight();
+	s32 viewport_size = m_orientation == HORIZONTAL ?
+			AbsoluteClippingRect.getWidth() : AbsoluteClippingRect.getHeight();
 
-	f32 new_factor = 0;
-	if (m_orientation == VERTICAL)
-		new_factor = -size.getHeight();
-	else if (m_orientation == HORIZONTAL)
-		new_factor = -size.getWidth();
-
-	// This factor is always <= 0, or we would be scrolling in opposite direction
-	m_scrollfactor = std::min<f32>(new_factor / m_scrollbar->getMax(), 0.0f);
+	m_scrollbar->setMin(0);
+	m_scrollbar->setMax((content_size - viewport_size) / std::abs(m_scrollfactor));
+	// The scrollbar does automatic thumb scaling based on page size.
+	// TODO: This gives the same thumb size results as the old Lua implementation,
+	// even across different scroll factors, but only as long as scrollbar height
+	// and viewport height are equal.
+	// Now the question is, is this implementation corect or was the old Lua one correct?
+	m_scrollbar->setPageSize(content_size);
 }
 
 void GUIScrollContainer::updateScrolling()

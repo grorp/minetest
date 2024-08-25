@@ -2681,6 +2681,7 @@ Version History
   * style[]: Add focused state for buttons
   * Add field_enter_after_edit[] (experimental)
 * Formspec version 8 (5.9.0)
+  * new scroll_container[] `auto` parameter
 
 Elements
 --------
@@ -2772,15 +2773,18 @@ Elements
     `scrollbar name` times `scroll factor` along the orientation `orientation` and
   * be clipped to the rectangle defined by `X`, `Y`, `W` and `H`.
 * `orientation`: possible values are `vertical` and `horizontal`.
-* `scroll factor`: (optional), multiplicator for the associated scrollbar scroll position.
-  * Defaults to `0.1`.
-  * `auto` will calculate the multiplicator based on the contents
-     * Requires formspec version >= 8.
+* `scroll factor` (optional): Multiplicator for the associated scrollbar scroll
+  position. Defaults to `0.1`.
+* `auto` (optional): Boolean. If true, the associated scrollbar will automatically
+  be set up to make the scroll container work, replacing a `scrollbaroptions`
+  element. The length of the content inside the scroll_container will be used
+  to determine correct `min`, `max` and `thumbsize` values.
+  * Requires formspec version >= 8.
 * Nesting is possible.
 * Some elements might work a little different if they are in a scroll_container.
 * Note: If you want the scroll_container to actually work, you also need to add a
-  scrollbar element with the specified name. Furthermore, it is highly recommended
-  to use a scrollbaroptions element on this scrollbar.
+  scrollbar element with the specified name. If you don't enable `auto`,
+  a scrollbaroptions element is highly recommended as well.
 
 ### `scroll_container_end[]`
 

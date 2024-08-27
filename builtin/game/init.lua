@@ -98,6 +98,10 @@ local function news_popup(id, player, cx, param)
 
 			rel_size = {0, 0},
 			bg_fill = "#fff",
+			-- not shown, but shown if I remove children.
+			-- bug?
+			fg_image = "default_sand.png",
+			fg_scale = 0,
 
 			ui.Elem {
 				fg_image = "default_obsidian.png",

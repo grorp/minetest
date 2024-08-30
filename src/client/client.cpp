@@ -1039,6 +1039,9 @@ void Client::Send(NetworkPacket* pkt)
 	m_con->Send(PEER_ID_SERVER, scf.channel, pkt, scf.reliable);
 }
 
+bool g_dig_pressed_sent = false;
+u64 g_last_true = 0;
+
 // Will fill up 12 + 12 + 4 + 4 + 4 + 1 + 1 + 1 bytes
 void writePlayerPos(LocalPlayer *myplayer, ClientMap *clientMap, NetworkPacket *pkt, bool camera_inverted)
 {
@@ -1069,6 +1072,10 @@ void writePlayerPos(LocalPlayer *myplayer, ClientMap *clientMap, NetworkPacket *
 	*pkt << position << speed << pitch << yaw << keyPressed;
 	*pkt << fov << wanted_range;
 	*pkt << camera_inverted;
+
+	g_dig_pressed_sent = myplayer->control.dig;
+	if (g_dig_pressed_sent)
+		g_last_true = porting::getTimeMs();
 }
 
 void Client::interact(InteractAction action, const PointedThing& pointed)

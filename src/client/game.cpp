@@ -74,6 +74,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "util/quicktune_shortcutter.h"
 #include "irrlicht_changes/static_text.h"
 #include "irr_ptr.h"
+#include "util/string.h"
 #include "version.h"
 #include "script/scripting_client.h"
 #include "hud.h"
@@ -3300,6 +3301,15 @@ void Game::updateSound(f32 dtime)
 	soundmaker->m_player_step_sound = nodedef_manager->get(n).sound_footstep;
 }
 
+const char *pointed_to_str(PointedThingType p)
+{
+	switch (p) {
+	case POINTEDTHING_NOTHING: return "nothing";
+	case POINTEDTHING_NODE: return "node";
+	case POINTEDTHING_OBJECT: return "object";
+	default: return "invalid";
+	}
+}
 
 void Game::processPlayerInteraction(f32 dtime, bool show_hud)
 {
@@ -3357,6 +3367,8 @@ void Game::processPlayerInteraction(f32 dtime, bool show_hud)
 
 	if (g_touchcontrols) {
 		auto mode = selected_def.touch_interaction.getMode(pointed.type);
+		errorstream << "item = " << selected_def.name << "; pointed = " << pointed_to_str(pointed.type) << "; mode = " << es_TouchInteractionMode[mode].str << std::endl;
+		errorstream << "dig sent = " << bool_to_cstr(g_dig_pressed_sent) << " (last true " << g_last_true << ")" << std::endl;
 		g_touchcontrols->applyContextControls(mode);
 	}
 

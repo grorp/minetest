@@ -44,6 +44,9 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #define CLIENT_CHAT_MESSAGE_LIMIT_PER_10S 10.0f
 
+extern bool g_dig_pressed_sent;
+extern u64 g_last_true;
+
 struct ClientEvent;
 struct MeshMakeData;
 struct ChatMessage;

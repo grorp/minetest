@@ -64,6 +64,7 @@ enum class TapState
 
 struct button_info
 {
+	touch_gui_button_id id;
 	float repeat_counter;
 	EKEY_CODE keycode;
 	std::vector<size_t> pointer_ids;
@@ -177,6 +178,7 @@ private:
 	bool m_fixed_joystick = false;
 	bool m_joystick_triggers_aux1 = false;
 	bool m_draw_crosshair = false;
+	bool m_last_draw_crosshair = false;
 	std::shared_ptr<IGUIImage> m_joystick_btn_off;
 	std::shared_ptr<IGUIImage> m_joystick_btn_bg;
 	std::shared_ptr<IGUIImage> m_joystick_btn_center;
@@ -228,9 +230,11 @@ private:
 	TouchInteractionMode m_last_mode = TouchInteractionMode_END;
 	TapState m_tap_state = TapState::None;
 
+	bool m_real_dig_button = false;
 	bool m_dig_pressed = false;
 	u64 m_dig_pressed_until = 0;
 
+	bool m_real_place_button = false;
 	bool m_place_pressed = false;
 	u64 m_place_pressed_until = 0;
 

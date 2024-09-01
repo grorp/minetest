@@ -28,6 +28,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "IGUIFont.h"
 
 const char *button_names[] = {
+	"dig",
+	"place",
 	"jump",
 	"sneak",
 	"zoom",
@@ -55,6 +57,9 @@ const char *button_names[] = {
 
 // compare with GUIKeyChangeMenu::init_keys
 const char *button_titles[] = {
+	// Irrlicht's CGUIStaticText can't center multi-line text.
+	N_("          Dig\n(crosshair-only)"),
+	N_("        Place\n(crosshair-only)"),
 	N_("Jump"),
 	N_("Sneak"),
 	N_("Zoom"),
@@ -81,6 +86,8 @@ const char *button_titles[] = {
 };
 
 const char *button_image_names[] = {
+	"dig_btn.png",
+	"place_btn.png",
 	"jump_btn.png",
 	"down.png",
 	"zoom.png",

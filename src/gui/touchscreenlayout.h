@@ -28,7 +28,9 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 enum touch_gui_button_id : u8
 {
-	jump_id = 0,
+	dig_id = 0,
+	place_id,
+	jump_id,
 	sneak_id,
 	zoom_id,
 	aux1_id,

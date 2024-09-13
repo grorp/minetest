@@ -4,7 +4,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-07-11 15:14+0200\n"
 "PO-Revision-Date: 2024-09-13 14:54+0000\n"
-"Last-Translator: Ari <underfed_palace591@simplelogin.com>\n"
+"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/minetest/"
 "minetest/es/>\n"
 "Language: es\n"
@@ -1336,7 +1336,6 @@ msgid "Continue"
 msgstr "Continuar"
 
 #: src/client/game.cpp
-#, fuzzy
 msgid ""
 "Controls:\n"
 "No menu open:\n"
@@ -1352,17 +1351,17 @@ msgid ""
 " --> place single item to slot\n"
 msgstr ""
 "Controles:\n"
-"Sin el menú abierto:\n"
-"- deslizar el dedo: mirar a su alrededor\n"
-"- toque: colocar/usar\n"
-"- toque largo: excavar/golpear/usar\n"
+"No hay menú abierto:\n"
+"- deslizar dedo: mirar alrededor\n"
+"- toque: colocar/golpear/usar (por defecto)\n"
+"- toque largo: cavar/usar (por defecto)\n"
 "Menú/inventario abierto:\n"
-"- doble toque (afuera):\n"
+"- doble toque (exterior):\n"
 " --> cerrar\n"
-"- pila táctil, ranura táctil:\n"
+"- tocar pila, tocar ranura\n"
 " --> mover pila\n"
-"- tocar y arrastrar, tocar el segundo dedo\n"
-" -> colocar un solo elemento en la ranura\n"
+"- tocar y arrastrar, tocar 2º dedo\n"
+" --> colocar un objeto en la ranura\n"
 
 #: src/client/game.cpp
 #, c-format
@@ -2524,6 +2523,16 @@ msgid ""
 "With OpenGL ES, dithering only works if the shader supports high\n"
 "floating-point precision and it may have a higher performance impact."
 msgstr ""
+"Aplique dithering para reducir los artefactos de bandas de color.\n"
+"El difuminado aumenta significativamente el tamaño de las capturas de "
+"pantalla\n"
+"comprimidas sin pérdida y funciona incorrectamente si la pantalla o el "
+"sistema operativo\n"
+"o si los canales de color no están cuantizados a 8 bits.\n"
+"a 8 bits.\n"
+"Con OpenGL ES, el difuminado sólo funciona si el sombreador admite una alta "
+"precisión de punto flotante y puede que no funcione correctamente.\n"
+"y puede tener un mayor impacto en el rendimiento."
 
 #: src/settings_translation_file.cpp
 msgid "Arm inertia"
@@ -2542,7 +2551,6 @@ msgid "Ask to reconnect after crash"
 msgstr "Preguntar para reconectar tras una caída"
 
 #: src/settings_translation_file.cpp
-#, fuzzy
 msgid ""
 "At this distance the server will aggressively optimize which blocks are sent "
 "to\n"
@@ -2554,19 +2562,18 @@ msgid ""
 "optimization.\n"
 "Stated in MapBlocks (16 nodes)."
 msgstr ""
-"A esta distancia el servidor optimizará agresivamente qué bloques son "
-"enviados a\n"
-"los clientes.\n"
-"Los valores bajos mejorarán mucho el rendimiento, a costa de \n"
-"errores gráficos visibles (algunos bloques no serán renderizados bajo el "
-"agua y en cuevas,\n"
-"así como ocasionalmente en tierra).\n"
-"Definir esto a un valor mayor que max_block_send_distance deshabilita esta\n"
+"A esta distancia, o servidor optimizará de forma agresiva que bloques se "
+"envían\n"
+"a los clientes.\n"
+"Los valores pequeños pueden mejorar enormemente el rendimiento, a costa de "
+"fallos visibles\n"
+"en el renderizado (es posible que algunos bloques no se rendericen "
+"correctamente en las cuevas).\n"
+"Establecer esto en un valor mayor que max_block_send_distance lo desactiva\n"
 "optimización.\n"
-"Fijado en bloques de mapa (16 nodos)."
+"Indicado en MapBlocks (16 nodos)."
 
 #: src/settings_translation_file.cpp
-#, fuzzy
 msgid ""
 "At this distance the server will perform a simpler and cheaper occlusion "
 "check.\n"
@@ -2576,16 +2583,13 @@ msgid ""
 "This is especially useful for very large viewing range (upwards of 500).\n"
 "Stated in MapBlocks (16 nodes)."
 msgstr ""
-"A esta distancia el servidor optimizará agresivamente qué bloques son "
-"enviados a\n"
-"los clientes.\n"
-"Los valores bajos mejorarán mucho el rendimiento, a costa de \n"
-"errores gráficos visibles (algunos bloques no serán renderizados bajo el "
-"agua y en cuevas,\n"
-"así como ocasionalmente en tierra).\n"
-"Definir esto a un valor mayor que max_block_send_distance deshabilita esta\n"
-"optimización.\n"
-"Fijado en bloques de mapa (16 nodos)."
+"A esta distancia el servidor realizará una comprobación de oclusión más "
+"sencilla y económica.\n"
+"Valores más pequeños pueden mejorar el rendimiento, a costa de fallos\n"
+"renderización visibles temporalmente (bloques que faltan).\n"
+"Esto es especialmente útil para un rango de visualización muy grande (más de "
+"500).\n"
+"Expresado en MapBlocks (16 nodos)."
 
 #: src/settings_translation_file.cpp
 msgid "Audio"
@@ -2648,9 +2652,8 @@ msgid "Biome noise"
 msgstr "Ruido de bioma"
 
 #: src/settings_translation_file.cpp
-#, fuzzy
 msgid "Block cull optimize distance"
-msgstr "Optimizar la distancia del envío de bloques"
+msgstr "Optimización de la distancia de eliminación de bloques"
 
 #: src/settings_translation_file.cpp
 msgid "Block send optimize distance"
@@ -2837,9 +2840,8 @@ msgid "Client-side Modding"
 msgstr "Mods del lado del cliente"
 
 #: src/settings_translation_file.cpp
-#, fuzzy
 msgid "Client-side node lookup range restriction"
-msgstr "Restricción del rango de búsqueda del nodo del lado cliente"
+msgstr "Restricción del rango de búsqueda de nodos en el cliente"
 
 #: src/settings_translation_file.cpp
 msgid "Climbing speed"
@@ -2874,6 +2876,9 @@ msgid ""
 "Comma-separated list of AL and ALC extensions that should not be used.\n"
 "Useful for testing. See al_extensions.[h,cpp] for details."
 msgstr ""
+"Lista separada por comas de las extensiones AL y ALC que no deben utilizarse."
+"\n"
+"Útil para pruebas. Ver al_extensions.[h,cpp] para más detalles."
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -3183,15 +3188,14 @@ msgstr ""
 "límite)."
 
 #: src/settings_translation_file.cpp
-#, fuzzy
 msgid ""
 "Defines the size of the sampling grid for FSAA and SSAA antialiasing "
 "methods.\n"
 "Value of 2 means taking 2x2 = 4 samples."
 msgstr ""
-"Define el tamaño de la cuadrícula a mostrar para los métodos antialización "
+"Define el tamaño de la rejilla de muestreo para los métodos de antialiasing "
 "FSAA y SSAA.\n"
-"El valor de 2 significa tomar 2x2 = 4 muestras."
+"Un valor de 2 significa tomar 2x2 = 4 muestras."
 
 #: src/settings_translation_file.cpp
 msgid "Defines the width of the river channel."
@@ -3331,9 +3335,8 @@ msgid "Enable Bloom Debug"
 msgstr "Habilitar Debug del Destello de Lente"
 
 #: src/settings_translation_file.cpp
-#, fuzzy
 msgid "Enable Debanding"
-msgstr "Permitir daños"
+msgstr "Habilitar tramado"
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -3362,9 +3365,8 @@ msgstr ""
 "suaves. De otro modo utiliza filtrado PCF."
 
 #: src/settings_translation_file.cpp
-#, fuzzy
 msgid "Enable Post Processing"
-msgstr "Posprocesamiento"
+msgstr "Habilitar posprocesamiento"
 
 #: src/settings_translation_file.cpp
 msgid "Enable Raytraced Culling"

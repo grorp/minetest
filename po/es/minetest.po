@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Spanish (Minetest)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-07-11 15:14+0200\n"
-"PO-Revision-Date: 2024-09-13 14:54+0000\n"
+"PO-Revision-Date: 2024-09-14 15:09+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/minetest/"
 "minetest/es/>\n"
@@ -1435,7 +1435,7 @@ msgstr "Niebla activada"
 
 #: src/client/game.cpp
 msgid "Fog enabled by game or mod"
-msgstr "Niebla activada por el juego o una modificación"
+msgstr "Niebla activada por juego o mod"
 
 #: src/client/game.cpp
 msgid "Game info:"
@@ -1917,7 +1917,7 @@ msgstr "X Botón 2"
 
 #: src/client/keycode.cpp
 msgid "Zoom Key"
-msgstr "Tecla Zum"
+msgstr "Tecla zum"
 
 #: src/client/minimap.cpp
 msgid "Minimap hidden"
@@ -2645,11 +2645,11 @@ msgstr "Dirección BIND"
 
 #: src/settings_translation_file.cpp
 msgid "Biome API"
-msgstr "API de Biomas"
+msgstr "API de los biomas"
 
 #: src/settings_translation_file.cpp
 msgid "Biome noise"
-msgstr "Ruido de bioma"
+msgstr "Ruido del bioma"
 
 #: src/settings_translation_file.cpp
 msgid "Block cull optimize distance"
@@ -3420,9 +3420,9 @@ msgstr ""
 "hotbar."
 
 #: src/settings_translation_file.cpp
-#, fuzzy
 msgid "Enable random mod loading (mainly used for testing)."
-msgstr "Habilitar entrada aleatoria (solo usar para pruebas)."
+msgstr ""
+"Activar la carga aleatoria de mods (se utiliza principalmente para pruebas)."
 
 #: src/settings_translation_file.cpp
 msgid "Enable random user input (only used for testing)."
@@ -3454,9 +3454,8 @@ msgstr ""
 "pero pueden no soportar nuevas características."
 
 #: src/settings_translation_file.cpp
-#, fuzzy
 msgid "Enable touchscreen"
-msgstr "Pantalla táctil"
+msgstr "Activar la pantalla táctil"
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -3515,7 +3514,7 @@ msgstr "Activa depuración y comprobación de errores en el driver OpenGL."
 
 #: src/settings_translation_file.cpp
 msgid "Enables the post processing pipeline."
-msgstr ""
+msgstr "Activa el proceso de postprocesado."
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -3534,9 +3533,8 @@ msgstr ""
 "juego."
 
 #: src/settings_translation_file.cpp
-#, fuzzy
 msgid "Engine Profiler"
-msgstr "Perfilador del motor"
+msgstr "Análisis del rendimiento del motor"
 
 #: src/settings_translation_file.cpp
 msgid "Engine profiling data print interval"

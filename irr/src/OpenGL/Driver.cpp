@@ -6,6 +6,8 @@
 
 #include "Driver.h"
 #include <cassert>
+#include <iostream>
+#include <unordered_set>
 #include "CNullDriver.h"
 #include "IContextManager.h"
 
@@ -128,6 +130,13 @@ static const VertexType vtPrimitive = {
 		},
 };
 
+static volatile bool lol = false;
+
+void print_stacktrace(void) {
+	lol = !lol;
+}
+static std::unordered_set<std::string> caught = {};
+
 void APIENTRY COpenGL3DriverBase::debugCb(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar *message, const void *userParam)
 {
 	((COpenGL3DriverBase *)userParam)->debugCb(source, type, id, severity, length, message);
@@ -146,7 +155,10 @@ void COpenGL3DriverBase::debugCb(GLenum source, GLenum type, GLuint id, GLenum s
 		ll = ELL_WARNING;
 	char buf[256];
 	snprintf_irr(buf, sizeof(buf), "%04x %04x %.*s", source, type, length, message);
+	std::cerr << "[next GL warning]" << std::endl;
 	os::Printer::log("GL", buf, ll);
+	if (caught.emplace(buf).second)
+		print_stacktrace();
 }
 
 COpenGL3DriverBase::COpenGL3DriverBase(const SIrrlichtCreationParameters &params, io::IFileSystem *io, IContextManager *contextManager) :

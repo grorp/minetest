@@ -656,12 +656,14 @@ void ShadowRenderer::createShaders()
 
 ShadowRenderer *createShadowRenderer(IrrlichtDevice *device, Client *client)
 {
+	/*
 	// disable if unsupported
 	if (g_settings->getBool("enable_dynamic_shadows") && (
 		device->getVideoDriver()->getDriverType() != video::EDT_OPENGL ||
 		!g_settings->getBool("enable_shaders"))) {
 		g_settings->setBool("enable_dynamic_shadows", false);
 	}
+	*/
 
 	if (g_settings->getBool("enable_shaders") &&
 			g_settings->getBool("enable_dynamic_shadows")) {

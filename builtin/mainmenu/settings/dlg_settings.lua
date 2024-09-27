@@ -326,7 +326,7 @@ local function check_requirements(name, requires)
 		desktop = PLATFORM ~= "Android",
 		shaders_support = shaders_support,
 		shaders = core.settings:get_bool("enable_shaders") and shaders_support,
-		opengl = video_driver == "opengl",
+		opengl = true,
 		gles = video_driver:sub(1, 5) == "ogles",
 	}
 

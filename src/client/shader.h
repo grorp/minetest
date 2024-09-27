@@ -92,17 +92,10 @@ protected:
 public:
 	void set(const T value[count], video::IMaterialRendererServices *services)
 	{
-		if (cache && has_been_set && std::equal(m_sent, m_sent + count, value))
-			return;
 		if (is_pixel)
 			services->setPixelShaderConstant(services->getPixelShaderConstantID(m_name), value, count);
 		else
 			services->setVertexShaderConstant(services->getVertexShaderConstantID(m_name), value, count);
-
-		if (cache) {
-			std::copy(value, value + count, m_sent);
-			has_been_set = true;
-		}
 	}
 
 	/* Type specializations */
@@ -184,9 +177,6 @@ public:
 
 	void set(const T value[count], video::IMaterialRendererServices *services)
 	{
-		if (cache && has_been_set && std::equal(m_sent, m_sent + count, value))
-			return;
-
 		for (std::size_t i = 0; i < count; i++) {
 			std::string uniform_name = std::string(m_name) + "." + m_fields[i];
 
@@ -194,11 +184,6 @@ public:
 				services->setPixelShaderConstant(services->getPixelShaderConstantID(uniform_name.c_str()), value + i, 1);
 			else
 				services->setVertexShaderConstant(services->getVertexShaderConstantID(uniform_name.c_str()), value + i, 1);
-		}
-
-		if (cache) {
-			std::copy(value, value + count, m_sent);
-			has_been_set = true;
 		}
 	}
 };

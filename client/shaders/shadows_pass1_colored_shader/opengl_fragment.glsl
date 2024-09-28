@@ -1,8 +1,11 @@
-#ifdef GL_ES
-precision mediump float;
-#endif
 uniform sampler2D ColorMapSampler;
 varying vec4 tPos;
+
+#ifdef GL_ES
+varying mediump vec4 varTexCoord;
+#else
+centroid varying vec4 varTexCoord;
+#endif
 
 #ifdef COLORED_SHADOWS
 varying vec3 varColor;
@@ -22,7 +25,7 @@ float packColor(vec3 color)
 
 void main()
 {
-	vec4 col = texture2D(ColorMapSampler, gl_TexCoord[0].st);
+	vec4 col = texture2D(ColorMapSampler, varTexCoord.st);
 #ifndef COLORED_SHADOWS
 	if (col.a < 0.5)
 		discard;

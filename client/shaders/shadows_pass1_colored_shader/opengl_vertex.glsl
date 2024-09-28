@@ -1,11 +1,14 @@
-#ifdef GL_ES
-precision mediump float;
-#endif
 uniform mat4 LightMVP; // world matrix
 uniform vec4 CameraPos;
 varying vec4 tPos;
 #ifdef COLORED_SHADOWS
 varying vec3 varColor;
+#endif
+
+#ifdef GL_ES
+varying mediump vec4 varTexCoord;
+#else
+centroid varying vec4 varTexCoord;
 #endif
 
 uniform float xyPerspectiveBias0;
@@ -40,14 +43,14 @@ vec4 applyPerspectiveDistortion(in vec4 position)
 
 void main()
 {
-	vec4 pos = LightMVP * gl_Vertex;
+	vec4 pos = LightMVP * inVertexPosition;
 
-	tPos = applyPerspectiveDistortion(LightMVP * gl_Vertex);
+	tPos = applyPerspectiveDistortion(LightMVP * inVertexPosition);
 
 	gl_Position = vec4(tPos.xyz, 1.0);
-	gl_TexCoord[0].st = gl_MultiTexCoord0.st;
+	varTexCoord.st = inTexCoord0.st;
 
 #ifdef COLORED_SHADOWS
-	varColor = gl_Color.rgb;
+	varColor = inVertexColor.rgb;
 #endif
 }

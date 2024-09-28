@@ -26,7 +26,7 @@ uniform float animationTimer;
 	uniform float xyPerspectiveBias0;
 	uniform float xyPerspectiveBias1;
 	uniform vec3 shadow_tint;
-	
+
 	varying float adj_shadow_strength;
 	varying float cosLight;
 	varying float f_normal_length;
@@ -542,7 +542,7 @@ void main(void)
 			col.rgb +=
 				intensity * dayLight * (1.0 - nightRatio) * (1.0 - shadow_uncorrected) * f_adj_shadow_strength *
 				pow(max(dot(reflect_ray, viewVec), 0.0), fresnel_exponent) * pow(1.0 - abs(dot(viewVec, fNormal)), specular_exponent);
-	}
+		}
 #endif
 
 #if (MATERIAL_TYPE == TILE_MATERIAL_WAVING_PLANTS || MATERIAL_TYPE == TILE_MATERIAL_WAVING_LEAVES) && defined(ENABLE_TRANSLUCENT_FOLIAGE)

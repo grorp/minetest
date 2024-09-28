@@ -1,7 +1,7 @@
 uniform mat4 LightMVP; // world matrix
 uniform vec4 CameraPos; // camera position
+varying vec4 tPos;
 
-varying mediump vec4 tPos;
 #ifdef GL_ES
 varying mediump vec4 varTexCoord;
 #else

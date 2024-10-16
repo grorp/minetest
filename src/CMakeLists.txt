@@ -960,7 +960,7 @@ if(BUILD_CLIENT AND NOT ANDROID)
 		BUNDLE DESTINATION .
 	)
 	if(UNIX)
-		install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/../util/aliases/minetest" DESTINATION ${BINDIR})
+		install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/../misc/aliases/minetest" DESTINATION ${BINDIR})
 	endif()
 
 	if(APPLE)
@@ -986,7 +986,7 @@ endif()
 if(BUILD_SERVER)
 	install(TARGETS ${PROJECT_NAME}server DESTINATION ${BINDIR})
 	if(UNIX)
-		install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/../util/aliases/minetestserver" DESTINATION ${BINDIR})
+		install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/../misc/aliases/minetestserver" DESTINATION ${BINDIR})
 	endif()
 endif()
 

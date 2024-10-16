@@ -4,8 +4,11 @@ INCLUDE(CheckTypeSize)
 INCLUDE(CheckIncludeFiles)
 INCLUDE(CheckLibraryExists)
 
-macro(CreateSymlink _path _target)
-	execute_process(COMMAND "${CMAKE_COMMAND}" -E create_symlink "${_target}" "${_path}")
+macro(CreateLegacyAlias _cmake_target _old_path _new_name)
+	add_custom_target("${_cmake_target}" ALL
+		COMMAND "${CMAKE_COMMAND}" -E create_symlink "${_new_name}" "${_old_path}"
+		WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
+	add_dependencies("${_cmake_target}" "${_new_name}")
 endmacro()
 
 check_type_size(int SIZEOF_INT BUILTIN_TYPES_ONLY LANGUAGE CXX)
@@ -586,7 +589,6 @@ endif()
 if(NOT CMAKE_CROSSCOMPILING)
 	set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin")
 endif()
-file(MAKE_DIRECTORY "${EXECUTABLE_OUTPUT_PATH}") # create it early
 
 # shared object target
 add_library(EngineCommon OBJECT
@@ -999,7 +1001,7 @@ if(BUILD_CLIENT AND NOT ANDROID)
 		BUNDLE DESTINATION .
 	)
 	if(UNIX)
-		CreateSymlink("${EXECUTABLE_OUTPUT_PATH}/minetest" ${PROJECT_NAME})
+		CreateLegacyAlias(alias "${EXECUTABLE_OUTPUT_PATH}/minetest" ${PROJECT_NAME})
 		install(PROGRAMS "${EXECUTABLE_OUTPUT_PATH}/minetest" DESTINATION ${BINDIR})
 	endif()
 
@@ -1026,7 +1028,7 @@ endif()
 if(BUILD_SERVER)
 	install(TARGETS ${PROJECT_NAME}server DESTINATION ${BINDIR})
 	if(UNIX)
-		CreateSymlink("${EXECUTABLE_OUTPUT_PATH}/minetestserver" ${PROJECT_NAME}server)
+		CreateLegacyAlias(serveralias "${EXECUTABLE_OUTPUT_PATH}/minetestserver" ${PROJECT_NAME}server)
 		install(PROGRAMS "${EXECUTABLE_OUTPUT_PATH}/minetestserver" DESTINATION ${BINDIR})
 	endif()
 endif()

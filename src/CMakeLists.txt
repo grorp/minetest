@@ -1,3 +1,5 @@
+project(luanti)
+
 INCLUDE(CheckTypeSize)
 INCLUDE(CheckIncludeFiles)
 INCLUDE(CheckLibraryExists)

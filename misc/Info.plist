@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>luanti</string>
 	<key>CFBundleIconFile</key>
-	<string>minetest-icon.icns</string>
+	<string>luanti-icon.icns</string>
 	<key>CFBundleName</key>
 	<string>Luanti</string>
 	<key>CFBundleDisplayName</key>

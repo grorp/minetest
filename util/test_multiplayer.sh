@@ -44,7 +44,7 @@ echo "Starting server"
 waitfor "$worldpath/startup"
 
 echo "Starting client"
-"$minetest" --debugger --config "$conf_client1" --go --address 127.0.0.1 2>&1 \
+"$executable" --debugger --config "$conf_client1" --go --address 127.0.0.1 2>&1 \
 	| sed -u 's/^/(client) /' | tee -a "$testspath/log.txt" &
 waitfor "$worldpath/done"
 

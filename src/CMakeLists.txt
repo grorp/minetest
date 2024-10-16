@@ -959,8 +959,8 @@ if(BUILD_CLIENT AND NOT ANDROID)
 		ARCHIVE DESTINATION ${BINDIR}
 		BUNDLE DESTINATION .
 	)
-	if (UNIX)
-		install(PROGRAMS "../util/aliases/minetest" DESTINATION ${BINDIR})
+	if(UNIX)
+		install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/../util/aliases/minetest" DESTINATION ${BINDIR})
 	endif()
 
 	if(APPLE)
@@ -985,8 +985,8 @@ endif()
 
 if(BUILD_SERVER)
 	install(TARGETS ${PROJECT_NAME}server DESTINATION ${BINDIR})
-	if (UNIX)
-		install(PROGRAMS "../util/aliases/minetestserver" DESTINATION ${BINDIR})
+	if(UNIX)
+		install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/../util/aliases/minetestserver" DESTINATION ${BINDIR})
 	endif()
 endif()
 

@@ -959,6 +959,9 @@ if(BUILD_CLIENT AND NOT ANDROID)
 		ARCHIVE DESTINATION ${BINDIR}
 		BUNDLE DESTINATION .
 	)
+	if (UNIX)
+		install(PROGRAMS "../util/aliases/minetest" DESTINATION ${BINDIR})
+	endif()
 
 	if(APPLE)
 		install(CODE "
@@ -982,6 +985,9 @@ endif()
 
 if(BUILD_SERVER)
 	install(TARGETS ${PROJECT_NAME}server DESTINATION ${BINDIR})
+	if (UNIX)
+		install(PROGRAMS "../util/aliases/minetestserver" DESTINATION ${BINDIR})
+	endif()
 endif()
 
 if (ANDROID)

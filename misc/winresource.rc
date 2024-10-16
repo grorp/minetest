@@ -49,8 +49,7 @@ BEGIN
         VALUE "FileDescription", PROJECT_NAME_C " engine"
         VALUE "FileVersion", VERSION_STRING
         VALUE "InternalName", PROJECT_NAME
-        VALUE "LegalCopyright", "(c) 2011-2015 celeron55"
-        VALUE "LegalTrademarks", """Minetest"" is the property of the Minetest community, don't use it without permission!"
+        VALUE "LegalCopyright", "(c) 2010-2024 celeron55 and contributors"
         VALUE "OriginalFilename", PROJECT_NAME ".exe"
         VALUE "PrivateBuild", VERSION_EXTRA
         VALUE "ProductName", PROJECT_NAME_C

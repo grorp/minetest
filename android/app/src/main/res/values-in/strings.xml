@@ -7,5 +7,5 @@
     <string name="notification_channel_name">Notifikasi umum</string>
     <string name="unzip_notification_description">Kurang dari 1 menit…</string>
     <string name="notification_channel_description">Notifikasi dari Minetest</string>
-    <string name="unzip_notification_title">Memuat Minetest</string>
+    <string name="unzip_notification_title">Memuat Minetest…</string>
 </resources>

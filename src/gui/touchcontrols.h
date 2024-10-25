@@ -102,6 +102,10 @@ enum touch_gui_button_id
 	joystick_off_id,
 	joystick_bg_id,
 	joystick_center_id,
+
+	// no buttons yet
+	dig_id,
+	place_id,
 };
 
 
@@ -127,9 +131,6 @@ struct button_info
 		SECOND_TEXTURE
 	} toggleable = NOT_TOGGLEABLE;
 	std::string toggle_textures[2];
-
-	void emitAction(bool action, video::IVideoDriver *driver,
-			IEventReceiver *receiver, ISimpleTextureSource *tsrc);
 };
 
 
@@ -219,6 +220,10 @@ private:
 	bool m_had_move_id = false;
 	bool m_move_prevent_short_tap = false;
 
+	// Note: TouchControls intentionally uses IGUIImage instead of IGUIButton
+	// for its buttons. We only want static image display, not interactivity,
+	// from Irrlicht. We implement interactivity ourselves.
+
 	bool m_has_joystick_id = false;
 	size_t m_joystick_id;
 	bool m_joystick_has_really_moved = false;
@@ -242,6 +247,15 @@ private:
 	std::vector<recti> m_overflow_button_rects;
 
 	std::shared_ptr<IGUIStaticText> m_status_text;
+
+	void emitKeyboardEvent(EKEY_CODE keycode, bool pressed);
+
+	void loadButtonTexture(IGUIImage *gui_button, const std::string &path);
+	void buttonEmitAction(button_info &btn, bool action);
+
+	bool buttonsHandlePress(std::vector<button_info> &buttons, size_t pointer_id, IGUIElement *element);
+	bool buttonsHandleRelease(std::vector<button_info> &buttons, size_t pointer_id);
+	bool buttonsStep(std::vector<button_info> &buttons, float dtime);
 
 	void toggleOverflowMenu();
 	void updateVisibility();
@@ -273,8 +287,6 @@ private:
 	// map to store the IDs and positions of currently pressed pointers
 	std::unordered_map<size_t, v2s32> m_pointer_pos;
 
-	v2s32 getPointerPos();
-	void emitMouseEvent(EMOUSE_INPUT_EVENT type);
 	TouchInteractionMode m_last_mode = TouchInteractionMode_END;
 	TapState m_tap_state = TapState::None;
 

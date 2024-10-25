@@ -66,6 +66,9 @@ static const char *button_image_names[] = {
 	"joystick_off.png",
 	"joystick_bg.png",
 	"joystick_center.png",
+
+	"",
+	"",
 };
 
 // compare with GUIKeyChangeMenu::init_keys
@@ -93,6 +96,9 @@ static const char *button_titles[] = {
 	N_("Joystick"),
 	N_("Joystick"),
 	N_("Joystick"),
+
+	N_("Dig/punch/use"),
+	N_("Place/use"),
 };
 
 void TouchControls::emitKeyboardEvent(EKEY_CODE keycode, bool pressed)
@@ -288,27 +294,31 @@ TouchControls::TouchControls(IrrlichtDevice *device, ISimpleTextureSource *tsrc)
 	// Initialize joystick display "button".
 	// Joystick is placed on the bottom left of screen.
 	if (m_fixed_joystick) {
-		m_joystick_btn_off = grab_gui_element<IGUIImage>(makeButtonDirect(joystick_off_id,
+		m_joystick_btn_off = grab_gui_element<IGUIImage>(makeButtonDirect(
+				joystick_off_id, button_image_names[joystick_off_id],
 				recti(m_button_size,
 						m_screensize.Y - m_button_size * 4,
 						m_button_size * 4,
-						m_screensize.Y - m_button_size), true));
+						m_screensize.Y - m_button_size)));
 	} else {
-		m_joystick_btn_off = grab_gui_element<IGUIImage>(makeButtonDirect(joystick_off_id,
+		m_joystick_btn_off = grab_gui_element<IGUIImage>(makeButtonDirect(
+				joystick_off_id, button_image_names[joystick_off_id],
 				recti(m_button_size,
 						m_screensize.Y - m_button_size * 3,
 						m_button_size * 3,
-						m_screensize.Y - m_button_size), true));
+						m_screensize.Y - m_button_size)));
 	}
 
-	m_joystick_btn_bg = grab_gui_element<IGUIImage>(makeButtonDirect(joystick_bg_id,
+	m_joystick_btn_bg = grab_gui_element<IGUIImage>(makeButtonDirect(
+			joystick_bg_id, button_image_names[joystick_bg_id],
 			recti(m_button_size,
 					m_screensize.Y - m_button_size * 4,
 					m_button_size * 4,
-					m_screensize.Y - m_button_size), false));
+					m_screensize.Y - m_button_size)));
 
-	m_joystick_btn_center = grab_gui_element<IGUIImage>(makeButtonDirect(joystick_center_id,
-			recti(0, 0, m_button_size, m_button_size), false));
+	m_joystick_btn_center = grab_gui_element<IGUIImage>(makeButtonDirect(
+			joystick_center_id, button_image_names[joystick_center_id],
+			recti(0, 0, m_button_size, m_button_size)));
 
 	// init jump button
 	addButton(m_buttons, jump_id, button_image_names[jump_id],
@@ -340,11 +350,12 @@ TouchControls::TouchControls(IrrlichtDevice *device, ISimpleTextureSource *tsrc)
 						m_screensize.Y - 1.5f * m_button_size));
 
 	// init overflow button
-	m_overflow_btn = grab_gui_element<IGUIImage>(makeButtonDirect(overflow_id,
+	m_overflow_btn = grab_gui_element<IGUIImage>(makeButtonDirect(
+				overflow_id, button_image_names[overflow_id],
 				recti(m_screensize.X - 1.25f * m_button_size,
 						m_screensize.Y - 5.5f * m_button_size,
 						m_screensize.X - 0.25f * m_button_size,
-						m_screensize.Y - 4.5f * m_button_size), true));
+						m_screensize.Y - 4.5f * m_button_size)));
 
 	const static touch_gui_button_id overflow_buttons[] {
 		chat_id, inventory_id, drop_id, exit_id,
@@ -355,7 +366,6 @@ TouchControls::TouchControls(IrrlichtDevice *device, ISimpleTextureSource *tsrc)
 	IGUIStaticText *background = m_guienv->addStaticText(L"",
 			recti(v2s32(0, 0), dimension2du(m_screensize)));
 	background->setBackgroundColor(video::SColor(140, 0, 0, 0));
-	background->setVisible(false);
 	m_overflow_bg = grab_gui_element<IGUIStaticText>(background);
 
 	s32 cols = 4;
@@ -390,9 +400,9 @@ TouchControls::TouchControls(IrrlichtDevice *device, ISimpleTextureSource *tsrc)
 		if (id == toggle_chat_id)
 			// Chat is shown by default, so chat_hide_btn.png is shown first.
 			addToggleButton(m_overflow_buttons, id, "chat_hide_btn.png",
-					"chat_show_btn.png", rect, false);
+					"chat_show_btn.png", rect);
 		else
-			addButton(m_overflow_buttons, id, button_image_names[id], rect, false);
+			addButton(m_overflow_buttons, id, button_image_names[id], rect);
 
 		std::wstring str = wstrgettext(button_titles[id]);
 		IGUIStaticText *text = m_guienv->addStaticText(str.c_str(), recti());
@@ -402,7 +412,6 @@ TouchControls::TouchControls(IrrlichtDevice *device, ISimpleTextureSource *tsrc)
 		text->setRelativePosition(recti(pos.X - dim.Width / 2, pos.Y + size.Y / 2,
 				pos.X + dim.Width / 2, pos.Y + size.Y / 2 + dim.Height));
 		text->setTextAlignment(EGUIA_CENTER, EGUIA_UPPERLEFT);
-		text->setVisible(false);
 		m_overflow_button_titles.push_back(grab_gui_element<IGUIStaticText>(text));
 
 		rect.addInternalPoint(text->getRelativePosition().UpperLeftCorner);
@@ -414,7 +423,8 @@ TouchControls::TouchControls(IrrlichtDevice *device, ISimpleTextureSource *tsrc)
 
 	m_status_text = grab_gui_element<IGUIStaticText>(
 			m_guienv->addStaticText(L"", recti(), false, false));
-	m_status_text->setVisible(false);
+
+	updateVisibility();
 }
 
 TouchControls::~TouchControls()
@@ -422,38 +432,32 @@ TouchControls::~TouchControls()
 	releaseAll();
 }
 
-void TouchControls::addButton(std::vector<button_info> &buttons, touch_gui_button_id id,
-		const std::string &image, const recti &rect, bool visible)
+IGUIImage *TouchControls::makeButtonDirect(touch_gui_button_id id, const std::string &image,
+		const recti &rect)
 {
 	IGUIImage *btn_gui_button = m_guienv->addImage(rect, nullptr, id);
-	btn_gui_button->setVisible(visible);
 	loadButtonTexture(btn_gui_button, image);
+	return btn_gui_button;
+}
 
+void TouchControls::addButton(std::vector<button_info> &buttons, touch_gui_button_id id,
+		const std::string &image, const recti &rect)
+{
 	button_info &btn = buttons.emplace_back();
 	btn.keycode = id_to_keycode(id);
-	btn.gui_button = grab_gui_element<IGUIImage>(btn_gui_button);
+	btn.gui_button = grab_gui_element<IGUIImage>(makeButtonDirect(id, image, rect));
 }
 
 void TouchControls::addToggleButton(std::vector<button_info> &buttons, touch_gui_button_id id,
-		const std::string &image_1, const std::string &image_2, const recti &rect, bool visible)
+		const std::string &image_1, const std::string &image_2, const recti &rect)
 {
-	addButton(buttons, id, image_1, rect, visible);
+	addButton(buttons, id, image_1, rect);
 	button_info &btn = buttons.back();
 	btn.toggleable = button_info::FIRST_TEXTURE;
 	btn.toggle_textures[0] = image_1;
 	btn.toggle_textures[1] = image_2;
 }
 
-IGUIImage *TouchControls::makeButtonDirect(touch_gui_button_id id,
-		const recti &rect, bool visible)
-{
-	IGUIImage *btn_gui_button = m_guienv->addImage(rect, nullptr, id);
-	btn_gui_button->setVisible(visible);
-
-	loadButtonTexture(btn_gui_button, button_image_names[id]);
-
-	return btn_gui_button;
-}
 
 bool TouchControls::isHotbarButton(const SEvent &event)
 {

@@ -262,16 +262,16 @@ private:
 	void releaseAll();
 
 	// initialize a button
+	IGUIImage *makeButtonDirect(touch_gui_button_id id, const std::string &image,
+			const recti &rect);
+
 	void addButton(std::vector<button_info> &buttons,
 			touch_gui_button_id id, const std::string &image,
-			const recti &rect, bool visible=true);
+			const recti &rect);
 	void addToggleButton(std::vector<button_info> &buttons,
 			touch_gui_button_id id,
 			const std::string &image_1, const std::string &image_2,
-			const recti &rect, bool visible=true);
-
-	IGUIImage *makeButtonDirect(touch_gui_button_id id,
-			const recti &rect, bool visible);
+			const recti &rect);
 
 	// handle pressing hotbar items
 	bool isHotbarButton(const SEvent &event);

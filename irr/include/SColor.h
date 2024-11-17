@@ -72,6 +72,9 @@ enum ECOLOR_FORMAT
 	//! 32 bit format using 16 bits for the red and green channels.
 	ECF_R16G16,
 
+	//! 32 bit format using 10 bits for R, G, B and 2 for alpha.
+	ECF_A2R10G10B10,
+
 	/** Depth and stencil formats. */
 
 	//! 16 bit format using 16 bits for depth.

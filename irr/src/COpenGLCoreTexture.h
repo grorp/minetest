@@ -170,6 +170,13 @@ public:
 			return;
 		}
 
+		// Problem: on some drivers ECF_A8R8G8B8 is mapped to GL_BGRA,
+		// which is an unsized format. Render targets however need to be created
+		// with a sized format. Since we don't upload texture data to RTTs, we can
+		// safely choose another comparable format.
+		if (InternalFormat == GL_BGRA)
+			InternalFormat = GL_RGBA8;
+
 #ifdef _DEBUG
 		char lbuf[100];
 		snprintf_irr(lbuf, sizeof(lbuf),

@@ -566,7 +566,9 @@ void set_default_settings()
 	settings->setDefault("active_block_range", "2");
 	settings->setDefault("viewing_range", "50");
 	settings->setDefault("leaves_style", "simple");
-	settings->setDefault("enable_post_processing", "false"); // remove this?
+	// Note: OpenGL ES 2.0 is not guaranteed to provide depth textures,
+	// which we would need for PP.
+	settings->setDefault("enable_post_processing", "false");
 	settings->setDefault("post_processing_texture_bits", "10");
 	settings->setDefault("debanding", "false");
 	settings->setDefault("curl_verify_cert", "false");

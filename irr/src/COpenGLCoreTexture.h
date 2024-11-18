@@ -170,12 +170,18 @@ public:
 			return;
 		}
 
-		// Problem: on some drivers ECF_A8R8G8B8 is mapped to GL_BGRA,
-		// which is an unsized format. Render targets however need to be created
-		// with a sized format. Since we don't upload texture data to RTTs, we can
-		// safely choose another comparable format.
-		if (InternalFormat == GL_BGRA)
+#ifndef IRR_COMPILE_GL_COMMON
+		// TODO explain this correctly
+		if (InternalFormat == GL_BGRA && Driver->Version.Major >= 3) {
 			InternalFormat = GL_RGBA8;
+			PixelFormat = GL_RGBA;
+		}
+		// TODO is this needed?
+		if (InternalFormat == GL_BGRA && Driver->Version.Major < 3) {
+			InternalFormat = GL_RGBA;
+			PixelFormat = GL_RGBA; 
+		}
+#endif
 
 #ifdef _DEBUG
 		char lbuf[100];

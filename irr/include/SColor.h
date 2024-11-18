@@ -109,6 +109,7 @@ const c8 *const ColorFormatNames[ECF_UNKNOWN + 2] = {
 		"R8G8",
 		"R16",
 		"R16G16",
+		"A2R10G10B10",
 		"D16",
 		"D24",
 		"D32",
@@ -116,6 +117,7 @@ const c8 *const ColorFormatNames[ECF_UNKNOWN + 2] = {
 		"UNKNOWN",
 		0,
 	};
+	// TODO static_assert
 
 //! Creates a 16 bit A1R5G5B5 color
 inline u16 RGBA16(u32 r, u32 g, u32 b, u32 a = 0xFF)

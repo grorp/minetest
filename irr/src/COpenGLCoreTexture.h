@@ -173,11 +173,13 @@ public:
 #ifndef IRR_COMPILE_GL_COMMON
 		// TODO explain this correctly
 		if (InternalFormat == GL_BGRA && Driver->Version.Major >= 3) {
+			os::Printer::log("TODO explain this correctly triggered", ELL_ERROR);
 			InternalFormat = GL_RGBA8;
 			PixelFormat = GL_RGBA;
 		}
 		// TODO is this needed?
 		if (InternalFormat == GL_BGRA && Driver->Version.Major < 3) {
+			os::Printer::log("TODO is this needed? triggered", ELL_ERROR);
 			InternalFormat = GL_RGBA;
 			PixelFormat = GL_RGBA; 
 		}

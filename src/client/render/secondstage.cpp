@@ -91,7 +91,7 @@ RenderStep *addPostProcessing(RenderPipeline *pipeline, RenderStep *previousStep
 	video::ECOLOR_FORMAT color_format = selectColorFormat(driver);
 	video::ECOLOR_FORMAT depth_format = selectDepthFormat(driver);
 
-	verbosestream << "addPostProcessing(): color = "
+	errorstream << "addPostProcessing(): color = "
 		<< video::ColorFormatNames[color_format] << " depth = "
 		<< video::ColorFormatNames[depth_format] << std::endl;
 

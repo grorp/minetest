@@ -580,6 +580,8 @@ shadow_sky_body_orbit_tilt (Sky Body Orbit Tilt) float 0.0 -60.0 60.0
 #    Enables the post processing pipeline.
 enable_post_processing (Enable Post Processing) bool true
 
+post_processing_texture_bits (Post Processing Texture Bits) enum 16 8,10,16
+
 #    Enables Hable's 'Uncharted 2' filmic tone mapping.
 #    Simulates the tone curve of photographic film and how this approximates the
 #    appearance of high dynamic range images. Mid-range contrast is slightly

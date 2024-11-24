@@ -162,6 +162,7 @@ private:
 	// than one client step, i.e. press and release happen in the same step.
 	bool m_had_move_id = false;
 	bool m_move_prevent_short_tap = false;
+	bool m_move_prevent_long_tap = false;
 
 	bool m_has_joystick_id = false;
 	size_t m_joystick_id;

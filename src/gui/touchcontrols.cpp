@@ -74,15 +74,22 @@ void button_info::emitAction(bool action, video::IVideoDriver *driver,
 }
 
 static bool buttons_handlePress(std::vector<button_info> &buttons, size_t pointer_id, IGUIElement *element,
-		video::IVideoDriver *driver, IEventReceiver *receiver, ISimpleTextureSource *tsrc)
+		video::IVideoDriver *driver, IEventReceiver *receiver, ISimpleTextureSource *tsrc,
+		bool &prevent_gestures)
 {
 	if (!element)
 		return false;
 
 	for (button_info &btn : buttons) {
 		if (btn.gui_button.get() == element) {
-			// allow moving the camera with the same finger that holds dig/place
-			bool absorb = btn.id != dig_id && btn.id != place_id;
+			bool absorb = true;
+			if (btn.id == dig_id || btn.id == place_id) {
+				// Allow moving the camera with the same finger that holds dig/place…
+				absorb = false;
+				// … but still don't interpret interactions with the dig/place buttons
+				// as short or long taps that are used for digging/placing via gestures.
+				prevent_gestures = true;
+			}
 
 			assert(std::find(btn.pointer_ids.begin(), btn.pointer_ids.end(), pointer_id) == btn.pointer_ids.end());
 			btn.pointer_ids.push_back(pointer_id);
@@ -106,8 +113,8 @@ static bool buttons_handleRelease(std::vector<button_info> &buttons, size_t poin
 	for (button_info &btn : buttons) {
 		auto it = std::find(btn.pointer_ids.begin(), btn.pointer_ids.end(), pointer_id);
 		if (it != btn.pointer_ids.end()) {
-			// don't absorb since we didn't absorb the press event either
-			// (the pointer may be stored as pressed somewhere else too)
+			// Don't absorb since we didn't absorb the press event either.
+			// (The pointer may be stored as pressed somewhere else too.)
 			bool absorb = btn.id != dig_id && btn.id != place_id;
 
 			btn.pointer_ids.erase(it);
@@ -486,6 +493,7 @@ void TouchControls::translateEvent(const SEvent &event)
 		m_pointer_downpos[pointer_id] = touch_pos;
 		m_pointer_pos[pointer_id] = touch_pos;
 
+		bool prevent_gestures = false;
 		bool prevent_short_tap = false;
 
 		IGUIElement *element = m_guienv->getRootGUIElement()->getElementFromPoint(touch_pos);
@@ -505,7 +513,8 @@ void TouchControls::translateEvent(const SEvent &event)
 			}
 
 			if (buttons_handlePress(m_overflow_buttons, pointer_id, element,
-					m_device->getVideoDriver(), m_receiver, m_texturesource))
+					m_device->getVideoDriver(), m_receiver, m_texturesource,
+					prevent_gestures))
 				return;
 
 			toggleOverflowMenu();
@@ -518,7 +527,8 @@ void TouchControls::translateEvent(const SEvent &event)
 
 		// handle buttons
 		if (buttons_handlePress(m_buttons, pointer_id, element,
-				m_device->getVideoDriver(), m_receiver, m_texturesource))
+				m_device->getVideoDriver(), m_receiver, m_texturesource,
+				prevent_gestures))
 			return;
 
 		// handle hotbar
@@ -557,7 +567,8 @@ void TouchControls::translateEvent(const SEvent &event)
 				// DON'T reset m_tap_state here, otherwise many short taps
 				// will be ignored if you tap very fast.
 				m_had_move_id              = true;
-				m_move_prevent_short_tap   = prevent_short_tap;
+				m_move_prevent_short_tap   = prevent_gestures || prevent_short_tap;
+				m_move_prevent_long_tap    = prevent_gestures;
 			}
 		}
 	}
@@ -674,7 +685,7 @@ void TouchControls::step(float dtime)
 	if (m_has_move_id && !m_move_has_really_moved && m_tap_state == TapState::None) {
 		u64 delta = porting::getDeltaMs(m_move_downtime, porting::getTimeMs());
 
-		if (delta > m_long_tap_delay) {
+		if (delta > m_long_tap_delay && !m_move_prevent_long_tap) {
 			m_tap_state = TapState::LongTap;
 		}
 	}

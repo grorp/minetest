@@ -81,15 +81,18 @@ static bool buttons_handlePress(std::vector<button_info> &buttons, size_t pointe
 
 	for (button_info &btn : buttons) {
 		if (btn.gui_button.get() == element) {
+			// allow moving the camera with the same finger that holds dig/place
+			bool absorb = btn.id != dig_id && btn.id != place_id;
+
 			assert(std::find(btn.pointer_ids.begin(), btn.pointer_ids.end(), pointer_id) == btn.pointer_ids.end());
 			btn.pointer_ids.push_back(pointer_id);
 
 			if (btn.pointer_ids.size() > 1)
-				return true;
+				return absorb;
 
 			btn.emitAction(true, driver, receiver, tsrc);
 			btn.repeat_counter = -BUTTON_REPEAT_DELAY;
-			return true;
+			return absorb;
 		}
 	}
 
@@ -103,13 +106,17 @@ static bool buttons_handleRelease(std::vector<button_info> &buttons, size_t poin
 	for (button_info &btn : buttons) {
 		auto it = std::find(btn.pointer_ids.begin(), btn.pointer_ids.end(), pointer_id);
 		if (it != btn.pointer_ids.end()) {
+			// don't absorb since we didn't absorb the press event either
+			// (the pointer may be stored as pressed somewhere else too)
+			bool absorb = btn.id != dig_id && btn.id != place_id;
+
 			btn.pointer_ids.erase(it);
 
 			if (!btn.pointer_ids.empty())
-				return true;
+				return absorb;
 
 			btn.emitAction(false, driver, receiver, tsrc);
-			return true;
+			return absorb;
 		}
 	}
 
@@ -122,6 +129,8 @@ static bool buttons_step(std::vector<button_info> &buttons, float dtime,
 	bool has_pointers = false;
 
 	for (button_info &btn : buttons) {
+		if (btn.id == dig_id || btn.id == place_id)
+			continue; // key repeats would cause glitches here
 		if (btn.pointer_ids.empty())
 			continue;
 		has_pointers = true;
@@ -147,6 +156,12 @@ static EKEY_CODE id_to_keycode(touch_gui_button_id id)
 
 	std::string key = "";
 	switch (id) {
+		case dig_id:
+			key = "dig";
+			break;
+		case place_id:
+			key = "place";
+			break;
 		case jump_id:
 			key = "jump";
 			break;
@@ -234,6 +249,8 @@ void TouchControls::applyLayout(const ButtonLayout &layout)
 	m_overflow_buttons.clear();
 	m_overflow_button_titles.clear();
 	m_overflow_button_rects.clear();
+	m_real_dig_button = false;
+	m_real_place_button = false;
 
 	// Initialize joystick display "button".
 	// Joystick is placed on the bottom left of screen.
@@ -286,9 +303,7 @@ void TouchControls::applyLayout(const ButtonLayout &layout)
 	overflow_buttons.erase(std::remove_if(
 			overflow_buttons.begin(), overflow_buttons.end(),
 			[&](touch_gui_button_id id) {
-				// There's no sense in adding the overflow button to the overflow
-				// menu (also, it's impossible since it doesn't have a keycode).
-				return !mayAddButton(id) || id == overflow_id;
+				return !mayAddButton(id) || id == overflow_id || id == dig_id || id == place_id;
 			}), overflow_buttons.end());
 
 	layout_button_grid(m_screensize, m_texturesource, overflow_buttons,
@@ -328,6 +343,8 @@ bool TouchControls::mayAddButton(touch_gui_button_id id)
 {
 	if (!ButtonLayout::isButtonAllowed(id))
 		return false;
+	if ((id == dig_id || id == place_id) && !m_draw_crosshair)
+		return false;
 	if (id == aux1_id && m_joystick_triggers_aux1)
 		return false;
 	if (id != overflow_id && id_to_keycode(id) == KEY_UNKNOWN)
@@ -344,8 +361,14 @@ void TouchControls::addButton(std::vector<button_info> &buttons, touch_gui_butto
 			m_texturesource, m_device->getVideoDriver());
 
 	button_info &btn = buttons.emplace_back();
+	btn.id = id;
 	btn.keycode = id_to_keycode(id);
 	btn.gui_button = grab_gui_element<IGUIImage>(btn_gui_button);
+
+	if (id == dig_id)
+		m_real_dig_button = true;
+	else if (id == place_id)
+		m_real_place_button = true;
 }
 
 void TouchControls::addToggleButton(std::vector<button_info> &buttons, touch_gui_button_id id,
@@ -632,9 +655,11 @@ void TouchControls::step(float dtime)
 	v2u32 screensize = m_device->getVideoDriver()->getScreenSize();
 	s32 button_size = ButtonLayout::getButtonSize(screensize);
 
-	if (m_screensize != screensize || m_button_size != button_size) {
+	if (m_screensize != screensize || m_button_size != button_size ||
+			m_last_draw_crosshair != m_draw_crosshair) {
 		m_screensize = screensize;
 		m_button_size = button_size;
+		m_last_draw_crosshair = m_draw_crosshair;
 		applyLayout(m_layout);
 	}
 
@@ -838,20 +863,23 @@ void TouchControls::applyContextControls(const TouchInteractionMode &mode)
 	target_dig_pressed |= now < m_dig_pressed_until;
 	target_place_pressed |= now < m_place_pressed_until;
 
-	if (target_dig_pressed && !m_dig_pressed) {
+	// Emit events to match target state.
+	// Don't emit events from gestures if there's a real button.
+
+	if (target_dig_pressed && !m_dig_pressed && !m_real_dig_button) {
 		emitMouseEvent(EMIE_LMOUSE_PRESSED_DOWN);
 		m_dig_pressed = true;
 
-	} else if (!target_dig_pressed && m_dig_pressed) {
+	} else if (!target_dig_pressed && m_dig_pressed && !m_real_dig_button) {
 		emitMouseEvent(EMIE_LMOUSE_LEFT_UP);
 		m_dig_pressed = false;
 	}
 
-	if (target_place_pressed && !m_place_pressed) {
+	if (target_place_pressed && !m_place_pressed && !m_real_place_button) {
 		emitMouseEvent(EMIE_RMOUSE_PRESSED_DOWN);
 		m_place_pressed = true;
 
-	} else if (!target_place_pressed && m_place_pressed) {
+	} else if (!target_place_pressed && m_place_pressed && !m_real_place_button) {
 		emitMouseEvent(EMIE_RMOUSE_LEFT_UP);
 		m_place_pressed = false;
 	}

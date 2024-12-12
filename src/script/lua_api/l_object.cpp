@@ -13,6 +13,7 @@
 #include "common/c_content.h"
 #include "log.h"
 #include "player.h"
+#include "quaternion.h"
 #include "server/serveractiveobject.h"
 #include "tool.h"
 #include "remoteplayer.h"
@@ -1252,6 +1253,32 @@ int ObjectRef::l_get_look_dir(lua_State *L)
 		std::sin(yaw));
 
 	push_v3f(L, v);
+	return 1;
+}
+
+// get_point_dir(self)
+int ObjectRef::l_get_point_dir(lua_State *L)
+{
+	NO_MAP_LOCK_REQUIRED;
+	ObjectRef *ref = checkObject<ObjectRef>(L, 1);
+	PlayerSAO* playersao = getplayersao(ref);
+	if (playersao == nullptr)
+		return 0;
+
+	// "-1 * yaw" because that's how the yaw value is applied to the camera,
+	// no idea why it was chosen to be like that.
+	core::quaternion look_rot(v3f(playersao->getRadLookPitch(),
+			-1.0f * playersao->getRadRotation().Y, 0.0f));
+	core::matrix4 mat;
+	look_rot.getMatrixFast(mat);
+
+	RemotePlayer *player = playersao->getPlayer();
+	v3f point_rot_rel = v3f(player->point_pitch, player->point_yaw, 0.0f);
+
+	const v3f point_dir_rel = point_rot_rel.rotationToDirection();
+	v3f point_dir = mat.transformVect(point_dir_rel);
+
+	push_v3f(L, point_dir);
 	return 1;
 }
 
@@ -2840,6 +2867,7 @@ luaL_Reg ObjectRef::methods[] = {
 	luamethod(ObjectRef, is_player),
 	luamethod(ObjectRef, get_player_name),
 	luamethod(ObjectRef, get_look_dir),
+	luamethod(ObjectRef, get_point_dir),
 	luamethod(ObjectRef, get_look_pitch),
 	luamethod(ObjectRef, get_look_yaw),
 	luamethod(ObjectRef, get_look_vertical),

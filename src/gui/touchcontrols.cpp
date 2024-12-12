@@ -533,7 +533,6 @@ void TouchControls::translateEvent(const SEvent &event)
 				m_move_pos                 = touch_pos;
 				// DON'T reset m_tap_state here, otherwise many short taps
 				// will be ignored if you tap very fast.
-				m_had_move_id              = true;
 				m_move_prevent_short_tap   = prevent_short_tap;
 			}
 		}
@@ -655,20 +654,14 @@ void TouchControls::step(float dtime)
 	}
 
 	// Update the shootline.
-	// Since not only the pointer position, but also the player position and
-	// thus the camera position can change, it doesn't suffice to update the
-	// shootline when a touch event occurs.
+	// Always update, even if !m_has_move_id, to keep the "point direction" accurate.
 	// Note that the shootline isn't used if touch_use_crosshair is enabled.
-	// Only updating when m_has_move_id means that the shootline will stay at
-	// it's last in-world position when the player doesn't need it.
-	if (!m_draw_crosshair && (m_has_move_id || m_had_move_id)) {
-		v2s32 pointer_pos = getPointerPos();
+	if (!m_draw_crosshair) {
 		m_shootline = m_device
 				->getSceneManager()
 				->getSceneCollisionManager()
-				->getRayFromScreenCoordinates(pointer_pos);
+				->getRayFromScreenCoordinates(m_move_pos);
 	}
-	m_had_move_id = false;
 }
 
 void TouchControls::resetHotbarRects()

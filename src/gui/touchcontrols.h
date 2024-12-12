@@ -103,6 +103,8 @@ public:
 	 * the player can reach.
 	 * The line starts at the camera and ends on the camera's far plane.
 	 * The coordinates do not contain the camera offset.
+	 *
+	 * May only be used if crosshair is disabled (see setUseCrosshair)
 	 */
 	line3d<f32> getShootline() { return m_shootline; }
 
@@ -157,9 +159,6 @@ private:
 	u64 m_move_downtime = 0;
 	// m_move_pos stays valid even after m_move_id has been released.
 	v2s32 m_move_pos;
-	// This is needed so that we don't miss if m_has_move_id is true for less
-	// than one client step, i.e. press and release happen in the same step.
-	bool m_had_move_id = false;
 	bool m_move_prevent_short_tap = false;
 
 	bool m_has_joystick_id = false;

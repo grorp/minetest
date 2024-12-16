@@ -53,11 +53,6 @@ android {
 		targetCompatibility JavaVersion.VERSION_1_8
 	}
 	namespace 'net.minetest.minetest'
-    buildTypes {
-        release {
-            signingConfig signingConfigs.debug
-        }
-    }
 }
 
 task prepareAssets() {

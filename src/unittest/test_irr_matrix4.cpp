@@ -9,15 +9,14 @@
 
 using matrix4 = core::matrix4;
 
-constexpr f32 tolerance = 0.00001f; // slightly higher tolerance than usual
-
 static bool vec_equals(const v3f &a, const v3f &b) {
-    return core::equals(a.X, b.X, tolerance) && core::equals(a.Y, b.Y, tolerance) &&
-            core::equals(a.Z, b.Z, tolerance);
+    // more tolerance than usual
+    return core::equals(a.X, b.X, 0.0001f) && core::equals(a.Y, b.Y, 0.0001f) &&
+            core::equals(a.Z, b.Z, 0.0001f);
 }
 
 static bool matrix_equals(const matrix4 &a, const matrix4 &b) {
-    return a.equals(b, tolerance);
+    return a.equals(b, 0.00001f);
 }
 
 constexpr v3f x{1, 0, 0};
@@ -76,8 +75,10 @@ SECTION("setRotationRadians") {
 }
 
 SECTION("setInverseRotationRadians") {
-    const v3f vec(-55, 12, 0.5);
-    const v3f rot{1, 2, 3};
+    const std::vector<f32> floats = GENERATE(take(100,
+            chunk(6, random(-100.0f, 100.0f))));
+    const v3f vec{floats[0], floats[1], floats[2]};
+    const v3f rot{floats[3], floats[4], floats[5]};
 
     // rotation matrix constructed from Euler angles directly is equal to
     // rotation matrix constructed from quaternion

@@ -1265,18 +1265,17 @@ int ObjectRef::l_get_point_dir(lua_State *L)
 	if (playersao == nullptr)
 		return 0;
 
+	RemotePlayer *player = playersao->getPlayer();
+	const v3f point_rot_rel = v3f(player->point_pitch, player->point_yaw, 0.0f);
+	const v3f point_dir_rel = point_rot_rel.rotationToDirection();
+
 	// "-1 * yaw" because that's how the yaw value is applied to the camera,
 	// no idea why it was chosen to be like that.
-	core::quaternion look_rot(v3f(playersao->getRadLookPitch(),
+	core::matrix4 look_rot_mat;
+	look_rot_mat.setRotationRadians(v3f(playersao->getRadLookPitch(),
 			-1.0f * playersao->getRadRotation().Y, 0.0f));
-	core::matrix4 mat;
-	look_rot.getMatrixFast(mat);
 
-	RemotePlayer *player = playersao->getPlayer();
-	v3f point_rot_rel = v3f(player->point_pitch, player->point_yaw, 0.0f);
-
-	const v3f point_dir_rel = point_rot_rel.rotationToDirection();
-	v3f point_dir = mat.transformVect(point_dir_rel);
+	v3f point_dir = look_rot_mat.transformVect(point_dir_rel);
 
 	push_v3f(L, point_dir);
 	return 1;

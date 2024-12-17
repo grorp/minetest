@@ -2712,18 +2712,16 @@ void Game::updatePointDir(const CameraOrientation &cam)
 	LocalPlayer *player = client->getEnv().getLocalPlayer();
 
 	if (g_touchcontrols && isTouchCrosshairDisabled()) {
+		const v3f point_dir = g_touchcontrols->getShootline().getVector().normalize();
+
 		// "-1 * yaw" because that's how the yaw value is applied to the camera,
 		// no idea why it was chosen to be like that.
-		core::quaternion look_rot_inv(v3f(cam.camera_pitch * DEGTORAD,
+		core::matrix4 look_rot_inv_mat;
+		look_rot_inv_mat.setInverseRotationRadians(v3f(cam.camera_pitch * DEGTORAD,
 				-1.0f * cam.camera_yaw * DEGTORAD, 0.0f));
-		look_rot_inv.makeInverse();
-		core::matrix4 mat;
-		look_rot_inv.getMatrixFast(mat);
 
-		const v3f point_dir = g_touchcontrols->getShootline().getVector().normalize();
 		// Point direction relative to look direction
-		v3f point_dir_rel = mat.transformVect(point_dir);
-
+		v3f point_dir_rel = look_rot_inv_mat.transformVect(point_dir);
 		// Point direction relative to look direction, represented as pitch/yaw values
 		// Roll (Z) is always 0
 		v3f point_rot_rel = point_dir_rel.getHorizontalAngle();

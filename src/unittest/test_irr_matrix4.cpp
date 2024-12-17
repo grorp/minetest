@@ -5,11 +5,19 @@
 #include "irrMath.h"
 #include "matrix4.h"
 #include "irr_v3d.h"
+#include "quaternion.h"
 
 using matrix4 = core::matrix4;
 
+constexpr f32 tolerance = 0.00001f; // slightly higher tolerance than usual
+
+static bool vec_equals(const v3f &a, const v3f &b) {
+    return core::equals(a.X, b.X, tolerance) && core::equals(a.Y, b.Y, tolerance) &&
+            core::equals(a.Z, b.Z, tolerance);
+}
+
 static bool matrix_equals(const matrix4 &a, const matrix4 &b) {
-    return a.equals(b, 0.00001f);
+    return a.equals(b, tolerance);
 }
 
 constexpr v3f x{1, 0, 0};
@@ -64,6 +72,40 @@ SECTION("setRotationRadians") {
             CHECK(Z.transformVect(y).equals(-x));
         }
     }
+
+}
+
+SECTION("setInverseRotationRadians") {
+    const v3f vec(-55, 12, 0.5);
+    const v3f rot{1, 2, 3};
+
+    // rotation matrix constructed from Euler angles directly is equal to
+    // rotation matrix constructed from quaternion
+
+    core::matrix4 rot_mat;
+    rot_mat.setRotationRadians(rot);
+
+    core::quaternion rot_quat(rot);
+    core::matrix4 rot_quat_mat;
+    rot_quat.getMatrixFast(rot_quat_mat);
+
+    CHECK(matrix_equals(rot_mat, rot_quat_mat));
+
+    // inverse rotation matrix constructed from Euler angles directly is equal
+    // to rotation matrix constructed from inverse quaternion
+
+    core::matrix4 inv_rot_mat;
+    inv_rot_mat.setInverseRotationRadians(rot);
+
+    core::quaternion inv_rot_quat(rot);
+    inv_rot_quat.makeInverse();
+    core::matrix4 inv_rot_quat_mat;
+    inv_rot_quat.getMatrixFast(inv_rot_quat_mat);
+
+    CHECK(matrix_equals(inv_rot_mat, inv_rot_quat_mat));
+
+    // inverse rotation works correctly (cancels out rotation)
+    CHECK(vec_equals(vec, inv_rot_mat.transformVect(rot_mat.transformVect(vec))));
 }
 
 }

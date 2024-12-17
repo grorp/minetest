@@ -2721,10 +2721,10 @@ void Game::updatePointDir(const CameraOrientation &cam)
 				-1.0f * cam.camera_yaw * DEGTORAD, 0.0f));
 
 		// Point direction relative to look direction
-		v3f point_dir_rel = look_rot_inv_mat.transformVect(point_dir);
+		const v3f point_dir_rel = look_rot_inv_mat.transformVect(point_dir);
 		// Point direction relative to look direction, represented as pitch/yaw values
 		// Roll (Z) is always 0
-		v3f point_rot_rel = point_dir_rel.getHorizontalAngle();
+		const v3f point_rot_rel = point_dir_rel.getHorizontalAngle();
 
 		player->point_pitch = point_rot_rel.X;
 		player->point_yaw = point_rot_rel.Y;

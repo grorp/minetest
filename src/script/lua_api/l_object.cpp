@@ -1275,7 +1275,7 @@ int ObjectRef::l_get_point_dir(lua_State *L)
 	look_rot_mat.setRotationRadians(v3f(playersao->getRadLookPitch(),
 			-1.0f * playersao->getRadRotation().Y, 0.0f));
 
-	v3f point_dir = look_rot_mat.transformVect(point_dir_rel);
+	const v3f point_dir = look_rot_mat.transformVect(point_dir_rel);
 
 	push_v3f(L, point_dir);
 	return 1;

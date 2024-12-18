@@ -43,3 +43,37 @@ dofile(gamepath .. "death_screen.lua")
 core.after(0, builtin_shared.cache_content_ids)
 
 profiler = nil
+
+
+local function clean_vec_print(v)
+	return string.format("%.3f, %.3f, %.3f", v.x, v.y, v.z)
+end
+
+function haha()
+	for _, p in ipairs(core.get_connected_players()) do
+		p:set_look_horizontal(math.random() * math.pi * 4)
+		p:set_look_vertical(math.random() * math.pi - math.pi/2)
+
+		-- Basically the usefulness of storing the point dir relative to the
+		-- look dir is this:
+		-- > When the server sets the look dir, the server knows the correct new point dir,
+		-- > even before the network round-trip to the client
+		-- or
+		-- > The two values printed below are equal
+		-- > (assuming no look dir / point dir changes happen on the client in the meantime)
+
+		-- This works both on desktop (or with touch_use_crosshair = true) and with
+		-- touch_use_crosshair = false.
+		-- To use this test code with touch_use_crosshair = false, just put your
+		-- finger anywhere on the screen.
+
+		core.log("error", "server-side point dir = " .. clean_vec_print(p:get_point_dir()) .. " (before round-trip)")
+		core.after(0.5, function()
+			core.log("error", "server-side point dir = " .. clean_vec_print(p:get_point_dir()) .. " (after round-trip)")
+		end)
+	end
+
+	core.after(2, haha)
+end
+
+core.after(2, haha)

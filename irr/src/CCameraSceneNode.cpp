@@ -255,7 +255,7 @@ const SViewFrustum *CCameraSceneNode::getViewFrustum() const
 SViewFrustum CCameraSceneNode::getViewFrustumRel() const
 {
 	SViewFrustum rel;
-	rel.cameraPosition = core::vector3df(0, 0, 0);
+	rel.cameraPosition = core::vector3df(0.0f, 0.0f, 0.0f);
 	rel.setFarNearDistance(ZFar - ZNear);
 	rel.setFrom(ViewArea.getTransform(video::ETS_PROJECTION), false);
 	return rel;

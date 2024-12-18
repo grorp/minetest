@@ -652,16 +652,22 @@ void TouchControls::step(float dtime)
 			m_tap_state = TapState::LongTap;
 		}
 	}
+}
 
-	// Update the shootline.
-	// Always update, even if !m_has_move_id, to keep the "point direction" accurate.
-	// Note that the shootline isn't used if touch_use_crosshair is enabled.
-	if (!m_draw_crosshair) {
-		m_shootline = m_device
-				->getSceneManager()
-				->getSceneCollisionManager()
-				->getRayFromScreenCoordinates(m_move_pos);
-	}
+line3d<f32> TouchControls::getShootline()
+{
+	return m_device
+		->getSceneManager()
+		->getSceneCollisionManager()
+		->getRayFromScreenCoordinates(m_move_pos, nullptr, false);
+}
+
+line3d<f32> TouchControls::getShootlineRel()
+{
+	return m_device
+		->getSceneManager()
+		->getSceneCollisionManager()
+		->getRayFromScreenCoordinates(m_move_pos, nullptr, true);
 }
 
 void TouchControls::resetHotbarRects()

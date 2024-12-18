@@ -188,7 +188,7 @@ public:
 	PlayerControl control;
 	const PlayerControl& getPlayerControl() { return control; }
 
-	// point direction, represented as pitch/yaw in radians, relative to look direction
+	// point direction, represented as pitch/yaw in degrees, relative to look direction
 	f32 point_pitch = 0.0f;
 	f32 point_yaw = 0.0f;
 

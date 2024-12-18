@@ -2714,7 +2714,7 @@ void Game::updatePointDir(const CameraOrientation &cam)
 	if (g_touchcontrols && isTouchCrosshairDisabled()) {
 		const v3f point_dir_rel = g_touchcontrols->getShootlineRel().getVector().normalize();
 
-		// Point direction relative to look direction, represented as pitch/yaw values
+		// getHorizontalAngle is Irrlicht's "direction to rotation" function
 		// Roll (Z) is always 0
 		const v3f point_rot_rel = point_dir_rel.getHorizontalAngle();
 

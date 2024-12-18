@@ -13,7 +13,6 @@
 #include "common/c_content.h"
 #include "log.h"
 #include "player.h"
-#include "quaternion.h"
 #include "server/serveractiveobject.h"
 #include "tool.h"
 #include "remoteplayer.h"

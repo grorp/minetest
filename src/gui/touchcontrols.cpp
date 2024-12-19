@@ -659,15 +659,7 @@ line3d<f32> TouchControls::getShootline()
 	return m_device
 			->getSceneManager()
 			->getSceneCollisionManager()
-			->getRayFromScreenCoordinates(m_move_pos, nullptr, false);
-}
-
-line3d<f32> TouchControls::getShootlineRel()
-{
-	return m_device
-			->getSceneManager()
-			->getSceneCollisionManager()
-			->getRayFromScreenCoordinates(m_move_pos, nullptr, true);
+			->getRayFromScreenCoordinates(m_move_pos);
 }
 
 void TouchControls::resetHotbarRects()

@@ -476,10 +476,10 @@ void Server::process_PlayerPos(RemotePlayer *player, PlayerSAO *playersao,
 	}
 
 	if (pkt->getRemainingBytes() >= 8) {
-		*pkt >> player->point_pitch >> player->point_yaw;
+		*pkt >> player->pointer_pos;
 	} else {
-		player->point_pitch = 0.0f;
-		player->point_yaw = 0.0f;
+		player->pointer_pos.X = 0.5f;
+		player->pointer_pos.Y = 0.5f;
 	}
 
 	v3f position((f32)ps.X / 100.0f, (f32)ps.Y / 100.0f, (f32)ps.Z / 100.0f);

@@ -107,12 +107,11 @@ public:
 	 * May only be used if crosshair is disabled (see setUseCrosshair)
 	 */
 	line3d<f32> getShootline();
+
 	/**
-	 * Returns the same as above, but only taking projection matrix into account,
-	 * not view matrix, which means that the resulting shootline is relative to
-	 * the camera position/rotation.
+	 * Returns the pointer position in screen-space.
 	 */
-	line3d<f32> getShootlineRel();
+	v2s32 getPointerPos();
 
 	float getJoystickDirection() { return m_joystick_direction; }
 	float getJoystickSpeed() { return m_joystick_speed; }
@@ -215,7 +214,6 @@ private:
 	// map to store the IDs and positions of currently pressed pointers
 	std::unordered_map<size_t, v2s32> m_pointer_pos;
 
-	v2s32 getPointerPos();
 	void emitMouseEvent(EMOUSE_INPUT_EVENT type);
 	TouchInteractionMode m_last_mode = TouchInteractionMode_END;
 	TapState m_tap_state = TapState::None;

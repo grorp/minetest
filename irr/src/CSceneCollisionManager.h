@@ -13,6 +13,9 @@ namespace irr
 namespace scene
 {
 
+core::line3d<f32> getRayFromScreenCoordinates(
+		const core::vector2df &pos, const SViewFrustum *f, bool orthogonal);
+
 class CSceneCollisionManager : public ISceneCollisionManager
 {
 public:
@@ -24,8 +27,7 @@ public:
 
 	//! Returns a 3d ray which would go through the 2d screen coordinates.
 	virtual core::line3d<f32> getRayFromScreenCoordinates(
-			const core::position2d<s32> &pos, const ICameraSceneNode *camera = 0,
-			bool relative = false) override;
+			const core::position2d<s32> &pos, const ICameraSceneNode *camera = 0) override;
 
 private:
 	ISceneManager *SceneManager;

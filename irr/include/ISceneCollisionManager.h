@@ -14,6 +14,10 @@ namespace irr
 namespace scene
 {
 class ICameraSceneNode;
+struct SViewFrustum;
+
+core::line3d<f32> getRayFromScreenCoordinates(
+		const core::vector2df &pos, const SViewFrustum *f, bool orthogonal);
 
 class ISceneCollisionManager : public virtual IReferenceCounted
 {
@@ -26,8 +30,7 @@ public:
 	at a length of the far value of the camera at a position which
 	would be behind the 2d screen coordinates. */
 	virtual core::line3d<f32> getRayFromScreenCoordinates(
-			const core::position2d<s32> &pos, const ICameraSceneNode *camera = 0,
-			bool relative = false) = 0;
+			const core::position2d<s32> &pos, const ICameraSceneNode *camera = 0) = 0;
 };
 
 } // end namespace scene

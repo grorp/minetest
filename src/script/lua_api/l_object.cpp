@@ -5,6 +5,8 @@
 #include "lua_api/l_object.h"
 #include <cmath>
 #include <lua.h>
+#include "ISceneCollisionManager.h"
+#include "clientdynamicinfo.h"
 #include "lua_api/l_internal.h"
 #include "lua_api/l_inventory.h"
 #include "lua_api/l_item.h"
@@ -12,6 +14,7 @@
 #include "common/c_converter.h"
 #include "common/c_content.h"
 #include "log.h"
+#include "matrix4.h"
 #include "player.h"
 #include "server/serveractiveobject.h"
 #include "tool.h"
@@ -24,6 +27,7 @@
 #include "server/serverinventorymgr.h"
 #include "server/unit_sao.h"
 #include "util/string.h"
+#include "SViewFrustum.h"
 
 using object_t = ServerActiveObject::object_t;
 
@@ -1265,18 +1269,43 @@ int ObjectRef::l_get_point_dir(lua_State *L)
 		return 0;
 
 	RemotePlayer *player = playersao->getPlayer();
-	const v3f point_rot_rel = v3f(player->point_pitch, player->point_yaw, 0.0f);
-	const v3f point_dir_rel = point_rot_rel.rotationToDirection();
+
+	// Reproduce what the client does.
+	// Note: We only care about camera rotation, not position, since we only
+	// want a direction value in the end.
 
 	// "-1 * yaw" because that's how the yaw value is applied to the camera,
 	// no idea why it was chosen to be like that.
-	core::matrix4 look_rot_mat;
-	look_rot_mat.setRotationRadians(v3f(playersao->getRadLookPitch(),
+	core::matrix4 view_matrix;
+	view_matrix.setInverseRotationRadians(v3f(playersao->getRadLookPitch(),
 			-1.0f * playersao->getRadRotation().Y, 0.0f));
 
-	const v3f point_dir = look_rot_mat.transformVect(point_dir_rel);
+	const ClientDynamicInfo *dyn = getServer(L)->getClientDynamicInfo(
+			player->getPeerId());
+	f32 aspect = dyn->render_target_size.X / dyn->render_target_size.Y;
 
-	push_v3f(L, point_dir);
+	// FOV sent by the client is the maximum of vertical and horizontal FOV,
+	// but we always need the vertical FOV.
+	f32 fov = playersao->getFov();
+	if (aspect > 1.0f)
+		fov = 2.0f * std::atan(std::tan(0.5f * fov) / aspect);
+
+	core::matrix4 projection_matrix;
+	projection_matrix.buildProjectionMatrixPerspectiveFovLH(
+		fov, aspect, 0.1f, 100.1f);
+
+	core::matrix4 final_matrix(core::matrix4::EM4CONST_NOTHING);
+	final_matrix.setbyproduct_nocheck(projection_matrix, view_matrix);
+
+	scene::SViewFrustum frustum;
+	frustum.cameraPosition = core::vector3df(0.0f, 0.0f, 0.0f);
+	frustum.setFarNearDistance(100.0f);
+	frustum.setFrom(final_matrix, false);
+
+	core::line3d<f32> line = scene::getRayFromScreenCoordinates(
+			player->pointer_pos, &frustum, false);
+
+	push_v3f(L, line.getVector().normalize());
 	return 1;
 }
 

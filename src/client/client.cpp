@@ -1030,8 +1030,7 @@ void writePlayerPos(LocalPlayer *myplayer, ClientMap *clientMap, NetworkPacket *
 			std::ceil(clientMap->getWantedRange() * (1.0f / MAP_BLOCKSIZE)));
 	f32 movement_speed = myplayer->control.movement_speed;
 	f32 movement_dir = myplayer->control.movement_direction;
-	f32 point_pitch = myplayer->point_pitch;
-	f32 point_yaw = myplayer->point_yaw;
+	v2f pointer_pos = myplayer->pointer_pos;
 
 	v3s32 position(pf.X, pf.Y, pf.Z);
 	v3s32 speed(sf.X, sf.Y, sf.Z);
@@ -1055,7 +1054,7 @@ void writePlayerPos(LocalPlayer *myplayer, ClientMap *clientMap, NetworkPacket *
 	*pkt << fov << wanted_range;
 	*pkt << camera_inverted;
 	*pkt << movement_speed << movement_dir;
-	*pkt << point_pitch << point_yaw;
+	*pkt << pointer_pos;
 }
 
 void Client::interact(InteractAction action, const PointedThing& pointed)
@@ -1391,6 +1390,7 @@ void Client::sendPlayerPos()
 	bool camera_inverted = m_camera->getCameraMode() == CAMERA_MODE_THIRD_FRONT;
 	f32 movement_speed = player->control.movement_speed;
 	f32 movement_dir = player->control.movement_direction;
+	v2f pointer_pos = player->pointer_pos;
 
 	if (
 			player->last_position        == player->getPosition() &&
@@ -1403,8 +1403,7 @@ void Client::sendPlayerPos()
 			player->last_wanted_range    == wanted_range          &&
 			player->last_movement_speed  == movement_speed        &&
 			player->last_movement_dir    == movement_dir          &&
-			player->last_point_pitch     == player->point_pitch   &&
-			player->last_point_yaw       == player->point_yaw)
+			player->last_pointer_pos     == pointer_pos)
 		return;
 
 	player->last_position        = player->getPosition();
@@ -1417,8 +1416,7 @@ void Client::sendPlayerPos()
 	player->last_wanted_range    = wanted_range;
 	player->last_movement_speed  = movement_speed;
 	player->last_movement_dir    = movement_dir;
-	player->last_point_pitch     = player->point_pitch;
-	player->last_point_yaw       = player->point_yaw;
+	player->last_pointer_pos = pointer_pos;
 
 	NetworkPacket pkt(TOSERVER_PLAYERPOS, 12 + 12 + 4 + 4 + 4 + 1 + 1 + 1 + 4 + 4 + 4 + 4);
 

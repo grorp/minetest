@@ -228,13 +228,26 @@ void GameFormSpec::showFormSpec(const std::string &formspec, const std::string &
 	}
 }
 
-void GameFormSpec::showLocalFormSpec(const std::string &formspec, const std::string &formname)
+void GameFormSpec::showCSMFormSpec(const std::string &formspec, const std::string &formname)
 {
 	FormspecFormSource *fs_src = new FormspecFormSource(formspec);
 	LocalFormspecHandler *txt_dst =
-		new LocalFormspecHandler(formname, m_client, m_pause_script.get());
+		new LocalFormspecHandler(formname, m_client, nullptr);
 	GUIFormSpecMenu::create(m_formspec, m_client, m_rendering_engine->get_gui_env(),
 			&m_input->joystick, fs_src, txt_dst, m_client->getFormspecPrepend(),
+			m_client->getSoundManager());
+}
+
+void GameFormSpec::showPauseMenuFormSpec(const std::string &formspec, const std::string &formname)
+{
+	// Neither CSM nor the server must be allowed to mess with the settings formspec,
+	// it's a trusted context like the mainmenu.
+	FormspecFormSource *fs_src = new FormspecFormSource(formspec);
+	LocalFormspecHandler *txt_dst =
+		new LocalFormspecHandler(formname, nullptr, m_pause_script.get());
+	GUIFormSpecMenu::create(m_formspec, m_client, m_rendering_engine->get_gui_env(),
+			// Ignore formspec prepend.
+			&m_input->joystick, fs_src, txt_dst, "",
 			m_client->getSoundManager());
 }
 
@@ -417,7 +430,7 @@ void GameFormSpec::showDeathFormspecLegacy()
 	/* Note: FormspecFormSource and LocalFormspecHandler  *
 	 * are deleted by guiFormSpecMenu                     */
 	FormspecFormSource *fs_src = new FormspecFormSource(formspec_str);
-	LocalFormspecHandler *txt_dst = new LocalFormspecHandler("MT_DEATH_SCREEN", m_client, m_pause_script.get());
+	LocalFormspecHandler *txt_dst = new LocalFormspecHandler("MT_DEATH_SCREEN", m_client, nullptr);
 
 	GUIFormSpecMenu::create(m_formspec, m_client, m_rendering_engine->get_gui_env(),
 		&m_input->joystick, fs_src, txt_dst, m_client->getFormspecPrepend(),

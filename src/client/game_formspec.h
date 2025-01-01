@@ -36,7 +36,8 @@ struct GameFormSpec
 	~GameFormSpec();
 
 	void showFormSpec(const std::string &formspec, const std::string &formname);
-	void showLocalFormSpec(const std::string &formspec, const std::string &formname);
+	void showCSMFormSpec(const std::string &formspec, const std::string &formname);
+	void showPauseMenuFormSpec(const std::string &formspec, const std::string &formname);
 	void showNodeFormspec(const std::string &formspec, const v3s16 &nodepos);
 	void showPlayerInventory();
 	void showDeathFormspecLegacy();

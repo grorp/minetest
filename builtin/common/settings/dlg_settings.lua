@@ -671,7 +671,8 @@ local function buttonhandler(this, fields)
 	dialogdata.rightscroll = core.explode_scrollbar_event(fields.rightscroll).value or dialogdata.rightscroll
 	dialogdata.query = fields.search_query
 
-	if fields.back then
+	-- "quit" is for the pause menu env
+	if fields.back or fields.quit then
 		this:delete()
 		return true
 	end
@@ -782,14 +783,21 @@ else
 
 	core.register_on_formspec_input(function(formname, fields)
 		if dialog and formname == "__builtin:settings" then
-			-- dialog is re-checked since the buttonhandler may have closed it
+			-- buttonhandler returning true means we should update the formspec.
+			-- dialog is re-checked since the buttonhandler may have closed it.
 			if buttonhandler(dialog, fields) and dialog then
 				core.show_formspec("__builtin:settings", get_formspec(dialog.data))
 			end
+			return true
 		end
 	end)
 
 	core.open_settings = function()
+		-- this assert is here to make sure we catch all cases of closing the dialog.
+		-- this is also a little additional protection against processing input
+		-- we shouldn't process (e.g. coming from server-sent formspecs).
+		assert(not dialog)
+
 		load()
 		dialog = {}
 		dialog.data = {}

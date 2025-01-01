@@ -6,6 +6,7 @@
 
 #include "client/client.h"
 #include "client/clientevent.h"
+#include "cpp_api/s_base.h"
 #include "lua_api/l_internal.h"
 
 // show_formspec(formspec)
@@ -15,7 +16,9 @@ int ModApiClientCommon::l_show_formspec(lua_State *L)
 		return 0;
 
 	ClientEvent *event = new ClientEvent();
-	event->type = CE_SHOW_LOCAL_FORMSPEC;
+	event->type = getScriptApiBase(L)->getType() == ScriptingType::PauseMenu
+			? CE_SHOW_PAUSE_MENU_FORMSPEC
+			: CE_SHOW_CSM_FORMSPEC;
 	event->show_formspec.formname = new std::string(luaL_checkstring(L, 1));
 	event->show_formspec.formspec = new std::string(luaL_checkstring(L, 2));
 	getClient(L)->pushToEventQueue(event);

@@ -50,6 +50,18 @@ void PauseMenuScripting::initializeModApi(lua_State *L, int top)
 
 void PauseMenuScripting::loadBuiltin()
 {
-	loadScript(porting::path_share + DIR_DELIM + "builtin" + DIR_DELIM + "init.lua");
+	loadScript(porting::path_share + DIR_DELIM "builtin" DIR_DELIM "init.lua");
 	checkSetByBuiltin();
+}
+
+bool PauseMenuScripting::checkPathInternal(const std::string &abs_path, bool write_required,
+		bool *write_allowed)
+{
+	// NOTE: The pause menu env is on the same level of trust as the mainmenu env.
+	// However, since it doesn't need anything else at the moment, there's no
+	// reason to give it access to anything else.
+
+	std::string path_share = fs::AbsolutePathPartial(porting::path_share);
+	return !write_required &&
+			fs::PathStartsWith(abs_path, path_share + DIR_DELIM "builtin");
 }

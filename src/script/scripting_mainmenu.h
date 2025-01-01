@@ -40,8 +40,7 @@ public:
 
 protected:
 	bool checkPathInternal(const std::string &abs_path, bool write_required,
-			bool *write_allowed) override
-	{
+		bool *write_allowed) override {
 		return checkPathAccess(abs_path, write_required, write_allowed);
 	}
 

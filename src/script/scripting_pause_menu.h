@@ -8,7 +8,6 @@
 #include "cpp_api/s_client_common.h"
 #include "cpp_api/s_pause_menu.h"
 #include "cpp_api/s_security.h"
-#include "scripting_mainmenu.h"
 
 class PauseMenuScripting:
 		virtual public ScriptApiBase,
@@ -22,10 +21,7 @@ public:
 
 protected:
 	bool checkPathInternal(const std::string &abs_path, bool write_required,
-			bool *write_allowed) override
-	{
-		return MainMenuScripting::checkPathAccess(abs_path, write_required, write_allowed);
-	}
+			bool *write_allowed) override;
 
 private:
 	void initializeModApi(lua_State *L, int top);

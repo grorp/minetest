@@ -794,11 +794,6 @@ else
 	end)
 
 	core.open_settings = function()
-		-- this assert is here to make sure we catch all cases of closing the dialog.
-		-- this is also a little additional protection against processing input
-		-- we shouldn't process (e.g. coming from server-sent formspecs).
-		assert(not dialog)
-
 		load()
 		dialog = {}
 		dialog.data = {}

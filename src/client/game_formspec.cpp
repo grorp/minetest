@@ -86,6 +86,11 @@ struct LocalFormspecHandler : public TextDest
 	void gotText(const StringMap &fields)
 	{
 		if (m_formname == "MT_PAUSE_MENU") {
+			if (fields.find("btn_settings") != fields.end()) {
+				g_gamecallback->openSettings();
+				return;
+			}
+
 			if (fields.find("btn_sound") != fields.end()) {
 				g_gamecallback->changeVolume();
 				return;
@@ -331,6 +336,9 @@ void GameFormSpec::showPauseMenu()
 		os << "field[4.95,0;5,1.5;;" << strgettext("Game paused") << ";]";
 	}
 
+	os	<< "button_exit[4," << (ypos++) << ";3,0.5;btn_settings;"
+		<< strgettext("Settings") << "]";
+
 #ifndef __ANDROID__
 #if USE_SOUND
 	if (g_settings->getBool("enable_sound")) {
@@ -472,6 +480,11 @@ bool GameFormSpec::handleCallbacks()
 	if (g_gamecallback->disconnect_requested) {
 		g_gamecallback->disconnect_requested = false;
 		return false;
+	}
+
+	if (g_gamecallback->settings_requested) {
+		m_pause_script->open_settings();
+		g_gamecallback->settings_requested = false;
 	}
 
 	if (g_gamecallback->changepassword_requested) {

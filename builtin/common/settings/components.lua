@@ -253,8 +253,9 @@ end
 
 if PLATFORM == "Android" or INIT == "pause_menu" then
 	-- The Irrlicht file picker doesn't work on Android.
-	-- Access to the Irrlicht file picker isn't implemented in the pause menu
-	-- since we want to delete it anyway, so any time spent on it would be wasted.
+	-- Access to the Irrlicht file picker isn't implemented in the pause menu.
+	-- We want to delete the Irrlicht file picker anyway, so any time spent on
+	-- that would be wasted.
 	make.path = make.string
 	make.filepath = make.string
 else

@@ -430,8 +430,22 @@ local function make_noise_params(setting)
 	}
 end
 
-make.noise_params_2d = make_noise_params
-make.noise_params_3d = make_noise_params
+if INIT == "pause_menu" then
+	-- Making the noise parameter dialog work in the pause menu settings would
+	-- require porting "FSTK" (at least the dialog API) from the mainmenu formspec
+	-- API to the in-game formspec API.
+	-- There's no reason you'd want to adjust mapgen noise parameter settings
+	-- in-game (they only apply to new worlds), so there's no reason to implement
+	-- this.
+	local empty = function()
+		return { get_formspec = function() return "", 0 end }
+	end
+	make.noise_params_2d = empty
+	make.noise_params_3d = empty
+else
+	make.noise_params_2d = make_noise_params
+	make.noise_params_3d = make_noise_params
+end
 
 
 return make

@@ -765,16 +765,19 @@ local function eventhandler(event)
 end
 
 
-function create_settings_dlg()
-	load()
-	local dlg = dialog_create("dlg_settings", get_formspec, buttonhandler, eventhandler)
+if INIT == "mainmenu" then
+	function create_settings_dlg()
+		load()
+		local dlg = dialog_create("dlg_settings", get_formspec, buttonhandler, eventhandler)
 
-	dlg.data.page_id = update_filtered_pages("")
+		dlg.data.page_id = update_filtered_pages("")
 
-	return dlg
-end
+		return dlg
+	end
 
-if INIT == "pause_menu" then
+else
+	assert(INIT == "pause_menu")
+
 	local dialog
 
 	core.register_on_formspec_input(function(formname, fields)
@@ -790,7 +793,7 @@ if INIT == "pause_menu" then
 		load()
 		dialog = {}
 		dialog.data = {}
-		dialog.page_id = update_filtered_pages("")
+		dialog.data.page_id = update_filtered_pages("")
 		dialog.delete = function()
 			dialog = nil
 		end

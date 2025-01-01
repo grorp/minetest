@@ -98,6 +98,7 @@ local function make_field(converter, validator, stringifier)
 				local fs = ("field[0,0.3;%f,0.8;%s;%s;%s]"):format(
 					avail_w - 1.5, setting.name, get_label(setting), core.formspec_escape(value))
 				fs = fs .. ("field_enter_after_edit[%s;true]"):format(setting.name)
+				fs = fs .. ("field_close_on_enter[%s;false]"):format(setting.name) -- for pause menu env
 				fs = fs .. ("button[%f,0.3;1.5,0.8;%s;%s]"):format(avail_w - 1.5, "set_" .. setting.name, fgettext("Set"))
 
 				return fs, 1.1
@@ -217,6 +218,7 @@ local function make_path(setting)
 
 			local fs = ("field[0,0.3;%f,0.8;%s;%s;%s]"):format(
 				avail_w - 3, setting.name, get_label(setting), core.formspec_escape(value))
+			fs = fs .. ("field_close_on_enter[%s;false]"):format(setting.name) -- for pause menu env
 			fs = fs .. ("button[%f,0.3;1.5,0.8;%s;%s]"):format(avail_w - 3, "pick_" .. setting.name, fgettext("Browse"))
 			fs = fs .. ("button[%f,0.3;1.5,0.8;%s;%s]"):format(avail_w - 1.5, "set_" .. setting.name, fgettext("Set"))
 
@@ -283,6 +285,11 @@ function make.v3f(setting)
 				field_width + 0.25, field_width, setting.name .. "_y", "Y", value.y)
 			fs = fs .. ("field[%f,0.6;%f,0.8;%s;%s;%s]"):format(
 				2 * (field_width + 0.25), field_width, setting.name .. "_z", "Z", value.z)
+
+			-- for pause menu env
+			fs = fs .. ("field_close_on_enter[%s;false]"):format(setting.name .. "_x")
+			fs = fs .. ("field_close_on_enter[%s;false]"):format(setting.name .. "_y")
+			fs = fs .. ("field_close_on_enter[%s;false]"):format(setting.name .. "_z")
 
 			fs = fs .. ("button[%f,0.6;1,0.8;%s;%s]"):format(avail_w, "set_" .. setting.name, fgettext("Set"))
 

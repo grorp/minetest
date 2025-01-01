@@ -79,7 +79,7 @@ elseif INIT == "client" then
 elseif INIT == "emerge" then
 	dofile(scriptdir .. "emerge" .. DIR_DELIM .. "init.lua")
 elseif INIT == "pause_menu" then
-	print("WOW WOW WOW HELLO FROM PAUSE MENU ENV")
+	dofile(scriptdir .. "pause_menu" .. DIR_DELIM .. "init.lua")
 else
 	error(("Unrecognized builtin initialization type %s!"):format(tostring(INIT)))
 end

@@ -16,11 +16,10 @@
 --51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-local component_funcs =  dofile(core.get_mainmenu_path() .. DIR_DELIM ..
-		"settings" .. DIR_DELIM .. "components.lua")
+local path = core.get_builtin_path() .. "common" .. DIR_DELIM .. "settings" .. DIR_DELIM
 
-local shadows_component =  dofile(core.get_mainmenu_path() .. DIR_DELIM ..
-		"settings" .. DIR_DELIM .. "shadows_component.lua")
+local component_funcs =  dofile(path .. "components.lua")
+local shadows_component =  dofile(path .. "shadows_component.lua")
 
 local loaded = false
 local full_settings

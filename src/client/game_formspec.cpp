@@ -96,16 +96,6 @@ struct LocalFormspecHandler : public TextDest
 				return;
 			}
 
-			if (fields.find("btn_key_config") != fields.end()) {
-				g_gamecallback->keyConfig();
-				return;
-			}
-
-			if (fields.find("btn_touchscreen_layout") != fields.end()) {
-				g_gamecallback->touchscreenLayout();
-				return;
-			}
-
 			if (fields.find("btn_exit_menu") != fields.end()) {
 				g_gamecallback->disconnect();
 				return;
@@ -353,13 +343,7 @@ void GameFormSpec::showPauseMenu()
 	}
 #endif
 #endif
-	if (g_touchcontrols) {
-		os << "button_exit[4," << (ypos++) << ";3,0.5;btn_touchscreen_layout;"
-			<< strgettext("Touchscreen Layout")  << "]";
-	} else {
-		os << "button_exit[4," << (ypos++) << ";3,0.5;btn_key_config;"
-			<< strgettext("Controls")  << "]";
-	}
+
 	os		<< "button_exit[4," << (ypos++) << ";3,0.5;btn_exit_menu;"
 		<< strgettext("Exit to Menu") << "]";
 	os		<< "button_exit[4," << (ypos++) << ";3,0.5;btn_exit_os;"

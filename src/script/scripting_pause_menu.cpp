@@ -8,6 +8,7 @@
 #include "filesys.h"
 #include "lua_api/l_client_common.h"
 #include "lua_api/l_menu_common.h"
+#include "lua_api/l_pause_menu.h"
 #include "lua_api/l_settings.h"
 #include "lua_api/l_util.h"
 #include "porting.h"
@@ -41,6 +42,7 @@ void PauseMenuScripting::initializeModApi(lua_State *L, int top)
     LuaSettings::Register(L);
 
 	// Initialize mod API modules
+	ModApiPauseMenu::Initialize(L, top);
 	ModApiMenuCommon::Initialize(L, top);
 	ModApiClientCommon::Initialize(L, top);
     ModApiUtil::Initialize(L, top);

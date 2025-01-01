@@ -31,6 +31,7 @@ static inline int checkSettingSecurity(lua_State* L, const std::string &name)
 {
 #if CHECK_CLIENT_BUILD()
 	// Main menu is allowed everything
+	// TODO: also permit pause menu
 	if (ModApiBase::getGuiEngine(L) != nullptr)
 		return 0;
 #endif

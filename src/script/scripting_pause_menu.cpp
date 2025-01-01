@@ -39,13 +39,13 @@ PauseMenuScripting::PauseMenuScripting(Client *client):
 void PauseMenuScripting::initializeModApi(lua_State *L, int top)
 {
 	// Register reference classes (userdata)
-    LuaSettings::Register(L);
+	LuaSettings::Register(L);
 
 	// Initialize mod API modules
 	ModApiPauseMenu::Initialize(L, top);
 	ModApiMenuCommon::Initialize(L, top);
 	ModApiClientCommon::Initialize(L, top);
-    ModApiUtil::Initialize(L, top);
+	ModApiUtil::Initialize(L, top);
 }
 
 void PauseMenuScripting::loadBuiltin()

@@ -7,7 +7,7 @@
 #include "client/client.h"
 
 bool ScriptApiClientCommon::on_formspec_input(const std::string &formname,
-	    const StringMap &fields)
+		const StringMap &fields)
 {
 	SCRIPTAPI_PRECHECKHEADER
 
@@ -31,7 +31,7 @@ bool ScriptApiClientCommon::on_formspec_input(const std::string &formname,
 		runCallbacks(2, RUN_CALLBACKS_MODE_OR_SC);
 	} catch (LuaError &e) {
 		getClient()->setFatalError(e);
-        return true;
+		return true;
 	}
 	return readParam<bool>(L, -1);
 }

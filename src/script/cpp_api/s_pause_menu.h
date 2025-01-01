@@ -9,5 +9,5 @@
 class ScriptApiPauseMenu : virtual public ScriptApiBase
 {
 public:
-    void open_settings();
+	void open_settings();
 };

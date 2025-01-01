@@ -9,15 +9,15 @@
 /******************************************************************************/
 int ModApiPauseMenu::l_show_keys_menu(lua_State *L)
 {
-    g_gamecallback->keyConfig();
-    return 0;
+	g_gamecallback->keyConfig();
+	return 0;
 }
 
 /******************************************************************************/
 int ModApiPauseMenu::l_show_touchscreen_layout(lua_State *L)
 {
-    g_gamecallback->touchscreenLayout();
-    return 0;
+	g_gamecallback->touchscreenLayout();
+	return 0;
 }
 
 /******************************************************************************/

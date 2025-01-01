@@ -127,8 +127,6 @@ private:
 
 	static int l_download_file(lua_State *L);
 
-	static int l_get_video_drivers(lua_State *L);
-
 	//version compatibility
 	static int l_get_min_supp_proto(lua_State *L);
 

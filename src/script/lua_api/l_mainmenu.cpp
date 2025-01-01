@@ -876,27 +876,6 @@ int ModApiMainMenu::l_download_file(lua_State *L)
 }
 
 /******************************************************************************/
-int ModApiMainMenu::l_get_video_drivers(lua_State *L)
-{
-	auto drivers = RenderingEngine::getSupportedVideoDrivers();
-
-	lua_newtable(L);
-	for (u32 i = 0; i != drivers.size(); i++) {
-		auto &info = RenderingEngine::getVideoDriverInfo(drivers[i]);
-
-		lua_newtable(L);
-		lua_pushstring(L, info.name.c_str());
-		lua_setfield(L, -2, "name");
-		lua_pushstring(L, info.friendly_name.c_str());
-		lua_setfield(L, -2, "friendly_name");
-
-		lua_rawseti(L, -2, i + 1);
-	}
-
-	return 1;
-}
-
-/******************************************************************************/
 int ModApiMainMenu::l_get_language(lua_State *L)
 {
 	std::string lang = gettext("LANG_CODE");
@@ -1096,7 +1075,6 @@ void ModApiMainMenu::Initialize(lua_State *L, int top)
 	API_FCT(show_path_select_dialog);
 	API_FCT(download_file);
 	API_FCT(get_language);
-	API_FCT(get_video_drivers);
 	API_FCT(get_window_info);
 	API_FCT(get_active_renderer);
 	API_FCT(get_active_irrlicht_device);

@@ -77,8 +77,8 @@ struct LocalFormspecHandler : public TextDest
 		m_formname = formname;
 	}
 
-	LocalFormspecHandler(const std::string &formname, Client *client):
-		m_client(client)
+	LocalFormspecHandler(const std::string &formname, Client *client, PauseMenuScripting *pause_script):
+		m_client(client), m_pause_script(pause_script)
 	{
 		m_formname = formname;
 	}
@@ -136,11 +136,17 @@ struct LocalFormspecHandler : public TextDest
 			return;
 		}
 
-		if (m_client->modsLoaded())
-			m_client->getScript()->on_formspec_input(m_formname, fields);
+		if (m_pause_script &&
+				m_pause_script->on_formspec_input(m_formname, fields))
+			return;
+
+		if (m_client && m_client->modsLoaded() &&
+				m_client->getScript()->on_formspec_input(m_formname, fields))
+			return;
 	}
 
 	Client *m_client = nullptr;
+	PauseMenuScripting *m_pause_script = nullptr;
 };
 
 /* Form update callback */
@@ -236,7 +242,7 @@ void GameFormSpec::showLocalFormSpec(const std::string &formspec, const std::str
 {
 	FormspecFormSource *fs_src = new FormspecFormSource(formspec);
 	LocalFormspecHandler *txt_dst =
-		new LocalFormspecHandler(formname, m_client);
+		new LocalFormspecHandler(formname, m_client, m_pause_script.get());
 	GUIFormSpecMenu::create(m_formspec, m_client, m_rendering_engine->get_gui_env(),
 			&m_input->joystick, fs_src, txt_dst, m_client->getFormspecPrepend(),
 			m_client->getSoundManager());
@@ -427,7 +433,7 @@ void GameFormSpec::showDeathFormspecLegacy()
 	/* Note: FormspecFormSource and LocalFormspecHandler  *
 	 * are deleted by guiFormSpecMenu                     */
 	FormspecFormSource *fs_src = new FormspecFormSource(formspec_str);
-	LocalFormspecHandler *txt_dst = new LocalFormspecHandler("MT_DEATH_SCREEN", m_client);
+	LocalFormspecHandler *txt_dst = new LocalFormspecHandler("MT_DEATH_SCREEN", m_client, m_pause_script.get());
 
 	GUIFormSpecMenu::create(m_formspec, m_client, m_rendering_engine->get_gui_env(),
 		&m_input->joystick, fs_src, txt_dst, m_client->getFormspecPrepend(),

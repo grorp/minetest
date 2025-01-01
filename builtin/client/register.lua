@@ -55,7 +55,7 @@ local function make_registration()
 	local registerfunc = function(func)
 		t[#t + 1] = func
 		core.callback_origins[func] = {
-			mod = core.get_current_modname() or "??",
+			mod = core.get_current_modname and core.get_current_modname() or "??",
 			name = getinfo(1, "n").name or "??"
 		}
 		--local origin = core.callback_origins[func]

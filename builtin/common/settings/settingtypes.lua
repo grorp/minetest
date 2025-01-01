@@ -408,7 +408,7 @@ function settingtypes.parse_config_file(read_all, parse_mods)
 		file:close()
 	end
 
-	if parse_mods then
+	if INIT == "mainmenu" and parse_mods then
 		-- Parse games
 		local games_category_initialized = false
 		for _, game in ipairs(pkgmgr.games) do

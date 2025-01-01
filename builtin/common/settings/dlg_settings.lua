@@ -772,3 +772,28 @@ function create_settings_dlg()
 
 	return dlg
 end
+
+if INIT == "pause_menu" then
+	local dialog
+
+	core.register_on_formspec_input(function(formname, fields)
+		if dialog and formname == "__builtin:settings" then
+			-- dialog is re-checked since the buttonhandler may have closed it
+			if buttonhandler(dialog, fields) and dialog then
+				core.show_formspec("__builtin:settings", get_formspec(dialog.data))
+			end
+		end
+	end)
+
+	core.open_settings = function()
+		load()
+		dialog = {}
+		dialog.data = {}
+		dialog.page_id = update_filtered_pages("")
+		dialog.delete = function()
+			dialog = nil
+		end
+
+		core.show_formspec("__builtin:settings", get_formspec(dialog.data))
+	end
+end

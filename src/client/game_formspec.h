@@ -4,8 +4,10 @@
 
 #pragma once
 
+#include <memory>
 #include <string>
 #include "irr_v3d.h"
+#include "scripting_pause_menu.h"
 
 class Client;
 class RenderingEngine;
@@ -27,6 +29,8 @@ struct GameFormSpec
 		m_client = client;
 		m_rendering_engine = rendering_engine;
 		m_input = input;
+		m_pause_script = std::make_unique<PauseMenuScripting>(client);
+		m_pause_script->loadBuiltin();
 	}
 
 	~GameFormSpec();
@@ -52,6 +56,7 @@ private:
 	Client *m_client;
 	RenderingEngine *m_rendering_engine;
 	InputHandler *m_input;
+	std::unique_ptr<PauseMenuScripting> m_pause_script;
 
 	// Default: "". If other than "": Empty show_formspec packets will only
 	// close the formspec when the formname matches

@@ -250,6 +250,9 @@ void GameFormSpec::showPauseMenuFormSpec(const std::string &formspec, const std:
 			// Ignore formspec prepend.
 			&m_input->joystick, fs_src, txt_dst, "",
 			m_client->getSoundManager());
+	// We cannot enable this for now because "fps_max_unfocused" also applies
+	// when the game is paused, making the settings menu much less enjoyable.
+	// m_formspec->doPause = true;
 }
 
 void GameFormSpec::showNodeFormspec(const std::string &formspec, const v3s16 &nodepos)
@@ -413,7 +416,7 @@ void GameFormSpec::showPauseMenu()
 			&m_input->joystick, fs_src, txt_dst, m_client->getFormspecPrepend(),
 			m_client->getSoundManager());
 	m_formspec->setFocus("btn_continue");
-	// game will be paused in next step, if in singleplayer (see m_is_paused)
+	// game will be paused in next step, if in singleplayer (see Game::m_is_paused)
 	m_formspec->doPause = true;
 }
 

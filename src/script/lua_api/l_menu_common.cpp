@@ -1,5 +1,6 @@
 // Luanti
 // SPDX-License-Identifier: LGPL-2.1-or-later
+// Copyright (C) 2013 sapier
 // Copyright (C) 2025 grorp
 
 #include "l_menu_common.h"

@@ -240,8 +240,9 @@ void GameFormSpec::showCSMFormSpec(const std::string &formspec, const std::strin
 
 void GameFormSpec::showPauseMenuFormSpec(const std::string &formspec, const std::string &formname)
 {
-	// Neither CSM nor the server must be allowed to mess with the settings formspec,
-	// it's a trusted context like the mainmenu.
+	// The pause menu env is a trusted context like the mainmenu env and provides
+	// the in-game settings formspec.
+	// Neither CSM nor the server must be allowed to mess with it.
 	FormspecFormSource *fs_src = new FormspecFormSource(formspec);
 	LocalFormspecHandler *txt_dst =
 		new LocalFormspecHandler(formname, nullptr, m_pause_script.get());

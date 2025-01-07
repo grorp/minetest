@@ -218,30 +218,43 @@ GameFormSpec::~GameFormSpec() {
 	this->deleteFormspec();
 }
 
-void GameFormSpec::showFormSpec(const std::string &formspec, const std::string &formname)
+bool GameFormSpec::handleEmptyFormspec(const std::string &formspec, const std::string &formname)
 {
 	if (formspec.empty()) {
 		if (m_formspec && (formname.empty() || formname == m_formname)) {
 			m_formspec->quitMenu();
 		}
-	} else {
-		FormspecFormSource *fs_src =
-			new FormspecFormSource(formspec);
-		TextDestPlayerInventory *txt_dst =
-			new TextDestPlayerInventory(m_client, formname);
-
-		m_formname = formname;
-		GUIFormSpecMenu::create(m_formspec, m_client, m_rendering_engine->get_gui_env(),
-			&m_input->joystick, fs_src, txt_dst, m_client->getFormspecPrepend(),
-			m_client->getSoundManager());
+		return true;
 	}
+	return false;
+}
+
+void GameFormSpec::showFormSpec(const std::string &formspec, const std::string &formname)
+{
+	if (handleEmptyFormspec(formspec, formname))
+		return;
+
+	FormspecFormSource *fs_src =
+		new FormspecFormSource(formspec);
+	TextDestPlayerInventory *txt_dst =
+		new TextDestPlayerInventory(m_client, formname);
+
+	m_formname = formname;
+	GUIFormSpecMenu::create(m_formspec, m_client, m_rendering_engine->get_gui_env(),
+		&m_input->joystick, fs_src, txt_dst, m_client->getFormspecPrepend(),
+		m_client->getSoundManager());
 }
 
 void GameFormSpec::showCSMFormSpec(const std::string &formspec, const std::string &formname)
 {
+	if (handleEmptyFormspec(formspec, formname))
+		return;
+
 	FormspecFormSource *fs_src = new FormspecFormSource(formspec);
 	LocalFormspecHandler *txt_dst =
 		new LocalFormspecHandler(formname, m_client, nullptr);
+
+	m_formname = formname;
 	GUIFormSpecMenu::create(m_formspec, m_client, m_rendering_engine->get_gui_env(),
 			&m_input->joystick, fs_src, txt_dst, m_client->getFormspecPrepend(),
 			m_client->getSoundManager());
@@ -252,13 +265,20 @@ void GameFormSpec::showPauseMenuFormSpec(const std::string &formspec, const std:
 	// The pause menu env is a trusted context like the mainmenu env and provides
 	// the in-game settings formspec.
 	// Neither CSM nor the server must be allowed to mess with it.
+
+	if (handleEmptyFormspec(formspec, formname))
+		return;
+
 	FormspecFormSource *fs_src = new FormspecFormSource(formspec);
 	LocalFormspecHandler *txt_dst =
 		new LocalFormspecHandler(formname, nullptr, m_pause_script.get());
+
+	m_formname = formname;
 	GUIFormSpecMenu::create(m_formspec, m_client, m_rendering_engine->get_gui_env(),
 			// Ignore formspec prepend.
 			&m_input->joystick, fs_src, txt_dst, "",
 			m_client->getSoundManager());
+
 	// FIXME: can't enable this for now because "fps_max_unfocused" also applies
 	// when the game is paused, making the settings menu much less enjoyable.
 	// m_formspec->doPause = true;

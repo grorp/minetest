@@ -57,5 +57,7 @@ private:
 	std::string m_formname;
 	GUIFormSpecMenu *m_formspec = nullptr;
 
+	bool handleEmptyFormspec(const std::string &formspec, const std::string &formname);
+
 	void deleteFormspec();
 };

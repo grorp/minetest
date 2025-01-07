@@ -512,8 +512,7 @@ local function get_formspec(dialogdata)
 
 		"box[0,0;", tostring(tabsize.width), ",", tostring(tabsize.height), ";#0000008C]",
 
-		("%s[0,%f;%f,0.8;back;%s]"):format(
-				INIT == "pause_menu" and "button_exit" or "button",
+		("button[0,%f;%f,0.8;back;%s]"):format(
 				tabsize.height + 0.2, back_w, fgettext("Back")),
 
 		("box[%f,%f;%f,0.8;#0000008C]"):format(
@@ -672,7 +671,7 @@ local function buttonhandler(this, fields)
 	dialogdata.rightscroll = core.explode_scrollbar_event(fields.rightscroll).value or dialogdata.rightscroll
 	dialogdata.query = fields.search_query
 
-	-- "quit" is for the pause menu env
+	-- "fields.quit" is for the pause menu env
 	if fields.back or fields.quit then
 		this:delete()
 		return true
@@ -800,6 +799,9 @@ else
 		dialog.data.page_id = update_filtered_pages("")
 		dialog.delete = function()
 			dialog = nil
+			-- only needed for the "fields.back" case, in the "fields.quit"
+			-- case it's a no-op
+			core.show_formspec("__builtin:settings", "")
 		end
 
 		core.show_formspec("__builtin:settings", get_formspec(dialog.data))

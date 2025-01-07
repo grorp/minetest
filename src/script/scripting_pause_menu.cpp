@@ -61,7 +61,8 @@ bool PauseMenuScripting::checkPathInternal(const std::string &abs_path, bool wri
 	// However, since it doesn't need anything else at the moment, there's no
 	// reason to give it access to anything else.
 
-	std::string path_share = fs::AbsolutePathPartial(porting::path_share);
-	return !write_required &&
-			fs::PathStartsWith(abs_path, path_share + DIR_DELIM "builtin");
+	if (write_required)
+		return false;
+	std::string path_share = fs::AbsolutePath(porting::path_share);
+	return !path_share.empty() && fs::PathStartsWith(abs_path, path_share + DIR_DELIM "builtin");
 }

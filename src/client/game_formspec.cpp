@@ -250,7 +250,7 @@ void GameFormSpec::showPauseMenuFormSpec(const std::string &formspec, const std:
 			// Ignore formspec prepend.
 			&m_input->joystick, fs_src, txt_dst, "",
 			m_client->getSoundManager());
-	// We cannot enable this for now because "fps_max_unfocused" also applies
+	// FIXME: can't enable this for now because "fps_max_unfocused" also applies
 	// when the game is paused, making the settings menu much less enjoyable.
 	// m_formspec->doPause = true;
 }

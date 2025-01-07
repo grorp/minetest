@@ -10,7 +10,6 @@
 #include "lua_api/l_internal.h"
 
 
-/******************************************************************************/
 int ModApiMenuCommon::l_gettext(lua_State *L)
 {
 	const char *srctext = luaL_checkstring(L, 1);
@@ -20,7 +19,7 @@ int ModApiMenuCommon::l_gettext(lua_State *L)
 	return 1;
 }
 
-/******************************************************************************/
+
 int ModApiMenuCommon::l_get_active_driver(lua_State *L)
 {
 	auto drivertype = RenderingEngine::get_video_driver()->getDriverType();
@@ -28,20 +27,21 @@ int ModApiMenuCommon::l_get_active_driver(lua_State *L)
 	return 1;
 }
 
-/******************************************************************************/
+
 int ModApiMenuCommon::l_irrlicht_device_supports_touch(lua_State *L)
 {
 	lua_pushboolean(L, RenderingEngine::get_raw_device()->supportsTouchEvents());
 	return 1;
 }
 
-/******************************************************************************/
+
 void ModApiMenuCommon::Initialize(lua_State *L, int top)
 {
 	API_FCT(gettext);
 	API_FCT(get_active_driver);
 	API_FCT(irrlicht_device_supports_touch);
 }
+
 
 void ModApiMenuCommon::InitializeAsync(lua_State *L, int top)
 {

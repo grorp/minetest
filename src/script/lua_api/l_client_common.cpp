@@ -11,12 +11,10 @@
 #include "cpp_api/s_base.h"
 #include "lua_api/l_internal.h"
 
+
 // show_formspec(formspec)
 int ModApiClientCommon::l_show_formspec(lua_State *L)
 {
-	if (!lua_isstring(L, 1) || !lua_isstring(L, 2))
-		return 0;
-
 	ClientEvent *event = new ClientEvent();
 	event->type = getScriptApiBase(L)->getType() == ScriptingType::PauseMenu
 			? CE_SHOW_PAUSE_MENU_FORMSPEC
@@ -27,6 +25,7 @@ int ModApiClientCommon::l_show_formspec(lua_State *L)
 	lua_pushboolean(L, true);
 	return 1;
 }
+
 
 void ModApiClientCommon::Initialize(lua_State *L, int top)
 {

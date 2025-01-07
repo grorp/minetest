@@ -24,14 +24,7 @@ It includes:
  */
 struct GameFormSpec
 {
-	void init(Client *client, RenderingEngine *rendering_engine, InputHandler *input)
-	{
-		m_client = client;
-		m_rendering_engine = rendering_engine;
-		m_input = input;
-		m_pause_script = std::make_unique<PauseMenuScripting>(client);
-		m_pause_script->loadBuiltin();
-	}
+	void init(Client *client, RenderingEngine *rendering_engine, InputHandler *input);
 
 	~GameFormSpec();
 

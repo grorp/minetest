@@ -53,13 +53,11 @@ end
 
 local function compare_setting_states(state_old, state_new, relevant_settings)
 	local result = {}
-
 	local function changed(k)
 		if relevant_settings[k] then
 			table.insert(result, relevant_settings[k])
 		end
 	end
-
 	for k in pairs(state_new) do
 		if state_new[k] ~= state_old[k] then
 			changed(k)
@@ -70,7 +68,6 @@ local function compare_setting_states(state_old, state_new, relevant_settings)
 			changed(k)
 		end
 	end
-
 	return result
 end
 

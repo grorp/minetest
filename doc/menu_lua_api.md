@@ -70,6 +70,10 @@ Functions
   * returns current core version
 * `core.get_formspec_version()`
   * returns maximum supported formspec version
+* `core.set_once(key, value)`:
+  * save a string value that persists even if menu is closed
+* `core.get_once(key)`:
+  * get a string value saved by above function, or `nil`
 
 
 

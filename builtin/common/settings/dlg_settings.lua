@@ -569,12 +569,12 @@ local function get_formspec(dialogdata)
 	local page = filtered_page_by_id[page_id]
 
 	local restart, rejoin = setting_changes_restart, setting_changes_rejoin
-	local show_notice = #restart > 0 or #rejoin > 0
+	local show_change_notice = #restart > 0 or #rejoin > 0
 
-	local extra_h = show_notice and 2 or 1 -- not included in tabsize.height
+	local extra_h = show_change_notice and 2 or 1 -- not included in tabsize.height
 	local tabsize = {
 		width = core.settings:get_bool("touch_gui") and 16.5 or 15.5,
-		height = core.settings:get_bool("touch_gui") and (10 - extra_h) or 12,
+		height = (core.settings:get_bool("touch_gui") and 10 or 13) - extra_h,
 	}
 
 	local scrollbar_w = core.settings:get_bool("touch_gui") and 0.6 or 0.4
@@ -729,7 +729,7 @@ local function get_formspec(dialogdata)
 				tabsize.width - scrollbar_w, scrollbar_w, tabsize.height, dialogdata.rightscroll or 0)
 	end
 
-	if show_notice then
+	if show_change_notice then
 		fs[#fs + 1] = ("box[0,%f;%f,0.8;#0000008C]"):format(
 			tabsize.height + 1.2, tabsize.width)
 

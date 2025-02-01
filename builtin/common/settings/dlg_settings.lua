@@ -744,7 +744,7 @@ local function get_formspec(dialogdata)
 			for _, entry in ipairs(entries) do
 				table.insert(labels, get_label(entry))
 			end
-			return table.concat(labels, ", ")
+			return core.wrap_text(table.concat(labels, "; "), 100)
 		end
 
 		local tooltip = ""

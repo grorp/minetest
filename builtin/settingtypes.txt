@@ -354,24 +354,36 @@ screenshot_quality (Screenshot quality) int 0 0 100
 [**Node and Entity Highlighting]
 
 #    Method used to highlight selected object.
+#
+#    Requires: rejoin
 node_highlighting (Node highlighting) enum box box,halo,none
 
 #    Show entity selection boxes
 #    A restart is required after changing this.
+#
+#    Requires: restart
 show_entity_selectionbox (Show entity selection boxes) bool false
 
 #    Selection box border color (R,G,B).
+#
+#    Requires: rejoin
 selectionbox_color (Selection box color) string (0,0,0)
 
 #    Width of the selection box lines around nodes.
+#
+#    Requires: rejoin
 selectionbox_width (Selection box width) int 2 1 5
 
 #    Crosshair color (R,G,B).
 #    Also controls the object crosshair color
+#
+#    Requires: rejoin
 crosshair_color (Crosshair color) string (255,255,255)
 
 #    Crosshair alpha (opaqueness, between 0 and 255).
 #    This also applies to the object crosshair.
+#
+#    Requires: rejoin
 crosshair_alpha (Crosshair alpha) int 255 0 255
 
 [**Fog]
@@ -404,6 +416,8 @@ soft_clouds (Soft clouds) bool false
 #    Use mipmaps when scaling textures. May slightly increase performance,
 #    especially when using a high-resolution texture pack.
 #    Gamma-correct downscaling is not supported.
+#
+#    Requires: rejoin
 mip_map (Mipmapping) bool false
 
 #    Use bilinear filtering when scaling textures.
@@ -437,10 +451,14 @@ anisotropic_filter (Anisotropic filtering) bool false
 #    * SSAA - Super-sampling antialiasing
 #             Renders higher-resolution image of the scene, then scales down to reduce
 #             the aliasing effects. This is the slowest and the most accurate method.
+#
+#    Requires: rejoin
 antialiasing (Antialiasing method) enum none none,fsaa,fxaa,ssaa
 
 #    Defines the size of the sampling grid for FSAA and SSAA antialiasing methods.
 #    Value of 2 means taking 2x2 = 4 samples.
+#
+#    Requires: rejoin
 fsaa (Anti-aliasing scale) enum 2 2,4,8,16
 
 [**Occlusion Culling]
@@ -463,34 +481,50 @@ enable_raytraced_culling (Enable Raytraced Culling) bool true
 [*Effects]
 
 #    Allows liquids to be translucent.
+#
+#    Requires: rejoin
 translucent_liquids (Translucent liquids) bool true
 
 #    Leaves style:
 #    -   Fancy:  all faces visible
 #    -   Simple: only outer faces
 #    -   Opaque: disable transparency
+#
+#    Requires: rejoin
 leaves_style (Leaves style) enum fancy fancy,simple,opaque
 
 #    Connects glass if supported by node.
+#
+#    Requires: rejoin
 connected_glass (Connect glass) bool false
 
 #    Enable smooth lighting with simple ambient occlusion.
+#
+#    Requires: rejoin
 smooth_lighting (Smooth lighting) bool true
 
 #    Enables tradeoffs that reduce CPU load or increase rendering performance
 #    at the expense of minor visual glitches that do not impact game playability.
+#
+#    Requires: rejoin
 performance_tradeoffs (Tradeoffs for performance) bool false
 
 
 [**Waving Nodes]
 
 #    Set to true to enable waving leaves.
+#
+#    Requires: rejoin
 enable_waving_leaves (Waving leaves) bool false
 
 #    Set to true to enable waving plants.
+#
+#    Requires: rejoin
 enable_waving_plants (Waving plants) bool false
 
 #    Set to true to enable waving liquids (like water).
+#
+#    Requires: rejoin
 enable_waving_water (Waving liquids) bool false
 
 #    The maximum height of the surface of waving liquids.
@@ -498,83 +532,85 @@ enable_waving_water (Waving liquids) bool false
 #    0.0 = Wave doesn't move at all.
 #    Default is 1.0 (1/2 node).
 #
-#    Requires: enable_waving_water
+#    Requires: enable_waving_water, rejoin
 water_wave_height (Waving liquids wave height) float 1.0 0.0 4.0
 
 #    Length of liquid waves.
 #
-#    Requires: enable_waving_water
+#    Requires: enable_waving_water, rejoin
 water_wave_length (Waving liquids wavelength) float 20.0 0.1
 
 #    How fast liquid waves will move. Higher = faster.
 #    If negative, liquid waves will move backwards.
 #
-#    Requires: enable_waving_water
+#    Requires: enable_waving_water, rejoin
 water_wave_speed (Waving liquids wave speed) float 5.0
 
 [**Dynamic shadows]
 
 #    Set to true to enable Shadow Mapping.
 #
-#    Requires: opengl
+#    Requires: opengl, rejoin
 enable_dynamic_shadows (Dynamic shadows) bool false
 
 #    Set the shadow strength gamma.
 #    Adjusts the intensity of in-game dynamic shadows.
 #    Lower value means lighter shadows, higher value means darker shadows.
 #
-#    Requires: enable_dynamic_shadows, opengl
+#    Requires: enable_dynamic_shadows, opengl, rejoin
 shadow_strength_gamma (Shadow strength gamma) float 1.0 0.1 10.0
 
 #    Maximum distance to render shadows.
 #
-#    Requires: enable_dynamic_shadows, opengl
+#    Requires: enable_dynamic_shadows, opengl, rejoin
 shadow_map_max_distance (Shadow map max distance in nodes to render shadows) float 140.0 10.0 1000.0
 
 #    Texture size to render the shadow map on.
 #    This must be a power of two.
 #    Bigger numbers create better shadows but it is also more expensive.
 #
-#    Requires: enable_dynamic_shadows, opengl
+#    Requires: enable_dynamic_shadows, opengl, rejoin
 shadow_map_texture_size (Shadow map texture size) int 2048 128 8192
 
 #    Sets shadow texture quality to 32 bits.
 #    On false, 16 bits texture will be used.
 #    This can cause much more artifacts in the shadow.
 #
-#    Requires: enable_dynamic_shadows, opengl
+#    Requires: enable_dynamic_shadows, opengl, rejoin
 shadow_map_texture_32bit (Shadow map texture in 32 bits) bool true
 
 #    Define shadow filtering quality.
 #    This simulates the soft shadows effect by applying a PCF or Poisson disk
 #    but also uses more resources.
 #
-#    Requires: enable_dynamic_shadows, opengl
+#    Requires: enable_dynamic_shadows, opengl, rejoin
 shadow_filters (Shadow filter quality) enum 1 0,1,2
 
 #    Enable colored shadows.
 #    On true translucent nodes cast colored shadows. This is expensive.
 #
-#    Requires: enable_dynamic_shadows, opengl
+#    Requires: enable_dynamic_shadows, opengl, rejoin
 shadow_map_color (Colored shadows) bool false
 
 #    Set the soft shadow radius size.
 #    Lower values mean sharper shadows, bigger values mean softer shadows.
 #    Minimum value: 1.0; maximum value: 15.0
 #
-#    Requires: enable_dynamic_shadows, opengl
+#    Requires: enable_dynamic_shadows, opengl, rejoin
 shadow_soft_radius (Soft shadow radius) float 5.0 1.0 15.0
 
 #    Set the default tilt of Sun/Moon orbit in degrees.
 #    Games may change orbit tilt via API.
 #    Value of 0 means no tilt / vertical orbit.
 #
-#    Requires: enable_dynamic_shadows, opengl
+#    Requires: enable_dynamic_shadows, opengl, rejoin
 shadow_sky_body_orbit_tilt (Sky Body Orbit Tilt) float 0.0 -60.0 60.0
 
 [**Post Processing]
 
 #    Enables the post processing pipeline.
+#
+#    Requires: rejoin
 enable_post_processing (Enable Post Processing) bool true
 
 #    Enables Hable's 'Uncharted 2' filmic tone mapping.
@@ -582,7 +618,7 @@ enable_post_processing (Enable Post Processing) bool true
 #    appearance of high dynamic range images. Mid-range contrast is slightly
 #    enhanced, highlights and shadows are gradually compressed.
 #
-#    Requires: enable_post_processing
+#    Requires: enable_post_processing, rejoin
 tone_mapping (Filmic tone mapping) bool false
 
 #    Enable automatic exposure correction
@@ -590,14 +626,14 @@ tone_mapping (Filmic tone mapping) bool false
 #    automatically adjust to the brightness of the scene,
 #    simulating the behavior of human eye.
 #
-#    Requires: enable_post_processing
+#    Requires: enable_post_processing, rejoin
 enable_auto_exposure (Enable Automatic Exposure) bool false
 
 #    Set the exposure compensation in EV units.
 #    Value of 0.0 (default) means no exposure compensation.
 #    Range: from -1 to 1.0
 #
-#    Requires: enable_post_processing, enable_auto_exposure
+#    Requires: enable_post_processing, enable_auto_exposure, rejoin
 exposure_compensation (Exposure compensation) float 0.0 -1.0 1.0
 
 #    Apply dithering to reduce color banding artifacts.
@@ -608,35 +644,35 @@ exposure_compensation (Exposure compensation) float 0.0 -1.0 1.0
 #    With OpenGL ES, dithering only works if the shader supports high
 #    floating-point precision and it may have a higher performance impact.
 #
-#    Requires: enable_post_processing
+#    Requires: enable_post_processing, rejoin
 debanding (Enable Debanding) bool true
 
 #    Set to true to enable bloom effect.
 #    Bright colors will bleed over the neighboring objects.
 #
-#    Requires: enable_post_processing
+#    Requires: enable_post_processing, rejoin
 enable_bloom (Enable Bloom) bool false
 
 #    Set to true to enable volumetric lighting effect (a.k.a. "Godrays").
 #
-#    Requires: enable_post_processing, enable_bloom
+#    Requires: enable_post_processing, enable_bloom, rejoin
 enable_volumetric_lighting (Volumetric lighting) bool false
 
 [**Other Effects]
 
 #   Simulate translucency when looking at foliage in the sunlight.
 #
-#   Requires: enable_dynamic_shadows
+#   Requires: enable_dynamic_shadows, rejoin
 enable_translucent_foliage (Translucent foliage) bool false
 
 #   Apply specular shading to nodes.
 #
-#   Requires: enable_dynamic_shadows
+#   Requires: enable_dynamic_shadows, rejoin
 enable_node_specular (Node specular) bool false
 
 #   When enabled, liquid reflections are simulated.
 #
-#   Requires: enable_waving_water, enable_dynamic_shadows
+#   Requires: enable_waving_water, enable_dynamic_shadows, rejoin
 enable_water_reflections (Liquid reflections) bool false
 
 [*Audio]

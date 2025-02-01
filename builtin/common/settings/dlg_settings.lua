@@ -23,10 +23,6 @@ local shadows_component =  dofile(path .. "shadows_component.lua")
 
 local loaded = false
 local full_settings
-local restart_settings
-local rejoin_settings
-local setting_state_initial
-local setting_changes_restart, setting_changes_rejoin
 local info_icon_path = core.formspec_escape(defaulttexturedir .. "settings_info.png")
 local reset_icon_path = core.formspec_escape(defaulttexturedir .. "settings_reset.png")
 local all_pages = {}
@@ -34,16 +30,9 @@ local page_by_id = {}
 local filtered_pages = all_pages
 local filtered_page_by_id = page_by_id
 
-
-local function get_setting_info(name)
-	for _, entry in ipairs(full_settings) do
-		if entry.type ~= "category" and entry.name == name then
-			return entry
-		end
-	end
-
-	return nil
-end
+local restart_settings, rejoin_settings
+local initial_setting_state_restart, initial_setting_state_rejoin
+local setting_changes_restart, setting_changes_rejoin
 
 
 -- This returns the effective state of the settings, i.e. with the engine's
@@ -62,17 +51,12 @@ local function serialize_setting_state()
 end
 
 
-local function compare_setting_states(state_old, state_new)
-	local restart = {}
-	local rejoin = {}
+local function compare_setting_states(state_old, state_new, relevant_settings)
+	local result = {}
 
 	local function changed(k)
-		if restart_settings[k] then
-			table.insert(restart, restart_settings[k])
-
-		-- If we're in the mainmenu, there's no game to re-join.
-		elseif INIT == "pause_menu" and rejoin_settings[k] then
-			table.insert(rejoin, rejoin_settings[k])
+		if relevant_settings[k] then
+			table.insert(result, relevant_settings[k])
 		end
 	end
 
@@ -87,7 +71,34 @@ local function compare_setting_states(state_old, state_new)
 		end
 	end
 
-	return restart, rejoin
+	return result
+end
+
+
+local function update_setting_changes()
+	local current = serialize_setting_state()
+
+	setting_changes_restart = compare_setting_states(
+		initial_setting_state_restart, current, restart_settings)
+
+	-- If we're in the mainmenu, there's no game to be re-joined.
+	if INIT == "pause_menu" then
+		setting_changes_rejoin = compare_setting_states(
+			initial_setting_state_rejoin, current, rejoin_settings)
+	else
+		setting_changes_rejoin = {}
+	end
+end
+
+
+local function get_setting_info(name)
+	for _, entry in ipairs(full_settings) do
+		if entry.type ~= "category" and entry.name == name then
+			return entry
+		end
+	end
+
+	return nil
 end
 
 
@@ -154,8 +165,6 @@ local function load()
 	loaded = true
 
 	full_settings = settingtypes.parse_config_file(false, true)
-	setting_state_initial = serialize_setting_state()
-	setting_changes_restart, setting_changes_rejoin = {}, {}
 
 	local change_keys = {
 		query_text = "Controls",
@@ -323,6 +332,19 @@ local function load()
 			end
 		end
 	end
+
+	local current = serialize_setting_state()
+	initial_setting_state_rejoin = current
+
+	local stored = core.get_once("initial_setting_state")
+	if stored then
+		initial_setting_state_restart = core.deserialize(stored)
+	else
+		initial_setting_state_restart = current
+		core.set_once("initial_setting_state", core.serialize(current))
+	end
+
+	update_setting_changes()
 end
 
 
@@ -841,8 +863,7 @@ local function buttonhandler(this, fields)
 			-- Clear components so they regenerate
 			dialogdata.components = nil
 		end
-		setting_changes_restart, setting_changes_rejoin = compare_setting_states(
-			setting_state_initial, serialize_setting_state())
+		update_setting_changes()
 	end
 
 	for i, comp in ipairs(dialogdata.components) do

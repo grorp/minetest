@@ -460,4 +460,4 @@ else
 end
 
 
-return make
+return make, get_label

@@ -18,11 +18,15 @@
 
 local path = core.get_builtin_path() .. "common" .. DIR_DELIM .. "settings" .. DIR_DELIM
 
-local component_funcs =  dofile(path .. "components.lua")
+local component_funcs, get_label =  dofile(path .. "components.lua")
 local shadows_component =  dofile(path .. "shadows_component.lua")
 
 local loaded = false
 local full_settings
+local restart_settings
+local rejoin_settings
+local setting_state_initial
+local setting_changes_restart, setting_changes_rejoin
 local info_icon_path = core.formspec_escape(defaulttexturedir .. "settings_info.png")
 local reset_icon_path = core.formspec_escape(defaulttexturedir .. "settings_reset.png")
 local all_pages = {}
@@ -39,6 +43,51 @@ local function get_setting_info(name)
 	end
 
 	return nil
+end
+
+
+-- This returns the effective state of the settings, i.e. with the engine's
+-- internal default values applied. This is necessary for comparison
+-- later on, so that a setting explicitly set to its default value compares
+-- equal to an unset setting.
+-- This means we cannot use "core.settings:get_keys()"
+local function serialize_setting_state()
+	local state = {}
+	for _, entry in ipairs(full_settings) do
+		if entry.type ~= "category" then
+			state[entry.name] = core.settings:get(entry.name)
+		end
+	end
+	return state
+end
+
+
+local function compare_setting_states(state_old, state_new)
+	local restart = {}
+	local rejoin = {}
+
+	local function changed(k)
+		if restart_settings[k] then
+			table.insert(restart, restart_settings[k])
+
+		-- If we're in the mainmenu, there's no game to re-join.
+		elseif INIT == "pause_menu" and rejoin_settings[k] then
+			table.insert(rejoin, rejoin_settings[k])
+		end
+	end
+
+	for k in pairs(state_new) do
+		if state_new[k] ~= state_old[k] then
+			changed(k)
+		end
+	end
+	for k in pairs(state_old) do
+		if not state_new[k] then
+			changed(k)
+		end
+	end
+
+	return restart, rejoin
 end
 
 
@@ -105,6 +154,8 @@ local function load()
 	loaded = true
 
 	full_settings = settingtypes.parse_config_file(false, true)
+	setting_state_initial = serialize_setting_state()
+	setting_changes_restart, setting_changes_rejoin = {}, {}
 
 	local change_keys = {
 		query_text = "Controls",
@@ -260,6 +311,18 @@ local function load()
 		["true"] = fgettext_ne("Enabled"),
 		["false"] = fgettext_ne("Disabled"),
 	}
+
+	restart_settings = {}
+	rejoin_settings = {}
+	for _, entry in ipairs(full_settings) do
+		if entry.type ~= "category" and entry.requires then
+			if entry.requires.restart then
+				restart_settings[entry.name] = entry
+			elseif entry.requires.rejoin then
+				rejoin_settings[entry.name] = entry
+			end
+		end
+	end
 end
 
 
@@ -370,6 +433,10 @@ local function check_requirements(name, requires)
 		keyboard_mouse = not touch_support or (touch_controls == "auto" or not core.is_yes(touch_controls)),
 		opengl = (video_driver == "opengl" or video_driver == "opengl3"),
 		gles = video_driver:sub(1, 5) == "ogles",
+
+		-- These are not requirements that impact whether a setting is shown.
+		rejoin = true,
+		restart = true,
 	}
 
 	for req_key, req_value in pairs(requires) do
@@ -482,7 +549,10 @@ local function get_formspec(dialogdata)
 	local page_id = dialogdata.page_id or "accessibility"
 	local page = filtered_page_by_id[page_id]
 
-	local extra_h = 1 -- not included in tabsize.height
+	local restart, rejoin = setting_changes_restart, setting_changes_rejoin
+	local show_notice = #restart > 0 or #rejoin > 0
+
+	local extra_h = show_notice and 2 or 1 -- not included in tabsize.height
 	local tabsize = {
 		width = core.settings:get_bool("touch_gui") and 16.5 or 15.5,
 		height = core.settings:get_bool("touch_gui") and (10 - extra_h) or 12,
@@ -640,6 +710,44 @@ local function get_formspec(dialogdata)
 				tabsize.width - scrollbar_w, scrollbar_w, tabsize.height, dialogdata.rightscroll or 0)
 	end
 
+	if show_notice then
+		fs[#fs + 1] = ("box[0,%f;%f,0.8;#0000008C]"):format(
+			tabsize.height + 1.2, tabsize.width)
+
+		local label = #restart > 0 and
+			fgettext("You need to restart Luanti for your changes to take effect.") or
+			fgettext("You need to leave and re-join this game for your changes to take effect.")
+		fs[#fs + 1] = ("label[%f,%f;%s]"):format(
+			0.2, tabsize.height + 1.6, label)
+
+		local function format_setting_list(entries)
+			local labels = {}
+			for _, entry in ipairs(entries) do
+				table.insert(labels, get_label(entry))
+			end
+			return table.concat(labels, ", ")
+		end
+
+		local tooltip = ""
+		if #restart > 0 then
+			tooltip = tooltip .. fgettext("These settings require a restart to be applied:\n$1",
+				format_setting_list(restart))
+		end
+		if #restart > 0 and #rejoin > 0 then
+			tooltip = tooltip .. "\n"
+		end
+		if #rejoin > 0 then
+			tooltip = tooltip .. fgettext("These settings require a re-join to be applied:\n$1",
+				format_setting_list(rejoin))
+		end
+		local info_x = tabsize.width - 0.7
+		local info_y = tabsize.height + 1.2 + 0.8/2 - 0.5/2
+		fs[#fs + 1] = ("image[%f,%f;0.5,0.5;%s]"):format(
+			info_x, info_y, info_icon_path)
+		fs[#fs + 1] = ("tooltip[%f,%f;0.5,0.5;%s]"):format(
+			info_x, info_y, tooltip)
+	end
+
 	return table.concat(fs, "")
 end
 
@@ -733,6 +841,8 @@ local function buttonhandler(this, fields)
 			-- Clear components so they regenerate
 			dialogdata.components = nil
 		end
+		setting_changes_restart, setting_changes_rejoin = compare_setting_states(
+			setting_state_initial, serialize_setting_state())
 	end
 
 	for i, comp in ipairs(dialogdata.components) do
